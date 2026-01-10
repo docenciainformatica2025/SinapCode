@@ -22,6 +22,10 @@ const nextConfig = {
             },
         ];
     },
+    // Security & Obfuscation
+    productionBrowserSourceMaps: false, // Disable source maps in production (Hides code)
+    poweredByHeader: false, // Hide "X-Powered-By: Next.js"
+    reactStrictMode: true,
     // Headers are now handled in middleware.ts
 };
 
