@@ -2509,16 +2509,37 @@ async function adapter(params) {
 async function middleware(request) {
     const response = NextResponse.next();
     // 🛡️ Security Headers (Hardening)
-    // HSTS: Forzar HTTPS por 1 año
-    response.headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
-    // X-Content-Type-Options: Evitar MIME Sniffing
+    // 🛡️ Security Headers (Enterprise Hardening)
+    // HSTS: Strict HTTPS enforcement (2 years)
+    response.headers.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
+    // Mime Sniffing Protection
     response.headers.set("X-Content-Type-Options", "nosniff");
-    // X-Frame-Options: Prevenir Clickjacking (Solo permitir mismo origen si es necesario, DENY es más seguro)
+    // Clickjacking Protection (DENY is safer than SAMEORIGIN)
     response.headers.set("X-Frame-Options", "DENY");
-    // X-DNS-Prefetch-Control: Privacidad
+    // Privacy Protection
     response.headers.set("X-DNS-Prefetch-Control", "off");
-    // Content-Security-Policy (Simplificado para evitar roturas, debería refinarse)
-    // response.headers.set('Content-Security-Policy', "default-src 'self'; img-src 'self' data: https:; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://apis.google.com;");
+    response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+    // Permissions Policy (Block potentially dangerous features)
+    response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=(), browsing-topics=(), payment=(), usb=()");
+    // Content-Security-Policy (CSP) - Enterprise Grade
+    // Blocks inline scripts (except unsafe-inline/eval required for Next.js dev/hydration usually), 
+    // restricts sources to self and trusted domains (Google Auth, Vitals).
+    const csp = [
+        "default-src 'self'",
+        "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://apis.google.com https://*.vercel-scripts.com",
+        "style-src 'self' 'unsafe-inline'",
+        "img-src 'self' blob: data: https://*.googleusercontent.com https://*.gravatar.com",
+        "font-src 'self' data:",
+        "connect-src 'self' https://s3-alpha-sig.figma.com https://*.googleapis.com",
+        "frame-src 'self' https://accounts.google.com",
+        "object-src 'none'",
+        "base-uri 'self'",
+        "form-action 'self'",
+        "frame-ancestors 'none'",
+        "block-all-mixed-content",
+        "upgrade-insecure-requests"
+    ].join("; ");
+    response.headers.set("Content-Security-Policy", csp);
     // 🔒 Route Protection (Auth Check)
     // Nota: Como estamos usando Auth.js (NextAuth v5 beta) y Mock, la protección real de sesión
     // suele ir en un envoltorio separado o usando `auth`. Aquí ponemos la lógica base.

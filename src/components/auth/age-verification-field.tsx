@@ -59,6 +59,7 @@ export function AgeVerificationField({ onAgeVerified }: AgeVerificationFieldProp
                 </label>
                 <div className="grid grid-cols-3 gap-2">
                     <select
+                        aria-label="Día de nacimiento"
                         value={day}
                         onChange={(e) => handleDateUpdate(e.target.value, month, year)}
                         className="bg-deep-space/50 border border-white/10 rounded-lg px-2 py-3 text-white focus:outline-none focus:border-neural-blue focus:ring-1 focus:ring-neural-blue transition appearance-none text-center cursor-pointer hover:bg-white/5"
@@ -70,6 +71,7 @@ export function AgeVerificationField({ onAgeVerified }: AgeVerificationFieldProp
                     </select>
 
                     <select
+                        aria-label="Mes de nacimiento"
                         value={month}
                         onChange={(e) => handleDateUpdate(day, e.target.value, year)}
                         className="bg-deep-space/50 border border-white/10 rounded-lg px-2 py-3 text-white focus:outline-none focus:border-neural-blue focus:ring-1 focus:ring-neural-blue transition appearance-none text-center cursor-pointer hover:bg-white/5"
@@ -81,6 +83,7 @@ export function AgeVerificationField({ onAgeVerified }: AgeVerificationFieldProp
                     </select>
 
                     <select
+                        aria-label="Año de nacimiento"
                         value={year}
                         onChange={(e) => handleDateUpdate(day, month, e.target.value)}
                         className="bg-deep-space/50 border border-white/10 rounded-lg px-2 py-3 text-white focus:outline-none focus:border-neural-blue focus:ring-1 focus:ring-neural-blue transition appearance-none text-center cursor-pointer hover:bg-white/5"
