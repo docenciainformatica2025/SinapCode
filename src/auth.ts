@@ -38,7 +38,7 @@ export const {
                         "antonio_rburgos@msn.com"
                     ].filter(Boolean);
 
-                    if (adminEmails.includes(parsed.data.email)) {
+                    if (adminEmails.some(cpu => cpu?.toLowerCase() === parsed.data.email.toLowerCase())) {
                         return {
                             id: "1",
                             name: "Admin",

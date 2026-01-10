@@ -1,6 +1,6 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import { GlobalNavbar } from '@/components/global-navbar';
 import { toast } from 'sonner';
@@ -116,20 +116,29 @@ export default function ProfilePage() {
                                 />
                             </div>
 
-                            <div className="pt-4 flex items-center justify-end gap-4">
+                            <div className="pt-4 flex items-center justify-between gap-4">
                                 <button
                                     type="button"
-                                    className="px-6 py-2 text-platinum-dim hover:text-white transition"
+                                    onClick={() => signOut({ callbackUrl: '/' })}
+                                    className="px-6 py-2 text-red-500 hover:text-red-400 font-medium transition flex items-center gap-2"
                                 >
-                                    Cancelar
+                                    🚪 Cerrar Sesión
                                 </button>
-                                <button
-                                    type="submit"
-                                    disabled={isLoading}
-                                    className="px-8 py-3 bg-neural-blue text-white rounded-lg font-bold hover:bg-blue-600 transition shadow-neon-blue disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-                                >
-                                    {isLoading ? 'Guardando...' : 'Guardar Cambios'}
-                                </button>
+                                <div className="flex gap-4">
+                                    <button
+                                        type="button"
+                                        className="px-6 py-2 text-platinum-dim hover:text-white transition"
+                                    >
+                                        Cancelar
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        disabled={isLoading}
+                                        className="px-8 py-3 bg-neural-blue text-white rounded-lg font-bold hover:bg-blue-600 transition shadow-neon-blue disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                                    >
+                                        {isLoading ? 'Guardando...' : 'Guardar Cambios'}
+                                    </button>
+                                </div>
                             </div>
                         </form>
                     </div>

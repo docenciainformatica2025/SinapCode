@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { GlobalNavbar } from '@/components/global-navbar';
 
 export default function CoursesPage() {
     const courses = [
@@ -33,21 +34,19 @@ export default function CoursesPage() {
 
     return (
         <div className="min-h-screen bg-deep-space">
-            {/* Simple Navbar Placeholder */}
-            <nav className="border-b border-white/10 p-4 flex justify-between items-center glass-panel sticky top-0 z-50">
-                <div className="font-bold text-xl bg-brain-spark bg-clip-text text-transparent">SinapCode</div>
-                <div className="flex gap-4 text-sm font-medium">
-                    <Link href="/courses" className="text-white">Cursos</Link>
-                    <Link href="/dashboard" className="text-platinum-dim hover:text-white">Mi Progreso</Link>
-                    <div className="text-accent-gold">🔥 5 Días</div>
-                </div>
-            </nav>
+            <GlobalNavbar />
 
             <main className="max-w-7xl mx-auto p-8">
-                <header className="mb-12">
-                    <h1 className="text-4xl font-bold text-white mb-4">Explora el Futuro 🚀</h1>
-                    <p className="text-platinum-dim text-lg">Rutas de aprendizaje diseñadas por expertos de la industria.</p>
-                </header>
+                <div className="mb-8">
+                    <Link href="/dashboard" className="inline-flex items-center gap-2 text-platinum-dim hover:text-white transition group mb-4">
+                        <span className="group-hover:-translate-x-1 transition-transform">←</span>
+                        Volver al Dashboard
+                    </Link>
+                    <header>
+                        <h1 className="text-4xl font-bold text-white mb-4">Explora el Futuro 🚀</h1>
+                        <p className="text-platinum-dim text-lg">Rutas de aprendizaje diseñadas por expertos de la industria.</p>
+                    </header>
+                </div>
 
                 <section>
                     <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
