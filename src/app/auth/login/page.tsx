@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useAuth } from '@/contexts/auth-context';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { toast } from 'sonner';
+import { socialLogin } from '../actions';
 
 export default function LoginPage() {
     const { login } = useAuth();
@@ -166,10 +167,18 @@ export default function LoginPage() {
                         </div>
 
                         <div className="grid grid-cols-2 gap-3">
-                            <button type="button" className="py-3 bg-white/10 text-white rounded-lg font-medium hover:bg-white/20 transition border border-white/20 flex items-center justify-center gap-2 text-sm">
+                            <button
+                                type="button"
+                                onClick={() => socialLogin('google')}
+                                className="py-3 bg-white/10 text-white rounded-lg font-medium hover:bg-white/20 transition border border-white/20 flex items-center justify-center gap-2 text-sm"
+                            >
                                 <span>G</span> Google
                             </button>
-                            <button type="button" className="py-3 bg-white/10 text-white rounded-lg font-medium hover:bg-white/20 transition border border-white/20 flex items-center justify-center gap-2 text-sm">
+                            <button
+                                type="button"
+                                onClick={() => socialLogin('github')}
+                                className="py-3 bg-white/10 text-white rounded-lg font-medium hover:bg-white/20 transition border border-white/20 flex items-center justify-center gap-2 text-sm"
+                            >
                                 <span>⚡</span> GitHub
                             </button>
                         </div>
