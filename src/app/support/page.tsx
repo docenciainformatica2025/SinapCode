@@ -18,9 +18,9 @@ function parseMarkdownTable(text: string) {
 
 function getSLAContent() {
     try {
-        // Ajustar la ruta relativa para salir de apps/web hacia la raíz del monorepo (WEB-DI)
-        // process.cwd() en Vercel/Next suele ser la raíz del proyecto (apps/web)
-        const filePath = path.join(process.cwd(), '../../src/content/support/sla_support.md');
+        // Ajustar la ruta relativa desde la raíz del proyecto (apps/web)
+        // process.cwd() en Vercel es la raíz del proyecto
+        const filePath = path.join(process.cwd(), 'src/content/support/sla_support.md');
         const fileContent = fs.readFileSync(filePath, 'utf-8');
 
         // Extraer secciones básicas
