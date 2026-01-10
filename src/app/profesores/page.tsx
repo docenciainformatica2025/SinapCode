@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import { GlobalNavbar } from '@/components/global-navbar';
+
 
 export default function TeachersPage() {
     const benefits = [
@@ -67,16 +69,20 @@ export default function TeachersPage() {
 
     return (
         <div className="min-h-screen bg-deep-space">
+            <GlobalNavbar />
+
             {/* Hero */}
             <div className="relative overflow-hidden">
                 <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-neural-blue/20 rounded-full blur-[120px]" />
                 <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-synapse-purple/20 rounded-full blur-[120px]" />
 
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 py-20 sm:py-32 relative z-10">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 relative z-10">
+                    <Link href="/dashboard" className="inline-flex items-center gap-2 text-platinum-dim hover:text-white transition group mb-8">
+                        <span className="group-hover:-translate-x-1 transition-transform">←</span>
+                        Volver al Dashboard
+                    </Link>
+
                     <div className="text-center mb-12">
-                        <Link href="/" className="text-neural-blue hover:text-white transition text-sm mb-4 inline-block">
-                            ← Volver al inicio
-                        </Link>
                         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">
                             Enseña y Gana con SinapCode
                         </h1>
