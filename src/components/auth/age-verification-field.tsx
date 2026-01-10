@@ -46,7 +46,7 @@ export function AgeVerificationField({ onAgeVerified }: AgeVerificationFieldProp
                     onChange={(e) => handleDateChange(e.target.value)}
                     required
                     max={new Date().toISOString().split('T')[0]}
-                    className="w-full bg-deep-space/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neural-blue focus:ring-1 focus:ring-neural-blue transition"
+                    className="w-full bg-deep-space/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neural-blue focus:ring-1 focus:ring-neural-blue transition [color-scheme:dark]"
                 />
                 <p className="text-xs text-platinum-dim mt-2">
                     Requerido para cumplir con COPPA y GDPR
