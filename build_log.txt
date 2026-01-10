@@ -1,0 +1,100 @@
+
+> web@1.0.0 build
+> next build
+
+   Ôû▓ Next.js 14.1.0
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+ Ô£ô Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/25) ...
+TypeError: Cannot destructure property 'data' of '(0 , i.kP)(...)' as it is undefined.
+    at o (C:\WEB-DI\apps\web\.next\server\app\admin\users\page.js:1:2263)
+    at nM (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:47419)
+    at nN (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64674)
+    at nB (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:67657)
+    at nM (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:58551)
+    at nN (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64674)
+    at nB (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:67657)
+    at nF (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:66824)
+    at nN (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64990)
+    at nB (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:67657)
+
+Error occurred prerendering page "/admin/users". Read more: https://nextjs.org/docs/messages/prerender-error
+
+TypeError: Cannot destructure property 'data' of '(0 , i.kP)(...)' as it is undefined.
+    at o (C:\WEB-DI\apps\web\.next\server\app\admin\users\page.js:1:2263)
+    at nM (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:47419)
+    at nN (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64674)
+    at nB (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:67657)
+    at nM (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:58551)
+    at nN (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64674)
+    at nB (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:67657)
+    at nF (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:66824)
+    at nN (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64990)
+    at nB (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:67657)
+TypeError: Cannot destructure property 'data' of '(0 , i.kP)(...)' as it is undefined.
+    at o (C:\WEB-DI\apps\web\.next\server\app\admin\page.js:1:2203)
+    at nM (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:47419)
+    at nN (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64674)
+    at nB (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:67657)
+    at nM (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:58551)
+    at nN (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64674)
+    at nB (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:67657)
+    at nF (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:66824)
+    at nN (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64990)
+    at nB (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:67657)
+
+Error occurred prerendering page "/admin". Read more: https://nextjs.org/docs/messages/prerender-error
+
+TypeError: Cannot destructure property 'data' of '(0 , i.kP)(...)' as it is undefined.
+    at o (C:\WEB-DI\apps\web\.next\server\app\admin\page.js:1:2203)
+    at nM (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:47419)
+    at nN (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64674)
+    at nB (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:67657)
+    at nM (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:58551)
+    at nN (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64674)
+    at nB (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:67657)
+    at nF (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:66824)
+    at nN (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64990)
+    at nB (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:67657)
+
+   Generating static pages (6/25) 
+
+   Generating static pages (12/25) 
+TypeError: Cannot destructure property 'data' of '(0 , n.kP)(...)' as it is undefined.
+    at o (C:\WEB-DI\apps\web\.next\server\app\admin\audit\page.js:1:5196)
+    at nM (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:47419)
+    at nN (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64674)
+    at nB (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:67657)
+    at nM (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:58551)
+    at nN (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64674)
+    at nB (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:67657)
+    at nF (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:66824)
+
+   Generating static pages (18/25) 
+    at nN (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64990)
+    at nB (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:67657)
+
+Error occurred prerendering page "/admin/audit". Read more: https://nextjs.org/docs/messages/prerender-error
+
+TypeError: Cannot destructure property 'data' of '(0 , n.kP)(...)' as it is undefined.
+    at o (C:\WEB-DI\apps\web\.next\server\app\admin\audit\page.js:1:5196)
+    at nM (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:47419)
+    at nN (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64674)
+    at nB (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:67657)
+    at nM (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:58551)
+    at nN (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64674)
+    at nB (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:67657)
+    at nF (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:66824)
+    at nN (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64990)
+    at nB (C:\WEB-DI\apps\web\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:67657)
+
+ Ô£ô Generating static pages (25/25) 
+
+> Export encountered errors on following paths:
+	/admin/audit/page: /admin/audit
+	/admin/page: /admin
+	/admin/users/page: /admin/users
