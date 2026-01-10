@@ -36,7 +36,9 @@ export function GlobalNavbar() {
                 <UserGamificatonStats />
 
                 {/* User Profile */}
-                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 border border-white/20 cursor-pointer hover:scale-105 transition" />
+                <Link href="/profile">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 border border-white/20 cursor-pointer hover:scale-105 transition" />
+                </Link>
             </div>
         </nav>
     );

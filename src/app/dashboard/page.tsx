@@ -8,7 +8,12 @@ import { AIRecommendations } from '@/components/dashboard/ai-recommendations';
 import { StudyCalendar } from '@/components/dashboard/study-calendar';
 import { AchievementsShowcase } from '@/components/dashboard/achievements-showcase';
 
+import { useSession } from 'next-auth/react';
+
 export default function DashboardPage() {
+    const { data: session } = useSession();
+    const userName = session?.user?.name?.split(' ')[0] || 'Estudiante'; // Get first name or fallback
+
     const coursesInProgress = [
         {
             slug: 'python-data-science',
@@ -38,7 +43,7 @@ export default function DashboardPage() {
                 {/* Welcome Header */}
                 <div className="mb-8">
                     <h1 className="text-4xl font-bold text-white mb-2">
-                        ¡Bienvenido de vuelta, <span className="bg-clip-text text-transparent bg-gradient-to-r from-neural-blue to-synapse-purple">María</span>! 👋
+                        ¡Bienvenido de vuelta, <span className="bg-clip-text text-transparent bg-gradient-to-r from-neural-blue to-synapse-purple">{userName}</span>! 👋
                     </h1>
                     <p className="text-platinum-dim text-lg">
                         Continúa tu viaje de aprendizaje. Llevas <span className="text-accent-gold font-bold">5 días</span> de racha 🔥
