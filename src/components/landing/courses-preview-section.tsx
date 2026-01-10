@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 
 export function CoursesPreviewSection() {
@@ -79,13 +80,15 @@ export function CoursesPreviewSection() {
                             className="glass-panel rounded-2xl overflow-hidden border border-white/10 hover:border-neural-blue transition-all group"
                         >
                             <div className="relative h-48 overflow-hidden">
-                                <img
+                                <Image
                                     src={course.image}
                                     alt={course.title}
-                                    className="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"
+                                    fill
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                    className="object-cover opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
-                                <div className="absolute top-3 right-3 px-3 py-1 bg-black/60 backdrop-blur rounded-full text-xs font-bold text-white">
+                                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent pointer-events-none" />
+                                <div className="absolute top-3 right-3 px-3 py-1 bg-black/60 backdrop-blur rounded-full text-xs font-bold text-white z-10">
                                     {course.level}
                                 </div>
                             </div>
