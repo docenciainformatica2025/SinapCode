@@ -13,7 +13,7 @@ const config: Config = {
                 'platinum': '#ededed',
                 'platinum-dim': '#a0a0a0',
                 'cyber-platinum': '#c0c0c0',
-                'neural-blue': '#3b82f6',
+                'neural-blue': '#2563eb',
                 'synapse-purple': '#a855f7',
                 'brain-spark': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                 'accent-gold': '#fbbf24',

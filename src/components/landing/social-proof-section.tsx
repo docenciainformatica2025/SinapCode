@@ -46,7 +46,7 @@ export function SocialProofSection() {
                         {companies.map((company, i) => (
                             <div
                                 key={i}
-                                className="text-2xl font-bold text-white/60 hover:text-white transition"
+                                className="text-2xl font-bold text-white/80 hover:text-white transition"
                             >
                                 {company}
                             </div>

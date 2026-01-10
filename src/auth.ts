@@ -32,8 +32,13 @@ export const {
 
                 if (parsed.success) {
                     // TODO: Connect to real backend API here
-                    const adminEmail = process.env.ADMIN_EMAIL || "admin@sinapcode.global";
-                    if (parsed.data.email === adminEmail) {
+                    const adminEmails = [
+                        process.env.ADMIN_EMAIL,
+                        "admin@sinapcode.global",
+                        "antonio_rburgos@msn.com"
+                    ].filter(Boolean);
+
+                    if (adminEmails.includes(parsed.data.email)) {
                         return {
                             id: "1",
                             name: "Admin",
