@@ -36,8 +36,6 @@ export default async function DebugSessionPage() {
                                 {allCookies.map((c) => (
                                     <li key={c.name}>
                                         <span className="text-blue-400 font-bold">{c.name}</span>: {c.value}
-                                        <br />
-                                        <span className="text-gray-500">Path: {c.path}, Secure: {String(c.secure)}, HttpOnly: {String(c.httpOnly)}</span>
                                     </li>
                                 ))}
                             </ul>
