@@ -2,14 +2,11 @@
 
 import { useState, useCallback } from 'react';
 import Link from 'next/link';
-import { useAuth } from '@/contexts/auth-context';
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { signIn } from 'next-auth/react';
 import { toast } from 'sonner';
 import { socialLogin } from '../actions';
 
 export default function LoginPage() {
-    const { login } = useAuth();
-    const { executeRecaptcha } = useGoogleReCaptcha();
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -19,34 +16,27 @@ export default function LoginPage() {
 
     const handleSubmit = useCallback(async (e: React.FormEvent) => {
         e.preventDefault();
-
-        if (!executeRecaptcha) {
-            toast.error('reCAPTCHA no está disponible. Por favor, recarga la página.');
-            return;
-        }
-
         setLoading(true);
 
         try {
-            // Execute reCAPTCHA
-            const token = await executeRecaptcha('login');
+            const result = await signIn('credentials', {
+                email: formData.email,
+                password: formData.password,
+                redirect: false,
+            });
 
-            // TODO: Send token to backend for verification
-            // const response = await fetch('/api/auth/login', {
-            //     method: 'POST',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     body: JSON.stringify({ ...formData, recaptchaToken: token }),
-            // });
-
-            await login(formData.email, formData.password);
-
-            toast.success('¡Bienvenido de nuevo! 👋');
-            window.location.href = '/dashboard';
+            if (result?.error) {
+                toast.error('Credenciales incorrectas. Por favor, intenta de nuevo.');
+                setLoading(false);
+            } else {
+                toast.success('¡Bienvenido de nuevo! 👋');
+                window.location.href = '/dashboard';
+            }
         } catch (error) {
-            toast.error('Credenciales incorrectas. Por favor, intenta de nuevo.');
+            toast.error('Error al iniciar sesión. Por favor, intenta de nuevo.');
             setLoading(false);
         }
-    }, [executeRecaptcha, formData, login]);
+    }, [formData]);
 
     return (
         <div className="min-h-screen bg-deep-space flex items-center justify-center p-4 relative overflow-hidden">
