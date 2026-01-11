@@ -76,7 +76,8 @@ export const {
     debug: true,
     cookies: {
         sessionToken: {
-            name: `__Secure-next-auth.session-token`,
+            // Using standard name to rule out prefix validation issues
+            name: `next-auth.session-token`,
             options: {
                 httpOnly: true,
                 sameSite: 'lax',
