@@ -10,15 +10,22 @@ export const {
     signIn,
     signOut,
 } = NextAuth({
+    secret: process.env.NEXTAUTH_SECRET,
     providers: [
-        Google({
-            clientId: process.env.AUTH_GOOGLE_ID,
-            clientSecret: process.env.AUTH_GOOGLE_SECRET,
-        }),
-        GitHub({
-            clientId: process.env.AUTH_GITHUB_ID,
-            clientSecret: process.env.AUTH_GITHUB_SECRET,
-        }),
+        // Only include Google if credentials are provided
+        ...(process.env.AUTH_GOOGLE_ID && process.env.AUTH_GOOGLE_SECRET
+            ? [Google({
+                clientId: process.env.AUTH_GOOGLE_ID,
+                clientSecret: process.env.AUTH_GOOGLE_SECRET,
+            })]
+            : []),
+        // Only include GitHub if credentials are provided
+        ...(process.env.AUTH_GITHUB_ID && process.env.AUTH_GITHUB_SECRET
+            ? [GitHub({
+                clientId: process.env.AUTH_GITHUB_ID,
+                clientSecret: process.env.AUTH_GITHUB_SECRET,
+            })]
+            : []),
         Credentials({
             name: "Credentials",
             credentials: {
@@ -75,4 +82,5 @@ export const {
     },
     // Debug for development
     debug: process.env.NODE_ENV === "development",
+    trustHost: true,
 });
