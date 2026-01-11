@@ -73,5 +73,16 @@ export const {
             return session;
         },
     },
-    debug: process.env.NODE_ENV === "development" ? true : true, // Keep debug enabled for now
+    debug: true,
+    cookies: {
+        sessionToken: {
+            name: `__Secure-next-auth.session-token`,
+            options: {
+                httpOnly: true,
+                sameSite: 'lax',
+                path: '/',
+                secure: true,
+            },
+        },
+    },
 });
