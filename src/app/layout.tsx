@@ -1,4 +1,4 @@
-import { SessionProvider } from 'next-auth/react';
+import { NextAuthProvider } from '@/components/providers/next-auth-provider';
 import type { Metadata } from 'next';
 import './globals.css';
 import { CookieConsent } from '@/components/legal/cookie-consent';
@@ -78,7 +78,7 @@ export default function RootLayout({
                         <CookieConsent />
                         {children}
                     </ErrorBoundary>
-                </SessionProvider>
+                </NextAuthProvider>
             </body>
         </html>
     );
