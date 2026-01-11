@@ -73,5 +73,16 @@ export const {
             return session;
         },
     },
-    debug: process.env.NODE_ENV === "development",
+    debug: true, // Force debug always to see logs in Vercel
+    cookies: {
+        sessionToken: {
+            name: `__Secure-next-auth.session-token`,
+            options: {
+                httpOnly: true,
+                sameSite: 'lax',
+                path: '/',
+                secure: true,
+            },
+        },
+    },
 });
