@@ -70,7 +70,7 @@ export default function RootLayout({
     return (
         <html lang="es">
             <body className="bg-deep-space text-platinum antialiased" suppressHydrationWarning>
-                <SessionProvider>
+                <NextAuthProvider>
                     <ErrorBoundary>
                         <ToastProvider />
                         <GlobalOrganizationSchema />
