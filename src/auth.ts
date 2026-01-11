@@ -3,7 +3,8 @@ import Credentials from "next-auth/providers/credentials";
 import { validateEnv } from "./lib/env-validator";
 
 // Validate env immediately on import
-validateEnv();
+// slide-comment: Temporarily disabled to isolate crash
+// validateEnv();
 
 export const {
     handlers: { GET, POST },

@@ -2,7 +2,7 @@ import { GET as NextAuthGET, POST as NextAuthPOST } from "@/auth";
 import { NextRequest } from "next/server";
 
 // Helper to ensure we don't crash on standard requests
-export async function GET(req: NextRequest) {
+export async function GET(req: any) {
     try {
         console.log("[AUTH DEBUG] Handling GET request");
         const response = await NextAuthGET(req);
@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
     }
 }
 
-export async function POST(req: NextRequest) {
+export async function POST(req: any) {
     try {
         console.log("[AUTH DEBUG] Handling POST request");
         const response = await NextAuthPOST(req);
