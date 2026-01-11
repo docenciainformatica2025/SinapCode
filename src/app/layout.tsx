@@ -3,7 +3,6 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { CookieConsent } from '@/components/legal/cookie-consent';
 import { ErrorBoundary } from '@/components/error-boundary';
-import { AuthProvider } from '@/contexts/auth-context';
 import { ToastProvider } from '@/components/ui/toast-provider';
 import { GlobalOrganizationSchema, WebSiteSchema } from '@/components/seo/json-ld';
 
@@ -72,15 +71,13 @@ export default function RootLayout({
         <html lang="es">
             <body className="bg-deep-space text-platinum antialiased" suppressHydrationWarning>
                 <SessionProvider>
-                    <AuthProvider>
-                        <ErrorBoundary>
-                            <ToastProvider />
-                            <GlobalOrganizationSchema />
-                            <WebSiteSchema />
-                            <CookieConsent />
-                            {children}
-                        </ErrorBoundary>
-                    </AuthProvider>
+                    <ErrorBoundary>
+                        <ToastProvider />
+                        <GlobalOrganizationSchema />
+                        <WebSiteSchema />
+                        <CookieConsent />
+                        {children}
+                    </ErrorBoundary>
                 </SessionProvider>
             </body>
         </html>
