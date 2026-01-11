@@ -12,13 +12,33 @@ export function CookieConsent() {
         if (!consent) setIsVisible(true);
     }, []);
 
+    const saveConsentToApi = async (method: 'button_click' | 'scroll_complete', type: 'full' | 'essential') => {
+        try {
+            await fetch('/api/legal/consent', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    documentType: 'cookies',
+                    documentVersion: '1.0', // Este debería venir de config
+                    consentMethod: method,
+                    timestamp: new Date().toISOString(),
+                    // ipAddress & userAgent are handled by server
+                })
+            });
+        } catch (error) {
+            console.error('Failed to save consent trace:', error);
+        }
+    };
+
     const handleAcceptAll = () => {
         localStorage.setItem('sinap_cookie_consent', 'full');
+        saveConsentToApi('button_click', 'full');
         setIsVisible(false);
     };
 
     const handleRejectNonEssential = () => {
         localStorage.setItem('sinap_cookie_consent', 'essential');
+        saveConsentToApi('button_click', 'essential');
         setIsVisible(false);
     };
 

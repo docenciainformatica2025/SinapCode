@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 // Esquema de validación basado en consent_log_schema.json e interfaces
 const ConsentSchema = z.object({
@@ -39,22 +42,33 @@ export async function POST(req: NextRequest) {
             timestamp: consentData.timestamp,
         };
 
-        // Aquí conectaríamos con la base de datos (Firestore/Postgres)
-        console.log('📝 [LEGAL API] Consent recorded (Schema Compliant):', {
-            ...complianceRecord,
-            serverReceivedAt: new Date().toISOString()
+        // Guardar en Base de Datos (Postgres via Prisma)
+        const newConsent = await prisma.legalConsent.create({
+            data: {
+                userId: body.userId || "anonymous", // Mejorar esto cuando tengamos sesión real
+                documentType: consentData.documentType.toUpperCase() as any, // Cast to Enum
+                documentVersion: consentData.documentVersion,
+                consentMethod: consentData.consentMethod.toUpperCase() as any,
+                ipAddress: consentData.ipAddress,
+                userAgent: consentData.userAgent,
+                // metadata: consentData
+            }
         });
+
+        console.log('✅ [LEGAL API] Consent saved to DB:', newConsent.id);
 
         return NextResponse.json({
             success: true,
-            consentId: crypto.randomUUID(),
-            timestamp: new Date().toISOString()
+            consentId: newConsent.id,
+            timestamp: newConsent.acceptedAt.toISOString()
         });
 
-    } catch (error) {
-        console.error('Error processing consent:', error);
+    } catch (error: any) {
+        console.error('❌ Error processing consent:', error);
+
+        // Si falla la DB, no detener el flujo del usuario, pero reportar
         return NextResponse.json(
-            { error: 'Internal Server Error' },
+            { error: 'Internal Server Error', details: error.message },
             { status: 500 }
         );
     }
