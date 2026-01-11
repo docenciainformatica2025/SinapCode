@@ -21,16 +21,22 @@ export const {
     session: { strategy: "jwt" },
     trustHost: true,
     providers: [
-        Google({
-            clientId: process.env.AUTH_GOOGLE_ID,
-            clientSecret: process.env.AUTH_GOOGLE_SECRET,
-            allowDangerousEmailAccountLinking: true,
-        }),
-        GitHub({
-            clientId: process.env.AUTH_GITHUB_ID,
-            clientSecret: process.env.AUTH_GITHUB_SECRET,
-            allowDangerousEmailAccountLinking: true,
-        }),
+        // Defensive: Only load Google if creds exist
+        ...(process.env.AUTH_GOOGLE_ID && process.env.AUTH_GOOGLE_SECRET ? [
+            Google({
+                clientId: process.env.AUTH_GOOGLE_ID,
+                clientSecret: process.env.AUTH_GOOGLE_SECRET,
+                allowDangerousEmailAccountLinking: true,
+            })
+        ] : []),
+        // Defensive: Only load GitHub if creds exist
+        ...(process.env.AUTH_GITHUB_ID && process.env.AUTH_GITHUB_SECRET ? [
+            GitHub({
+                clientId: process.env.AUTH_GITHUB_ID,
+                clientSecret: process.env.AUTH_GITHUB_SECRET,
+                allowDangerousEmailAccountLinking: true,
+            })
+        ] : []),
         Credentials({
             name: "Credentials",
             credentials: {
@@ -38,35 +44,38 @@ export const {
                 password: { label: "Password", type: "password" },
             },
             authorize: async (credentials) => {
-                if (!credentials?.email || !credentials?.password) return null;
+                try {
+                    if (!credentials?.email || !credentials?.password) return null;
 
-                const email = credentials.email as string;
-                const password = credentials.password as string;
+                    const email = credentials.email as string;
+                    const password = credentials.password as string;
 
-                if (!validateCredentials(email, password)) return null;
+                    if (!validateCredentials(email, password)) return null;
 
-                // Admin check
-                const adminEmails = [
-                    process.env.ADMIN_EMAIL,
-                    "admin@sinapcode.global",
-                    "antonio_rburgos@msn.com"
-                ].filter(Boolean);
+                    // Admin check
+                    const adminEmails = process.env.ADMIN_EMAIL
+                        ? [process.env.ADMIN_EMAIL]
+                        : ["admin@sinapcode.global", "antonio_rburgos@msn.com"];
 
-                if (adminEmails.some(cpu => cpu?.toLowerCase() === email.toLowerCase())) {
+                    if (adminEmails.some(cpu => cpu?.toLowerCase() === email.toLowerCase())) {
+                        return {
+                            id: "1",
+                            name: "Admin",
+                            email: email,
+                            role: "ADMIN",
+                        };
+                    }
+
                     return {
-                        id: "1",
-                        name: "Admin",
+                        id: "2",
+                        name: "Estudiante",
                         email: email,
-                        role: "ADMIN",
+                        role: "STUDENT",
                     };
+                } catch (error) {
+                    console.error("Auth Error:", error);
+                    return null;
                 }
-
-                return {
-                    id: "2",
-                    name: "Estudiante",
-                    email: email,
-                    role: "STUDENT",
-                };
             },
         }),
     ],
