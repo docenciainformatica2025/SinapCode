@@ -145,34 +145,8 @@ export default function LoginPage() {
                         )}
                     </button>
 
-                    {/* Social Login */}
-                    <div className="space-y-3">
-                        <div className="relative">
-                            <div className="absolute inset-0 flex items-center">
-                                <div className="w-full border-t border-white/10"></div>
-                            </div>
-                            <div className="relative flex justify-center text-xs">
-                                <span className="px-2 bg-deep-space text-[#B8BFC9]">O continúa con</span>
-                            </div>
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-3">
-                            <button
-                                type="button"
-                                onClick={() => socialLogin('google')}
-                                className="py-3 bg-white/10 text-white rounded-lg font-medium hover:bg-white/20 transition border border-white/20 flex items-center justify-center gap-2 text-sm"
-                            >
-                                <span>G</span> Google
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => socialLogin('github')}
-                                className="py-3 bg-white/10 text-white rounded-lg font-medium hover:bg-white/20 transition border border-white/20 flex items-center justify-center gap-2 text-sm"
-                            >
-                                <span>⚡</span> GitHub
-                            </button>
-                        </div>
-                    </div>
+                    {/* Social Login Removed for Stabilization */}
+                    {/* <div className="space-y-3">...</div> */}
 
                     {/* Register Link */}
                     <div className="text-center text-sm text-[#B8BFC9]">
