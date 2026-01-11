@@ -4,7 +4,7 @@ const nextConfig = {
         return [
             {
                 source: '/api/:path((?!auth).*)',
-                destination: `${process.env.BACKEND_API_URL || 'http://localhost:3005'}/api/:path*`, // Proxy to Backend (Excluding /api/auth)
+                destination: `${process.env.BACKEND_API_URL || 'http://localhost:3005'}/api/:path*`, // Proxy to Backend
             },
         ];
     },

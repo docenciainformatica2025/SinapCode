@@ -27,26 +27,9 @@ export async function middleware(request: NextRequest) {
         'camera=(), microphone=(), geolocation=(), browsing-topics=(), payment=(), usb=()'
     );
 
-    // Content-Security-Policy (CSP) - Enterprise Grade
-    // Blocks inline scripts (except unsafe-inline/eval required for Next.js dev/hydration usually), 
-    // restricts sources to self and trusted domains (Google Auth, Vitals).
-    const csp = [
-        "default-src 'self'",
-        "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://apis.google.com https://*.vercel-scripts.com https://www.google.com https://www.gstatic.com",
-        "style-src 'self' 'unsafe-inline'",
-        "img-src 'self' blob: data: https://*.googleusercontent.com https://*.gravatar.com https://images.unsplash.com",
-        "font-src 'self' data:",
-        "connect-src 'self' https://s3-alpha-sig.figma.com https://*.googleapis.com",
-        "frame-src 'self' https://accounts.google.com https://www.google.com",
-        "object-src 'none'",
-        "base-uri 'self'",
-        "form-action 'self'",
-        "frame-ancestors 'none'", // Blocks embedding (Clickjacking)
-        "block-all-mixed-content",
-        "upgrade-insecure-requests"
-    ].join('; ');
-
-    response.headers.set('Content-Security-Policy', csp);
+    // Content-Security-Policy (CSP) - Temporarily Disabled for Debugging
+    // const csp = [ ... ];
+    // response.headers.set('Content-Security-Policy', csp);
 
     // 🔒 Route Protection (Auth Check)
     // Nota: Como estamos usando Auth.js (NextAuth v5 beta) y Mock, la protección real de sesión
