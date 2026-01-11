@@ -5,7 +5,6 @@ import { CookieConsent } from '@/components/legal/cookie-consent';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { AuthProvider } from '@/contexts/auth-context';
 import { ToastProvider } from '@/components/ui/toast-provider';
-import { RecaptchaProvider } from '@/components/providers/recaptcha-provider';
 import { GlobalOrganizationSchema, WebSiteSchema } from '@/components/seo/json-ld';
 
 export const metadata: Metadata = {
@@ -74,15 +73,13 @@ export default function RootLayout({
             <body className="bg-deep-space text-platinum antialiased" suppressHydrationWarning>
                 <SessionProvider>
                     <AuthProvider>
-                        <RecaptchaProvider>
-                            <ErrorBoundary>
-                                <ToastProvider />
-                                <GlobalOrganizationSchema />
-                                <WebSiteSchema />
-                                <CookieConsent />
-                                {children}
-                            </ErrorBoundary>
-                        </RecaptchaProvider>
+                        <ErrorBoundary>
+                            <ToastProvider />
+                            <GlobalOrganizationSchema />
+                            <WebSiteSchema />
+                            <CookieConsent />
+                            {children}
+                        </ErrorBoundary>
                     </AuthProvider>
                 </SessionProvider>
             </body>

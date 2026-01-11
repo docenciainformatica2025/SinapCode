@@ -30,6 +30,19 @@ const nextConfig = {
             },
         ];
     },
+    async headers() {
+        return [
+            {
+                source: '/:path*',
+                headers: [
+                    {
+                        key: 'Content-Security-Policy',
+                        value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://apis.google.com https://www.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https: http:; font-src 'self' data:; connect-src 'self' https:; frame-src 'self' https://accounts.google.com https://www.google.com; object-src 'none';"
+                    }
+                ]
+            }
+        ];
+    },
     // Security & Obfuscation
     productionBrowserSourceMaps: false, // Disable source maps in production (Hides code)
     poweredByHeader: false, // Hide "X-Powered-By: Next.js"
