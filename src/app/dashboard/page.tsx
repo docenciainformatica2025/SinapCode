@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { GlobalNavbar } from '@/components/global-navbar';
 import { StatCard } from '@/components/dashboard/stat-card';
 import { ProgressRing } from '@/components/dashboard/progress-ring';
@@ -11,7 +13,27 @@ import { AchievementsShowcase } from '@/components/dashboard/achievements-showca
 import { useSession } from 'next-auth/react';
 
 export default function DashboardPage() {
-    const { data: session } = useSession();
+    const router = useRouter();
+    const { data: session, status } = useSession();
+
+    useEffect(() => {
+        if (status === 'unauthenticated') {
+            router.push('/auth/login');
+        }
+    }, [status, router]);
+
+    if (status === 'loading') {
+        return (
+            <div className="min-h-screen bg-deep-space flex items-center justify-center">
+                <div className="text-white text-xl">Cargando...</div>
+            </div>
+        );
+    }
+
+    if (!session) {
+        return null;
+    }
+
     const userName = session?.user?.name?.split(' ')[0] || 'Estudiante'; // Get first name or fallback
 
     const coursesInProgress = [
