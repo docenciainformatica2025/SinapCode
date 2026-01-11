@@ -74,5 +74,4 @@ export const {
         },
     },
     debug: true,
-    debug: true,
 });

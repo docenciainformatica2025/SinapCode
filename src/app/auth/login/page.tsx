@@ -110,11 +110,7 @@ export default function LoginPage() {
                     </div>
 
                     {/* reCAPTCHA Badge Info */}
-                    <div className="bg-white/5 border border-white/10 rounded-lg p-3 text-center">
-                        <p className="text-xs text-[#B8BFC9]">
-                            🔒 Protegido por Google reCAPTCHA v3
-                        </p>
-                    </div>
+
 
                     {/* Submit Button */}
                     <button

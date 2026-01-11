@@ -177,22 +177,7 @@ export default function RegisterPage() {
                     </div>
 
                     {/* reCAPTCHA Badge Info */}
-                    <div className="bg-white/5 border border-white/10 rounded-lg p-3 text-center">
-                        <p className="text-xs text-[#B8BFC9]">
-                            🔒 Protegido por Google reCAPTCHA v3
-                        </p>
-                        <p className="text-xs text-[#B8BFC9] mt-1">
-                            Se aplican la{' '}
-                            <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="text-neural-blue hover:text-white transition">
-                                Política de Privacidad
-                            </a>
-                            {' '}y los{' '}
-                            <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" className="text-neural-blue hover:text-white transition">
-                                Términos de Servicio
-                            </a>
-                            {' '}de Google
-                        </p>
-                    </div>
+
 
                     {/* Submit Button */}
                     <button
