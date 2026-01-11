@@ -1,36 +1,16 @@
-import NextAuth from "next-auth";
-import Credentials from "next-auth/providers/credentials";
-import { validateEnv } from "./lib/env-validator";
+import { NextAuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 
-// Validate env immediately on import
-// slide-comment: Temporarily disabled to isolate crash
-// validateEnv();
-
-export const {
-    handlers: { GET, POST },
-    auth,
-    signIn,
-    signOut,
-} = NextAuth({
-    // Support both variable names for Vercel
-    secret: process.env.NEXTAUTH_SECRET ?? process.env.AUTH_SECRET,
-    session: { strategy: "jwt" },
-    trustHost: true,
+export const authOptions: NextAuthOptions = {
     providers: [
-        Credentials({
+        CredentialsProvider({
             name: "Credentials",
             credentials: {
                 email: { label: "Email", type: "email" },
-                password: { label: "Password", type: "password" },
+                password: { label: "Password", type: "password" }
             },
-            authorize: async (credentials) => {
+            async authorize(credentials) {
                 if (!credentials?.email || !credentials?.password) return null;
-
-                const email = credentials.email as string;
-                const password = credentials.password as string;
-
-                // Basic validation: length check
-                if (password.length < 8) return null;
 
                 // Admin simulation
                 const adminEmails = [
@@ -38,6 +18,11 @@ export const {
                     "antonio_rburgos@msn.com",
                     process.env.ADMIN_EMAIL
                 ].filter(Boolean);
+
+                const email = credentials.email;
+                const password = credentials.password;
+
+                if (password.length < 8) return null;
 
                 if (adminEmails.some(a => a?.toLowerCase() === email.toLowerCase())) {
                     return {
@@ -48,16 +33,18 @@ export const {
                     };
                 }
 
-                // Default student role
                 return {
                     id: "2",
                     name: "Estudiante",
                     email: email,
                     role: "STUDENT",
                 };
-            },
-        }),
+            }
+        })
     ],
+    session: {
+        strategy: "jwt",
+    },
     pages: {
         signIn: "/auth/login",
         error: "/auth/error",
@@ -66,17 +53,19 @@ export const {
         async jwt({ token, user }) {
             if (user) {
                 token.id = user.id;
-                token.role = (user as any).role || "STUDENT";
+                token.role = (user as any).role;
             }
             return token;
         },
         async session({ session, token }) {
-            if (session.user && token) {
-                session.user.id = token.id as string;
-                (session.user as any).role = token.role as string;
+            if (session.user) {
+                (session.user as any).id = token.id;
+                (session.user as any).role = token.role;
             }
             return session;
-        },
+        }
     },
+    secret: process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET, // Fallback support
+    // Enable debug logs for diagnosis
     debug: true,
-});
+};
