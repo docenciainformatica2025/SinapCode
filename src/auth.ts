@@ -1,5 +1,9 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import { validateEnv } from "./lib/env-validator";
+
+// Validate env immediately on import
+validateEnv();
 
 export const {
     handlers: { GET, POST },
