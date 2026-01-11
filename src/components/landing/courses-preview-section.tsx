@@ -84,6 +84,7 @@ export function CoursesPreviewSection() {
                                     src={course.image}
                                     alt={course.title}
                                     fill
+                                    unoptimized
                                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                     className="object-cover opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"
                                 />
