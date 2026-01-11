@@ -7,7 +7,8 @@ export const {
     signIn,
     signOut,
 } = NextAuth({
-    secret: process.env.NEXTAUTH_SECRET,
+    // Support both variable names for Vercel
+    secret: process.env.NEXTAUTH_SECRET ?? process.env.AUTH_SECRET,
     session: { strategy: "jwt" },
     trustHost: true,
     providers: [
