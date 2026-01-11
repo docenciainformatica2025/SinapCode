@@ -74,16 +74,4 @@ export const {
         },
     },
     debug: true,
-    cookies: {
-        sessionToken: {
-            // Using standard name to rule out prefix validation issues
-            name: `next-auth.session-token`,
-            options: {
-                httpOnly: true,
-                sameSite: 'lax',
-                path: '/',
-                secure: true,
-            },
-        },
-    },
 });

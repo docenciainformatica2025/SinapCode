@@ -19,21 +19,14 @@ export default function LoginPage() {
         setLoading(true);
 
         try {
-            const result = await signIn('credentials', {
+            await signIn('credentials', {
                 email: formData.email,
                 password: formData.password,
-                redirect: false,
+                redirectTo: '/dashboard',
             });
-
-            if (result?.error) {
-                toast.error('Credenciales incorrectas. Por favor, intenta de nuevo.');
-                setLoading(false);
-            } else {
-                toast.success('¡Bienvenido de nuevo! 👋');
-                window.location.href = '/dashboard';
-            }
+            // No code execution reaches here on success due to redirect
         } catch (error) {
-            toast.error('Error al iniciar sesión. Por favor, intenta de nuevo.');
+            toast.error('Error al iniciar sesión. Verifica tus credenciales.');
             setLoading(false);
         }
     }, [formData]);
