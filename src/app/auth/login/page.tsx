@@ -4,7 +4,7 @@ import { useState, useCallback } from 'react';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 import { toast } from 'sonner';
-import { socialLogin } from '../actions';
+
 
 export default function LoginPage() {
     const [formData, setFormData] = useState({

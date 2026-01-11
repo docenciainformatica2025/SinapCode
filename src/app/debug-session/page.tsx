@@ -1,9 +1,10 @@
-import { auth } from "@/auth";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth-options";
 import { cookies, headers } from "next/headers";
 import Link from "next/link";
 
 export default async function DebugSessionPage() {
-    const session = await auth();
+    const session = await getServerSession(authOptions);
     const cookieStore = cookies();
     const allCookies = cookieStore.getAll();
     const headerList = headers();

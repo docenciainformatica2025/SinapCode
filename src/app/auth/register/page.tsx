@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 import { AgeVerificationField } from '@/components/auth/age-verification-field';
 import { ConsentCheckbox } from '@/components/legal/consent-checkbox';
 import { PasswordStrengthMeter } from '@/components/auth/password-strength-meter';
-import { socialLogin } from '../actions';
+
 
 export default function RegisterPage() {
     const [formData, setFormData] = useState({
