@@ -31,22 +31,13 @@ export default function AdminDevLogin() {
 
                 <div className="p-4 bg-black/30 rounded-lg mb-6 text-left border border-white/5">
                     <p className="text-xs text-[#B8BFC9] uppercase font-bold mb-2">Credenciales Mock:</p>
-                    <code className="text-sm text-green-400 block">User: admin@sinapcode.global</code>
-                    <code className="text-sm text-green-400 block">Role: ADMIN</code>
-                </div>
-
-                <button
-                    onClick={handleAdminLogin}
-                    className="w-full py-4 bg-yellow-600 hover:bg-yellow-500 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-yellow-500/20 flex items-center justify-center gap-2"
-                >
-                    <ShieldAlert className="w-5 h-5" />
-                    Simular Acceso Admin
-                </button>
-
-                <p className="text-xs text-white/20 mt-6">
-                    ⚠️ Solo disponible en entorno de desarrollo
-                </p>
-            </div>
-        </div>
-    );
+                    <div className="min-h-screen flex items-center justify-center bg-black text-white">
+                        <button
+                            onClick={handleLogin}
+                            className="bg-red-600 px-8 py-4 rounded text-xl font-bold hover:bg-red-700 transition"
+                        >
+                            ⚠️ ACCESO ADMIN RÁPIDO (DEV)
+                        </button>
+                    </div>
+                    );
 }
