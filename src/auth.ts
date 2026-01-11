@@ -73,16 +73,5 @@ export const {
             return session;
         },
     },
-    debug: true, // Force debug always to see logs in Vercel
-    cookies: {
-        sessionToken: {
-            name: `__Secure-next-auth.session-token`,
-            options: {
-                httpOnly: true,
-                sameSite: 'lax',
-                path: '/',
-                secure: true,
-            },
-        },
-    },
+    debug: process.env.NODE_ENV === "development" ? true : true, // Keep debug enabled for now
 });
