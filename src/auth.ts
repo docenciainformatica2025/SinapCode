@@ -74,4 +74,16 @@ export const {
         },
     },
     debug: true,
+    cookies: {
+        sessionToken: {
+            name: `next-auth.session-token`,
+            options: {
+                domain: process.env.NODE_ENV === 'production' ? '.sinap-code.vercel.app' : undefined,
+                httpOnly: true,
+                sameSite: 'lax',
+                path: '/',
+                secure: process.env.NODE_ENV === 'production',
+            },
+        },
+    },
 });

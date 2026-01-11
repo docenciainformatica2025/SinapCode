@@ -1,11 +1,14 @@
 import { auth } from "@/auth";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import Link from "next/link";
 
 export default async function DebugSessionPage() {
     const session = await auth();
     const cookieStore = cookies();
     const allCookies = cookieStore.getAll();
+    const headerList = headers();
+    const host = headerList.get("host");
+    const proto = headerList.get("x-forwarded-proto");
 
     return (
         <div className="min-h-screen bg-black text-white p-8 font-mono break-all">
