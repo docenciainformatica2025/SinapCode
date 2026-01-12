@@ -12,32 +12,28 @@ export const authOptions: NextAuthOptions = {
             async authorize(credentials) {
                 if (!credentials?.email || !credentials?.password) return null;
 
-                // Admin simulation
-                const adminEmails = [
-                    "admin@sinapcode.global",
-                    "antonio_rburgos@msn.com",
-                    process.env.ADMIN_EMAIL
-                ].filter(Boolean);
+                const { prisma } = await import("@/lib/prisma");
+                const { compare } = await import("bcryptjs");
 
-                const email = credentials.email;
-                const password = credentials.password;
+                const user = await prisma.user.findUnique({
+                    where: { email: credentials.email }
+                });
 
-                if (password.length < 8) return null;
+                if (!user || !user.password) {
+                    return null;
+                }
 
-                if (adminEmails.some(a => a?.toLowerCase() === email.toLowerCase())) {
-                    return {
-                        id: "1",
-                        name: "Admin",
-                        email: email,
-                        role: "ADMIN",
-                    };
+                const isPasswordValid = await compare(credentials.password, user.password);
+
+                if (!isPasswordValid) {
+                    return null;
                 }
 
                 return {
-                    id: "2",
-                    name: "Estudiante",
-                    email: email,
-                    role: "STUDENT",
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                    role: user.role,
                 };
             }
         })
