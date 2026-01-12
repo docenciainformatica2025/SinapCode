@@ -1,4 +1,10 @@
-<CookieBanner />
+import { NextAuthProvider } from '@/components/providers/next-auth-provider';
+import type { Metadata } from 'next';
+import './globals.css';
+import { CookieConsent } from '@/components/legal/cookie-consent';
+import { ErrorBoundary } from '@/components/error-boundary';
+import { ToastProvider } from '@/components/ui/toast-provider';
+import { GlobalOrganizationSchema, WebSiteSchema } from '@/components/seo/json-ld';
 
 export const metadata: Metadata = {
     metadataBase: new URL('https://sinapcode.com'),
