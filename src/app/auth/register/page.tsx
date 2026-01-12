@@ -4,12 +4,14 @@ import { useState, useCallback } from 'react';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { signIn } from 'next-auth/react'; // Import signIn for auto-login
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { AgeVerificationField } from '@/components/auth/age-verification-field';
 import { ConsentCheckbox } from '@/components/legal/consent-checkbox';
 import { PasswordStrengthMeter } from '@/components/auth/password-strength-meter';
 import { RoleSelector } from '@/components/auth/role-selector';
 
 export default function RegisterPage() {
+    const { executeRecaptcha } = useGoogleReCaptcha();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -34,14 +36,22 @@ export default function RegisterPage() {
             return;
         }
 
+        if (!executeRecaptcha) {
+            toast.error('Error de seguridad: ReCAPTCHA no disponible. Intenta recargar.');
+            return;
+        }
+
         setLoading(true);
 
         try {
+            // Generate ReCAPTCHA Token
+            const token = await executeRecaptcha('register');
+
             // Real API Call
             const response = await fetch('/api/auth/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData),
+                body: JSON.stringify({ ...formData, recaptchaToken: token }),
             });
 
             const data = await response.json();
@@ -70,7 +80,7 @@ export default function RegisterPage() {
             toast.error(error.message || 'Error al crear la cuenta. Por favor, intenta de nuevo.');
             setLoading(false);
         }
-    }, [formData, termsAccepted, privacyAccepted]);
+    }, [formData, termsAccepted, privacyAccepted, executeRecaptcha]);
 
     return (
         <div className="min-h-screen bg-deep-space flex items-center justify-center p-4 relative overflow-hidden">

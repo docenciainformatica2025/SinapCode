@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 import { z } from 'zod';
+import { verifyRecaptcha } from '@/lib/recaptcha';
 
 const registerSchema = z.object({
     name: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
@@ -9,6 +10,7 @@ const registerSchema = z.object({
     password: z.string().min(8, "La contraseña debe tener al menos 8 caracteres"),
     role: z.enum(['STUDENT', 'TEACHER', 'COMPANY']).default('STUDENT'),
     birthDate: z.string().optional(),
+    recaptchaToken: z.string().optional(), // Make it optional for now to allow transitional support or manual testing
 });
 
 export async function POST(request: Request) {
@@ -25,7 +27,19 @@ export async function POST(request: Request) {
             );
         }
 
-        const { name, email, password, role, birthDate } = result.data;
+        const { name, email, password, role, recaptchaToken } = result.data;
+
+        // Verify ReCAPTCHA
+        // Only run if token is provided to verify the implementation first, then enforce
+        if (recaptchaToken) {
+            const verification = await verifyRecaptcha(recaptchaToken);
+            if (!verification.success) {
+                return NextResponse.json(
+                    { error: verification.message },
+                    { status: 400 }
+                );
+            }
+        }
 
         // Check if user already exists
         const existingUser = await prisma.user.findUnique({

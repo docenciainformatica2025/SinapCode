@@ -1,4 +1,5 @@
 import { NextAuthProvider } from '@/components/providers/next-auth-provider';
+import { RecaptchaProvider } from '@/components/providers/recaptcha-provider';
 import type { Metadata } from 'next';
 import './globals.css';
 import { CookieConsent } from '@/components/legal/cookie-consent';
@@ -71,13 +72,15 @@ export default function RootLayout({
         <html lang="es">
             <body className="bg-deep-space text-platinum antialiased" suppressHydrationWarning>
                 <NextAuthProvider>
-                    <ErrorBoundary>
-                        <ToastProvider />
-                        <GlobalOrganizationSchema />
-                        <WebSiteSchema />
-                        <CookieConsent />
-                        {children}
-                    </ErrorBoundary>
+                    <RecaptchaProvider>
+                        <ErrorBoundary>
+                            <ToastProvider />
+                            <GlobalOrganizationSchema />
+                            <WebSiteSchema />
+                            <CookieConsent />
+                            {children}
+                        </ErrorBoundary>
+                    </RecaptchaProvider>
                 </NextAuthProvider>
             </body>
         </html>
