@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FileText, CheckCircle2 } from 'lucide-react';
 
 interface TermsAcceptanceProps {
