@@ -9,7 +9,7 @@ export default function CoursesPage() {
             slug: "python-data-science",
             level: "Principiante",
             duration: "12h",
-            image: "https://images.unsplash.com/photo-1526379095098-d400fdbfbf08?auto=format&fit=crop&q=80",
+            image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&q=80",
             progress: 0
         },
         {
