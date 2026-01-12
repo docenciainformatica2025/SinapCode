@@ -115,3 +115,17 @@ enum ConsentMethod {
   SCROLL_COMPLETE
 }
 
+model CookieConsent {
+  id            String   @id @default(cuid())
+  userId        String?
+  preferences   String   @db.Text // JSON string of cookie preferences
+  policyVersion String
+  ipAddress     String
+  userAgent     String   @db.Text
+  acceptedAt    DateTime @default(now())
+  createdAt     DateTime @default(now())
+
+  @@index([userId])
+  @@index([acceptedAt])
+  @@map("cookie_consents")
+}
