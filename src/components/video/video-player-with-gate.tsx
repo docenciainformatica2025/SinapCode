@@ -36,7 +36,7 @@ export function VideoPlayerWithGate({ videoUrl, courseSlug, lessonId }: VideoPla
     }, [videoElement, isGuest]);
 
     return (
-        <div className="relative">
+        <div className="relative" role="region" aria-label="Reproductor de video">
             {/* Video Player */}
             <video
                 ref={setVideoElement}

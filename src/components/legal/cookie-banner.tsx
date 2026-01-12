@@ -125,6 +125,7 @@ export default function CookieBanner() {
                                 <button
                                     onClick={() => setShowPreferences(false)}
                                     className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                                    aria-label="Cerrar preferencias"
                                 >
                                     <X className="w-5 h-5" />
                                 </button>
@@ -138,6 +139,7 @@ export default function CookieBanner() {
                                         checked={true}
                                         disabled
                                         className="mt-1 w-5 h-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 disabled:opacity-50"
+                                        aria-label="Cookies Esenciales"
                                     />
                                     <div className="flex-1">
                                         <div className="flex items-center gap-2">
@@ -161,6 +163,7 @@ export default function CookieBanner() {
                                         checked={preferences.functional}
                                         onChange={(e) => setPreferences({ ...preferences, functional: e.target.checked })}
                                         className="mt-1 w-5 h-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                        aria-label="Cookies Funcionales"
                                     />
                                     <div className="flex-1">
                                         <h4 className="font-medium text-gray-900 dark:text-white">
@@ -179,6 +182,7 @@ export default function CookieBanner() {
                                         checked={preferences.analytics}
                                         onChange={(e) => setPreferences({ ...preferences, analytics: e.target.checked })}
                                         className="mt-1 w-5 h-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                        aria-label="Cookies Analíticas"
                                     />
                                     <div className="flex-1">
                                         <h4 className="font-medium text-gray-900 dark:text-white">
@@ -197,6 +201,7 @@ export default function CookieBanner() {
                                         checked={false}
                                         disabled
                                         className="mt-1 w-5 h-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 disabled:opacity-50"
+                                        aria-label="Cookies de Marketing"
                                     />
                                     <div className="flex-1">
                                         <div className="flex items-center gap-2">

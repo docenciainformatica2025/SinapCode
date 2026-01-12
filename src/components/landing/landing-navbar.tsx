@@ -66,7 +66,8 @@ export function LandingNavbar() {
                         <button
                             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                             className="md:hidden p-2 text-white hover:text-neural-blue transition"
-                            aria-label="Toggle menu"
+                            aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+                            aria-expanded={mobileMenuOpen}
                         >
                             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 {mobileMenuOpen ? (
