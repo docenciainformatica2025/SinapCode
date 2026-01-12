@@ -30,28 +30,28 @@ export async function POST(req: NextRequest) {
 
         const consentData = result.data;
 
-        // Map to Schema format (snake_case) for compliance/storage
-        const complianceRecord = {
-            consent_id: crypto.randomUUID(),
-            user_id: 'anonymous-uuid', // Would come from session
-            document_id: consentData.documentType,
-            document_version: consentData.documentVersion,
-            acceptance_method: consentData.consentMethod,
-            ip_address: consentData.ipAddress,
-            user_agent: consentData.userAgent,
-            timestamp: consentData.timestamp,
-        };
+        // Si el usuario es anónimo (pre-registro), solo logueamos
+        // El consentimiento real se guardará después del registro exitoso
+        if (!body.userId || body.userId === 'anonymous') {
+            console.log('📝 [LEGAL API] Anonymous consent recorded (pre-registration)');
 
-        // Guardar en Base de Datos (Postgres via Prisma)
+            return NextResponse.json({
+                success: true,
+                consentId: crypto.randomUUID(),
+                timestamp: new Date().toISOString(),
+                note: 'Consent logged for anonymous user (will be linked post-registration)'
+            });
+        }
+
+        // Guardar en Base de Datos solo si el usuario ya existe
         const newConsent = await prisma.legalConsent.create({
             data: {
-                userId: body.userId || "anonymous", // Mejorar esto cuando tengamos sesión real
-                documentType: consentData.documentType.toUpperCase() as any, // Cast to Enum
+                userId: body.userId,
+                documentType: consentData.documentType.toUpperCase() as any,
                 documentVersion: consentData.documentVersion,
                 consentMethod: consentData.consentMethod.toUpperCase() as any,
-                ipAddress: consentData.ipAddress,
-                userAgent: consentData.userAgent,
-                // metadata: consentData
+                ipAddress: consentData.ipAddress || 'unknown',
+                userAgent: consentData.userAgent || 'unknown',
             }
         });
 
