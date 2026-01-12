@@ -3,10 +3,11 @@
 import { useState, useCallback } from 'react';
 import Link from 'next/link';
 import { toast } from 'sonner';
+import { signIn } from 'next-auth/react'; // Import signIn for auto-login
 import { AgeVerificationField } from '@/components/auth/age-verification-field';
 import { ConsentCheckbox } from '@/components/legal/consent-checkbox';
 import { PasswordStrengthMeter } from '@/components/auth/password-strength-meter';
-
+import { RoleSelector } from '@/components/auth/role-selector';
 
 export default function RegisterPage() {
     const [formData, setFormData] = useState({
@@ -14,7 +15,7 @@ export default function RegisterPage() {
         email: '',
         password: '',
         birthDate: '',
-        guardianEmail: '',
+        role: 'STUDENT', // Default role
     });
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
@@ -36,22 +37,37 @@ export default function RegisterPage() {
         setLoading(true);
 
         try {
-            // TODO: Send to backend
-            // const response = await fetch('/api/auth/register', {
-            //     method: 'POST',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     body: JSON.stringify(formData),
-            // });
+            // Real API Call
+            const response = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
+            });
 
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            const data = await response.json();
 
-            toast.success('¡Cuenta creada exitosamente! 🎉');
+            if (!response.ok) {
+                throw new Error(data.error || 'Error al registrarse');
+            }
 
-            // Redirect to dashboard
-            window.location.href = '/dashboard';
-        } catch (error) {
-            toast.error('Error al crear la cuenta. Por favor, intenta de nuevo.');
+            toast.success('¡Cuenta creada exitosamente! Iniciando sesión...');
+
+            // Auto-login after registration
+            const loginResult = await signIn('credentials', {
+                email: formData.email,
+                password: formData.password,
+                redirect: false, // Handle redirect manually for better UX
+            });
+
+            if (loginResult?.error) {
+                toast.error('Cuenta creada, pero hubo un error al iniciar sesión automáticamente.');
+                window.location.href = '/auth/login';
+            } else {
+                window.location.href = '/dashboard';
+            }
+
+        } catch (error: any) {
+            toast.error(error.message || 'Error al crear la cuenta. Por favor, intenta de nuevo.');
             setLoading(false);
         }
     }, [formData, termsAccepted, privacyAccepted]);
@@ -62,7 +78,7 @@ export default function RegisterPage() {
             <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-neural-blue/20 rounded-full blur-[120px]" />
             <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-synapse-purple/20 rounded-full blur-[120px]" />
 
-            <div className="w-full max-w-md glass-panel p-6 sm:p-8 rounded-2xl border border-white/10 shadow-2xl relative z-10">
+            <div className="w-full max-w-md glass-panel p-6 sm:p-8 rounded-2xl border border-white/10 shadow-2xl relative z-10 my-8">
                 <div className="text-center mb-8">
                     <Link href="/" className="text-3xl font-bold bg-brain-spark bg-clip-text text-transparent inline-block mb-2">
                         SinapCode
@@ -71,11 +87,23 @@ export default function RegisterPage() {
                         Crea tu Cuenta
                     </h1>
                     <p className="text-[#B8BFC9] text-sm">
-                        Empieza a aprender gratis hoy
+                        Únete a la plataforma de aprendizaje del futuro
                     </p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-5">
+
+                    {/* Role Selector */}
+                    <div className="mb-4">
+                        <label className="block text-xs font-semibold text-platinum uppercase tracking-wider mb-3 text-center">
+                            ¿Cómo quieres participar?
+                        </label>
+                        <RoleSelector
+                            selectedRole={formData.role}
+                            onSelect={(role) => setFormData({ ...formData, role })}
+                        />
+                    </div>
+
                     {/* Name */}
                     <div>
                         <label htmlFor="name" className="block text-xs font-semibold text-platinum uppercase tracking-wider mb-2">
@@ -176,9 +204,6 @@ export default function RegisterPage() {
                         </p>
                     </div>
 
-                    {/* reCAPTCHA Badge Info */}
-
-
                     {/* Submit Button */}
                     <button
                         type="submit"
@@ -201,10 +226,6 @@ export default function RegisterPage() {
                         )}
                     </button>
 
-                    {/* Social Login Removed for Stabilization */}
-                    {/* <div className="space-y-3">...</div> */}
-
-                    {/* Login Link */}
                     <div className="text-center text-sm text-[#B8BFC9]">
                         ¿Ya tienes cuenta?{' '}
                         <Link href="/auth/login" className="text-neural-blue hover:text-white transition font-medium">

@@ -1,19 +1,31 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
+import { z } from 'zod';
+
+const registerSchema = z.object({
+    name: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
+    email: z.string().email("Email inválido"),
+    password: z.string().min(8, "La contraseña debe tener al menos 8 caracteres"),
+    role: z.enum(['STUDENT', 'TEACHER', 'COMPANY']).default('STUDENT'),
+    birthDate: z.string().optional(),
+});
 
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const { name, email, password } = body;
 
-        // Validate required fields
-        if (!email || !password) {
+        // Validate input using Zod
+        const result = registerSchema.safeParse(body);
+
+        if (!result.success) {
             return NextResponse.json(
-                { error: 'Email y contraseña son requeridos' },
+                { error: result.error.errors[0].message },
                 { status: 400 }
             );
         }
+
+        const { name, email, password, role, birthDate } = result.data;
 
         // Check if user already exists
         const existingUser = await prisma.user.findUnique({
@@ -34,9 +46,10 @@ export async function POST(request: Request) {
         const user = await prisma.user.create({
             data: {
                 email,
-                name: name || null,
+                name,
                 password: hashedPassword,
-                role: 'STUDENT', // Default role
+                role: role as any,
+                // Store additional metadata if needed, e.g. birthDate in a profile table
             },
             select: {
                 id: true,
