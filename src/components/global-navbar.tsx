@@ -43,8 +43,12 @@ export function GlobalNavbar() {
                                 <UserGamificatonStats />
                             </div>
 
-                            <Link href="/profile" className="hidden sm:block">
-                                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 border border-white/20 cursor-pointer hover:scale-105 transition" />
+                            <Link href="/profile" className="hidden sm:block" aria-label="Ver perfil">
+                                <div
+                                    className="w-8 h-8 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 border border-white/20 cursor-pointer hover:scale-105 transition"
+                                    role="img"
+                                    aria-label="Foto de perfil"
+                                />
                             </Link>
                         </>
                     ) : (
@@ -63,6 +67,8 @@ export function GlobalNavbar() {
                     <button
                         className="md:hidden text-white p-2"
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                        aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+                        aria-expanded={isMobileMenuOpen}
                     >
                         {isMobileMenuOpen ? '✕' : '☰'}
                     </button>
