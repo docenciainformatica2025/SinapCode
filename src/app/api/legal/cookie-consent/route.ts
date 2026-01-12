@@ -15,10 +15,13 @@ export async function POST(req: NextRequest) {
             req.headers.get('x-real-ip') ||
             'unknown';
 
+        // Get user ID safely
+        const userId = session?.user ? (session.user as any).id : null;
+
         // Create consent record
         const consent = await prisma.cookieConsent.create({
             data: {
-                userId: session?.user?.id || null,
+                userId,
                 preferences: JSON.stringify(preferences),
                 policyVersion,
                 ipAddress,
@@ -47,15 +50,17 @@ export async function GET(req: NextRequest) {
     try {
         const session = await getServerSession(authOptions);
 
-        if (!session?.user?.id) {
+        if (!session?.user) {
             return NextResponse.json(
                 { error: 'Unauthorized' },
                 { status: 401 }
             );
         }
 
+        const userId = (session.user as any).id;
+
         const consents = await prisma.cookieConsent.findMany({
-            where: { userId: session.user.id },
+            where: { userId },
             orderBy: { acceptedAt: 'desc' },
             take: 10
         });
