@@ -107,7 +107,7 @@ export default function TermsAcceptance({
                                 </h3>
                                 <p>
                                     Sus datos personales están protegidos según nuestra{' '}
-                                    <a href="/legal/privacy-policy" target="_blank" className="text-blue-600 hover:underline">
+                                    <a href="/privacy" target="_blank" className="text-blue-600 hover:underline">
                                         Política de Privacidad
                                     </a>
                                     . Tiene derecho a acceder, rectificar y eliminar sus datos en cualquier momento.
@@ -139,7 +139,7 @@ export default function TermsAcceptance({
                             <p className="text-sm text-yellow-800 dark:text-yellow-200">
                                 <strong>Importante:</strong> Para ver los términos completos, visita{' '}
                                 <a
-                                    href="/legal/terms-of-service"
+                                    href="/legal/terms"
                                     target="_blank"
                                     className="underline hover:text-yellow-900 dark:hover:text-yellow-100"
                                 >
@@ -177,11 +177,11 @@ export default function TermsAcceptance({
                         />
                         <label htmlFor="accept-terms" className="text-sm text-gray-700 dark:text-gray-300">
                             He leído y acepto los{' '}
-                            <a href="/legal/terms-of-service" target="_blank" className="text-blue-600 hover:underline">
+                            <a href="/legal/terms" target="_blank" className="text-blue-600 hover:underline">
                                 Términos de Servicio
                             </a>
                             {' '}y la{' '}
-                            <a href="/legal/privacy-policy" target="_blank" className="text-blue-600 hover:underline">
+                            <a href="/privacy" target="_blank" className="text-blue-600 hover:underline">
                                 Política de Privacidad
                             </a>
                             {' '}de SinapCode.
