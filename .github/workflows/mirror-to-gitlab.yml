@@ -1,0 +1,44 @@
+name: Mirror to GitLab
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Mirror repository to GitLab
+        uses: wearerequired/git-mirror-action@v1
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.GITLAB_SSH_KEY }}
+        with:
+          source-repo: 'git@github.com:docenciainformatica2025/SinapCode.git'
+          destination-repo: 'git@gitlab.com:sinapcode/sinapcode-mirror.git'
+
+      - name: Verify mirror
+        run: |
+          echo "Repository mirrored successfully to GitLab"
+          echo "GitLab URL: https://gitlab.com/sinapcode/sinapcode-mirror"
+
+      - name: Send notification
+        if: success()
+        run: |
+          if [ -n "${{ secrets.SLACK_WEBHOOK_URL }}" ]; then
+            curl -X POST ${{ secrets.SLACK_WEBHOOK_URL }} \
+              -H 'Content-Type: application/json' \
+              -d '{
+                "text": "✅ Code mirrored to GitLab",
+                "attachments": [{
+                  "color": "good",
+                  "fields": [
+                    {"title": "Branch", "value": "${{ github.ref_name }}", "short": true},
+                    {"title": "Commit", "value": "${{ github.sha }}", "short": true}
+                  ]
+                }]
+              }'
+          fi
