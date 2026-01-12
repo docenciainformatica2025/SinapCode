@@ -95,7 +95,7 @@ export default function CookieBanner() {
 
                                     <p className="text-xs text-gray-500 dark:text-gray-400 mt-4">
                                         Al continuar navegando, aceptas nuestra{' '}
-                                        <a href="/privacy" className="underline hover:text-blue-600">
+                                        <a href="/legal/cookies" className="underline hover:text-blue-600">
                                             Política de Cookies
                                         </a>
                                         {' '}y{' '}

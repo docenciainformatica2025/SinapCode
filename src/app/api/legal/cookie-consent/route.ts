@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
             'unknown';
 
         // Get user ID safely
-        const userId = session?.user ? (session.user as any).id : null;
+        const userId = session?.user ? (session.user as { id: string }).id : null;
 
         // Create consent record
         const consent = await prisma.cookieConsent.create({
@@ -57,7 +57,7 @@ export async function GET(req: NextRequest) {
             );
         }
 
-        const userId = (session.user as any).id;
+        const userId = (session.user as { id: string }).id;
 
         const consents = await prisma.cookieConsent.findMany({
             where: { userId },
