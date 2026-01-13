@@ -1,8 +1,16 @@
 import { NextResponse } from 'next/server';
 
 const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY;
+const BYPASS_RECAPTCHA = process.env.BYPASS_RECAPTCHA === 'true';
 
 export async function verifyRecaptcha(token: string) {
+    // TEMPORARY: Bypass for testing if environment variable is set
+    if (BYPASS_RECAPTCHA) {
+        console.warn('[ReCAPTCHA] ⚠️ BYPASS MODE ENABLED - Skipping validation');
+        console.warn('[ReCAPTCHA] This should ONLY be used for testing');
+        return { success: true, score: 1.0, bypassed: true };
+    }
+
     if (!token) {
         console.error('[ReCAPTCHA] No token provided');
         return { success: false, message: 'Token de seguridad faltante' };
