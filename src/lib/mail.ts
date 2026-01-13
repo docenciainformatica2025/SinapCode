@@ -14,6 +14,12 @@ const getResendClient = () => {
 export const sendVerificationEmail = async (email: string, token: string) => {
     const confirmLink = `${process.env.NEXTAUTH_URL}/auth/new-verification?token=${token}`;
 
+    console.log('[EMAIL] Environment:', process.env.NODE_ENV);
+    console.log('[EMAIL] RESEND_API_KEY exists:', !!process.env.RESEND_API_KEY);
+    console.log('[EMAIL] NEXTAUTH_URL:', process.env.NEXTAUTH_URL);
+    console.log('[EMAIL] Sending to:', email);
+    console.log('[EMAIL] Confirm link:', confirmLink);
+
     // Modo desarrollo: Log en consola
     if (process.env.NODE_ENV === 'development' || !process.env.RESEND_API_KEY) {
         console.log("==========================================");
