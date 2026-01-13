@@ -1,7 +1,15 @@
 import { Resend } from 'resend';
 import VerificationEmail from '@/emails/verification-email';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Lazy initialization to avoid build-time errors when RESEND_API_KEY is not set
+let resendClient: Resend | null = null;
+
+const getResendClient = () => {
+    if (!resendClient && process.env.RESEND_API_KEY) {
+        resendClient = new Resend(process.env.RESEND_API_KEY);
+    }
+    return resendClient;
+};
 
 export const sendVerificationEmail = async (email: string, token: string) => {
     const confirmLink = `${process.env.NEXTAUTH_URL}/auth/new-verification?token=${token}`;
@@ -17,8 +25,14 @@ export const sendVerificationEmail = async (email: string, token: string) => {
 
     // Modo producción: Enviar email real con Resend
     try {
+        const resend = getResendClient();
+
+        if (!resend) {
+            throw new Error('Resend client not initialized');
+        }
+
         const { data, error } = await resend.emails.send({
-            from: 'SinapCode <noreply@sinapcode.com>',
+            from: 'SinapCode <onboarding@resend.dev>', // Usar dominio de Resend para testing
             to: [email],
             subject: 'Verifica tu correo electrónico - SinapCode',
             react: VerificationEmail({ confirmLink, email }),
