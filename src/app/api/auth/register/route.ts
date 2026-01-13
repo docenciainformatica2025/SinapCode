@@ -36,23 +36,23 @@ export async function POST(request: Request) {
 
         const { name, email, password, role, recaptchaToken } = result.data;
 
-        // TEMPORARY: Bypass ReCAPTCHA validation to unblock registration
-        // TODO: Fix ReCAPTCHA validation after investigating Google API response
         // Verify ReCAPTCHA
-        /* 
         if (recaptchaToken) {
             const verification = await verifyRecaptcha(recaptchaToken);
             if (!verification.success) {
                 return NextResponse.json(
-                    { error: verification.message },
+                    { error: verification.message || 'Validación de seguridad fallida' },
                     { status: 400 }
                 );
             }
+            console.log('[REGISTRATION] ReCAPTCHA verified successfully');
+        } else {
+            return NextResponse.json(
+                { error: 'Token de seguridad requerido' },
+                { status: 400 }
+            );
         }
-        */
 
-        // Log that we're bypassing ReCAPTCHA for now
-        console.log('[REGISTRATION] ReCAPTCHA validation temporarily bypassed');
         if (recaptchaToken) {
             console.log('[REGISTRATION] Token received (length):', recaptchaToken.length);
         }
