@@ -102,10 +102,29 @@ export async function POST(request: Request) {
             user: { ...user, emailVerified: null } // Explicitly show it's unverified
         }, { status: 201 });
 
-    } catch (error) {
-        console.error('Registration error:', error);
+    } catch (error: any) {
+        console.error('[REGISTRATION] Error during registration:', error);
+        console.error('[REGISTRATION] Error name:', error.name);
+        console.error('[REGISTRATION] Error message:', error.message);
+        console.error('[REGISTRATION] Error stack:', error.stack);
+
+        // Specific error handling
+        if (error.code === 'P2002') {
+            return NextResponse.json(
+                { error: 'Este correo ya está registrado' },
+                { status: 400 }
+            );
+        }
+
+        if (error.message?.includes('emailVerified')) {
+            return NextResponse.json(
+                { error: 'Error de configuración de base de datos. Por favor contacta soporte.' },
+                { status: 500 }
+            );
+        }
+
         return NextResponse.json(
-            { error: 'Error al crear la cuenta' },
+            { error: error.message || 'Error al crear la cuenta. Por favor, intenta de nuevo.' },
             { status: 500 }
         );
     }
