@@ -10,6 +10,9 @@ export function GlobalNavbar() {
     const { data: session } = useSession();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+    const userRole = (session?.user as any)?.role;
+    const isAdmin = userRole === 'ADMIN';
+
     return (
         <nav className="sticky top-0 z-50 w-full glass-panel border-b border-white/10 px-6 py-3">
             <div className="flex items-center justify-between">
@@ -19,11 +22,33 @@ export function GlobalNavbar() {
                         SinapCode
                     </Link>
 
-                    {/* Desktop Links - Always visible or conditional? Keeping visible for exploration */}
+                    {/* Desktop Links - Role Based */}
                     <div className="hidden md:flex gap-6 text-sm font-medium text-platinum-dim">
-                        <Link href="/courses" className="hover:text-white transition">Cursos</Link>
-                        <Link href="/profesores" className="hover:text-white transition">Profesores</Link>
-                        <Link href="/empresas" className="hover:text-white transition">Empresas</Link>
+                        {session ? (
+                            // Logged in users
+                            isAdmin ? (
+                                // Admin navigation
+                                <>
+                                    <Link href="/admin" className="hover:text-white transition">📊 Admin</Link>
+                                    <Link href="/admin/users" className="hover:text-white transition">👥 Usuarios</Link>
+                                    <Link href="/admin/audit" className="hover:text-white transition">📈 Auditoría</Link>
+                                </>
+                            ) : (
+                                // Student/Teacher navigation
+                                <>
+                                    <Link href="/dashboard" className="hover:text-white transition">📚 Mi Dashboard</Link>
+                                    <Link href="/courses" className="hover:text-white transition">🎓 Cursos</Link>
+                                    <Link href="/profile" className="hover:text-white transition">👤 Mi Perfil</Link>
+                                </>
+                            )
+                        ) : (
+                            // Public navigation
+                            <>
+                                <Link href="/courses" className="hover:text-white transition">Cursos</Link>
+                                <Link href="/profesores" className="hover:text-white transition">Profesores</Link>
+                                <Link href="/empresas" className="hover:text-white transition">Empresas</Link>
+                            </>
+                        )}
                     </div>
                 </div>
 
