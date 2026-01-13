@@ -1,11 +1,16 @@
 import { NextResponse } from 'next/server';
 
-const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY || '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFyjTs-75NrTP'; // Google Test Secret
+const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY;
 
 export async function verifyRecaptcha(token: string) {
     if (!token) {
         console.error('[ReCAPTCHA] No token provided');
         return { success: false, message: 'Token de seguridad faltante' };
+    }
+
+    if (!RECAPTCHA_SECRET_KEY) {
+        console.error('[ReCAPTCHA] Secret key not configured');
+        return { success: false, message: 'Configuración de seguridad incompleta' };
     }
 
     console.log('[ReCAPTCHA] Starting verification...');
