@@ -42,7 +42,7 @@ export async function verifyRecaptcha(token: string) {
             // Success! Check score only if it exists (production keys)
             if (data.score !== undefined) {
                 console.log('[ReCAPTCHA] Score:', data.score);
-                if (data.score < 0.5) {
+                if (data.score < 0.3) {
                     console.warn('[ReCAPTCHA] Low score detected:', data.score);
                     return {
                         success: false,
