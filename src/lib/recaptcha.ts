@@ -18,11 +18,18 @@ export async function verifyRecaptcha(token: string) {
 
         const data = await response.json();
 
-        if (data.success && data.score >= 0.5) {
+        // Google test keys return success: true without a score
+        // Production keys return success: true with a score (0.0 - 1.0)
+        if (data.success) {
+            // If score exists, verify it's above threshold
+            if (data.score !== undefined && data.score < 0.5) {
+                console.warn('ReCAPTCHA low score:', data);
+                return { success: false, message: 'Validación de seguridad fallida. Por favor, intenta de nuevo.', score: data.score };
+            }
             return { success: true, score: data.score };
         } else {
             console.warn('ReCAPTCHA failed:', data);
-            return { success: false, message: 'Validación de seguridad fallida. ¿Eres un robot?', score: data.score };
+            return { success: false, message: 'Validación de seguridad fallida. ¿Eres un robot?', errors: data['error-codes'] };
         }
     } catch (error) {
         console.error('ReCAPTCHA verification error:', error);
