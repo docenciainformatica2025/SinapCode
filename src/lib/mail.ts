@@ -14,14 +14,17 @@ const getResendClient = () => {
 export const sendVerificationEmail = async (email: string, token: string) => {
     const confirmLink = `${process.env.NEXTAUTH_URL}/auth/new-verification?token=${token}`;
 
+    console.log('[EMAIL] ========== EMAIL SERVICE START ==========');
     console.log('[EMAIL] Environment:', process.env.NODE_ENV);
     console.log('[EMAIL] RESEND_API_KEY exists:', !!process.env.RESEND_API_KEY);
+    console.log('[EMAIL] RESEND_API_KEY length:', process.env.RESEND_API_KEY?.length || 0);
     console.log('[EMAIL] NEXTAUTH_URL:', process.env.NEXTAUTH_URL);
     console.log('[EMAIL] Sending to:', email);
     console.log('[EMAIL] Confirm link:', confirmLink);
 
-    // Modo desarrollo: Log en consola
-    if (process.env.NODE_ENV === 'development' || !process.env.RESEND_API_KEY) {
+    // ALWAYS try to send via Resend in production
+    if (!process.env.RESEND_API_KEY) {
+        console.error('[EMAIL] ❌ RESEND_API_KEY is not set! Falling back to console log.');
         console.log("==========================================");
         console.log(`📧 EMAIL MOCK SERVICE: Sending to ${email}`);
         console.log(`🔑 Verification Link: ${confirmLink}`);
@@ -45,7 +48,8 @@ export const sendVerificationEmail = async (email: string, token: string) => {
         });
 
         if (error) {
-            console.error('Resend error:', error);
+            console.error('[EMAIL] ❌ Resend API error:', error);
+            console.error('[EMAIL] Error details:', JSON.stringify(error, null, 2));
             // Fallback a modo desarrollo si falla
             console.log("==========================================");
             console.log(`📧 EMAIL FALLBACK: Sending to ${email}`);
@@ -54,10 +58,13 @@ export const sendVerificationEmail = async (email: string, token: string) => {
             return { success: false, error };
         }
 
-        console.log('✅ Email sent successfully:', data);
+        console.log('[EMAIL] ✅ Email sent successfully!');
+        console.log('[EMAIL] Resend response:', JSON.stringify(data, null, 2));
+        console.log('[EMAIL] ========== EMAIL SERVICE END ==========');
         return { success: true, data };
     } catch (error) {
-        console.error('Email sending error:', error);
+        console.error('[EMAIL] ❌ Exception during email sending:', error);
+        console.error('[EMAIL] Exception details:', error instanceof Error ? error.message : String(error));
         // Fallback a modo desarrollo
         console.log("==========================================");
         console.log(`📧 EMAIL FALLBACK: Sending to ${email}`);
