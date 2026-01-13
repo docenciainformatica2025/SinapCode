@@ -8,6 +8,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -31,12 +32,12 @@ model Account {
   type               String
   provider           String
   providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
+  refresh_token      String?
+  access_token       String?
   expires_at         Int?
   token_type         String?
   scope              String?
-  id_token           String?  @db.Text
+  id_token           String?
   session_state      String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -60,16 +61,6 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-enum Role {
-  USER
-  STUDENT
-  TEACHER
-  ADMIN
-}
-
-// ============================================
-// SISTEMA DE AUDITORÍA LEGAL
-// ============================================
 
 model LegalConsent {
   id              String   @id @default(uuid())
@@ -102,6 +93,14 @@ model LegalConsent {
   @@map("legal_consents")
 }
 
+enum Role {
+  USER
+  STUDENT
+  TEACHER
+  ADMIN
+  COMPANY
+}
+
 enum DocumentType {
   TERMS
   PRIVACY
@@ -114,6 +113,7 @@ enum ConsentMethod {
   BUTTON_CLICK
   SCROLL_COMPLETE
 }
+
 
 model CookieConsent {
   id            String   @id @default(cuid())

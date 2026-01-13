@@ -60,21 +60,14 @@ export default function RegisterPage() {
                 throw new Error(data.error || 'Error al registrarse');
             }
 
-            toast.success('¡Cuenta creada exitosamente! Iniciando sesión...');
+            toast.success(data.message || '¡Cuenta creada! Revisa tu correo.');
 
-            // Auto-login after registration
-            const loginResult = await signIn('credentials', {
-                email: formData.email,
-                password: formData.password,
-                redirect: false, // Handle redirect manually for better UX
-            });
+            // Success State - Redirect to check-email page or show nice UI
+            // For now, we redirect to login with a special flag/query param
+            window.location.href = '/auth/login?verified=pending';
 
-            if (loginResult?.error) {
-                toast.error('Cuenta creada, pero hubo un error al iniciar sesión automáticamente.');
-                window.location.href = '/auth/login';
-            } else {
-                window.location.href = '/dashboard';
-            }
+            // Alternative: could set a "success" state variable here and render a nice "Check your inbox" component
+            // setSuccess(true); 
 
         } catch (error: any) {
             toast.error(error.message || 'Error al crear la cuenta. Por favor, intenta de nuevo.');

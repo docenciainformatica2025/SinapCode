@@ -3,14 +3,21 @@ import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 import { z } from 'zod';
 import { verifyRecaptcha } from '@/lib/recaptcha';
+import { generateVerificationToken } from '@/lib/tokens';
+import { sendVerificationEmail } from '@/lib/mail';
 
 const registerSchema = z.object({
-    name: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
-    email: z.string().email("Email inválido"),
-    password: z.string().min(8, "La contraseña debe tener al menos 8 caracteres"),
+    name: z.string().trim().min(2, "El nombre debe tener al menos 2 caracteres"),
+    email: z.string().trim().toLowerCase().email("Email inválido"),
+    password: z.string()
+        .min(8, "Mínimo 8 caracteres")
+        .regex(/[A-Z]/, "Debe contener al menos una mayúscula")
+        .regex(/[a-z]/, "Debe contener al menos una minúscula")
+        .regex(/[0-9]/, "Debe contener al menos un número")
+        .regex(/[^A-Za-z0-9]/, "Debe contener al menos un símbolo especial (@$!%*?&)"),
     role: z.enum(['STUDENT', 'TEACHER', 'COMPANY']).default('STUDENT'),
     birthDate: z.string().optional(),
-    recaptchaToken: z.string().optional(), // Make it optional for now to allow transitional support or manual testing
+    recaptchaToken: z.string().optional(),
 });
 
 export async function POST(request: Request) {
@@ -73,9 +80,16 @@ export async function POST(request: Request) {
             }
         });
 
+        // Generate Verification Token
+        const verificationToken = await generateVerificationToken(email);
+
+        // Send Verification Email
+        await sendVerificationEmail(email, verificationToken.token);
+
         return NextResponse.json({
             success: true,
-            user
+            message: 'Correo de confirmación enviado',
+            user: { ...user, emailVerified: null } // Explicitly show it's unverified
         }, { status: 201 });
 
     } catch (error) {

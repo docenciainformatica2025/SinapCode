@@ -23,6 +23,11 @@ export const authOptions: NextAuthOptions = {
                     return null;
                 }
 
+                // WORLD CLASS SECURITY: Double Opt-In Enforcement
+                if (!user.emailVerified) {
+                    throw new Error("Por favor verifica tu correo electrónico para iniciar sesión");
+                }
+
                 const isPasswordValid = await compare(credentials.password, user.password);
 
                 if (!isPasswordValid) {
