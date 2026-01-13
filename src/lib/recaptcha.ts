@@ -4,8 +4,13 @@ const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY || '6LeIxAcTAAAAAG
 
 export async function verifyRecaptcha(token: string) {
     if (!token) {
+        console.error('[ReCAPTCHA] No token provided');
         return { success: false, message: 'Token de seguridad faltante' };
     }
+
+    console.log('[ReCAPTCHA] Starting verification...');
+    console.log('[ReCAPTCHA] Token length:', token.length);
+    console.log('[ReCAPTCHA] Using secret key:', RECAPTCHA_SECRET_KEY.substring(0, 20) + '...');
 
     try {
         const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
@@ -16,23 +21,49 @@ export async function verifyRecaptcha(token: string) {
             body: `secret=${RECAPTCHA_SECRET_KEY}&response=${token}`,
         });
 
-        const data = await response.json();
+        if (!response.ok) {
+            console.error('[ReCAPTCHA] HTTP error:', response.status, response.statusText);
+            return { success: false, message: 'Error al verificar seguridad' };
+        }
 
-        // Google test keys return success: true without a score
-        // Production keys return success: true with a score (0.0 - 1.0)
-        if (data.success) {
-            // If score exists, verify it's above threshold
-            if (data.score !== undefined && data.score < 0.5) {
-                console.warn('ReCAPTCHA low score:', data);
-                return { success: false, message: 'Validación de seguridad fallida. Por favor, intenta de nuevo.', score: data.score };
+        const data = await response.json();
+        console.log('[ReCAPTCHA] Google response:', JSON.stringify(data, null, 2));
+
+        // Google test keys return: { success: true }
+        // Production keys return: { success: true, score: 0.0-1.0, ... }
+        // Failed validation: { success: false, error-codes: [...] }
+
+        if (data.success === true) {
+            // Success! Check score only if it exists (production keys)
+            if (data.score !== undefined) {
+                console.log('[ReCAPTCHA] Score:', data.score);
+                if (data.score < 0.5) {
+                    console.warn('[ReCAPTCHA] Low score detected:', data.score);
+                    return {
+                        success: false,
+                        message: 'Validación de seguridad fallida. Por favor, intenta de nuevo.',
+                        score: data.score
+                    };
+                }
+            } else {
+                console.log('[ReCAPTCHA] Test key detected (no score)');
             }
+
+            console.log('[ReCAPTCHA] ✅ Verification successful');
             return { success: true, score: data.score };
         } else {
-            console.warn('ReCAPTCHA failed:', data);
-            return { success: false, message: 'Validación de seguridad fallida. ¿Eres un robot?', errors: data['error-codes'] };
+            // Validation failed
+            console.error('[ReCAPTCHA] ❌ Validation failed');
+            console.error('[ReCAPTCHA] Error codes:', data['error-codes']);
+
+            return {
+                success: false,
+                message: 'Validación de seguridad fallida. ¿Eres un robot?',
+                errors: data['error-codes']
+            };
         }
     } catch (error) {
-        console.error('ReCAPTCHA verification error:', error);
+        console.error('[ReCAPTCHA] Exception during verification:', error);
         return { success: false, message: 'Error al verificar seguridad' };
     }
 }
