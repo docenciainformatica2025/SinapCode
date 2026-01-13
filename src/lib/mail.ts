@@ -150,7 +150,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
         const { data, error } = await resend.emails.send({
             from: 'SinapCode <onboarding@resend.dev>',
             to: [email],
-            subject: 'Bienvenido al ecosistema SinapCode',
+            subject: '✨ Verifica tu email y activa tu cuenta - SinapCode',
             html: htmlContent,
         });
 

@@ -60,14 +60,12 @@ export default function RegisterPage() {
                 throw new Error(data.error || 'Error al registrarse');
             }
 
-            toast.success(data.message || '¡Cuenta creada! Revisa tu correo.');
+            toast.success('¡Cuenta creada exitosamente!');
 
-            // Success State - Redirect to check-email page or show nice UI
-            // For now, we redirect to login with a special flag/query param
-            window.location.href = '/auth/login?verified=pending';
+            // Redirect to check-email page with email parameter
+            const emailParam = encodeURIComponent(formData.email);
+            window.location.href = `/auth/check-email?email=${emailParam}`;
 
-            // Alternative: could set a "success" state variable here and render a nice "Check your inbox" component
-            // setSuccess(true); 
 
         } catch (error: any) {
             toast.error(error.message || 'Error al crear la cuenta. Por favor, intenta de nuevo.');

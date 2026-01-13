@@ -98,9 +98,10 @@ export async function POST(request: Request) {
 
         return NextResponse.json({
             success: true,
-            message: 'Correo de confirmación enviado',
-            user: { ...user, emailVerified: null } // Explicitly show it's unverified
+            message: '¡Cuenta creada! Revisa tu correo para verificar tu email.',
+            user: { ...user, emailVerified: null }
         }, { status: 201 });
+
 
     } catch (error: any) {
         console.error('[REGISTRATION] Error during registration:', error);
