@@ -6,39 +6,39 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String         @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String         @unique
   emailVerified DateTime?
   image         String?
   password      String?
-  role          Role      @default(STUDENT)
+  role          Role           @default(STUDENT)
   accounts      Account[]
   sessions      Session[]
   legalConsents LegalConsent[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?
-  access_token       String?
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -61,31 +61,30 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-
 model LegalConsent {
-  id              String   @id @default(uuid())
-  userId          String
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   // Documento legal
   documentType    DocumentType
   documentVersion String
   documentHash    String?
-  
+
   // Método de consentimiento
-  consentMethod   ConsentMethod
-  
+  consentMethod ConsentMethod
+
   // Evidencia (GDPR Art. 7)
-  ipAddress       String?
-  userAgent       String?
-  geolocation     Json?
-  
+  ipAddress   String?
+  userAgent   String?
+  geolocation Json?
+
   // Metadata adicional
-  metadata        Json?
-  
+  metadata Json?
+
   // Timestamp
-  acceptedAt      DateTime @default(now())
-  
+  acceptedAt DateTime @default(now())
+
   @@unique([userId, documentType, documentVersion])
   @@index([userId])
   @@index([documentType])
@@ -113,7 +112,6 @@ enum ConsentMethod {
   BUTTON_CLICK
   SCROLL_COMPLETE
 }
-
 
 model CookieConsent {
   id            String   @id @default(cuid())
