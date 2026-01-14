@@ -63,7 +63,7 @@ export async function GET() {
     } catch (error: any) {
         console.error('Error fetching users:', error);
         return NextResponse.json(
-            { error: 'Error al obtener usuarios' },
+            { error: `Error interno: ${error.message}` },
             { status: 500 }
         );
     }
