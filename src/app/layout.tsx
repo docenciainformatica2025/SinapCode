@@ -1,4 +1,4 @@
-import { NextAuthProvider } from '@/components/providers/next-auth-provider';
+import Providers from "./providers";
 import { RecaptchaProvider } from '@/components/providers/recaptcha-provider';
 import type { Metadata } from 'next';
 import './globals.css';
@@ -71,7 +71,7 @@ export default function RootLayout({
     return (
         <html lang="es">
             <body className="bg-deep-space text-platinum antialiased" suppressHydrationWarning>
-                <NextAuthProvider>
+                <Providers>
                     <RecaptchaProvider>
                         <ErrorBoundary>
                             <ToastProvider />
@@ -81,7 +81,7 @@ export default function RootLayout({
                             {children}
                         </ErrorBoundary>
                     </RecaptchaProvider>
-                </NextAuthProvider>
+                </Providers>
             </body>
         </html>
     );

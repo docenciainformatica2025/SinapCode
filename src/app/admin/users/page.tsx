@@ -170,16 +170,16 @@ export default function UsersPage() {
                                                 </td>
                                                 <td className="p-4">
                                                     <span className={`px-3 py-1 rounded-full text-xs font-bold ${user.role === 'ADMIN' || user.role === 'SUPER_ADMIN' ? 'bg-rose-500/20 text-rose-400' :
-                                                            user.role === 'TEACHER' ? 'bg-purple-500/20 text-purple-400' :
-                                                                'bg-blue-500/20 text-blue-400'
+                                                        user.role === 'TEACHER' ? 'bg-purple-500/20 text-purple-400' :
+                                                            'bg-blue-500/20 text-blue-400'
                                                         }`}>
                                                         {user.role}
                                                     </span>
                                                 </td>
                                                 <td className="p-4">
                                                     <span className={`px-3 py-1 rounded-full text-xs font-bold ${user.status === 'active' ? 'bg-emerald-500/20 text-emerald-400' :
-                                                            user.status === 'suspended' ? 'bg-rose-500/20 text-rose-400' :
-                                                                'bg-amber-500/20 text-amber-400'
+                                                        user.status === 'suspended' ? 'bg-rose-500/20 text-rose-400' :
+                                                            'bg-amber-500/20 text-amber-400'
                                                         }`}>
                                                         {user.status}
                                                     </span>
@@ -197,8 +197,8 @@ export default function UsersPage() {
                                                         <button
                                                             onClick={() => handleSuspendUser(user)}
                                                             className={`px-3 py-1 rounded text-xs font-medium transition ${user.status === 'suspended'
-                                                                    ? 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400'
-                                                                    : 'bg-amber-500/20 hover:bg-amber-500/30 text-amber-400'
+                                                                ? 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400'
+                                                                : 'bg-amber-500/20 hover:bg-amber-500/30 text-amber-400'
                                                                 }`}
                                                             title={user.status === 'suspended' ? 'Activar cuenta' : 'Suspender cuenta'}
                                                         >
@@ -232,7 +232,7 @@ export default function UsersPage() {
             />
 
             <DeleteUserModal
-                user={deletingUser}
+                user={deletingUser ? { ...deletingUser, role: deletingUser.role } : null}
                 isOpen={!!deletingUser}
                 onClose={() => setDeletingUser(null)}
                 onSuccess={fetchUsers}

@@ -18,7 +18,11 @@ export default function AdminLayout({
 
         // Redirect if not authenticated
         if (!session) {
-            router.push('/auth/login?callbackUrl=/admin');
+            router.push('/auth/login');
+            // Store intended destination securely in sessionStorage (client-side only)
+            if (typeof window !== 'undefined') {
+                sessionStorage.setItem('auth_redirect', '/admin');
+            }
             return;
         }
 
