@@ -56,9 +56,9 @@ export async function GET(
 // PUT - Actualizar usuario (con validaciones mejoradas)
 export async function PUT(
     request: Request,
-    { params }: { params: { id: string } }
+    { params }: { params: { userId: string } }
 ) {
-    // FORCE-REDEPLOY: Fix Ghost 404 on Vercel v2
+    // FORCE-REDEPLOY: Fix Ghost 404 on Vercel v4 (Restored Signature)
     try {
         const session = await getServerSession(authOptions);
 
@@ -82,7 +82,7 @@ export async function PUT(
 
         // Obtener usuario actual para comparar cambios
         const existingUser = await prisma.user.findUnique({
-            where: { id: params.id },
+            where: { id: params.userId },
             select: { name: true, email: true, role: true, deletedAt: true }
         });
 
@@ -122,7 +122,7 @@ export async function PUT(
             const emailInUse = await prisma.user.findFirst({
                 where: {
                     email: email.trim().toLowerCase(),
-                    id: { not: params.id }
+                    id: { not: params.userId }
                 }
             });
 
@@ -133,7 +133,7 @@ export async function PUT(
 
         // Actualizar usuario
         const updatedUser = await prisma.user.update({
-            where: { id: params.id },
+            where: { id: params.userId },
             data: {
                 ...(name && { name: name.trim() }),
                 ...(email && { email: email.trim().toLowerCase() }),
@@ -162,7 +162,7 @@ export async function PUT(
                 eventType: 'user.update',
                 eventCategory: 'DATA',
                 eventData: {
-                    targetUserId: params.id,
+                    targetUserId: params.userId,
                     changes,
                 },
                 ipAddress: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || undefined,
@@ -189,7 +189,7 @@ export async function PUT(
 // DELETE - Eliminar usuario (soft delete con cumplimiento legal)
 export async function DELETE(
     request: Request,
-    { params }: { params: { id: string } }
+    { params }: { params: { userId: string } }
 ) {
     try {
         const session = await getServerSession(authOptions);
@@ -210,13 +210,13 @@ export async function DELETE(
         }
 
         // No permitir auto-eliminación
-        if (currentUser.id === params.id) {
+        if (currentUser.id === params.userId) {
             return NextResponse.json({ error: 'No puedes eliminarte a ti mismo' }, { status: 400 });
         }
 
         // Obtener datos del usuario a eliminar
         const userToDelete = await prisma.user.findUnique({
-            where: { id: params.id },
+            where: { id: params.userId },
             select: { role: true, name: true, email: true }
         });
 
@@ -239,7 +239,7 @@ export async function DELETE(
 
         // Soft delete - marcar como eliminado
         const deletedUser = await prisma.user.update({
-            where: { id: params.id },
+            where: { id: params.userId },
             data: {
                 deletedAt: new Date(),
                 deletedBy: currentUser.id,
@@ -251,7 +251,7 @@ export async function DELETE(
 
         // Cerrar todas las sesiones activas
         await prisma.session.deleteMany({
-            where: { userId: params.id }
+            where: { userId: params.userId }
         });
 
         // Crear audit log
@@ -261,7 +261,7 @@ export async function DELETE(
                 eventType: 'user.delete',
                 eventCategory: 'DATA',
                 eventData: {
-                    targetUserId: params.id,
+                    targetUserId: params.userId,
                     targetUserEmail: userToDelete.email,
                     targetUserName: userToDelete.name,
                     reason,

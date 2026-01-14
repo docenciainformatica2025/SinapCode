@@ -39,6 +39,7 @@ export async function GET() {
                 emailVerified: true,
                 createdAt: true,
                 updatedAt: true,
+                lastLoginAt: true,
             },
             orderBy: {
                 createdAt: 'desc'
@@ -52,7 +53,7 @@ export async function GET() {
             email: user.email || 'Sin email',
             role: user.role,
             status: user.emailVerified ? 'active' : 'pending',
-            lastLogin: 'N/A', // TODO: Agregar campo lastLoginAt al schema
+            lastLogin: user.lastLoginAt ? formatRelativeTime(user.lastLoginAt) : 'Nunca',
             createdAt: user.createdAt.toISOString().split('T')[0],
         }));
 
