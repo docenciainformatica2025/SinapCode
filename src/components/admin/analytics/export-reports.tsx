@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-interface ExportFormat = 'csv' | 'json' | 'pdf';
+type ExportFormat = 'csv' | 'json' | 'pdf';
 
 export function ExportReports() {
     const [isExporting, setIsExporting] = useState(false);
