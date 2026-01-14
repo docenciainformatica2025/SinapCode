@@ -1,54 +1,79 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { AuditLogger } from '@/lib/audit/audit-logger';
 import { toast } from 'sonner';
+import { AdminHeader } from '@/components/admin/header';
+import { EditUserModal } from '@/components/admin/modals/edit-user-modal';
+import { DeleteUserModal } from '@/components/admin/modals/delete-user-modal';
 
 interface User {
     id: string;
     name: string;
     email: string;
-    role: 'STUDENT' | 'TEACHER' | 'ADMIN';
+    role: string;
     status: 'active' | 'suspended' | 'pending';
     lastLogin: string;
     createdAt: string;
 }
 
 export default function UsersPage() {
-    const [users, setUsers] = useState<User[]>([
-        {
-            id: '1',
-            name: 'María García',
-            email: 'maria.garcia@student.com',
-            role: 'STUDENT',
-            status: 'active',
-            lastLogin: '2 hours ago',
-            createdAt: '2025-12-15',
-        },
-        {
-            id: '2',
-            name: 'Carlos Rodríguez',
-            email: 'carlos.r@teacher.com',
-            role: 'TEACHER',
-            status: 'active',
-            lastLogin: '1 day ago',
-            createdAt: '2025-11-20',
-        },
-        {
-            id: '3',
-            name: 'Ana Martínez',
-            email: 'ana.m@student.com',
-            role: 'STUDENT',
-            status: 'pending',
-            lastLogin: 'Never',
-            createdAt: '2026-01-08',
-        },
-    ]);
-
+    const [users, setUsers] = useState<User[]>([]);
+    const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [filterRole, setFilterRole] = useState<string>('all');
-    const [selectedUser, setSelectedUser] = useState<User | null>(null);
+
+    // Modals
+    const [editingUser, setEditingUser] = useState<User | null>(null);
+    const [deletingUser, setDeletingUser] = useState<User | null>(null);
+
+    // Obtener usuarios reales de la API
+    useEffect(() => {
+        fetchUsers();
+    }, []);
+
+    const fetchUsers = async () => {
+        try {
+            setLoading(true);
+            const response = await fetch('/api/admin/users');
+            const data = await response.json();
+
+            if (response.ok) {
+                console.log('✅ Usuarios obtenidos de la API:', data.users);
+                setUsers(data.users);
+            } else {
+                console.error('❌ Error de API:', data.error);
+                toast.error(data.error || 'Error al cargar usuarios');
+            }
+        } catch (error) {
+            console.error('❌ Error fetching users:', error);
+            toast.error('Error al cargar usuarios');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleSuspendUser = async (user: User) => {
+        const action = user.status === 'suspended' ? 'activate' : 'suspend';
+
+        try {
+            const response = await fetch(`/api/admin/users/${user.id}/${action}`, {
+                method: 'POST',
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                toast.success(`✅ Usuario ${action === 'suspend' ? 'suspendido' : 'activado'} exitosamente`);
+                fetchUsers(); // Recargar lista
+            } else {
+                toast.error(data.error || `Error al ${action} usuario`);
+            }
+        } catch (error) {
+            console.error(`Error ${action} user:`, error);
+            toast.error(`Error al ${action} usuario`);
+        }
+    };
 
     const filteredUsers = users.filter(user => {
         const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -57,236 +82,161 @@ export default function UsersPage() {
         return matchesSearch && matchesRole;
     });
 
-    const handleBanUser = async (user: User) => {
-        const newStatus = user.status === 'suspended' ? 'active' : 'suspended';
-        const actionType = newStatus === 'suspended' ? 'USER_BAN' : 'USER_UNBAN';
-
-        // Update local state
-        setUsers(users.map(u => u.id === user.id ? { ...u, status: newStatus } : u));
-
-        // Log Audit
-        await AuditLogger.logAction({
-            actorId: 'current-admin-id', // In real app, from session
-            actorName: 'You (Admin)',
-            action: actionType,
-            description: `${actionType === 'USER_BAN' ? 'Suspended' : 'Reactivated'} user access for ${user.email}`,
-            targetId: user.id,
-            targetName: user.name
-        });
-
-        toast.success(`User ${newStatus === 'suspended' ? 'suspended' : 'activated'} successfully`);
-    };
-
-    const handleSaveUser = async () => {
-        if (!selectedUser) return;
-
-        // Perform mock save
-        setUsers(users.map(u => u.id === selectedUser.id ? selectedUser : u));
-
-        await AuditLogger.logAction({
-            actorId: 'current-admin-id',
-            actorName: 'You (Admin)',
-            action: 'ROLE_CHANGE',
-            description: `Updated profile details/role for ${selectedUser.email}`,
-            targetId: selectedUser.id
-        });
-
-        toast.success('User updated successfully');
-        setSelectedUser(null);
-    };
-
     return (
         <div className="space-y-6">
             {/* Header */}
-            <div className="flex justify-between items-center">
-                <div>
-                    <h2 className="text-3xl font-bold text-white mb-2">User Management</h2>
-                    <p className="text-platinum-dim">Manage user accounts, roles, and permissions</p>
-                </div>
-                <button className="px-6 py-3 bg-neural-blue text-white rounded-lg font-bold hover:bg-blue-600 transition shadow-neon-blue">
-                    + New User
-                </button>
-            </div>
+            <AdminHeader
+                title="Gestión de Usuarios"
+                description="Administra cuentas, roles y permisos de usuarios"
+            />
 
-            {/* Filters */}
-            <div className="glass-panel p-6 rounded-xl">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                        <label className="text-sm text-platinum-dim mb-2 block">Search</label>
-                        <input
-                            type="text"
-                            placeholder="Name or email..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full bg-black/50 border border-white/20 rounded-lg px-4 py-2 text-white focus:border-neural-blue outline-none transition"
-                        />
-                    </div>
-                    <div>
-                        <label className="text-sm text-platinum-dim mb-2 block">Role</label>
-                        <select
-                            value={filterRole}
-                            onChange={(e) => setFilterRole(e.target.value)}
-                            className="w-full bg-black/50 border border-white/20 rounded-lg px-4 py-2 text-white focus:border-neural-blue outline-none transition"
-                        >
-                            <option value="all">All Roles</option>
-                            <option value="STUDENT">Students</option>
-                            <option value="TEACHER">Teachers</option>
-                            <option value="ADMIN">Admins</option>
-                        </select>
-                    </div>
-                    <div className="flex items-end">
-                        <div className="text-sm text-platinum-dim">
-                            Showing <span className="text-white font-bold">{filteredUsers.length}</span> of {users.length} users
-                        </div>
+            {loading ? (
+                <div className="flex items-center justify-center py-20">
+                    <div className="text-center">
+                        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-neural-blue border-r-transparent mb-4"></div>
+                        <div className="text-white text-lg">Cargando usuarios desde Supabase...</div>
                     </div>
                 </div>
-            </div>
-
-            {/* Users Table */}
-            <div className="glass-panel rounded-xl overflow-hidden border border-white/10">
-                <div className="overflow-x-auto">
-                    <table className="w-full">
-                        <thead className="bg-white/5 border-b border-white/10">
-                            <tr>
-                                <th className="text-left p-4 text-sm font-bold text-platinum-dim uppercase tracking-wider">User</th>
-                                <th className="text-left p-4 text-sm font-bold text-platinum-dim uppercase tracking-wider">Role</th>
-                                <th className="text-left p-4 text-sm font-bold text-platinum-dim uppercase tracking-wider">Status</th>
-                                <th className="text-left p-4 text-sm font-bold text-platinum-dim uppercase tracking-wider">Last Login</th>
-                                <th className="text-left p-4 text-sm font-bold text-platinum-dim uppercase tracking-wider">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filteredUsers.map((user) => (
-                                <motion.tr
-                                    key={user.id}
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    className="border-b border-white/5 hover:bg-white/5 transition"
-                                >
-                                    <td className="p-4">
-                                        <div>
-                                            <div className="text-white font-medium">{user.name}</div>
-                                            <div className="text-sm text-platinum-dim">{user.email}</div>
-                                        </div>
-                                    </td>
-                                    <td className="p-4">
-                                        <span className={`px-3 py-1 rounded-full text-xs font-bold ${user.role === 'ADMIN' ? 'bg-rose-500/20 text-rose-400' :
-                                            user.role === 'TEACHER' ? 'bg-purple-500/20 text-purple-400' :
-                                                'bg-blue-500/20 text-blue-400'
-                                            }`}>
-                                            {user.role}
-                                        </span>
-                                    </td>
-                                    <td className="p-4">
-                                        <span className={`px-3 py-1 rounded-full text-xs font-bold ${user.status === 'active' ? 'bg-emerald-500/20 text-emerald-400' :
-                                            user.status === 'suspended' ? 'bg-rose-500/20 text-rose-400' :
-                                                'bg-amber-500/20 text-amber-400'
-                                            }`}>
-                                            {user.status}
-                                        </span>
-                                    </td>
-                                    <td className="p-4 text-platinum-dim text-sm">{user.lastLogin}</td>
-                                    <td className="p-4">
-                                        <div className="flex gap-2">
-                                            <button
-                                                onClick={() => setSelectedUser(user)}
-                                                className="px-3 py-1 bg-white/10 hover:bg-white/20 text-white rounded text-xs font-medium transition"
-                                            >
-                                                Edit
-                                            </button>
-                                            <button
-                                                onClick={() => handleBanUser(user)}
-                                                className={`px-3 py-1 rounded text-xs font-medium transition ${user.status === 'suspended'
-                                                        ? 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400'
-                                                        : 'bg-rose-500/20 hover:bg-rose-500/30 text-rose-400'
-                                                    }`}
-                                            >
-                                                {user.status === 'suspended' ? 'Activate' : 'Suspend'}
-                                            </button>
-                                        </div>
-                                    </td>
-                                </motion.tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            {/* Edit Modal */}
-            {selectedUser && (
-                <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50">
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="glass-panel max-w-md w-full p-8 rounded-2xl border border-white/20"
-                    >
-                        <h3 className="text-2xl font-bold text-white mb-6">Edit User</h3>
-
-                        <div className="space-y-4">
+            ) : (
+                <>
+                    {/* Filters */}
+                    <div className="glass-panel p-6 rounded-xl border border-white/10">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
-                                <label className="text-sm text-platinum-dim mb-2 block">Name</label>
+                                <label className="text-sm text-platinum-dim mb-2 block">Buscar</label>
                                 <input
                                     type="text"
-                                    value={selectedUser.name}
-                                    onChange={(e) => setSelectedUser({ ...selectedUser, name: e.target.value })}
+                                    placeholder="Nombre o email..."
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
                                     className="w-full bg-black/50 border border-white/20 rounded-lg px-4 py-2 text-white focus:border-neural-blue outline-none transition"
                                 />
                             </div>
-
                             <div>
-                                <label className="text-sm text-platinum-dim mb-2 block">Email</label>
-                                <input
-                                    type="email"
-                                    value={selectedUser.email}
-                                    onChange={(e) => setSelectedUser({ ...selectedUser, email: e.target.value })}
-                                    className="w-full bg-black/50 border border-white/20 rounded-lg px-4 py-2 text-white focus:border-neural-blue outline-none transition"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="text-sm text-platinum-dim mb-2 block">Role</label>
+                                <label className="text-sm text-platinum-dim mb-2 block">Rol</label>
                                 <select
-                                    value={selectedUser.role}
-                                    onChange={(e) => setSelectedUser({ ...selectedUser, role: e.target.value as any })}
+                                    value={filterRole}
+                                    onChange={(e) => setFilterRole(e.target.value)}
                                     className="w-full bg-black/50 border border-white/20 rounded-lg px-4 py-2 text-white focus:border-neural-blue outline-none transition"
                                 >
-                                    <option value="STUDENT">Student</option>
-                                    <option value="TEACHER">Teacher</option>
-                                    <option value="ADMIN">Admin</option>
+                                    <option value="all">Todos los Roles</option>
+                                    <option value="STUDENT">Estudiantes</option>
+                                    <option value="TEACHER">Profesores</option>
+                                    <option value="ADMIN">Administradores</option>
+                                    <option value="SUPER_ADMIN">Super Admins</option>
                                 </select>
                             </div>
-
-                            <div>
-                                <label className="text-sm text-platinum-dim mb-2 block">Status</label>
-                                <select
-                                    value={selectedUser.status}
-                                    onChange={(e) => setSelectedUser({ ...selectedUser, status: e.target.value as any })}
-                                    className="w-full bg-black/50 border border-white/20 rounded-lg px-4 py-2 text-white focus:border-neural-blue outline-none transition"
-                                >
-                                    <option value="active">Active</option>
-                                    <option value="suspended">Suspended</option>
-                                    <option value="pending">Pending</option>
-                                </select>
+                            <div className="flex items-end">
+                                <div className="text-sm text-platinum-dim">
+                                    Mostrando <span className="text-white font-bold">{filteredUsers.length}</span> de {users.length} usuarios
+                                </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div className="flex gap-3 mt-8">
-                            <button
-                                onClick={() => setSelectedUser(null)}
-                                className="flex-1 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg font-medium transition"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={handleSaveUser}
-                                className="flex-1 px-4 py-2 bg-neural-blue hover:bg-blue-600 text-white rounded-lg font-bold transition shadow-neon-blue"
-                            >
-                                Save Changes
-                            </button>
+                    {/* Users Table */}
+                    <div className="glass-panel rounded-xl overflow-hidden border border-white/10">
+                        <div className="overflow-x-auto">
+                            <table className="w-full">
+                                <thead className="bg-white/5 border-b border-white/10">
+                                    <tr>
+                                        <th className="text-left p-4 text-sm font-bold text-platinum-dim uppercase tracking-wider">Usuario</th>
+                                        <th className="text-left p-4 text-sm font-bold text-platinum-dim uppercase tracking-wider">Rol</th>
+                                        <th className="text-left p-4 text-sm font-bold text-platinum-dim uppercase tracking-wider">Estado</th>
+                                        <th className="text-left p-4 text-sm font-bold text-platinum-dim uppercase tracking-wider">Último Login</th>
+                                        <th className="text-left p-4 text-sm font-bold text-platinum-dim uppercase tracking-wider">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {filteredUsers.length === 0 ? (
+                                        <tr>
+                                            <td colSpan={5} className="p-8 text-center text-platinum-dim">
+                                                No hay usuarios en la base de datos
+                                            </td>
+                                        </tr>
+                                    ) : (
+                                        filteredUsers.map((user) => (
+                                            <motion.tr
+                                                key={user.id}
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                className="border-b border-white/5 hover:bg-white/5 transition"
+                                            >
+                                                <td className="p-4">
+                                                    <div>
+                                                        <div className="text-white font-medium">{user.name}</div>
+                                                        <div className="text-sm text-platinum-dim">{user.email}</div>
+                                                    </div>
+                                                </td>
+                                                <td className="p-4">
+                                                    <span className={`px-3 py-1 rounded-full text-xs font-bold ${user.role === 'ADMIN' || user.role === 'SUPER_ADMIN' ? 'bg-rose-500/20 text-rose-400' :
+                                                            user.role === 'TEACHER' ? 'bg-purple-500/20 text-purple-400' :
+                                                                'bg-blue-500/20 text-blue-400'
+                                                        }`}>
+                                                        {user.role}
+                                                    </span>
+                                                </td>
+                                                <td className="p-4">
+                                                    <span className={`px-3 py-1 rounded-full text-xs font-bold ${user.status === 'active' ? 'bg-emerald-500/20 text-emerald-400' :
+                                                            user.status === 'suspended' ? 'bg-rose-500/20 text-rose-400' :
+                                                                'bg-amber-500/20 text-amber-400'
+                                                        }`}>
+                                                        {user.status}
+                                                    </span>
+                                                </td>
+                                                <td className="p-4 text-platinum-dim text-sm">{user.lastLogin}</td>
+                                                <td className="p-4">
+                                                    <div className="flex gap-2">
+                                                        <button
+                                                            onClick={() => setEditingUser(user)}
+                                                            className="px-3 py-1 bg-neural-blue/20 hover:bg-neural-blue/30 text-neural-blue rounded text-xs font-medium transition"
+                                                            title="Editar usuario"
+                                                        >
+                                                            Editar
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handleSuspendUser(user)}
+                                                            className={`px-3 py-1 rounded text-xs font-medium transition ${user.status === 'suspended'
+                                                                    ? 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400'
+                                                                    : 'bg-amber-500/20 hover:bg-amber-500/30 text-amber-400'
+                                                                }`}
+                                                            title={user.status === 'suspended' ? 'Activar cuenta' : 'Suspender cuenta'}
+                                                        >
+                                                            {user.status === 'suspended' ? 'Activar' : 'Suspender'}
+                                                        </button>
+                                                        <button
+                                                            onClick={() => setDeletingUser(user)}
+                                                            className="px-3 py-1 bg-rose-500/20 hover:bg-rose-500/30 text-rose-400 rounded text-xs font-medium transition"
+                                                            title="Eliminar usuario"
+                                                        >
+                                                            Eliminar
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </motion.tr>
+                                        ))
+                                    )}
+                                </tbody>
+                            </table>
                         </div>
-                    </motion.div>
-                </div>
+                    </div>
+                </>
             )}
+
+            {/* Modals */}
+            <EditUserModal
+                user={editingUser}
+                isOpen={!!editingUser}
+                onClose={() => setEditingUser(null)}
+                onSuccess={fetchUsers}
+            />
+
+            <DeleteUserModal
+                user={deletingUser}
+                isOpen={!!deletingUser}
+                onClose={() => setDeletingUser(null)}
+                onSuccess={fetchUsers}
+            />
         </div>
     );
 }
