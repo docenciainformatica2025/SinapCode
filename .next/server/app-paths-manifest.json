@@ -1,16 +1,1 @@
-{
-  "/auth/login/page": "app/auth/login/page.js",
-<<<<<<< HEAD
-  "/page": "app/page.js",
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/not-found": "app/not-found.js",
-  "/auth/register/page": "app/auth/register/page.js",
-=======
-  "/empresas/page": "app/empresas/page.js",
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/profile/page": "app/profile/page.js",
-  "/profesores/page": "app/profesores/page.js",
-  "/courses/page": "app/courses/page.js",
->>>>>>> 0b9cd84da5b64a962e72895d521f2202a01d4dda
-  "/icon.png/route": "app/icon.png/route.js"
-}
+{}
