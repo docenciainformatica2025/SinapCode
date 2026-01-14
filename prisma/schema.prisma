@@ -11,14 +11,45 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-<<<<<<< HEAD
 // ============================================
-// USUARIOS
+// USUARIOS Y AUTENTICACIÓN
 // ============================================
 
-// ============================================
-// NEXTAUTH ADAPTER MODELS
-// ============================================
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          Role      @default(STUDENT)
+  
+  // Security fields
+  mfaEnabled       Boolean   @default(false)
+  mfaSecret        String?
+  lastLoginAt      DateTime?
+  lastLoginIp      String?
+  failedLoginCount Int       @default(0)
+  lockedUntil      DateTime?
+  
+  // Age verification (COPPA compliance)
+  birthDate     DateTime?
+  isMinor       Boolean   @default(false)
+  guardianEmail String?
+  
+  // Timestamps
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Relations
+  accounts      Account[]
+  sessions      Session[]
+  legalConsents LegalConsent[]
+  auditLogs     AuditLog[]
+  dataRequests  DataSubjectRequest[]
+  
+  @@map("users")
+}
 
 model Account {
   id                 String  @id @default(cuid())
@@ -33,47 +64,6 @@ model Account {
   scope              String?
   id_token           String? @db.Text
   session_state      String?
-=======
-model User {
-  id               String         @id @default(cuid())
-  name             String?
-  email            String         @unique
-  emailVerified    DateTime?
-  image            String?
-  password         String?
-  role             Role           @default(STUDENT)
-  
-  // Security fields
-  mfaEnabled       Boolean        @default(false)
-  mfaSecret        String?
-  lastLoginAt      DateTime?
-  lastLoginIp      String?
-  failedLoginCount Int            @default(0)
-  lockedUntil      DateTime?
-  
-  accounts         Account[]
-  sessions         Session[]
-  legalConsents    LegalConsent[]
-  auditLogs        AuditLog[]
-  
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
-}
-
-model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String?
-  access_token      String?
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String?
-  session_state     String?
->>>>>>> 0b9cd84da5b64a962e72895d521f2202a01d4dda
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -96,57 +86,10 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-<<<<<<< HEAD
 // ============================================
-// USUARIOS
-// ============================================
-
-model User {
-  id            String    @id @default(uuid())
-  email         String    @unique
-  name          String?
-  password      String?   // Optional because OAuth users might not have password
-  emailVerified DateTime? // Standard NextAuth field
-  image         String?
-  role          Role      @default(STUDENT)
-  
-  // Age verification (COPPA compliance)
-  birthDate     DateTime?
-  isMinor       Boolean   @default(false)
-  guardianEmail String?
-  
-  // Custom Verification (Legacy kept for compatibility if needed, but emailVerified covers it)
-  verifiedAt    DateTime?
-  
-  // Timestamps
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  lastLoginAt   DateTime?
-  
-  // Relations
-  accounts      Account[]
-  sessions      Session[]
-  legalConsents LegalConsent[]
-  auditLogs     AuditLog[]
-  dataRequests  DataSubjectRequest[]
-  
-  @@index([email])
-  @@index([role])
-  @@map("users")
-}
-
-enum Role {
-  STUDENT
-  TEACHER
-  ADMIN
-}
-
-// ============================================
-// SISTEMA DE AUDITORÍA LEGAL
+// SISTEMA LEGAL Y CONSENTIMIENTO
 // ============================================
 
-=======
->>>>>>> 0b9cd84da5b64a962e72895d521f2202a01d4dda
 model LegalConsent {
   id     String @id @default(uuid())
   userId String
@@ -155,31 +98,19 @@ model LegalConsent {
   // Documento legal
   documentType    DocumentType
   documentVersion String
-<<<<<<< HEAD
-  documentHash    String   // SHA-256 del contenido
-  
-=======
   documentHash    String?
 
->>>>>>> 0b9cd84da5b64a962e72895d521f2202a01d4dda
   // Método de consentimiento
   consentMethod ConsentMethod
 
   // Evidencia (GDPR Art. 7)
-<<<<<<< HEAD
-  ipAddress       String
-  userAgent       String
-  geolocation     Json?    // {latitude, longitude, accuracy}
+  ipAddress        String?
+  userAgent        String?
+  geolocation      Json?    // {latitude, longitude, accuracy}
   screenResolution String?
-  language        String?
-  timezone        String?
-  
-=======
-  ipAddress   String?
-  userAgent   String?
-  geolocation Json?
+  language         String?
+  timezone         String?
 
->>>>>>> 0b9cd84da5b64a962e72895d521f2202a01d4dda
   // Metadata adicional
   metadata Json?
 
@@ -193,64 +124,6 @@ model LegalConsent {
   @@map("legal_consents")
 }
 
-enum Role {
-  SUPER_ADMIN
-  ADMIN
-  MODERATOR
-  SUPPORT
-  TEACHER
-  STUDENT
-  USER
-  COMPANY
-}
-
-enum DocumentType {
-  TERMS
-  PRIVACY
-  COOKIES
-  COPPA
-}
-
-enum ConsentMethod {
-  CHECKBOX
-  BUTTON_CLICK
-  SCROLL_COMPLETE
-}
-
-<<<<<<< HEAD
-// ============================================
-// AUDIT LOGS (Inmutable - Blockchain-style)
-// ============================================
-
-model AuditLog {
-  id            String   @id @default(uuid())
-  userId        String?
-  user          User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
-  
-  // Evento
-  eventType     String
-  eventCategory EventCategory
-  eventData     Json
-  
-  // Contexto
-  ipAddress     String?
-  userAgent     String?
-  sessionId     String?
-  
-  // Inmutabilidad (blockchain)
-  hash          String   // SHA-256 de este registro
-  previousHash  String?  // Hash del registro anterior
-  
-  // Metadata
-  metadata      Json?
-  
-  // Timestamp
-  createdAt     DateTime @default(now())
-  
-  @@index([userId])
-  @@index([eventType])
-  @@index([eventCategory])
-=======
 model CookieConsent {
   id            String   @id @default(cuid())
   userId        String?
@@ -265,46 +138,6 @@ model CookieConsent {
   @@index([acceptedAt])
   @@map("cookie_consents")
 }
-
-model AuditLog {
-  id          String   @id @default(cuid())
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  action      String   // "user.create", "course.update", "login.success"
-  entity      String   // "User", "Course", "Session"
-  entityId    String?
-  
-  changes     Json?    // Before/after values for updates
-  metadata    Json?    // Additional context
-  
-  ipAddress   String
-  userAgent   String   @db.Text
-  
-  result      String   // "success", "failure", "unauthorized"
-  errorMsg    String?  @db.Text
-  
-  createdAt   DateTime @default(now())
-
-  @@index([userId])
-  @@index([action])
-  @@index([entity])
->>>>>>> 0b9cd84da5b64a962e72895d521f2202a01d4dda
-  @@index([createdAt])
-  @@map("audit_logs")
-}
-
-<<<<<<< HEAD
-enum EventCategory {
-  LEGAL
-  SECURITY
-  DATA
-  TRANSACTION
-}
-
-// ============================================
-// DOCUMENTOS LEGALES (Versionado)
-// ============================================
 
 model LegalDocument {
   id              String    @id @default(uuid())
@@ -330,10 +163,6 @@ model LegalDocument {
   @@index([effectiveDate])
   @@map("legal_documents")
 }
-
-// ============================================
-// NOTIFICACIONES LEGALES
-// ============================================
 
 model LegalNotification {
   id              String   @id @default(uuid())
@@ -361,30 +190,6 @@ model LegalNotification {
   @@index([sentAt])
   @@map("legal_notifications")
 }
-
-enum NotificationType {
-  TERMS_UPDATE
-  PRIVACY_UPDATE
-  DATA_BREACH
-  ACCOUNT_DELETION
-}
-
-enum DeliveryMethod {
-  EMAIL
-  IN_APP
-  SMS
-}
-
-enum DeliveryStatus {
-  SENT
-  DELIVERED
-  READ
-  FAILED
-}
-
-// ============================================
-// SOLICITUDES DE DATOS (GDPR/ARCO)
-// ============================================
 
 model DataSubjectRequest {
   id                String   @id @default(uuid())
@@ -417,20 +222,49 @@ model DataSubjectRequest {
   @@map("data_subject_requests")
 }
 
-enum RequestType {
-  ACCESS        // Derecho de acceso
-  RECTIFICATION // Derecho de rectificación
-  DELETION      // Derecho al olvido
-  PORTABILITY   // Derecho de portabilidad
-  OBJECTION     // Derecho de oposición
+// ============================================
+// AUDITORÍA Y MÉTRICAS
+// ============================================
+
+model AuditLog {
+  id            String   @id @default(uuid())
+  userId        String?
+  user          User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  
+  // Evento
+  action        String?   // Legacy support ("user.create")
+  eventType     String?   // New structure
+  eventCategory EventCategory?
+  eventData     Json?
+  
+  // Contexto
+  entity        String?  // Legacy
+  entityId      String?  // Legacy
+  changes       Json?    // Legacy
+  result        String?  // Legacy
+  errorMsg      String?  // Legacy
+  
+  ipAddress     String?
+  userAgent     String?
+  sessionId     String?
+  
+  // Inmutabilidad (blockchain-style)
+  hash          String?
+  previousHash  String?
+  
+  // Metadata
+  metadata      Json?
+  
+  // Timestamp
+  createdAt     DateTime @default(now())
+  
+  @@index([userId])
+  @@index([eventType])
+  @@index([action])
+  @@index([createdAt])
+  @@map("audit_logs")
 }
 
-enum RequestStatus {
-  PENDING
-  IN_PROGRESS
-  COMPLETED
-  REJECTED
-=======
 model SystemMetric {
   id        String   @id @default(cuid())
   metric    String   // "api.response_time", "db.connections", "memory.usage"
@@ -442,5 +276,74 @@ model SystemMetric {
   @@index([metric])
   @@index([timestamp])
   @@map("system_metrics")
->>>>>>> 0b9cd84da5b64a962e72895d521f2202a01d4dda
+}
+
+// ============================================
+// ENUMS
+// ============================================
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  MODERATOR
+  SUPPORT
+  TEACHER
+  STUDENT
+  USER
+  COMPANY
+}
+
+enum DocumentType {
+  TERMS
+  PRIVACY
+  COOKIES
+  COPPA
+}
+
+enum ConsentMethod {
+  CHECKBOX
+  BUTTON_CLICK
+  SCROLL_COMPLETE
+}
+
+enum NotificationType {
+  TERMS_UPDATE
+  PRIVACY_UPDATE
+  DATA_BREACH
+  ACCOUNT_DELETION
+}
+
+enum DeliveryMethod {
+  EMAIL
+  IN_APP
+  SMS
+}
+
+enum DeliveryStatus {
+  SENT
+  DELIVERED
+  READ
+  FAILED
+}
+
+enum RequestType {
+  ACCESS
+  RECTIFICATION
+  DELETION
+  PORTABILITY
+  OBJECTION
+}
+
+enum RequestStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  REJECTED
+}
+
+enum EventCategory {
+  LEGAL
+  SECURITY
+  DATA
+  TRANSACTION
 }
