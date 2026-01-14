@@ -79,7 +79,7 @@ export const authOptions: NextAuthOptions = {
                         email: user.email,
                         deletedAt: user.deletedAt.toISOString()
                     });
-                    return null;
+                    throw new Error("Tu cuenta fue eliminada. Regístrate de nuevo para recuperarla.");
                 }
 
                 // Check if user is suspended
