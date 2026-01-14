@@ -44,19 +44,6 @@ export default function RegisterPage() {
         setLoading(true);
 
         try {
-<<<<<<< HEAD
-            const response = await fetch('/api/auth/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData),
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.error || 'Error al crear la cuenta');
-            }
-=======
             // Generate ReCAPTCHA Token
             const token = await executeRecaptcha('register');
 
@@ -66,17 +53,9 @@ export default function RegisterPage() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ ...formData, recaptchaToken: token }),
             });
->>>>>>> 0b9cd84da5b64a962e72895d521f2202a01d4dda
 
             const data = await response.json();
 
-<<<<<<< HEAD
-            // Redirect to login page to authenticate
-            window.location.href = '/auth/login';
-        } catch (error) {
-            const message = error instanceof Error ? error.message : 'Error al crear la cuenta. Por favor, intenta de nuevo.';
-            toast.error(message);
-=======
             if (!response.ok) {
                 throw new Error(data.error || 'Error al registrarse');
             }
@@ -87,10 +66,8 @@ export default function RegisterPage() {
             const emailParam = encodeURIComponent(formData.email);
             window.location.href = `/auth/check-email?email=${emailParam}`;
 
-
         } catch (error: any) {
             toast.error(error.message || 'Error al crear la cuenta. Por favor, intenta de nuevo.');
->>>>>>> 0b9cd84da5b64a962e72895d521f2202a01d4dda
             setLoading(false);
         }
     }, [formData, termsAccepted, privacyAccepted, executeRecaptcha]);
