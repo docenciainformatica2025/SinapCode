@@ -16,7 +16,7 @@ export async function POST(request: Request) {
         const { documentType, documentVersion, consentMethod, metadata, userId } = body;
 
         // Si hay sesión, usamos el ID de la sesión. Si no, esperamos el userId del body (flujo registro)
-        const effectiveUserId = session?.user?.id || userId;
+        const effectiveUserId = (session?.user as any)?.id || userId;
 
         if (!effectiveUserId) {
             return NextResponse.json({ error: 'User ID required' }, { status: 400 });
@@ -33,8 +33,8 @@ export async function POST(request: Request) {
                 documentType,
                 documentVersion,
                 consentMethod,
-                ipAddress: headersList.get('x-forwarded-for') || headersList.get('x-real-ip'),
-                userAgent: headersList.get('user-agent'),
+                ipAddress: headersList.get('x-forwarded-for') || headersList.get('x-real-ip') || undefined,
+                userAgent: headersList.get('user-agent') || undefined,
                 metadata,
                 acceptedAt: new Date()
             }
