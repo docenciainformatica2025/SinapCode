@@ -82,7 +82,7 @@ class SecureLogger {
                     action: logEntry.action || logEntry.event || 'unknown',
                     eventType: logEntry.level.toUpperCase(),
                     eventCategory: eventCategory,
-                    eventData: logEntry, // Guardamos todo el objeto saneado como JSON
+                    eventData: logEntry,
                     ipAddress: logEntry.ip,
                     userAgent: logEntry.userAgent,
                     metadata: {
@@ -92,9 +92,32 @@ class SecureLogger {
                     }
                 }
             });
-        } catch (error) {
-            // Fallback seguro: si falla la DB, al menos que quede en consola del servidor
-            console.error('⚠️ [SECURE LOGGER] Failed to save to DB:', error);
+        } catch (error: any) {
+            console.error('⚠️ [SECURE LOGGER] Failed to save to DB:', {
+                message: error.message,
+                code: error.code,
+                meta: error.meta,
+                name: error.name
+            });
+
+            // FALLBACK: Intentar guardar sin campos complejos (Enum/Relation) si falla
+            try {
+                const { prisma } = await import("@/lib/prisma");
+                await prisma.auditLog.create({
+                    data: {
+                        action: 'LOG_FALLBACK',
+                        eventType: 'ERROR',
+                        // Omitimos userId y eventCategory para aislar el error
+                        metadata: {
+                            originalError: error.message,
+                            originalData: JSON.stringify(logEntry)
+                        }
+                    }
+                });
+                console.log('✅ [SECURE LOGGER] Fallback log saved.');
+            } catch (fallbackError) {
+                console.error('❌ [SECURE LOGGER] Fallback completely failed.');
+            }
         }
     }
 
