@@ -25,24 +25,34 @@ export default function ProfilePage() {
         setIsLoading(true);
 
         try {
-            // Simulamos una actualización (Aquí iría la llamada API real)
-            // En NextAuth v5 con backend propio, esto enviaría los datos al backend
-            // y luego llamaría a update() para refrescar la sesión local.
+            // Llamar a la API para actualizar el perfil
+            const response = await fetch('/api/profile', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name }),
+            });
 
-            await new Promise(resolve => setTimeout(resolve, 1000)); // Fake delay
+            const data = await response.json();
 
-            // Actualizar sesión local (optimista)
+            if (!response.ok) {
+                throw new Error(data.error || 'Error al actualizar');
+            }
+
+            // Actualizar sesión local con los nuevos datos
             await update({
                 ...session,
                 user: {
                     ...session?.user,
-                    name: name
+                    name: data.user.name
                 }
             });
 
-            toast.success('Perfil actualizado correctamente');
-        } catch (error) {
-            toast.error('Error al actualizar el perfil');
+            toast.success('✅ Perfil actualizado correctamente');
+        } catch (error: any) {
+            console.error('Error updating profile:', error);
+            toast.error(error.message || 'Error al actualizar el perfil');
         } finally {
             setIsLoading(false);
         }

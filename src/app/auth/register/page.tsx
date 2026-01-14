@@ -36,22 +36,25 @@ export default function RegisterPage() {
         setLoading(true);
 
         try {
-            // TODO: Send to backend
-            // const response = await fetch('/api/auth/register', {
-            //     method: 'POST',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     body: JSON.stringify(formData),
-            // });
+            const response = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
+            });
 
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Error al crear la cuenta');
+            }
 
             toast.success('¡Cuenta creada exitosamente! 🎉');
 
-            // Redirect to dashboard
-            window.location.href = '/dashboard';
+            // Redirect to login page to authenticate
+            window.location.href = '/auth/login';
         } catch (error) {
-            toast.error('Error al crear la cuenta. Por favor, intenta de nuevo.');
+            const message = error instanceof Error ? error.message : 'Error al crear la cuenta. Por favor, intenta de nuevo.';
+            toast.error(message);
             setLoading(false);
         }
     }, [formData, termsAccepted, privacyAccepted]);
