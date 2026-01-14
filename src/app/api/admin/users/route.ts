@@ -28,8 +28,9 @@ export async function GET() {
             );
         }
 
-        // Obtener todos los usuarios
+        // Obtener todos los usuarios (excluyendo eliminados)
         const users = await prisma.user.findMany({
+            where: { deletedAt: null },
             select: {
                 id: true,
                 name: true,
