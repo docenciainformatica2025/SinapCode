@@ -119,6 +119,11 @@ export async function GET(
 
     } catch (error: any) {
         console.error('Error generating legal certificate:', error);
-        return NextResponse.json({ error: 'Error interno al generar certificado' }, { status: 500 });
+        return NextResponse.json({
+            error: 'Error interno al generar certificado',
+            details: error.message,
+            stack: error.stack,
+            debug_info: 'Check server logs for PDFKit issues'
+        }, { status: 500 });
     }
 }
