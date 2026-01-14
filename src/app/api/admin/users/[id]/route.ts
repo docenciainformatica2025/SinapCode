@@ -58,6 +58,7 @@ export async function PUT(
     request: Request,
     { params }: { params: { id: string } }
 ) {
+    // FORCE-REDEPLOY: Fix Ghost 404 on Vercel v2
     try {
         const session = await getServerSession(authOptions);
 
