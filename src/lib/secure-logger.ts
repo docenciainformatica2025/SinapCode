@@ -4,6 +4,7 @@
 // Este archivo proporciona logging seguro sin exponer datos sensibles
 
 import { headers } from 'next/headers';
+import { EventCategory } from '@prisma/client';
 
 type LogLevel = 'info' | 'warn' | 'error' | 'security';
 
@@ -71,10 +72,10 @@ class SecureLogger {
             // Importación dinámica para evitar problemas de inicialización
             const { prisma } = await import("@/lib/prisma");
 
-            // Mapeo básico de categorías
-            let eventCategory: 'SECURITY' | 'LEGAL' | 'DATA' | 'TRANSACTION' = 'SECURITY';
-            if (logEntry.message.includes('ADMIN_ACTION')) eventCategory = 'DATA';
-            if (logEntry.message.includes('LEGAL')) eventCategory = 'LEGAL';
+            // Mapeo básico de categorías usando el ENUM real de Prisma
+            let eventCategory: EventCategory = EventCategory.SECURITY;
+            if (logEntry.message.includes('ADMIN_ACTION')) eventCategory = EventCategory.DATA;
+            if (logEntry.message.includes('LEGAL')) eventCategory = EventCategory.LEGAL;
 
             await prisma.auditLog.create({
                 data: {
@@ -95,19 +96,19 @@ class SecureLogger {
         } catch (error: any) {
             console.error('⚠️ [SECURE LOGGER] Failed to save to DB:', {
                 message: error.message,
-                code: error.code,
-                meta: error.meta,
-                name: error.name
+                code: error.code
             });
 
-            // FALLBACK: Intentar guardar sin campos complejos (Enum/Relation) si falla
+            // FALLBACK: Intentar guardar sin campos complejos
             try {
                 const { prisma } = await import("@/lib/prisma");
                 await prisma.auditLog.create({
                     data: {
                         action: 'LOG_FALLBACK',
                         eventType: 'ERROR',
-                        // Omitimos userId y eventCategory para aislar el error
+                        // Usamos un valor seguro para el enum en fallback si es necesario, 
+                        // o lo omitimos si es opcional. Supongamos que es opcional o SECURITY por defecto.
+                        eventCategory: EventCategory.SECURITY,
                         metadata: {
                             originalError: error.message,
                             originalData: JSON.stringify(logEntry)
