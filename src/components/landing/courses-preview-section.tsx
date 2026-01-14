@@ -11,7 +11,7 @@ export function CoursesPreviewSection() {
             level: 'Principiante',
             duration: '12h',
             students: '2.4K',
-            image: 'https://images.unsplash.com/photo-1526379095098-d400fdbfbf08?auto=format&fit=crop&q=80',
+            image: 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&q=80',
             tags: ['IA', 'Pandas', 'NumPy'],
         },
         {

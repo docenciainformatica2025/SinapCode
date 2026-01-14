@@ -1,10 +1,13 @@
 {
   "pages": {
+<<<<<<< HEAD
     "/error": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/error.js"
     ],
+=======
+>>>>>>> 0b9cd84da5b64a962e72895d521f2202a01d4dda
     "/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -21,11 +24,20 @@
       "static/chunks/main-app.js",
       "static/chunks/app/not-found.js"
     ],
+<<<<<<< HEAD
+=======
+    "/error": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/error.js"
+    ],
+>>>>>>> 0b9cd84da5b64a962e72895d521f2202a01d4dda
     "/auth/login/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/auth/login/page.js"
     ],
+<<<<<<< HEAD
     "/auth/register/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -40,6 +52,27 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/admin/layout.js"
+=======
+    "/profile/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/profile/page.js"
+    ],
+    "/courses/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/courses/page.js"
+    ],
+    "/profesores/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/profesores/page.js"
+    ],
+    "/empresas/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/empresas/page.js"
+>>>>>>> 0b9cd84da5b64a962e72895d521f2202a01d4dda
     ]
   }
 }

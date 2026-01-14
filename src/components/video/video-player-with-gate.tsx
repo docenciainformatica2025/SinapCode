@@ -36,14 +36,14 @@ export function VideoPlayerWithGate({ videoUrl, courseSlug, lessonId }: VideoPla
     }, [videoElement, isGuest]);
 
     return (
-        <div className="relative">
+        <div className="relative" role="region" aria-label="Reproductor de video">
             {/* Video Player */}
             <video
                 ref={setVideoElement}
                 src={videoUrl}
                 controls
                 className="w-full rounded-xl"
-                poster="https://images.unsplash.com/photo-1526379095098-d400fdbfbf08?auto=format&fit=crop&q=80"
+                poster="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&q=80"
             >
                 Tu navegador no soporta video HTML5.
             </video>

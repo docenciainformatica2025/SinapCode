@@ -10,6 +10,9 @@ export function GlobalNavbar() {
     const { data: session } = useSession();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+    const userRole = (session?.user as any)?.role;
+    const isAdmin = userRole === 'ADMIN';
+
     return (
         <nav className="sticky top-0 z-50 w-full glass-panel border-b border-white/10 px-6 py-3">
             <div className="flex items-center justify-between">
@@ -19,11 +22,33 @@ export function GlobalNavbar() {
                         SinapCode
                     </Link>
 
-                    {/* Desktop Links - Always visible or conditional? Keeping visible for exploration */}
+                    {/* Desktop Links - Role Based */}
                     <div className="hidden md:flex gap-6 text-sm font-medium text-platinum-dim">
-                        <Link href="/courses" className="hover:text-white transition">Cursos</Link>
-                        <Link href="/profesores" className="hover:text-white transition">Profesores</Link>
-                        <Link href="/empresas" className="hover:text-white transition">Empresas</Link>
+                        {session ? (
+                            // Logged in users
+                            isAdmin ? (
+                                // Admin navigation
+                                <>
+                                    <Link href="/admin" className="hover:text-white transition">📊 Admin</Link>
+                                    <Link href="/admin/users" className="hover:text-white transition">👥 Usuarios</Link>
+                                    <Link href="/admin/audit" className="hover:text-white transition">📈 Auditoría</Link>
+                                </>
+                            ) : (
+                                // Student/Teacher navigation
+                                <>
+                                    <Link href="/dashboard" className="hover:text-white transition">📚 Mi Dashboard</Link>
+                                    <Link href="/courses" className="hover:text-white transition">🎓 Cursos</Link>
+                                    <Link href="/profile" className="hover:text-white transition">👤 Mi Perfil</Link>
+                                </>
+                            )
+                        ) : (
+                            // Public navigation
+                            <>
+                                <Link href="/courses" className="hover:text-white transition">Cursos</Link>
+                                <Link href="/profesores" className="hover:text-white transition">Profesores</Link>
+                                <Link href="/empresas" className="hover:text-white transition">Empresas</Link>
+                            </>
+                        )}
                     </div>
                 </div>
 
@@ -43,8 +68,12 @@ export function GlobalNavbar() {
                                 <UserGamificatonStats />
                             </div>
 
-                            <Link href="/profile" className="hidden sm:block">
-                                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 border border-white/20 cursor-pointer hover:scale-105 transition" />
+                            <Link href="/profile" className="hidden sm:block" aria-label="Ver perfil">
+                                <div
+                                    className="w-8 h-8 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 border border-white/20 cursor-pointer hover:scale-105 transition"
+                                    role="img"
+                                    aria-label="Foto de perfil"
+                                />
                             </Link>
                         </>
                     ) : (
@@ -63,6 +92,8 @@ export function GlobalNavbar() {
                     <button
                         className="md:hidden text-white p-2"
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                        aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+                        aria-expanded={isMobileMenuOpen}
                     >
                         {isMobileMenuOpen ? '✕' : '☰'}
                     </button>

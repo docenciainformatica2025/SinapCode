@@ -1,7 +1,5 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { prisma } from "@/lib/prisma";
-import bcrypt from "bcryptjs";
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -14,19 +12,25 @@ export const authOptions: NextAuthOptions = {
             async authorize(credentials) {
                 if (!credentials?.email || !credentials?.password) return null;
 
+                const { prisma } = await import("@/lib/prisma");
+                const { compare } = await import("bcryptjs");
+
                 const user = await prisma.user.findUnique({
-                    where: {
-                        email: credentials.email
-                    }
+                    where: { email: credentials.email }
                 });
 
                 if (!user || !user.password) {
                     return null;
                 }
 
-                const isValid = await bcrypt.compare(credentials.password, user.password);
+                // WORLD CLASS SECURITY: Double Opt-In Enforcement
+                if (!user.emailVerified) {
+                    throw new Error("Por favor verifica tu correo electrónico para iniciar sesión");
+                }
 
-                if (!isValid) {
+                const isPasswordValid = await compare(credentials.password, user.password);
+
+                if (!isPasswordValid) {
                     return null;
                 }
 

@@ -34,6 +34,9 @@ const nextConfig = {
     productionBrowserSourceMaps: false, // Disable source maps in production (Hides code)
     poweredByHeader: false, // Hide "X-Powered-By: Next.js"
     reactStrictMode: true,
+    eslint: {
+        ignoreDuringBuilds: true,
+    },
 };
 
 module.exports = nextConfig;

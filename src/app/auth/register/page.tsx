@@ -3,18 +3,21 @@
 import { useState, useCallback } from 'react';
 import Link from 'next/link';
 import { toast } from 'sonner';
+import { signIn } from 'next-auth/react'; // Import signIn for auto-login
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { AgeVerificationField } from '@/components/auth/age-verification-field';
 import { ConsentCheckbox } from '@/components/legal/consent-checkbox';
 import { PasswordStrengthMeter } from '@/components/auth/password-strength-meter';
-
+import { RoleSelector } from '@/components/auth/role-selector';
 
 export default function RegisterPage() {
+    const { executeRecaptcha } = useGoogleReCaptcha();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         password: '',
         birthDate: '',
-        guardianEmail: '',
+        role: 'STUDENT', // Default role
     });
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
@@ -33,9 +36,15 @@ export default function RegisterPage() {
             return;
         }
 
+        if (!executeRecaptcha) {
+            toast.error('Error de seguridad: ReCAPTCHA no disponible. Intenta recargar.');
+            return;
+        }
+
         setLoading(true);
 
         try {
+<<<<<<< HEAD
             const response = await fetch('/api/auth/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -47,17 +56,44 @@ export default function RegisterPage() {
             if (!response.ok) {
                 throw new Error(data.error || 'Error al crear la cuenta');
             }
+=======
+            // Generate ReCAPTCHA Token
+            const token = await executeRecaptcha('register');
 
-            toast.success('¡Cuenta creada exitosamente! 🎉');
+            // Real API Call
+            const response = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ...formData, recaptchaToken: token }),
+            });
+>>>>>>> 0b9cd84da5b64a962e72895d521f2202a01d4dda
 
+            const data = await response.json();
+
+<<<<<<< HEAD
             // Redirect to login page to authenticate
             window.location.href = '/auth/login';
         } catch (error) {
             const message = error instanceof Error ? error.message : 'Error al crear la cuenta. Por favor, intenta de nuevo.';
             toast.error(message);
+=======
+            if (!response.ok) {
+                throw new Error(data.error || 'Error al registrarse');
+            }
+
+            toast.success('¡Cuenta creada exitosamente!');
+
+            // Redirect to check-email page with email parameter
+            const emailParam = encodeURIComponent(formData.email);
+            window.location.href = `/auth/check-email?email=${emailParam}`;
+
+
+        } catch (error: any) {
+            toast.error(error.message || 'Error al crear la cuenta. Por favor, intenta de nuevo.');
+>>>>>>> 0b9cd84da5b64a962e72895d521f2202a01d4dda
             setLoading(false);
         }
-    }, [formData, termsAccepted, privacyAccepted]);
+    }, [formData, termsAccepted, privacyAccepted, executeRecaptcha]);
 
     return (
         <div className="min-h-screen bg-deep-space flex items-center justify-center p-4 relative overflow-hidden">
@@ -65,7 +101,7 @@ export default function RegisterPage() {
             <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-neural-blue/20 rounded-full blur-[120px]" />
             <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-synapse-purple/20 rounded-full blur-[120px]" />
 
-            <div className="w-full max-w-md glass-panel p-6 sm:p-8 rounded-2xl border border-white/10 shadow-2xl relative z-10">
+            <div className="w-full max-w-md glass-panel p-6 sm:p-8 rounded-2xl border border-white/10 shadow-2xl relative z-10 my-8">
                 <div className="text-center mb-8">
                     <Link href="/" className="text-3xl font-bold bg-brain-spark bg-clip-text text-transparent inline-block mb-2">
                         SinapCode
@@ -74,11 +110,23 @@ export default function RegisterPage() {
                         Crea tu Cuenta
                     </h1>
                     <p className="text-[#B8BFC9] text-sm">
-                        Empieza a aprender gratis hoy
+                        Únete a la plataforma de aprendizaje del futuro
                     </p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-5">
+
+                    {/* Role Selector */}
+                    <div className="mb-4">
+                        <label className="block text-xs font-semibold text-platinum uppercase tracking-wider mb-3 text-center">
+                            ¿Cómo quieres participar?
+                        </label>
+                        <RoleSelector
+                            selectedRole={formData.role}
+                            onSelect={(role) => setFormData({ ...formData, role })}
+                        />
+                    </div>
+
                     {/* Name */}
                     <div>
                         <label htmlFor="name" className="block text-xs font-semibold text-platinum uppercase tracking-wider mb-2">
@@ -179,9 +227,6 @@ export default function RegisterPage() {
                         </p>
                     </div>
 
-                    {/* reCAPTCHA Badge Info */}
-
-
                     {/* Submit Button */}
                     <button
                         type="submit"
@@ -204,10 +249,6 @@ export default function RegisterPage() {
                         )}
                     </button>
 
-                    {/* Social Login Removed for Stabilization */}
-                    {/* <div className="space-y-3">...</div> */}
-
-                    {/* Login Link */}
                     <div className="text-center text-sm text-[#B8BFC9]">
                         ¿Ya tienes cuenta?{' '}
                         <Link href="/auth/login" className="text-neural-blue hover:text-white transition font-medium">

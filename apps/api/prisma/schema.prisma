@@ -1,0 +1,322 @@
+// This is your Prisma schema file
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// USUARIOS
+// ============================================
+
+// ============================================
+// NEXTAUTH ADAPTER MODELS
+// ============================================
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String? @db.Text
+  access_token       String? @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String? @db.Text
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ============================================
+// USUARIOS
+// ============================================
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  name          String?
+  password      String?   // Optional because OAuth users might not have password
+  emailVerified DateTime? // Standard NextAuth field
+  image         String?
+  role          Role      @default(STUDENT)
+  
+  // Age verification (COPPA compliance)
+  birthDate     DateTime?
+  isMinor       Boolean   @default(false)
+  guardianEmail String?
+  
+  // Custom Verification (Legacy kept for compatibility if needed, but emailVerified covers it)
+  verifiedAt    DateTime?
+  
+  // Timestamps
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  lastLoginAt   DateTime?
+  
+  // Relations
+  accounts      Account[]
+  sessions      Session[]
+  legalConsents LegalConsent[]
+  auditLogs     AuditLog[]
+  dataRequests  DataSubjectRequest[]
+  
+  @@index([email])
+  @@index([role])
+  @@map("users")
+}
+
+enum Role {
+  STUDENT
+  TEACHER
+  ADMIN
+}
+
+// ============================================
+// SISTEMA DE AUDITORÍA LEGAL
+// ============================================
+
+model LegalConsent {
+  id              String   @id @default(uuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Documento legal
+  documentType    DocumentType
+  documentVersion String
+  documentHash    String   // SHA-256 del contenido
+  
+  // Método de consentimiento
+  consentMethod   ConsentMethod
+  
+  // Evidencia (GDPR Art. 7)
+  ipAddress       String
+  userAgent       String
+  geolocation     Json?    // {latitude, longitude, accuracy}
+  screenResolution String?
+  language        String?
+  timezone        String?
+  
+  // Metadata adicional
+  metadata        Json?
+  
+  // Timestamp
+  acceptedAt      DateTime @default(now())
+  
+  @@unique([userId, documentType, documentVersion])
+  @@index([userId])
+  @@index([documentType])
+  @@index([acceptedAt])
+  @@map("legal_consents")
+}
+
+enum DocumentType {
+  TERMS
+  PRIVACY
+  COOKIES
+  COPPA
+}
+
+enum ConsentMethod {
+  CHECKBOX
+  BUTTON_CLICK
+  SCROLL_COMPLETE
+}
+
+// ============================================
+// AUDIT LOGS (Inmutable - Blockchain-style)
+// ============================================
+
+model AuditLog {
+  id            String   @id @default(uuid())
+  userId        String?
+  user          User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  
+  // Evento
+  eventType     String
+  eventCategory EventCategory
+  eventData     Json
+  
+  // Contexto
+  ipAddress     String?
+  userAgent     String?
+  sessionId     String?
+  
+  // Inmutabilidad (blockchain)
+  hash          String   // SHA-256 de este registro
+  previousHash  String?  // Hash del registro anterior
+  
+  // Metadata
+  metadata      Json?
+  
+  // Timestamp
+  createdAt     DateTime @default(now())
+  
+  @@index([userId])
+  @@index([eventType])
+  @@index([eventCategory])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+enum EventCategory {
+  LEGAL
+  SECURITY
+  DATA
+  TRANSACTION
+}
+
+// ============================================
+// DOCUMENTOS LEGALES (Versionado)
+// ============================================
+
+model LegalDocument {
+  id              String    @id @default(uuid())
+  documentType    DocumentType
+  version         String
+  content         String    @db.Text
+  contentHash     String    // SHA-256
+  
+  // Vigencia
+  effectiveDate   DateTime
+  deprecatedDate  DateTime?
+  
+  // Metadata
+  changesSummary  String?   @db.Text
+  metadata        Json?
+  
+  // Auditoría
+  createdBy       String?
+  createdAt       DateTime  @default(now())
+  
+  @@unique([documentType, version])
+  @@index([documentType])
+  @@index([effectiveDate])
+  @@map("legal_documents")
+}
+
+// ============================================
+// NOTIFICACIONES LEGALES
+// ============================================
+
+model LegalNotification {
+  id              String   @id @default(uuid())
+  userId          String
+  
+  // Tipo de notificación
+  notificationType NotificationType
+  documentVersion  String?
+  
+  // Entrega
+  deliveryMethod   DeliveryMethod
+  deliveryStatus   DeliveryStatus
+  sentAt           DateTime @default(now())
+  readAt           DateTime?
+  
+  // Evidencia
+  emailId          String?  // ID de SendGrid/SES
+  trackingData     Json?
+  
+  // Metadata
+  metadata         Json?
+  
+  @@index([userId])
+  @@index([notificationType])
+  @@index([sentAt])
+  @@map("legal_notifications")
+}
+
+enum NotificationType {
+  TERMS_UPDATE
+  PRIVACY_UPDATE
+  DATA_BREACH
+  ACCOUNT_DELETION
+}
+
+enum DeliveryMethod {
+  EMAIL
+  IN_APP
+  SMS
+}
+
+enum DeliveryStatus {
+  SENT
+  DELIVERED
+  READ
+  FAILED
+}
+
+// ============================================
+// SOLICITUDES DE DATOS (GDPR/ARCO)
+// ============================================
+
+model DataSubjectRequest {
+  id                String   @id @default(uuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Tipo de solicitud
+  requestType       RequestType
+  status            RequestStatus
+  
+  // Datos
+  requestData       Json?
+  responseData      Json?
+  
+  // Verificación
+  verificationMethod String?
+  
+  // Compliance
+  requestedAt       DateTime @default(now())
+  completedAt       DateTime?
+  responseDeadline  DateTime // 30 días GDPR
+  
+  // Metadata
+  metadata          Json?
+  
+  @@index([userId])
+  @@index([requestType])
+  @@index([status])
+  @@index([requestedAt])
+  @@map("data_subject_requests")
+}
+
+enum RequestType {
+  ACCESS        // Derecho de acceso
+  RECTIFICATION // Derecho de rectificación
+  DELETION      // Derecho al olvido
+  PORTABILITY   // Derecho de portabilidad
+  OBJECTION     // Derecho de oposición
+}
+
+enum RequestStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  REJECTED
+}

@@ -40,7 +40,7 @@ export default function DashboardPage() {
         {
             slug: 'python-data-science',
             title: 'Python para Data Science',
-            thumbnail: 'https://images.unsplash.com/photo-1526379095098-d400fdbfbf08?auto=format&fit=crop&q=80',
+            thumbnail: 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&q=80',
             progress: 65,
             nextLesson: 'Lección 8: Pandas',
             timeRemaining: '4h 30m',
