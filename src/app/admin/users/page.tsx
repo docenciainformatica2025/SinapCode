@@ -134,8 +134,76 @@ export default function UsersPage() {
                         </div>
                     </div>
 
-                    {/* Users Table */}
-                    <div className="glass-panel rounded-xl overflow-hidden border border-white/10">
+                    {/* Mobile Card View */}
+                    <div className="md:hidden space-y-4">
+                        {filteredUsers.length === 0 ? (
+                            <div className="glass-panel p-6 text-center text-platinum-dim rounded-xl">
+                                No hay usuarios encontrados
+                            </div>
+                        ) : (
+                            filteredUsers.map((user) => (
+                                <motion.div
+                                    key={user.id}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="glass-panel p-4 rounded-xl border border-white/10 space-y-4"
+                                >
+                                    <div className="flex justify-between items-start">
+                                        <div>
+                                            <div className="text-white font-bold text-lg">{user.name}</div>
+                                            <div className="text-sm text-platinum-dim">{user.email}</div>
+                                        </div>
+                                        <div className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider ${user.role === 'ADMIN' || user.role === 'SUPER_ADMIN' ? 'bg-rose-500/20 text-rose-400' :
+                                            user.role === 'TEACHER' ? 'bg-purple-500/20 text-purple-400' :
+                                                'bg-blue-500/20 text-blue-400'
+                                            }`}>
+                                            {user.role}
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-center justify-between text-xs text-platinum-dim border-t border-white/5 pt-3">
+                                        <div className="flex items-center gap-2">
+                                            <span className={`w-2 h-2 rounded-full ${user.status === 'active' ? 'bg-emerald-400' :
+                                                user.status === 'suspended' ? 'bg-rose-400' :
+                                                    'bg-amber-400'
+                                                }`} />
+                                            <span className="capitalize">{user.status}</span>
+                                        </div>
+                                        <div>
+                                            {user.lastLogin}
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-3 gap-2 pt-2">
+                                        <button
+                                            onClick={() => setEditingUser(user)}
+                                            className="px-3 py-2 bg-neural-blue/20 hover:bg-neural-blue/30 text-neural-blue rounded-lg text-xs font-bold transition flex justify-center"
+                                        >
+                                            Editar
+                                        </button>
+                                        <button
+                                            onClick={() => handleSuspendUser(user)}
+                                            className={`px-3 py-2 rounded-lg text-xs font-bold transition flex justify-center ${user.status === 'suspended'
+                                                ? 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400'
+                                                : 'bg-amber-500/20 hover:bg-amber-500/30 text-amber-400'
+                                                }`}
+                                        >
+                                            {user.status === 'suspended' ? 'Activar' : 'Suspend'}
+                                        </button>
+                                        <button
+                                            onClick={() => setDeletingUser(user)}
+                                            className="px-3 py-2 bg-rose-500/20 hover:bg-rose-500/30 text-rose-400 rounded-lg text-xs font-bold transition flex justify-center"
+                                        >
+                                            Eliminar
+                                        </button>
+                                    </div>
+                                </motion.div>
+                            ))
+                        )}
+                    </div>
+
+                    {/* Desktop Table View */}
+                    <div className="hidden md:block glass-panel rounded-xl overflow-hidden border border-white/10">
                         <div className="overflow-x-auto">
                             <table className="w-full">
                                 <thead className="bg-white/5 border-b border-white/10">
