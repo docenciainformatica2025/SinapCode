@@ -14,7 +14,8 @@ import {
     Settings,
     LogOut,
     ChevronRight,
-    Zap
+    Zap,
+    Database
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -63,6 +64,11 @@ const navigation: NavItem[] = [
         name: 'System Health',
         href: '/admin/health',
         icon: Activity,
+    },
+    {
+        name: 'Diagnóstico DB',
+        href: '/admin/debug',
+        icon: Database,
     },
     {
         name: 'Seguridad',
