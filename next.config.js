@@ -3,7 +3,7 @@ const nextConfig = {
     async rewrites() {
         return [
             {
-                source: '/api/:path((?!auth).*)',
+                source: '/api/:path((?!auth|admin).*)',
                 destination: `${process.env.BACKEND_API_URL || 'http://localhost:3005'}/api/:path*`, // Proxy to Backend
             },
         ];
