@@ -193,6 +193,8 @@ export async function PUT(
         return NextResponse.json({
             success: true,
             user: updatedUser
+        }, {
+            headers: { 'X-Debug-Admin-Put': 'true' }
         });
 
     } catch (error: any) {
@@ -202,11 +204,16 @@ export async function PUT(
             return NextResponse.json({ error: 'El email ya está en uso' }, { status: 400 });
         }
 
-        // Retornar detalles del error (solo para debugging, remover en prod estricta)
+        // DEBUG MODE: FORCE RETURN ERROR DETAILS
         return NextResponse.json({
             error: 'Error interno del servidor al actualizar usuario',
-            details: process.env.NODE_ENV === 'development' ? error.message : undefined
-        }, { status: 500 });
+            debug_message: error.message,
+            debug_code: error.code,
+            debug_stack: error.stack
+        }, {
+            status: 500,
+            headers: { 'X-Debug-Admin-Put': 'true' }
+        });
     }
 }
 
