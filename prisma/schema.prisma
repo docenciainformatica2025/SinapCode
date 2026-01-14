@@ -37,6 +37,16 @@ model User {
   isMinor       Boolean   @default(false)
   guardianEmail String?
   
+  // Soft delete (GDPR/Ley 1581 compliance)
+  deletedAt     DateTime?
+  deletedBy     String?   // userId del admin que eliminó
+  deletionReason String?  @db.Text
+  
+  // Suspension tracking (Legal compliance)
+  suspendedAt   DateTime?
+  suspendedBy   String?   // userId del admin que suspendió
+  suspensionReason String? @db.Text
+  
   // Timestamps
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
