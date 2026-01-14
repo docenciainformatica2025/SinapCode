@@ -12,18 +12,29 @@ datasource db {
 }
 
 model User {
-  id            String         @id @default(cuid())
-  name          String?
-  email         String         @unique
-  emailVerified DateTime?
-  image         String?
-  password      String?
-  role          Role           @default(STUDENT)
-  accounts      Account[]
-  sessions      Session[]
-  legalConsents LegalConsent[]
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
+  id               String         @id @default(cuid())
+  name             String?
+  email            String         @unique
+  emailVerified    DateTime?
+  image            String?
+  password         String?
+  role             Role           @default(STUDENT)
+  
+  // Security fields
+  mfaEnabled       Boolean        @default(false)
+  mfaSecret        String?
+  lastLoginAt      DateTime?
+  lastLoginIp      String?
+  failedLoginCount Int            @default(0)
+  lockedUntil      DateTime?
+  
+  accounts         Account[]
+  sessions         Session[]
+  legalConsents    LegalConsent[]
+  auditLogs        AuditLog[]
+  
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
 }
 
 model Account {
@@ -93,10 +104,13 @@ model LegalConsent {
 }
 
 enum Role {
-  USER
-  STUDENT
-  TEACHER
+  SUPER_ADMIN
   ADMIN
+  MODERATOR
+  SUPPORT
+  TEACHER
+  STUDENT
+  USER
   COMPANY
 }
 
@@ -126,4 +140,44 @@ model CookieConsent {
   @@index([userId])
   @@index([acceptedAt])
   @@map("cookie_consents")
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  action      String   // "user.create", "course.update", "login.success"
+  entity      String   // "User", "Course", "Session"
+  entityId    String?
+  
+  changes     Json?    // Before/after values for updates
+  metadata    Json?    // Additional context
+  
+  ipAddress   String
+  userAgent   String   @db.Text
+  
+  result      String   // "success", "failure", "unauthorized"
+  errorMsg    String?  @db.Text
+  
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+  @@index([action])
+  @@index([entity])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+model SystemMetric {
+  id        String   @id @default(cuid())
+  metric    String   // "api.response_time", "db.connections", "memory.usage"
+  value     Float
+  unit      String   // "ms", "count", "%", "bytes"
+  tags      Json?    // {"endpoint": "/api/users", "method": "GET"}
+  timestamp DateTime @default(now())
+
+  @@index([metric])
+  @@index([timestamp])
+  @@map("system_metrics")
 }
