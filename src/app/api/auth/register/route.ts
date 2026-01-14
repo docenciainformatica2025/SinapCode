@@ -93,6 +93,43 @@ export async function POST(req: Request) {
             }
         });
 
+        // 5. Legal Compliance: Record Consent
+        try {
+            const ip = req.headers.get('x-forwarded-for') || 'unknown';
+            const userAgent = req.headers.get('user-agent') || 'unknown';
+            const consentData = {
+                userId: newUser.id,
+                consentMethod: 'CHECKBOX' as const, // validated by frontend checkbox
+                ipAddress: ip,
+                userAgent: userAgent,
+                acceptedAt: new Date(),
+            };
+
+            await prisma.legalConsent.createMany({
+                data: [
+                    {
+                        ...consentData,
+                        documentType: 'TERMS',
+                        documentVersion: '1.0', // TODO: Fetch from LegalDocument table in future
+                        documentHash: null,
+                    },
+                    {
+                        ...consentData,
+                        documentType: 'PRIVACY',
+                        documentVersion: '1.0',
+                        documentHash: null,
+                    }
+                ]
+            });
+        } catch (legalError) {
+            console.error('CRITICAL: Failed to record legal consent:', legalError);
+            // We do not fail the registration, but we must log this severe compliance issue.
+            await secureLogger.security('COMPLIANCE_FAILURE', {
+                userId: newUser.id,
+                error: String(legalError)
+            });
+        }
+
         // 5. Log Success
         await secureLogger.authEvent('login_attempt', { // Technically 'register_success', using closest event
             userId: newUser.id,
