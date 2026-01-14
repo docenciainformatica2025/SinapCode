@@ -7,10 +7,14 @@ import { VerifiedBadge } from '@/components/badges/verified-badge';
 import { MetricCard } from '@/components/admin/metric-card';
 import { SystemStatus } from '@/components/admin/system-status';
 import { AlertsPanel } from '@/components/admin/alerts-panel';
+import { Breadcrumbs } from '@/components/admin/breadcrumbs';
+import { QuickActions } from '@/components/admin/quick-actions';
 
 export default function AdminPage() {
     return (
         <div className="space-y-8">
+            {/* Breadcrumbs */}
+            <Breadcrumbs />
             {/* Header */}
             <div className="flex justify-between items-end border-b border-white/10 pb-6">
                 <div>
@@ -29,6 +33,9 @@ export default function AdminPage() {
                     </button>
                 </div>
             </div>
+
+            {/* Quick Actions */}
+            <QuickActions />
 
             {/* Financial KPIs */}
             <div>
