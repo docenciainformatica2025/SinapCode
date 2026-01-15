@@ -197,9 +197,8 @@ export async function GET(
             50, disY, { align: 'center', width: 512 }
         );
 
-        // Fake Hash
         const fingerprint = certCode.split('').reverse().join('') + 'E3B0C44298FC1C149AFBF4C8996FB92';
-        doc.text(`Digital Fingerprint (SHA256): ${fingerprint.substring(0, 64)}...`, 50, disY + 30, { align: 'center', color: COLOR_GOLD });
+        doc.fillColor(COLOR_GOLD).text(`Digital Fingerprint (SHA256): ${fingerprint.substring(0, 64)}...`, 50, disY + 30, { align: 'center' });
 
         // Seal (Right side) - Mimicking reference (Optional but good)
         const sealX = 500;
