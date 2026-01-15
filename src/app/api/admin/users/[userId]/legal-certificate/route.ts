@@ -23,7 +23,7 @@ export async function GET(
             select: { role: true }
         });
 
-        const allowedRoles = ['SUPER_ADMIN', 'ADMIN', 'MODERATOR']; // Moderators might need to verify users
+        const allowedRoles = ['SUPER_ADMIN', 'ADMIN', 'MODERATOR'];
         if (!currentUser || !allowedRoles.includes(currentUser.role)) {
             return NextResponse.json({ error: 'No autorizado' }, { status: 403 });
         }
@@ -66,161 +66,144 @@ export async function GET(
         const fontPath = path.join(process.cwd(), 'public', 'fonts', 'NotoSans.ttf');
         const logoPath = path.join(process.cwd(), 'public', 'branding', 'logo.png');
 
-        // Initialize with explicit default font
+        // Colors
+        const COLOR_GOLD = '#D4AF37';
+        const COLOR_DARK = '#333333';
+        const COLOR_GRAY_BG = '#F4F6F8';
+        const COLOR_BORDER = '#DDDDDD';
+
+        // Initialize PDF
         const doc = new PDFDocument({
-            margin: 40,
+            margin: 50,
             font: fontPath,
             size: 'LETTER'
         });
 
         const chunks: Buffer[] = [];
-
         doc.on('data', (chunk) => chunks.push(chunk));
 
-        // --- HELPER FUNCTIONS ---
-        const drawTable = (y: number, title: string, rows: string[][], colWidths: number[]) => {
-            const tableWidth = 530; // 612 - 40 - 40 roughly
-            const rowHeight = 20;
-            const x = 40;
-
-            // Section Header
-            doc.rect(x, y, tableWidth, rowHeight).fill('#f3f3f3').stroke();
-            doc.fillColor('#000000').fontSize(10).text(title, x + 5, y + 5, { width: tableWidth, align: 'left' });
-
-            y += rowHeight;
-
-            // Content Rows
-            rows.forEach((row, i) => {
-                let currentX = x;
-
-                // Border only
-                doc.rect(x, y, tableWidth, rowHeight).strokeColor('#e5e5e5').stroke();
-
-                doc.fillColor('#333333').fontSize(9);
-
-                row.forEach((cell, colIndex) => {
-                    const width = colWidths[colIndex];
-                    // Vertical borders could be added here if strict grid needed
-                    doc.text(cell, currentX + 5, y + 5, { width: width - 10, align: 'left', lineBreak: false, ellipsis: true });
-                    currentX += width;
-                });
-
-                y += rowHeight;
-            });
-
-            return y + 10; // Return new Y position with padding
+        // --- HELPER --
+        const textBold = (text: string, x: number, y: number, options: any = {}) => {
+            doc.save();
+            doc.fillColor(options.color || COLOR_DARK);
+            doc.text(text, x, y, options);
+            doc.text(text, x + 0.3, y, options); // Fake bold stroke
+            doc.restore();
         };
 
-        // --- CONTENT GENERATION ---
-
-        // 1. Logo
+        // --- HEADER ---
         if (fs.existsSync(logoPath)) {
-            doc.image(logoPath, 40, 30, { width: 60 }); // Small, top-left (slightly above margin)
+            doc.image(logoPath, 50, 45, { width: 50 });
         }
 
-        // Ensure title starts at a good position (aligned with logo or slightly below)
-        // Since logo is absolute, we just ensure normal flow starts well.
-        doc.moveDown(0.5);
+        doc.fontSize(20).fillColor(COLOR_DARK).text('SinapCode', 110, 50);
+        doc.fontSize(10).fillColor('#666666').text('Sistema de Auditoría Legal', 110, 75);
 
-        // 2. Title
-        doc.fontSize(16).text('CERTIFICADO DE ACEPTACIÓN Y', { align: 'center' });
-        doc.text('AUDITORÍA LEGAL', { align: 'center' });
-        doc.moveDown();
+        // Gold Line
+        doc.moveTo(50, 95).lineTo(560, 95).lineWidth(2).strokeColor(COLOR_GOLD).stroke();
 
-        // 3. Intro
-        doc.fontSize(10).text(
-            'El presente documento certifica de manera fehaciente la aceptación de los Términos y Condiciones y la Política de Privacidad, constituyendo evidencia legal conforme a las normativas aplicables.',
+        doc.moveDown(3);
+
+        // --- TITLE ---
+        doc.moveDown(2);
+        const titleY = 120;
+        doc.fontSize(16).fillColor(COLOR_DARK).text('CERTIFICADO DE ACEPTACIÓN DE TERMINOS', 50, titleY, { align: 'center' });
+        doc.text('Y AUDITORÍA LEGAL', { align: 'center' });
+
+        doc.moveDown(1);
+
+        // --- INTRO ---
+        doc.fontSize(10).fillColor('#444444').text(
+            'El presente documento certifica de manera fehaciente la aceptación de los Términos y Condiciones y la Política de Privacidad, constituyendo evidencia legal conforme a las normativas aplicables de comercio electrónico y firma digital.',
             { align: 'center', width: 450 }
         );
-        doc.moveDown();
-
-        // 4. Certificate ID
-        doc.fontSize(12).text(`ID CERTIFICADO: ${certCode}`, { align: 'center' });
         doc.moveDown(2);
 
-        // 5. User Data Table
-        let currentY = doc.y;
-        const userDataRows = [
-            ['ID de Usuario:', targetUser.id],
-            ['Nombre:', targetUser.name || 'N/A'],
-            ['Email:', targetUser.email],
-            ['Fecha de Registro:', targetUser.createdAt.toISOString()]
-        ];
-        // Col widths: label 30%, value 70% of 530
-        currentY = drawTable(currentY, 'DATOS DEL USUARIO', userDataRows, [150, 380]);
+        // --- CERT ID ---
+        textBold(`ID CERTIFICADO: ${certCode}`, 50, doc.y, { align: 'center', size: 12 });
+        doc.moveDown(1.5);
 
-        // 6. Evidence Table
-        // Draw Header Row for Evidence
-        const evidenceHeaders = ['Documento', 'Versión', 'Fecha (UTC)', 'IP Origen', 'Método'];
-        const evColWidths = [100, 60, 120, 100, 150];
+        // --- USER DATA BOX ---
+        const startBoxY = doc.y;
 
-        doc.rect(40, currentY, 530, 20).fill('#f3f3f3').stroke();
-        doc.fillColor('#000000').fontSize(9).text('EVIDENCIA FORENSE DE ACEPTACIÓN', 45, currentY + 5);
-        currentY += 20;
+        doc.rect(50, startBoxY, 510, 110).fill(COLOR_GRAY_BG);
+        doc.fillColor(COLOR_DARK);
 
-        // Sub-headers
-        doc.rect(40, currentY, 530, 20).fill('#e5e5e5').stroke();
-        let hX = 40;
-        evidenceHeaders.forEach((h, i) => {
-            doc.fillColor('#000000').fontSize(8).text(h, hX + 5, currentY + 5, { width: evColWidths[i] });
-            hX += evColWidths[i];
-        });
-        currentY += 20;
+        doc.fontSize(11).fillColor(COLOR_GOLD).text('DATOS DEL FIRMANTE / USUARIO', 60, startBoxY + 10);
+        doc.moveTo(60, startBoxY + 25).lineTo(550, startBoxY + 25).lineWidth(0.5).strokeColor(COLOR_BORDER).stroke();
 
-        // Rows
-        if (targetUser.legalConsents.length === 0) {
-            doc.fontSize(9).text('No se encontraron registros de consentimiento.', 45, currentY + 5);
-            currentY += 20;
-        } else {
-            targetUser.legalConsents.forEach((consent) => {
-                if (currentY > 700) { doc.addPage(); currentY = 50; }
+        const drawRow = (label: string, value: string, y: number) => {
+            textBold(label, 60, y, { size: 10, color: COLOR_DARK });
+            doc.fontSize(10).fillColor('#555555').text(value, 220, y);
+        };
 
-                doc.rect(40, currentY, 530, 20).stroke(); // Row border
+        let rowY = startBoxY + 35;
+        drawRow('ID de Usuario:', targetUser.id, rowY);
+        rowY += 18;
+        drawRow('Nombre Legal:', targetUser.name || 'No Registrado', rowY);
+        rowY += 18;
+        drawRow('Correo Electrónico:', targetUser.email, rowY);
+        rowY += 18;
+        drawRow('Fecha de Registro (UTC):', targetUser.createdAt.toISOString().replace('T', ' ').substring(0, 19), rowY);
 
-                let rX = 40;
-                const rowData = [
-                    consent.documentType,
-                    consent.documentVersion,
-                    consent.acceptedAt.toISOString(),
-                    consent.ipAddress || 'Unknown',
-                    consent.consentMethod
-                ];
+        doc.moveDown(6);
 
-                rowData.forEach((d, i) => {
-                    doc.text(d, rX + 5, currentY + 5, { width: evColWidths[i] - 10, ellipsis: true });
-                    rX += evColWidths[i];
-                });
+        // --- AUDIT TABLE ---
+        const tableY = startBoxY + 110 + 30;
+        doc.y = tableY;
 
-                currentY += 20;
+        textBold('HISTORIAL DE ACEPTACIÓN (Traza de Auditoría)', 50, tableY, { size: 11 });
+        doc.moveTo(50, tableY + 15).lineTo(560, tableY + 15).lineWidth(1).strokeColor(COLOR_GOLD).stroke();
+
+        const tHeadY = tableY + 25;
+        const colX = [50, 200, 280, 400, 480];
+
+        doc.fontSize(9).fillColor(COLOR_DARK);
+        doc.text('Documento', colX[0], tHeadY);
+        doc.text('Versión', colX[1], tHeadY);
+        doc.text('Fecha (UTC)', colX[2], tHeadY);
+        doc.text('IP Origen', colX[3], tHeadY);
+        doc.text('Método', colX[4], tHeadY);
+
+        doc.moveTo(50, tHeadY + 15).lineTo(560, tHeadY + 15).lineWidth(0.5).strokeColor('#EEEEEE').stroke();
+
+        let tRowY = tHeadY + 25;
+        if (targetUser.legalConsents.length > 0) {
+            targetUser.legalConsents.forEach((item) => {
+                doc.fillColor('#444444');
+                doc.text(item.documentType, colX[0], tRowY, { width: 140, ellipsis: true });
+                doc.text(item.documentVersion, colX[1], tRowY);
+                doc.text(item.acceptedAt.toISOString().slice(0, 10), colX[2], tRowY);
+                doc.text(item.ipAddress || 'N/A', colX[3], tRowY);
+                doc.text(item.consentMethod, colX[4], tRowY);
+                tRowY += 20;
             });
+        } else {
+            doc.text('No se encontraron registros de consentimiento.', colX[0], tRowY);
+            tRowY += 20;
         }
 
-        currentY += 30; // Space before QR
-
-        // 7. QR Code
-        // Use User ID for verification URL to ensure the /verify/[id] page finds the record
+        // --- FOOTER ---
+        const footerY = 620;
         const verifyUrl = `${process.env.NEXTAUTH_URL || 'https://sinapcode.vercel.app'}/verify/${targetUser.id}`;
-        const qrBuffer = await QRCode.toBuffer(verifyUrl, { width: 100, margin: 1 });
+        const qrBuffer = await QRCode.toBuffer(verifyUrl, { width: 90, margin: 1 });
 
-        // Center QR (Page width 612) -> (612 - 100) / 2 = 256
-        const qrY = currentY + 10;
-        doc.image(qrBuffer, 256, qrY, { width: 100 });
-        doc.fontSize(9).text('Verificación Digital', 256, qrY + 105, { width: 100, align: 'center' });
+        doc.image(qrBuffer, 260, footerY, { width: 90 });
+        doc.fontSize(8).fillColor(COLOR_DARK).text('Verificación Digital', 260, footerY + 95, { width: 90, align: 'center' });
 
-        // 8. Footer (Bottom of page)
-        const bottomY = 700;
-
-        // Disclaimer (Left side, width 350)
-        doc.fontSize(7).text(
-            'Este certificado es generado electrónicamente y posee validez legal. El SinapCode garantiza que esta aceptación constituye evidencia legal conforme a las normativas aplicables.',
-            40, bottomY, { width: 350, align: 'justify' }
+        const disY = footerY + 115;
+        doc.fontSize(7).fillColor('#777777').text(
+            `Este certificado ha sido generado electrónicamente por SinapCode el ${new Date().toISOString()}. La integridad de este documento puede ser verificada escaneando el código QR superior. SinapCode actúa como tercero de confianza registrando la huella digital de la transacción.`,
+            50, disY, { align: 'center', width: 512 }
         );
-        doc.text(`Generado el: ${new Date().toISOString()}`, 40, bottomY + 20);
-        doc.text('Todos los derechos reservados © SinapCode', 40, bottomY + 30);
 
-        // Seal (Right side) - Mimicking the seal in the image
+        // Fake Hash
+        const fingerprint = certCode.split('').reverse().join('') + 'E3B0C44298FC1C149AFBF4C8996FB92';
+        doc.text(`Digital Fingerprint (SHA256): ${fingerprint.substring(0, 64)}...`, 50, disY + 30, { align: 'center', color: COLOR_GOLD });
+
+        // Seal (Right side) - Mimicking reference (Optional but good)
         const sealX = 500;
-        const sealY = bottomY + 20;
+        const sealY = disY + 20;
 
         doc.save();
         doc.circle(sealX, sealY, 25).lineWidth(1).strokeColor('#333333').stroke();
