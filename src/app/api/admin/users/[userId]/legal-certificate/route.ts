@@ -201,31 +201,33 @@ export async function GET(
 
         // --- FOOTER (Fixed at Bottom of A4) ---
         // A4 Height = 841.89 points. Max Safe Y ~790.
-        // Adjusted to 630 to ensure fits on Page 1 with adequate margin.
         const footerY = 630;
 
         const verifyUrl = `${process.env.NEXTAUTH_URL || 'https://sinapcode.vercel.app'}/verify/${targetUser.id}`;
         const qrBuffer = await QRCode.toBuffer(verifyUrl, { width: 90, margin: 1 });
 
-        // QR Centered? Let's center relative to page width.
+        // QR Centered
         const qrX = (PAGE_WIDTH - 90) / 2;
         doc.image(qrBuffer, qrX, footerY, { width: 90 });
         doc.fontSize(8).fillColor(COLOR_DARK).text('Verificación Digital', qrX, footerY + 95, { width: 90, align: 'center' });
 
-        const disY = footerY + 115;
+        // Split Footer: Text Left, Seal Right
+        const disY = footerY + 115; // ~745
+        const textWidth = 380; // Leaving space for seal on right
+
         doc.fontSize(7).fillColor('#777777').text(
             `Este certificado ha sido generado electrónicamente por SinapCode el ${new Date().toISOString()}. La integridad de este documento puede ser verificada escaneando el código QR superior. SinapCode actúa como tercero de confianza registrando la huella digital de la transacción.`,
-            MARGIN, disY, { align: 'center', width: CONTENT_WIDTH }
+            MARGIN, disY, { align: 'justify', width: textWidth }
         );
 
         // Fake Hash
         const fingerprint = certCode.split('').reverse().join('') + 'E3B0C44298FC1C149AFBF4C8996FB92';
-        doc.fillColor(COLOR_GOLD).text(`Digital Fingerprint (SHA256): ${fingerprint.substring(0, 64)}...`, MARGIN, disY + 30, { align: 'center', width: CONTENT_WIDTH });
+        doc.moveDown(0.5);
+        doc.fillColor(COLOR_GOLD).text(`Digital Fingerprint (SHA256): ${fingerprint.substring(0, 64)}...`, MARGIN, doc.y, { align: 'left', width: textWidth });
 
         // Seal (Right side)
-        // Adjust Seal position for A4 width
-        const sealX = CONTENT_X_END - 40; // Approx right aligned
-        const sealY = disY + 10;
+        const sealX = CONTENT_X_END - 30; // ~515
+        const sealY = disY + 15; // ~760
 
         doc.save();
         doc.circle(sealX, sealY, 25).lineWidth(1).strokeColor('#333333').stroke();
