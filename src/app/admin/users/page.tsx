@@ -20,14 +20,36 @@ export interface UIUser {
 
 // 🧱 PASO 2 — NORMALIZAR TODO LO QUE VIENE DEL BACKEND
 function normalizeUser(raw: any): UIUser {
+    // Validate required fields
+    if (!raw || typeof raw !== 'object') {
+        console.error('[normalizeUser] Invalid user data:', raw);
+        return {
+            id: crypto.randomUUID(),
+            name: "Usuario Inválido",
+            email: "invalid@error.com",
+            role: "STUDENT",
+            status: 'pending',
+            lastLogin: null,
+            createdAt: new Date().toISOString()
+        };
+    }
+
+    // Normalize status with proper validation
+    let status: 'active' | 'suspended' | 'pending' = 'pending';
+    if (raw.status === 'active' || raw.status === 'suspended' || raw.status === 'pending') {
+        status = raw.status;
+    } else if (raw.emailVerified === true) {
+        status = 'active';
+    }
+
     return {
-        id: raw.id ?? crypto.randomUUID(),
-        name: raw.name ?? raw.full_name ?? raw.user_metadata?.full_name ?? "Sin nombre",
-        email: raw.email ?? "sin-email",
-        role: raw.role ?? raw.user_metadata?.role ?? "STUDENT",
-        status: raw.status ?? (raw.emailVerified ? 'active' : 'pending'), // Map API status logic
-        lastLogin: raw.lastLogin ?? raw.last_login ?? raw.lastLoginAt ?? null, // Handle various potential key names
-        createdAt: raw.createdAt ?? new Date().toISOString()
+        id: String(raw.id || crypto.randomUUID()),
+        name: String(raw.name || raw.full_name || raw.user_metadata?.full_name || "Sin nombre"),
+        email: String(raw.email || "sin-email@placeholder.com"),
+        role: String(raw.role || raw.user_metadata?.role || "STUDENT"),
+        status,
+        lastLogin: raw.lastLogin || raw.last_login || raw.lastLoginAt || null,
+        createdAt: raw.createdAt || new Date().toISOString()
     };
 }
 
@@ -36,15 +58,23 @@ export default function UsersPage() {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [filterRole, setFilterRole] = useState<string>('all');
+    const [mounted, setMounted] = useState(false);
 
     // Modals
     const [editingUser, setEditingUser] = useState<UIUser | null>(null);
     const [deletingUser, setDeletingUser] = useState<UIUser | null>(null);
 
+    // Client-side mounting check
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
     // Obtener usuarios reales de la API
     useEffect(() => {
-        fetchUsers();
-    }, []);
+        if (mounted) {
+            fetchUsers();
+        }
+    }, [mounted]);
 
     const fetchUsers = async () => {
         try {
@@ -56,8 +86,10 @@ export default function UsersPage() {
                 // Normalizar datos antes de guardarlos en el estado
                 const normalizedUsers = (data.users || []).map(normalizeUser);
 
-                // 🧪 PASO 5 — PRUEBA DE FUEGO
-                console.table(normalizedUsers);
+                // Development-only logging
+                if (process.env.NODE_ENV === 'development') {
+                    console.log('✅ Normalized users:', normalizedUsers);
+                }
 
                 setUsers(normalizedUsers);
             } else {

@@ -48,16 +48,30 @@ export async function GET() {
             }
         });
 
-        // Formatear datos para el frontend
-        const formattedUsers = users.map(user => ({
-            id: user.id,
-            name: user.name || 'Sin nombre',
-            email: user.email || 'Sin email',
-            role: user.role,
-            status: user.emailVerified ? 'active' : 'pending',
-            lastLogin: user.lastLoginAt ? formatRelativeTime(user.lastLoginAt) : 'Nunca',
-            createdAt: user.createdAt.toISOString().split('T')[0],
-        }));
+        // Formatear datos para el frontend con validación estricta
+        const formattedUsers = users.map(user => {
+            // Validate and sanitize each field
+            const id = String(user.id || '');
+            const name = String(user.name || 'Sin nombre').trim();
+            const email = String(user.email || 'Sin email').trim().toLowerCase();
+            const role = String(user.role || 'STUDENT');
+
+            // Determine status with proper type safety
+            let status: 'active' | 'suspended' | 'pending' = 'pending';
+            if (user.emailVerified !== null && user.emailVerified !== undefined) {
+                status = 'active';
+            }
+
+            return {
+                id,
+                name,
+                email,
+                role,
+                status,
+                lastLogin: user.lastLoginAt ? formatRelativeTime(user.lastLoginAt) : null,
+                createdAt: user.createdAt.toISOString().split('T')[0],
+            };
+        });
 
         return NextResponse.json({
             users: formattedUsers,
@@ -65,9 +79,15 @@ export async function GET() {
         });
 
     } catch (error: any) {
-        console.error('Error fetching users:', error);
+        // Log error securely (never expose stack traces in production)
+        console.error('[API /admin/users] Error:', {
+            message: error.message,
+            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+        });
+
+        // Return generic error message (security best practice)
         return NextResponse.json(
-            { error: `Error interno: ${error.message}` },
+            { error: 'Error al cargar usuarios' },
             { status: 500 }
         );
     }
