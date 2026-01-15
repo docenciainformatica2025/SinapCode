@@ -96,9 +96,12 @@ export async function GET(
 
         // 1. Logo
         if (fs.existsSync(logoPath)) {
-            doc.image(logoPath, 200, 40, { width: 200, align: 'center' });
+            doc.image(logoPath, 40, 30, { width: 60 }); // Small, top-left (slightly above margin)
         }
-        doc.moveDown(5); // Space for logo
+
+        // Ensure title starts at a good position (aligned with logo or slightly below)
+        // Since logo is absolute, we just ensure normal flow starts well.
+        doc.moveDown(0.5);
 
         // 2. Title
         doc.fontSize(16).text('CERTIFICADO DE ACEPTACIÓN Y', { align: 'center' });
