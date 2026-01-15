@@ -41,34 +41,39 @@ export async function GET(
         }
 
         // 3. Generate PDF
-        const doc = new PDFDocument({ margin: 50 });
+        const fontPath = path.join(process.cwd(), 'public', 'fonts', 'NotoSans.ttf');
+
+        // Initialize with explicit default font to avoid Helvetica loading attempt
+        const doc = new PDFDocument({
+            margin: 50,
+            font: fontPath // Set the file path directly as the default font
+        });
+
         const chunks: Buffer[] = [];
 
         doc.on('data', (chunk) => chunks.push(chunk));
 
-        const fontPath = path.join(process.cwd(), 'public', 'fonts', 'NotoSans.ttf');
-
         // -- Document Header --
-        doc.fontSize(20).font(fontPath).text('CERTIFICADO DE ACEPTACIÓN LEGAL', { align: 'center' });
+        doc.fontSize(20).text('CERTIFICADO DE ACEPTACIÓN LEGAL', { align: 'center' });
         doc.moveDown();
-        doc.fontSize(12).font(fontPath).text('Este documento certifica la aceptación de términos y condiciones y políticas de privacidad por parte del usuario.', { align: 'center' });
+        doc.fontSize(12).text('Este documento certifica la aceptación de términos y condiciones y políticas de privacidad por parte del usuario.', { align: 'center' });
         doc.moveDown(2);
 
         // -- User Details --
-        doc.fillColor('black').fontSize(14).font(fontPath).text('Datos del Usuario');
-        doc.fontSize(10).font(fontPath).text(`ID de Usuario: ${targetUser.id}`);
+        doc.fillColor('black').fontSize(14).text('Datos del Usuario');
+        doc.fontSize(10).text(`ID de Usuario: ${targetUser.id}`);
         doc.text(`Nombre: ${targetUser.name || 'N/A'}`);
         doc.text(`Email: ${targetUser.email}`);
         doc.text(`Fecha de Registro: ${targetUser.createdAt.toISOString()}`);
         doc.moveDown(2);
 
         // -- Consent Log --
-        doc.fontSize(14).font(fontPath).text('Historial de Aceptación (Evidencia Forense)');
+        doc.fontSize(14).text('Historial de Aceptación (Evidencia Forense)');
         doc.moveDown();
 
         // Table Header
         const tableTop = doc.y;
-        doc.fontSize(9).font(fontPath);
+        doc.fontSize(9);
         doc.text('Documento', 50, tableTop);
         doc.text('Versión', 150, tableTop);
         doc.text('Fecha (UTC)', 220, tableTop);
@@ -76,7 +81,6 @@ export async function GET(
         doc.text('Método', 450, tableTop);
 
         doc.moveTo(50, tableTop + 15).lineTo(550, tableTop + 15).stroke();
-        doc.font(fontPath); // Reset font
 
         // Table Rows
         let yPosition = tableTop + 25;
