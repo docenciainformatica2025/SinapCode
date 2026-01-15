@@ -42,15 +42,34 @@ export async function GET(
             return NextResponse.json({ error: 'Usuario no encontrado' }, { status: 404 });
         }
 
-        // 3. Generate PDF
-        // 3. Generate PDF
+        // 3. Generate Certificate Record (Audit Trail)
+        const currentYear = new Date().getFullYear();
+        // Generate a secure random suffix (5 chars hex)
+        const randomSuffix = Math.floor(Math.random() * 0xFFFFF).toString(16).toUpperCase().padStart(5, '0');
+        const certCode = `SC-${currentYear}-LEG-${randomSuffix}`;
+
+        // Create Persistent Record
+        await prisma.certificate.create({
+            data: {
+                userId: targetUser.id,
+                type: 'LEGAL',
+                code: certCode,
+                metadata: {
+                    userAgent: request.headers.get('user-agent') || 'Unknown',
+                    ip: request.headers.get('x-forwarded-for') || 'Unknown',
+                    generatedAt: new Date().toISOString()
+                }
+            }
+        });
+
+        // 4. Generate PDF
         const fontPath = path.join(process.cwd(), 'public', 'fonts', 'NotoSans.ttf');
         const logoPath = path.join(process.cwd(), 'public', 'branding', 'logo.png');
 
-        // Initialize with explicit default font to avoid Helvetica loading attempt
+        // Initialize with explicit default font
         const doc = new PDFDocument({
             margin: 40,
-            font: fontPath, // Set the file path directly as the default font
+            font: fontPath,
             size: 'LETTER'
         });
 
@@ -116,8 +135,7 @@ export async function GET(
         doc.moveDown();
 
         // 4. Certificate ID
-        const certId = `SC-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${targetUser.id.slice(0, 6).toUpperCase()}`;
-        doc.fontSize(12).text(`ID CERTIFICADO: ${certId}`, { align: 'center' });
+        doc.fontSize(12).text(`ID CERTIFICADO: ${certCode}`, { align: 'center' });
         doc.moveDown(2);
 
         // 5. User Data Table

@@ -50,6 +50,9 @@ export default async function VerifyCertificatePage({ params }: Props) {
         include: {
             legalConsents: {
                 orderBy: { acceptedAt: 'desc' }
+            },
+            certificates: {
+                orderBy: { issuedAt: 'desc' }
             }
         }
     });
@@ -142,6 +145,41 @@ export default async function VerifyCertificatePage({ params }: Props) {
                             </div>
                         ) : (
                             <p className="text-neutral-500 italic">No se encontraron registros.</p>
+                        )}
+                    </div>
+
+                    {/* Certificates Log */}
+                    <div className="mt-8">
+                        <h3 className="text-neutral-500 text-xs uppercase tracking-widest mb-4 font-bold">Certificados Emitidos</h3>
+                        {(user as any).certificates?.length > 0 ? (
+                            <div className="border border-neutral-800 rounded-lg overflow-hidden">
+                                <table className="w-full text-sm text-left">
+                                    <thead className="bg-neutral-950 text-neutral-400">
+                                        <tr>
+                                            <th className="p-3 font-normal">Código</th>
+                                            <th className="p-3 font-normal">Tipo</th>
+                                            <th className="p-3 font-normal">Emitido</th>
+                                            <th className="p-3 font-normal">Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-neutral-800 bg-neutral-900">
+                                        {(user as any).certificates.map((c: any) => (
+                                            <tr key={c.id}>
+                                                <td className="p-3 text-yellow-500 font-mono">{c.code}</td>
+                                                <td className="p-3 text-white">{c.type}</td>
+                                                <td className="p-3 text-neutral-400">{new Date(c.issuedAt).toLocaleDateString()}</td>
+                                                <td className="p-3">
+                                                    <span className={`px-2 py-1 rounded text-xs ${c.status === 'ACTIVE' ? 'bg-green-500/10 text-green-500' : 'bg-red-500/10 text-red-500'}`}>
+                                                        {c.status}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        ) : (
+                            <p className="text-neutral-500 italic">No hay certificados registrados.</p>
                         )}
                     </div>
 
