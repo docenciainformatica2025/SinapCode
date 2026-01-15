@@ -2,8 +2,9 @@
 
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { AdminSidebar } from '@/components/admin/sidebar';
+import { Menu } from 'lucide-react';
 
 export default function AdminLayout({
     children,
@@ -57,17 +58,35 @@ export default function AdminLayout({
         return null;
     }
 
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
     return (
         <div className="flex h-screen bg-deep-space overflow-hidden">
-            {/* Sidebar */}
-            <AdminSidebar />
+            {/* Sidebar (Responsive) */}
+            <AdminSidebar
+                isOpen={isSidebarOpen}
+                onClose={() => setIsSidebarOpen(false)}
+            />
 
             {/* Main Content */}
-            <main className="flex-1 overflow-y-auto">
-                <div className="p-8">
-                    {children}
-                </div>
-            </main>
+            <div className="flex-1 flex flex-col h-screen overflow-hidden">
+                {/* Mobile Header */}
+                <header className="md:hidden h-16 border-b border-white/5 flex items-center px-4 justify-between bg-[#0A0A0F]">
+                    <div className="font-bold text-white">SinapCode Admin</div>
+                    <button
+                        onClick={() => setIsSidebarOpen(true)}
+                        className="p-2 text-platinum-dim hover:bg-white/5 rounded-lg"
+                    >
+                        <Menu className="h-6 w-6" />
+                    </button>
+                </header>
+
+                <main className="flex-1 overflow-y-auto">
+                    <div className="p-4 md:p-8 pb-20 md:pb-8"> {/* Responsive Padding */}
+                        {children}
+                    </div>
+                </main>
+            </div>
         </div>
     );
 }
