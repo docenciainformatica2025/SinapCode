@@ -200,14 +200,14 @@ export async function GET(
         }
 
         // --- FOOTER (Fixed at Bottom of A4) ---
-        // A4 Height = 841.89 points
-        // Let's place footer block starting at 720. 
-        const footerY = 720;
+        // A4 Height = 841.89 points. Max Safe Y ~790.
+        // Adjusted to 630 to ensure fits on Page 1 with adequate margin.
+        const footerY = 630;
 
         const verifyUrl = `${process.env.NEXTAUTH_URL || 'https://sinapcode.vercel.app'}/verify/${targetUser.id}`;
         const qrBuffer = await QRCode.toBuffer(verifyUrl, { width: 90, margin: 1 });
 
-        // QR Centered? Let's center relative to page width. (595 - 90)/2 = 252.5
+        // QR Centered? Let's center relative to page width.
         const qrX = (PAGE_WIDTH - 90) / 2;
         doc.image(qrBuffer, qrX, footerY, { width: 90 });
         doc.fontSize(8).fillColor(COLOR_DARK).text('Verificación Digital', qrX, footerY + 95, { width: 90, align: 'center' });
@@ -222,7 +222,7 @@ export async function GET(
         const fingerprint = certCode.split('').reverse().join('') + 'E3B0C44298FC1C149AFBF4C8996FB92';
         doc.fillColor(COLOR_GOLD).text(`Digital Fingerprint (SHA256): ${fingerprint.substring(0, 64)}...`, MARGIN, disY + 30, { align: 'center', width: CONTENT_WIDTH });
 
-        // Seal (Right side) - Mimicking reference (Optional but good)
+        // Seal (Right side)
         // Adjust Seal position for A4 width
         const sealX = CONTENT_X_END - 40; // Approx right aligned
         const sealY = disY + 10;
