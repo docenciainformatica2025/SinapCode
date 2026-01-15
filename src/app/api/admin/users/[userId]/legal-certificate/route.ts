@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import path from 'path';
+import fs from 'fs';
+import QRCode from 'qrcode';
 import { getServerSession } from 'next-auth';
 import { authOptions } from "@/lib/auth-options";
 import { prisma } from "@/lib/prisma";
@@ -41,73 +43,155 @@ export async function GET(
         }
 
         // 3. Generate PDF
+        // 3. Generate PDF
         const fontPath = path.join(process.cwd(), 'public', 'fonts', 'NotoSans.ttf');
+        const logoPath = path.join(process.cwd(), 'public', 'branding', 'logo.png');
 
         // Initialize with explicit default font to avoid Helvetica loading attempt
         const doc = new PDFDocument({
-            margin: 50,
-            font: fontPath // Set the file path directly as the default font
+            margin: 40,
+            font: fontPath, // Set the file path directly as the default font
+            size: 'LETTER'
         });
 
         const chunks: Buffer[] = [];
 
         doc.on('data', (chunk) => chunks.push(chunk));
 
-        // -- Document Header --
-        doc.fontSize(20).text('CERTIFICADO DE ACEPTACIÓN LEGAL', { align: 'center' });
+        // --- HELPER FUNCTIONS ---
+        const drawTable = (y: number, title: string, rows: string[][], colWidths: number[]) => {
+            const tableWidth = 530; // 612 - 40 - 40 roughly
+            const rowHeight = 20;
+            const x = 40;
+
+            // Section Header
+            doc.rect(x, y, tableWidth, rowHeight).fill('#f3f3f3').stroke();
+            doc.fillColor('#000000').fontSize(10).text(title, x + 5, y + 5, { width: tableWidth, align: 'left' });
+
+            y += rowHeight;
+
+            // Content Rows
+            rows.forEach((row, i) => {
+                let currentX = x;
+
+                // Border only
+                doc.rect(x, y, tableWidth, rowHeight).strokeColor('#e5e5e5').stroke();
+
+                doc.fillColor('#333333').fontSize(9);
+
+                row.forEach((cell, colIndex) => {
+                    const width = colWidths[colIndex];
+                    // Vertical borders could be added here if strict grid needed
+                    doc.text(cell, currentX + 5, y + 5, { width: width - 10, align: 'left', lineBreak: false, ellipsis: true });
+                    currentX += width;
+                });
+
+                y += rowHeight;
+            });
+
+            return y + 10; // Return new Y position with padding
+        };
+
+        // --- CONTENT GENERATION ---
+
+        // 1. Logo
+        if (fs.existsSync(logoPath)) {
+            doc.image(logoPath, 200, 40, { width: 200, align: 'center' });
+        }
+        doc.moveDown(5); // Space for logo
+
+        // 2. Title
+        doc.fontSize(16).text('CERTIFICADO DE ACEPTACIÓN Y', { align: 'center' });
+        doc.text('AUDITORÍA LEGAL', { align: 'center' });
         doc.moveDown();
-        doc.fontSize(12).text('Este documento certifica la aceptación de términos y condiciones y políticas de privacidad por parte del usuario.', { align: 'center' });
+
+        // 3. Intro
+        doc.fontSize(10).text(
+            'El presente documento certifica de manera fehaciente la aceptación de los Términos y Condiciones y la Política de Privacidad, constituyendo evidencia legal conforme a las normativas aplicables.',
+            { align: 'center', width: 450 }
+        );
+        doc.moveDown();
+
+        // 4. Certificate ID
+        const certId = `SC-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${targetUser.id.slice(0, 6).toUpperCase()}`;
+        doc.fontSize(12).text(`ID CERTIFICADO: ${certId}`, { align: 'center' });
         doc.moveDown(2);
 
-        // -- User Details --
-        doc.fillColor('black').fontSize(14).text('Datos del Usuario');
-        doc.fontSize(10).text(`ID de Usuario: ${targetUser.id}`);
-        doc.text(`Nombre: ${targetUser.name || 'N/A'}`);
-        doc.text(`Email: ${targetUser.email}`);
-        doc.text(`Fecha de Registro: ${targetUser.createdAt.toISOString()}`);
-        doc.moveDown(2);
+        // 5. User Data Table
+        let currentY = doc.y;
+        const userDataRows = [
+            ['ID de Usuario:', targetUser.id],
+            ['Nombre:', targetUser.name || 'N/A'],
+            ['Email:', targetUser.email],
+            ['Fecha de Registro:', targetUser.createdAt.toISOString()]
+        ];
+        // Col widths: label 30%, value 70% of 530
+        currentY = drawTable(currentY, 'DATOS DEL USUARIO', userDataRows, [150, 380]);
 
-        // -- Consent Log --
-        doc.fontSize(14).text('Historial de Aceptación (Evidencia Forense)');
-        doc.moveDown();
+        // 6. Evidence Table
+        // Draw Header Row for Evidence
+        const evidenceHeaders = ['Documento', 'Versión', 'Fecha (UTC)', 'IP Origen', 'Método'];
+        const evColWidths = [100, 60, 120, 100, 150];
 
-        // Table Header
-        const tableTop = doc.y;
-        doc.fontSize(9);
-        doc.text('Documento', 50, tableTop);
-        doc.text('Versión', 150, tableTop);
-        doc.text('Fecha (UTC)', 220, tableTop);
-        doc.text('IP Origen', 350, tableTop);
-        doc.text('Método', 450, tableTop);
+        doc.rect(40, currentY, 530, 20).fill('#f3f3f3').stroke();
+        doc.fillColor('#000000').fontSize(9).text('EVIDENCIA FORENSE DE ACEPTACIÓN', 45, currentY + 5);
+        currentY += 20;
 
-        doc.moveTo(50, tableTop + 15).lineTo(550, tableTop + 15).stroke();
+        // Sub-headers
+        doc.rect(40, currentY, 530, 20).fill('#e5e5e5').stroke();
+        let hX = 40;
+        evidenceHeaders.forEach((h, i) => {
+            doc.fillColor('#000000').fontSize(8).text(h, hX + 5, currentY + 5, { width: evColWidths[i] });
+            hX += evColWidths[i];
+        });
+        currentY += 20;
 
-        // Table Rows
-        let yPosition = tableTop + 25;
-
+        // Rows
         if (targetUser.legalConsents.length === 0) {
-            doc.text('No se encontraron registros de consentimiento.', 50, yPosition);
+            doc.fontSize(9).text('No se encontraron registros de consentimiento.', 45, currentY + 5);
+            currentY += 20;
+        } else {
+            targetUser.legalConsents.forEach((consent) => {
+                if (currentY > 700) { doc.addPage(); currentY = 50; }
+
+                doc.rect(40, currentY, 530, 20).stroke(); // Row border
+
+                let rX = 40;
+                const rowData = [
+                    consent.documentType,
+                    consent.documentVersion,
+                    consent.acceptedAt.toISOString(),
+                    consent.ipAddress || 'Unknown',
+                    consent.consentMethod
+                ];
+
+                rowData.forEach((d, i) => {
+                    doc.text(d, rX + 5, currentY + 5, { width: evColWidths[i] - 10, ellipsis: true });
+                    rX += evColWidths[i];
+                });
+
+                currentY += 20;
+            });
         }
 
-        targetUser.legalConsents.forEach((consent) => {
-            if (yPosition > 700) { // Add page if near bottom
-                doc.addPage();
-                yPosition = 50;
-            }
+        currentY += 30; // Space before QR
 
-            doc.text(consent.documentType, 50, yPosition);
-            doc.text(consent.documentVersion, 150, yPosition);
-            doc.text(consent.acceptedAt.toISOString(), 220, yPosition);
-            doc.text(consent.ipAddress || 'Unknown', 350, yPosition);
-            doc.text(consent.consentMethod, 450, yPosition);
+        // 7. QR Code
+        const verifyUrl = `${process.env.NEXTAUTH_URL || 'https://sinapcode.vercel.app'}/verify/${certId}`;
+        const qrBuffer = await QRCode.toBuffer(verifyUrl, { width: 150, margin: 1 });
 
-            yPosition += 20;
-        });
+        // Center QR (Page width 612) -> (612 - 150) / 2 = 231
+        doc.image(qrBuffer, 231, currentY, { width: 150 });
+        doc.fontSize(9).text('Verificación Digital', 231, currentY + 155, { width: 150, align: 'center' });
 
-        // -- Footer / Signature --
-        doc.moveDown(4);
-        doc.fillColor('gray').fontSize(8).text(`Certificado generado el: ${new Date().toISOString()}`, { align: 'center' });
-        doc.fillColor('black').text('SinapCode - Sistema de Auditoría Legal', { align: 'center' });
+        // 8. Footer (Bottom of page)
+        const bottomY = 700; // Force footer near bottom
+        doc.fontSize(7).text(
+            'Este certificado es generado electrónicamente y posee validez legal. El SinapCode garantiza que esta aceptación constituye evidencia legal conforme a las normativas aplicables.',
+            40, bottomY, { width: 530, align: 'justify' }
+        );
+        doc.text(`Generado el: ${new Date().toISOString()} | SinapCode v1.0`, 40, bottomY + 20, { align: 'left' });
+        doc.text('Todos los derechos reservados.', 40, bottomY + 30, { align: 'left' });
 
         doc.end();
 
