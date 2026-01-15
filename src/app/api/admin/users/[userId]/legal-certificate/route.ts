@@ -180,21 +180,36 @@ export async function GET(
         currentY += 30; // Space before QR
 
         // 7. QR Code
-        const verifyUrl = `${process.env.NEXTAUTH_URL || 'https://sinapcode.vercel.app'}/verify/${certId}`;
-        const qrBuffer = await QRCode.toBuffer(verifyUrl, { width: 150, margin: 1 });
+        // Use User ID for verification URL to ensure the /verify/[id] page finds the record
+        const verifyUrl = `${process.env.NEXTAUTH_URL || 'https://sinapcode.vercel.app'}/verify/${targetUser.id}`;
+        const qrBuffer = await QRCode.toBuffer(verifyUrl, { width: 100, margin: 1 });
 
-        // Center QR (Page width 612) -> (612 - 150) / 2 = 231
-        doc.image(qrBuffer, 231, currentY, { width: 150 });
-        doc.fontSize(9).text('Verificación Digital', 231, currentY + 155, { width: 150, align: 'center' });
+        // Center QR (Page width 612) -> (612 - 100) / 2 = 256
+        const qrY = currentY + 10;
+        doc.image(qrBuffer, 256, qrY, { width: 100 });
+        doc.fontSize(9).text('Verificación Digital', 256, qrY + 105, { width: 100, align: 'center' });
 
         // 8. Footer (Bottom of page)
-        const bottomY = 700; // Force footer near bottom
+        const bottomY = 700;
+
+        // Disclaimer (Left side, width 350)
         doc.fontSize(7).text(
             'Este certificado es generado electrónicamente y posee validez legal. El SinapCode garantiza que esta aceptación constituye evidencia legal conforme a las normativas aplicables.',
-            40, bottomY, { width: 530, align: 'justify' }
+            40, bottomY, { width: 350, align: 'justify' }
         );
-        doc.text(`Generado el: ${new Date().toISOString()} | SinapCode v1.0`, 40, bottomY + 20, { align: 'left' });
-        doc.text('Todos los derechos reservados.', 40, bottomY + 30, { align: 'left' });
+        doc.text(`Generado el: ${new Date().toISOString()}`, 40, bottomY + 20);
+        doc.text('Todos los derechos reservados © SinapCode', 40, bottomY + 30);
+
+        // Seal (Right side) - Mimicking the seal in the image
+        const sealX = 500;
+        const sealY = bottomY + 20;
+
+        doc.save();
+        doc.circle(sealX, sealY, 25).lineWidth(1).strokeColor('#333333').stroke();
+        doc.circle(sealX, sealY, 23).lineWidth(0.5).strokeColor('#666666').stroke();
+        doc.fontSize(14).fillColor('#000000').text('SC', sealX - 10, sealY - 6);
+        doc.fontSize(5).text('VALIDATED', sealX - 12, sealY + 8);
+        doc.restore();
 
         doc.end();
 
