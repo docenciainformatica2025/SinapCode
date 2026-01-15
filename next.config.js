@@ -37,6 +37,11 @@ const nextConfig = {
     eslint: {
         ignoreDuringBuilds: true,
     },
+    experimental: {
+        outputFileTracingIncludes: {
+            '/api/admin/users/**/*': ['./public/fonts/**/*'],
+        },
+    },
 };
 
 module.exports = nextConfig;
