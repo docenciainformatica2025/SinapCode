@@ -76,9 +76,13 @@ export default function UsersPage() {
     };
 
     const filteredUsers = users.filter(user => {
-        const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            user.email.toLowerCase().includes(searchTerm.toLowerCase());
+        const name = (user.name || '').toLowerCase();
+        const email = (user.email || '').toLowerCase();
+        const query = (searchTerm || '').toLowerCase();
+
+        const matchesSearch = name.includes(query) || email.includes(query);
         const matchesRole = filterRole === 'all' || user.role === filterRole;
+
         return matchesSearch && matchesRole;
     });
 
