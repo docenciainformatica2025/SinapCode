@@ -124,7 +124,7 @@ export async function GET(
         // --- INTRO ---
         doc.fontSize(10).fillColor('#444444').text(
             'El presente documento certifica de manera fehaciente la aceptación de los Términos y Condiciones y la Política de Privacidad, constituyendo evidencia legal conforme a las normativas aplicables de comercio electrónico y firma digital.',
-            { align: 'center', width: 400, align: 'center' }
+            { align: 'center', width: 400 }
         );
         // Note: PDFKit align center with straight text call usually works relative to page margins if width not set properly for centered box.
         // Using explicit width and x often safer. (PAGE_WIDTH - 400)/2 = 97.5
