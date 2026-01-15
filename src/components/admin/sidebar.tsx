@@ -193,7 +193,7 @@ export function AdminSidebar({ isOpen = true, onClose }: AdminSidebarProps) {
                     <div className="mb-3 rounded-lg bg-white/5 p-3">
                         <div className="flex items-center gap-3">
                             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-accent-gold to-amber-600 text-sm font-bold text-deep-space">
-                                {session?.user?.name?.[0] || 'A'}
+                                {session?.user?.name?.[0]?.toUpperCase() || 'A'}
                             </div>
                             <div className="flex-1 min-w-0">
                                 <div className="truncate text-sm font-medium text-white">
