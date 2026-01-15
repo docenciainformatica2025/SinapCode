@@ -7,25 +7,39 @@ import { AdminHeader } from '@/components/admin/header';
 import { EditUserModal } from '@/components/admin/modals/edit-user-modal';
 import { DeleteUserModal } from '@/components/admin/modals/delete-user-modal';
 
-interface User {
+// 🧱 PASO 1 — DEFINIR UN MODELO ÚNICO DE USUARIO
+export interface UIUser {
     id: string;
     name: string;
     email: string;
     role: string;
     status: 'active' | 'suspended' | 'pending';
-    lastLogin: string;
-    createdAt: string;
+    lastLogin: string | null;
+    createdAt?: string; // Optional for UI display if needed
+}
+
+// 🧱 PASO 2 — NORMALIZAR TODO LO QUE VIENE DEL BACKEND
+function normalizeUser(raw: any): UIUser {
+    return {
+        id: raw.id ?? crypto.randomUUID(),
+        name: raw.name ?? raw.full_name ?? raw.user_metadata?.full_name ?? "Sin nombre",
+        email: raw.email ?? "sin-email",
+        role: raw.role ?? raw.user_metadata?.role ?? "STUDENT",
+        status: raw.status ?? (raw.emailVerified ? 'active' : 'pending'), // Map API status logic
+        lastLogin: raw.lastLogin ?? raw.last_login ?? raw.lastLoginAt ?? null, // Handle various potential key names
+        createdAt: raw.createdAt ?? new Date().toISOString()
+    };
 }
 
 export default function UsersPage() {
-    const [users, setUsers] = useState<User[]>([]);
+    const [users, setUsers] = useState<UIUser[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [filterRole, setFilterRole] = useState<string>('all');
 
     // Modals
-    const [editingUser, setEditingUser] = useState<User | null>(null);
-    const [deletingUser, setDeletingUser] = useState<User | null>(null);
+    const [editingUser, setEditingUser] = useState<UIUser | null>(null);
+    const [deletingUser, setDeletingUser] = useState<UIUser | null>(null);
 
     // Obtener usuarios reales de la API
     useEffect(() => {
@@ -39,8 +53,13 @@ export default function UsersPage() {
             const data = await response.json();
 
             if (response.ok) {
-                console.log('✅ Usuarios obtenidos de la API:', data.users);
-                setUsers(data.users);
+                // Normalizar datos antes de guardarlos en el estado
+                const normalizedUsers = (data.users || []).map(normalizeUser);
+
+                // 🧪 PASO 5 — PRUEBA DE FUEGO
+                console.table(normalizedUsers);
+
+                setUsers(normalizedUsers);
             } else {
                 console.error('❌ Error de API:', data.error);
                 toast.error(data.error || 'Error al cargar usuarios');
@@ -53,7 +72,7 @@ export default function UsersPage() {
         }
     };
 
-    const handleSuspendUser = async (user: User) => {
+    const handleSuspendUser = async (user: UIUser) => {
         const action = user.status === 'suspended' ? 'activate' : 'suspend';
 
         try {
@@ -75,15 +94,15 @@ export default function UsersPage() {
         }
     };
 
+    // 🧱 PASO 4 — FILTRO SEGURO
     const filteredUsers = users.filter(user => {
-        const name = (user.name || '').toLowerCase();
-        const email = (user.email || '').toLowerCase();
-        const query = (searchTerm || '').toLowerCase();
+        const query = searchTerm.trim().toLowerCase();
+        const roleMatch = filterRole === 'all' || user.role === filterRole;
 
-        const matchesSearch = name.includes(query) || email.includes(query);
-        const matchesRole = filterRole === 'all' || user.role === filterRole;
-
-        return matchesSearch && matchesRole;
+        return (
+            (user.name.toLowerCase().includes(query) || user.email.toLowerCase().includes(query)) &&
+            roleMatch
+        );
     });
 
     return (
@@ -174,7 +193,7 @@ export default function UsersPage() {
                                             <span className="capitalize">{user.status}</span>
                                         </div>
                                         <div>
-                                            {user.lastLogin}
+                                            {user.lastLogin || 'Nunca'}
                                         </div>
                                     </div>
 
@@ -256,7 +275,7 @@ export default function UsersPage() {
                                                         {user.status}
                                                     </span>
                                                 </td>
-                                                <td className="p-4 text-platinum-dim text-sm">{user.lastLogin}</td>
+                                                <td className="p-4 text-platinum-dim text-sm">{user.lastLogin || 'Nunca'}</td>
                                                 <td className="p-4">
                                                     <div className="flex gap-2">
                                                         <button
@@ -297,14 +316,14 @@ export default function UsersPage() {
 
             {/* Modals */}
             <EditUserModal
-                user={editingUser}
+                user={editingUser as any} // Cast if types slightly mismatch with modal props
                 isOpen={!!editingUser}
                 onClose={() => setEditingUser(null)}
                 onSuccess={fetchUsers}
             />
 
             <DeleteUserModal
-                user={deletingUser ? { ...deletingUser, role: deletingUser.role } : null}
+                user={deletingUser as any}
                 isOpen={!!deletingUser}
                 onClose={() => setDeletingUser(null)}
                 onSuccess={fetchUsers}
