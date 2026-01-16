@@ -9,7 +9,7 @@ export function TestimonialsSection() {
             name: 'Sofía Rodríguez',
             role: 'Full Stack Builder',
             company: 'Mercado Libre',
-            image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80',
+            image: 'https://ui-avatars.com/api/?name=Sofia+Rodriguez&background=random',
             quote: "SinapCode no es un curso, es un acelerador de carrera. Dejé mi trabajo de oficina y en 6 meses ya estaba deployando código en producción.",
             badge: 'Verified Builder'
         },
@@ -17,7 +17,7 @@ export function TestimonialsSection() {
             name: 'Carlos Mendez',
             role: 'Data Scientist',
             company: 'Nubank',
-            image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80',
+            image: 'https://ui-avatars.com/api/?name=Carlos+Mendez&background=random',
             quote: "La IA como tutor es un game-changer. Jamás me sentí atascado. Aprendí Python y Pandas más rápido que en la universidad.",
             badge: 'Verified Builder'
         },
@@ -25,7 +25,7 @@ export function TestimonialsSection() {
             name: 'Ana García',
             role: 'Smart Contract Dev',
             company: 'Blockchain Startup',
-            image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80',
+            image: 'https://ui-avatars.com/api/?name=Ana+Garcia&background=random',
             quote: "Entender Web3 parecía imposible hasta que encontré esta plataforma. Los Tech Leads saben exactamente lo que pide la industria hoy.",
             badge: 'Verified Builder'
         }
