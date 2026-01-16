@@ -15,8 +15,8 @@ const bannerSchema = z.object({
     title: z.string().min(3, 'El título es requerido'),
     description: z.string().optional(),
     linkUrl: z.string().url('Debe ser una URL válida').optional().or(z.literal('')),
-    position: z.number().int().default(0),
-    isActive: z.boolean().default(true),
+    position: z.number().int(),
+    isActive: z.boolean(),
     startDate: z.string().optional(),
     endDate: z.string().optional(),
 });
