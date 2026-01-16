@@ -32,7 +32,7 @@ export async function GET(request: Request) {
         // So we might need to map it, or update the UI.
         // It's better to return standard JSON and update UI, but for now let's map to what UI expects based on previous "mock" structure.
 
-        const mappedPrograms = programs.map(p => ({
+        const mappedPrograms = programs.map((p: any) => ({
             ...p,
             is_published: p.isPublished,
             enrolled_count: p.enrolledCount,

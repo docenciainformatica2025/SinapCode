@@ -16,7 +16,7 @@ export async function GET(request: Request) {
         });
 
         // Mapping for UI compatibility (expects snake_case)
-        const mappedBanners = banners.map(b => ({
+        const mappedBanners = banners.map((b: any) => ({
             ...b,
             is_active: b.isActive,
             image_url: b.imageUrl,
