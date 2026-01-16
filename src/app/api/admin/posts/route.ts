@@ -2,16 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
-import { slugify } from '@/lib/utils'; // Assuming utils exists, otherwise simple replace
-
-function simpleSlugify(text: string) {
-    return text.toString().toLowerCase()
-        .replace(/\s+/g, '-')           // Replace spaces with -
-        .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-        .replace(/\-\-+/g, '-')         // Replace multiple - with single -
-        .replace(/^-+/, '')             // Trim - from start of text
-        .replace(/-+$/, '');            // Trim - from end of text
-}
+import { slugify } from '@/lib/utils';
 
 // GET: List all posts (Public/Admin filtered)
 export async function GET(req: Request) {
@@ -49,7 +40,7 @@ export async function POST(req: Request) {
         }
 
         const body = await req.json();
-        const slug = body.slug || simpleSlugify(body.title);
+        const slug = body.slug || slugify(body.title);
 
         const post = await prisma.blogPost.create({
             data: {
