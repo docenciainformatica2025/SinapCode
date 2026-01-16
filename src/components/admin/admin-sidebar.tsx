@@ -18,8 +18,14 @@ export function AdminSidebar() {
     const menuItems = [
         { icon: LayoutDashboard, label: 'Dashboard', href: '/admin' },
         { icon: Users, label: 'Usuarios', href: '/admin/users' },
-        { icon: FileText, label: 'Banners', href: '/admin/banners' },
+        // Core Value
+        { icon: FileText, label: 'Cursos', href: '/admin/programs' },
+        { icon: LayoutDashboard, label: 'Banners (CMS)', href: '/admin/banners' },
+        // Business Intelligence
+        { icon: BarChart3, label: 'Finanzas', href: '/admin/finance' },
         { icon: BarChart3, label: 'Analytics', href: '/admin/analytics' },
+        // Tech & Security
+        { icon: Shield, label: 'Sistema', href: '/admin/system' },
         { icon: Shield, label: 'Auditoría', href: '/admin/audit' },
         { icon: Settings, label: 'Configuración', href: '/admin/settings' },
     ];
