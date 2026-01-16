@@ -34,8 +34,8 @@ interface UsageData {
     }[];
 }
 
-export function UsageChart() {
-    const data: UsageData = {
+export function UsageChart({ data: externalData }: { data?: any }) {
+    const defaultData: UsageData = {
         labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
         datasets: [
             {
@@ -88,7 +88,7 @@ export function UsageChart() {
     return (
         <div className="glass-panel p-6 rounded-2xl border border-white/10">
             <div className="h-[300px]">
-                <Line data={data} options={options} />
+                <Line data={externalData || defaultData} options={options} />
             </div>
         </div>
     );
