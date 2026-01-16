@@ -22,7 +22,7 @@ export async function PUT(
             return new NextResponse('Invalid status', { status: 400 });
         }
 
-        const currentTransaction = await prisma.transaction.findUnique({
+        const currentTransaction = await (prisma as any).transaction.findUnique({
             where: { id }
         });
 
@@ -36,7 +36,7 @@ export async function PUT(
         }
 
         // Update
-        const updatedTransaction = await prisma.transaction.update({
+        const updatedTransaction = await (prisma as any).transaction.update({
             where: { id },
             data: {
                 status,
@@ -60,7 +60,7 @@ export async function PUT(
         try {
             await prisma.auditLog.create({
                 data: {
-                    userId: session.user.id, // ID of admin
+                    userId: (session?.user as any)?.id, // ID of admin
                     action: 'transaction.update',
                     eventType: 'UPDATE',
                     eventCategory: 'TRANSACTION',
