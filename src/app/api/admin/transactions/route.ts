@@ -34,7 +34,7 @@ export async function GET(req: Request) {
 
         const where = {
             AND: [
-                status !== 'all' ? { status: { equals: status, mode: 'insensitive' } } : {},
+                status !== 'all' ? { status: { equals: status } } : {},
                 search ? {
                     OR: [
                         { description: { contains: search, mode: 'insensitive' } },
@@ -47,7 +47,7 @@ export async function GET(req: Request) {
         };
 
         const [transactions, total] = await Promise.all([
-            prisma.transaction.findMany({
+            (prisma as any).transaction.findMany({
                 where,
                 include: {
                     user: {
@@ -62,7 +62,7 @@ export async function GET(req: Request) {
                 skip,
                 take: limit,
             }),
-            prisma.transaction.count({ where })
+            (prisma as any).transaction.count({ where })
         ]);
 
         return NextResponse.json({
