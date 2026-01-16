@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LegalConsentLog",
+  "description": "Schema inmutable para el registro de aceptación de términos legales por parte del usuario.",
+  "type": "object",
+  "properties": {
+    "consent_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Identificador único del evento de consentimiento."
+    },
+    "user_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "ID del usuario que otorga el consentimiento."
+    },
+    "document_id": {
+      "type": "string",
+      "description": "ID del documento aceptado (ej: TERMS-001)."
+    },
+    "document_version": {
+      "type": "string",
+      "description": "Versión específica del documento en el momento de la aceptación (ej: 2.1.0)."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Fecha y hora exacta de la aceptación (ISO 8601)."
+    },
+    "ip_address": {
+      "type": "string",
+      "format": "ipv4",
+      "description": "Dirección IP desde donde se realizó la aceptación."
+    },
+    "user_agent": {
+      "type": "string",
+      "description": "Navegador y dispositivo utilizado."
+    },
+    "acceptance_method": {
+      "type": "string",
+      "enum": ["checkbox_click", "digital_signature", "biometric"],
+      "description": "Mecanismo de interacción."
+    }
+  },
+  "required": ["consent_id", "user_id", "document_id", "document_version", "timestamp", "ip_address", "acceptance_method"]
+}

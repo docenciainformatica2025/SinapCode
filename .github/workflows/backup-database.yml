@@ -1,0 +1,130 @@
+name: Database Backup
+
+on:
+  schedule:
+    # Run daily at 2 AM UTC (9 PM Colombia time)
+    - cron: '0 2 * * *'
+  workflow_dispatch:  # Allow manual trigger
+    inputs:
+      notify:
+        description: 'Send Slack notification'
+        required: false
+        default: 'true'
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PostgreSQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+
+      - name: Create backup directory
+        run: mkdir -p /tmp/backups
+
+      - name: Run backup script
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          BACKUP_ENCRYPTION_KEY: ${{ secrets.BACKUP_ENCRYPTION_KEY }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          BACKUP_DIR: /tmp/backups
+        run: |
+          chmod +x scripts/backup-database.sh
+          ./scripts/backup-database.sh
+
+      - name: Upload backup to artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: database-backup-${{ github.run_number }}
+          path: |
+            /tmp/backups/*.enc
+            /tmp/backups/*.sha256
+            /tmp/backups/*.json
+          retention-days: 30
+
+      - name: Configure AWS credentials
+        if: success()
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Upload to S3
+        if: success()
+        run: |
+          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+          aws s3 sync /tmp/backups/ \
+            s3://sinapcode-backups/database/ \
+            --exclude "*" \
+            --include "backup_*.enc" \
+            --include "backup_*.sha256" \
+            --include "backup_*.json" \
+            --storage-class STANDARD_IA
+
+      - name: Verify S3 upload
+        if: success()
+        run: |
+          echo "Latest backups in S3:"
+          aws s3 ls s3://sinapcode-backups/database/ --recursive | tail -10
+
+      - name: Cleanup old S3 backups
+        if: success()
+        run: |
+          # Delete backups older than 30 days
+          aws s3 ls s3://sinapcode-backups/database/ --recursive | \
+            awk '{print $4}' | \
+            while read file; do
+              file_date=$(echo $file | grep -oP '\d{8}' | head -1)
+              if [ -n "$file_date" ]; then
+                days_old=$(( ($(date +%s) - $(date -d "$file_date" +%s)) / 86400 ))
+                if [ $days_old -gt 30 ]; then
+                  echo "Deleting old backup: $file (${days_old} days old)"
+                  aws s3 rm "s3://sinapcode-backups/database/$file"
+                fi
+              fi
+            done
+
+      - name: Send success notification
+        if: success() && (github.event.inputs.notify == 'true' || github.event_name == 'schedule')
+        run: |
+          if [ -n "${{ secrets.SLACK_WEBHOOK_URL }}" ]; then
+            curl -X POST ${{ secrets.SLACK_WEBHOOK_URL }} \
+              -H 'Content-Type: application/json' \
+              -d '{
+                "text": "✅ Database backup completed successfully",
+                "attachments": [{
+                  "color": "good",
+                  "fields": [
+                    {"title": "Workflow", "value": "${{ github.workflow }}", "short": true},
+                    {"title": "Run", "value": "${{ github.run_number }}", "short": true},
+                    {"title": "Trigger", "value": "${{ github.event_name }}", "short": true}
+                  ]
+                }]
+              }'
+          fi
+
+      - name: Send failure notification
+        if: failure()
+        run: |
+          if [ -n "${{ secrets.SLACK_WEBHOOK_URL }}" ]; then
+            curl -X POST ${{ secrets.SLACK_WEBHOOK_URL }} \
+              -H 'Content-Type: application/json' \
+              -d '{
+                "text": "❌ Database backup FAILED",
+                "attachments": [{
+                  "color": "danger",
+                  "fields": [
+                    {"title": "Workflow", "value": "${{ github.workflow }}", "short": true},
+                    {"title": "Run", "value": "${{ github.run_number }}", "short": true},
+                    {"title": "URL", "value": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}", "short": false}
+                  ]
+                }]
+              }'
+          fi
