@@ -29,6 +29,7 @@ export async function middleware(request: NextRequest) {
     // Allows: Self, Vercel Analytics, Google Analytics, Images from Unsplash/Gravatar/Supabase
     const cspHeader = `
         default-src 'self';
+        connect-src 'self' https://region1.google-analytics.com https://*.supabase.co https://vitals.vercel-insights.com;
         script-src 'self' 'unsafe-eval' 'unsafe-inline' https://va.vercel-scripts.com https://www.googletagmanager.com;
         style-src 'self' 'unsafe-inline';
         img-src 'self' blob: data: https://images.unsplash.com https://*.supabase.co https://gravatar.com https://www.gravatar.com;

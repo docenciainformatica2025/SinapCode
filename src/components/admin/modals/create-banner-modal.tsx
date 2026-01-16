@@ -204,6 +204,19 @@ export function CreateBannerModal({ isOpen, onClose, onSuccess, bannerToEdit }: 
                     </div>
                 </div>
 
+                {/* Manual URL Input (Fallback for production) */}
+                <div className="space-y-2">
+                    <label className="text-sm font-medium text-platinum">O pegar URL de imagen externa</label>
+                    <input
+                        type="url"
+                        placeholder="https://i.imgur.com/..."
+                        value={uploadedImage || ''}
+                        onChange={(e) => setUploadedImage(e.target.value)}
+                        className="w-full px-3 py-2 bg-black/50 border border-white/10 rounded-lg text-white focus:outline-none focus:border-neural-blue transition text-sm"
+                    />
+                    <p className="text-xs text-platinum-dim">Útil si tienes la imagen alojada en otro servidor.</p>
+                </div>
+
                 {/* Additional Info */}
                 <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
