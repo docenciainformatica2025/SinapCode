@@ -42,7 +42,7 @@ export async function PUT(
             return new NextResponse("Title is required", { status: 400 });
         }
 
-        const updateData: Prisma.ProgramUpdateInput = {
+        const updateData: any = {
             title: body.title,
             slug: slugify(body.title),
             description: body.description,
@@ -66,10 +66,10 @@ export async function PUT(
         // Audit Log
         await prisma.auditLog.create({
             data: {
-                userId: session.user.id,
+                userId: (session?.user as any)?.id,
                 action: 'UPDATE_PROGRAM',
-                details: `Program updated: ${program.title} (${program.id})`,
-                status: 'success',
+                eventData: { details: `Program updated: ${program.title} (${program.id})` },
+                result: 'success',
                 ipAddress: '127.0.0.1' // In pro, get from headers
             }
         });
@@ -100,10 +100,10 @@ export async function DELETE(
         // Audit Log
         await prisma.auditLog.create({
             data: {
-                userId: session.user.id,
+                userId: (session?.user as any)?.id,
                 action: 'DELETE_PROGRAM',
-                details: `Program deleted: ${program.title} (${program.id})`,
-                status: 'warning',
+                eventData: { details: `Program deleted: ${program.title} (${program.id})` },
+                result: 'warning',
                 ipAddress: '127.0.0.1'
             }
         });

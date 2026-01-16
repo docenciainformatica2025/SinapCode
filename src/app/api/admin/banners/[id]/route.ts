@@ -31,7 +31,7 @@ export async function PUT(
             return new NextResponse("Title and Image URL are required", { status: 400 });
         }
 
-        const updateData: Prisma.BannerUpdateInput = {
+        const updateData: any = {
             title: body.title,
             description: body.description,
             imageUrl: body.imageUrl,
@@ -51,10 +51,10 @@ export async function PUT(
         // Audit Log
         await prisma.auditLog.create({
             data: {
-                userId: session.user.id,
+                userId: (session?.user as any)?.id,
                 action: 'UPDATE_BANNER',
-                details: `Banner updated: ${banner.title} (${banner.id})`,
-                status: 'success',
+                eventData: { details: `Banner updated: ${banner.title} (${banner.id})` },
+                result: 'success',
                 ipAddress: '127.0.0.1'
             }
         });
@@ -85,10 +85,10 @@ export async function DELETE(
         // Audit Log
         await prisma.auditLog.create({
             data: {
-                userId: session.user.id,
+                userId: (session?.user as any)?.id,
                 action: 'DELETE_BANNER',
-                details: `Banner deleted: ${banner.title} (${banner.id})`,
-                status: 'warning',
+                eventData: { details: `Banner deleted: ${banner.title} (${banner.id})` },
+                result: 'warning',
                 ipAddress: '127.0.0.1'
             }
         });
