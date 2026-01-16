@@ -8,7 +8,7 @@ import { es } from 'date-fns/locale';
 
 export async function GET(req: Request) {
     const session = await getServerSession(authOptions);
-    if (!session || (session.user?.role !== 'ADMIN' && session.user?.role !== 'SUPER_ADMIN')) {
+    if (!session || (session.user as any)?.role !== 'ADMIN' && (session.user as any)?.role !== 'SUPER_ADMIN') {
         return new NextResponse("Unauthorized", { status: 401 });
     }
 
