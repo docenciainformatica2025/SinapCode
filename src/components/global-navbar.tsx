@@ -18,7 +18,10 @@ export function GlobalNavbar() {
             <div className="flex items-center justify-between">
                 {/* Logo Area */}
                 <div className="flex items-center gap-8">
-                    <Link href="/" className="text-xl font-bold bg-brain-spark bg-clip-text text-transparent hover:opacity-80 transition">
+                    <Link
+                        href={session ? (isAdmin ? '/admin' : '/dashboard') : '/'}
+                        className="text-xl font-bold bg-brain-spark bg-clip-text text-transparent hover:opacity-80 transition"
+                    >
                         SinapCode
                     </Link>
 
