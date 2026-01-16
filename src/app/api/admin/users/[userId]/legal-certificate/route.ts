@@ -243,17 +243,11 @@ export async function GET(
             doc.on('end', () => resolve(Buffer.concat(chunks)));
         });
 
-        // Standardized Filename: SINAPCODE_LEGAL_YYYYMMDD_CODE.pdf
-        // Security: Avoid PII (Email) in filename. Use Certificate Code instead.
-        const dateStr = new Date().toISOString().split('T')[0].replace(/-/g, '');
-        const safeCode = certCode.replace(/[^a-zA-Z0-9-]/g, ''); // Extra sanitization
-        const filename = `SINAPCODE_LEGAL_${dateStr}_${safeCode}.pdf`;
-
         return new NextResponse(pdfBuffer as any, {
             status: 200,
             headers: {
                 'Content-Type': 'application/pdf',
-                'Content-Disposition': `attachment; filename="${filename}"`,
+                'Content-Disposition': `attachment; filename="legal_cert_${targetUser.email}.pdf"`,
             },
         });
 

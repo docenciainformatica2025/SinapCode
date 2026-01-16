@@ -101,8 +101,8 @@ export default function BlogPage() {
                             <button
                                 key={i}
                                 className={`px-4 py-2 rounded-lg font-medium transition ${i === 0
-                                        ? 'bg-neural-blue text-white'
-                                        : 'bg-white/10 text-[#B8BFC9] hover:bg-white/20'
+                                    ? 'bg-neural-blue text-white'
+                                    : 'bg-white/10 text-[#B8BFC9] hover:bg-white/20'
                                     }`}
                             >
                                 {cat.name} <span className="text-xs opacity-70">({cat.count})</span>
@@ -113,32 +113,34 @@ export default function BlogPage() {
 
                 {/* Featured Post */}
                 <div className="mb-16">
-                    <div className="glass-panel p-8 sm:p-12 rounded-2xl border border-white/10 hover:border-neural-blue/50 transition cursor-pointer">
-                        <div className="flex items-center gap-3 mb-4">
-                            <span className="px-3 py-1 bg-neural-blue/20 text-neural-blue rounded-full text-xs font-bold">
-                                DESTACADO
-                            </span>
-                            <span className="text-xs text-[#B8BFC9]">{featuredPost.category}</span>
+                    <Link href="/blog/futuro-ia">
+                        <div className="glass-panel p-8 sm:p-12 rounded-2xl border border-white/10 hover:border-neural-blue/50 transition cursor-pointer group">
+                            <div className="flex items-center gap-3 mb-4">
+                                <span className="px-3 py-1 bg-neural-blue/20 text-neural-blue rounded-full text-xs font-bold">
+                                    NUEVO
+                                </span>
+                                <span className="text-xs text-[#B8BFC9]">Tendencias IA</span>
+                            </div>
+
+                            <div className="text-6xl mb-6">🔮</div>
+
+                            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4 group-hover:text-neural-blue transition">
+                                El Futuro del Desarrollo de Software con IA
+                            </h2>
+
+                            <p className="text-lg text-[#B8BFC9] mb-6">
+                                La inteligencia artificial no vino a reemplazar a los desarrolladores, vino a darles superpoderes. Descubre cómo SinapCode redefine el flujo de trabajo.
+                            </p>
+
+                            <div className="flex items-center gap-4 text-sm text-[#B8BFC9]">
+                                <span>SinapCode Team</span>
+                                <span>•</span>
+                                <span>16 Ene, 2026</span>
+                                <span>•</span>
+                                <span>5 min lectura</span>
+                            </div>
                         </div>
-
-                        <div className="text-6xl mb-6">{featuredPost.image}</div>
-
-                        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4 hover:text-neural-blue transition">
-                            {featuredPost.title}
-                        </h2>
-
-                        <p className="text-lg text-[#B8BFC9] mb-6">
-                            {featuredPost.excerpt}
-                        </p>
-
-                        <div className="flex items-center gap-4 text-sm text-[#B8BFC9]">
-                            <span>{featuredPost.author}</span>
-                            <span>•</span>
-                            <span>{featuredPost.date}</span>
-                            <span>•</span>
-                            <span>{featuredPost.readTime} lectura</span>
-                        </div>
-                    </div>
+                    </Link>
                 </div>
 
                 {/* Posts Grid */}

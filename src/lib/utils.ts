@@ -56,13 +56,3 @@ export function getRelativeTime(date: Date | string): string {
 
     return formatDate(date);
 }
-
-export function slugify(text: string): string {
-    return text
-        .toString()
-        .toLowerCase()
-        .trim()
-        .replace(/\s+/g, '-')     // Replace spaces with -
-        .replace(/[^\w\-]+/g, '') // Remove all non-word chars
-        .replace(/\-\-+/g, '-');  // Replace multiple - with single -
-}

@@ -6,45 +6,34 @@ import { CoursesPreviewSection } from '@/components/landing/courses-preview-sect
 import { AIDemoSection } from '@/components/landing/ai-demo-section';
 import { PricingSection } from '@/components/landing/pricing-section';
 import { LandingFooter } from '@/components/landing/landing-footer';
-import HomeRedirect from '@/components/auth/home-redirect';
-import { prisma } from '@/lib/prisma';
+import { TestimonialsSection } from '@/components/landing/testimonials-section';
 
-export const dynamic = 'force-dynamic';
+import { ProjectsSection } from '@/components/landing/projects-section';
+import { CTASection } from '@/components/landing/cta-section';
+import { LatestInsightsSection } from '@/components/landing/latest-insights-section';
+import { type Metadata } from 'next';
 
-export default async function HomePage() {
-    // Buscar banner activo para la posición 'hero'
-    const banner = await prisma.banner.findFirst({
-        where: {
-            isActive: true,
-            // position: 'hero', // Si decides filtrar por posición
-            OR: [
-                { startDate: null },
-                { startDate: { lte: new Date() } }
-            ],
-            AND: [
-                {
-                    OR: [
-                        { endDate: null },
-                        { endDate: { gte: new Date() } }
-                    ]
-                }
-            ]
-        },
-        orderBy: {
-            priority: 'desc' // Mayor prioridad primero
-        }
-    });
+export const metadata: Metadata = {
+    title: 'Conviértete en un Tech Builder con IA',
+    description: 'Deja de estudiar código. Empieza a construir software. La única plataforma con tutores de IA y certificación blockchain.',
+};
 
+export default function HomePage() {
     return (
-        <div className="min-h-screen bg-deep-space">
-            <HomeRedirect />
+        <div className="min-h-screen bg-bg">
             <LandingNavbar />
-            <HeroSection banner={banner} />
-            <SocialProofSection />
-            <HowItWorksSection />
-            <CoursesPreviewSection />
-            <AIDemoSection />
-            <PricingSection />
+
+            <main>
+                <HeroSection />
+                <SocialProofSection />
+                <CoursesPreviewSection />
+                <HowItWorksSection />
+                <ProjectsSection />
+                <TestimonialsSection />
+                <CTASection />
+                <LatestInsightsSection />
+            </main>
+
             <LandingFooter />
         </div>
     );

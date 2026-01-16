@@ -81,6 +81,7 @@ class SecureLogger {
                 data: {
                     userId: logEntry.userId || null,
                     action: logEntry.action || logEntry.event || 'unknown',
+                    entity: 'SYSTEM', // Prevent P2011: Mandatory field in legacy schema
                     eventType: logEntry.level.toUpperCase(),
                     eventCategory: eventCategory,
                     eventData: logEntry,
@@ -105,6 +106,7 @@ class SecureLogger {
                 await prisma.auditLog.create({
                     data: {
                         action: 'LOG_FALLBACK',
+                        entity: 'SYSTEM', // Prevent P2011
                         eventType: 'ERROR',
                         // Usamos un valor seguro para el enum en fallback si es necesario, 
                         // o lo omitimos si es opcional. Supongamos que es opcional o SECURITY por defecto.

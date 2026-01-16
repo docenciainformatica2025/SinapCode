@@ -1,37 +1,44 @@
 import Link from 'next/link';
 import { GlobalNavbar } from '@/components/global-navbar';
 
+import { type Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: 'Aceleración de Talento Tech para Empresas',
+    description: 'Transforma a tu equipo de ingeniería en Builders de Alto Rendimiento. ROI medible, rutas personalizadas y soporte nivel Tech Lead.',
+};
+
 export default function EnterprisePage() {
     const features = [
         {
-            title: 'LMS Personalizado',
-            description: 'Plataforma de aprendizaje adaptada a tu marca y necesidades específicas.',
-            icon: '🎓',
+            title: 'Skill Acceleration Platform',
+            description: 'No es un LMS. Es una aceleradora de talento interno adaptada a tu stack tecnológico.',
+            icon: '🚀',
         },
         {
-            title: 'Analytics Avanzados',
-            description: 'Dashboards en tiempo real del progreso de tus equipos y ROI de capacitación.',
+            title: 'ROI Dashboards',
+            description: 'Mide el impacto real en el delivery de tu equipo. Menos tiempo de onboarding, más código en producción.',
             icon: '📊',
         },
         {
-            title: 'SSO & Integraciones',
-            description: 'Integración con tu Active Directory, Slack, Teams y herramientas existentes.',
-            icon: '🔗',
+            title: 'Enterprise SSO',
+            description: 'Seguridad grado bancario con integración directa a tu Active Directory y herramientas de trabajo.',
+            icon: '🔒',
         },
         {
-            title: 'Soporte Dedicado',
-            description: 'Account manager dedicado y soporte prioritario 24/7.',
-            icon: '🎯',
+            title: 'Tech Lead Support',
+            description: 'Tus equipos no hablan con soporte nivel 1. Hablan con Tech Leads expertos.',
+            icon: '👨‍💻',
         },
         {
-            title: 'Contenido Personalizado',
-            description: 'Cursos a medida para las tecnologías específicas de tu empresa.',
-            icon: '✨',
+            title: 'Custom Tech Tracks',
+            description: 'Diseñamos rutas de aprendizaje basadas en la arquitectura específica de tu empresa.',
+            icon: '🗺️',
         },
         {
-            title: 'Certificaciones',
-            description: 'Certificados verificados con blockchain para validar habilidades.',
-            icon: '🏆',
+            title: 'Blockchain Validation',
+            description: 'Certificación inmutable de las habilidades adquiridas por tu equipo.',
+            icon: '⛓️',
         },
     ];
 
@@ -44,30 +51,28 @@ export default function EnterprisePage() {
 
     const pricing = [
         {
-            name: 'Startup',
+            name: 'Startups',
             price: '$499',
             period: '/mes',
-            users: 'Hasta 50 usuarios',
+            users: 'Hasta 50 Builders',
             features: [
-                'Todos los cursos incluidos',
-                'Analytics básicos',
-                'Soporte por email',
-                'Certificados digitales',
-                'Integración SSO',
+                'Acceso Full a la Plataforma',
+                'ROI Analytics Básicos',
+                'Certificados Blockchain',
+                'Soporte Prioritario',
             ],
         },
         {
-            name: 'Business',
+            name: 'Scale-Ups',
             price: '$1,499',
             period: '/mes',
-            users: 'Hasta 200 usuarios',
+            users: 'Hasta 200 Builders',
             features: [
-                'Todo de Startup +',
-                'Analytics avanzados',
-                'Account manager dedicado',
-                'Contenido personalizado',
-                'Integraciones ilimitadas',
-                'Soporte prioritario 24/7',
+                'Todo en Startups +',
+                'Rutas Personalizadas (2)',
+                'Tech Lead Account Manager',
+                'Integración SSO & Slack',
+                'Sesiones de Mentoría Mensual',
             ],
             popular: true,
         },
@@ -75,147 +80,149 @@ export default function EnterprisePage() {
             name: 'Enterprise',
             price: 'Custom',
             period: '',
-            users: 'Usuarios ilimitados',
+            users: 'Builders Ilimitados',
             features: [
-                'Todo de Business +',
-                'LMS white-label',
-                'Cursos a medida',
-                'SLA garantizado',
-                'Onboarding dedicado',
-                'Reportes personalizados',
+                'Arquitectura White-Label',
+                'Rutas a Medida Ilimitadas',
+                'SLA de 99.99%',
+                'Onboarding Presencial',
+                'Auditoría de Skills del Equipo',
             ],
         },
     ];
 
     return (
-        <div className="min-h-screen bg-deep-space">
+        <div className="min-h-screen bg-deep-space selection:bg-gold/30 selection:text-white">
             <GlobalNavbar />
 
             {/* Hero */}
-            <div className="relative overflow-hidden">
-                <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-neural-blue/20 rounded-full blur-[120px]" />
-                <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-synapse-purple/20 rounded-full blur-[120px]" />
+            <div className="relative overflow-hidden pt-20">
+                <div className="absolute top-[-20%] left-[-10%] w-[800px] h-[800px] bg-primary/10 rounded-full blur-[120px]" />
+                <div className="absolute bottom-[-20%] right-[-10%] w-[800px] h-[800px] bg-gold/10 rounded-full blur-[120px]" />
 
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 relative z-10">
-                    <Link href="/dashboard" className="inline-flex items-center gap-2 text-platinum-dim hover:text-white transition group mb-8">
+                <div className="max-w-7xl mx-auto px-6 py-24 relative z-10 text-center">
+                    <Link href="/dashboard" className="inline-flex items-center gap-2 text-gold/80 hover:text-gold transition group mb-8 font-mono text-sm tracking-wider">
                         <span className="group-hover:-translate-x-1 transition-transform">←</span>
-                        Volver al Dashboard
+                        VOLVER AL CENTRO DE COMANDO
                     </Link>
 
-                    <div className="text-center mb-12">
-                        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">
-                            Capacita a tu Equipo con IA
-                        </h1>
-                        <p className="text-lg sm:text-xl text-[#B8BFC9] max-w-3xl mx-auto mb-8">
-                            Acelera el upskilling de tus desarrolladores con nuestra plataforma empresarial.
-                            Reduce costos de capacitación en un 70% y aumenta la productividad en 3 meses.
-                        </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <Link
-                                href="/contacto"
-                                className="px-8 py-4 bg-neural-blue text-white rounded-lg font-bold text-lg hover:bg-blue-600 transition shadow-neon-blue"
-                            >
-                                Solicitar Demo
-                            </Link>
-                            <a
-                                href="#pricing"
-                                className="px-8 py-4 bg-white/10 text-white rounded-lg font-bold text-lg hover:bg-white/20 transition border border-white/20"
-                            >
-                                Ver Precios
-                            </a>
-                        </div>
-                    </div>
+                    <h1 className="text-5xl md:text-7xl font-bold text-white mb-8 tracking-tight leading-tight">
+                        No solo contrates talento.<br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold to-gold-light">Constrúyelo.</span>
+                    </h1>
 
-                    {/* Trust Badges */}
-                    <div className="text-center">
-                        <p className="text-sm text-[#B8BFC9] mb-6">Confían en nosotros:</p>
-                        <div className="flex flex-wrap justify-center gap-8">
-                            {clients.map((client, i) => (
-                                <div key={i} className="text-center">
-                                    <div className="text-2xl font-bold text-white">{client.name}</div>
-                                    <div className="text-xs text-[#B8BFC9]">{client.employees} capacitados</div>
-                                </div>
-                            ))}
-                        </div>
+                    <p className="text-xl text-muted max-w-3xl mx-auto mb-12 leading-relaxed">
+                        Deja de buscar desarrolladores unicornio. Convierte a tu equipo actual en <span className="text-white font-semibold">Tech Builders de Alto Rendimiento</span> con nuestra plataforma de aceleración de skills.
+                    </p>
+
+                    <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                        <Link
+                            href="/contacto"
+                            className="px-8 py-4 bg-gold hover:bg-gold-light text-deep-space rounded-none font-bold text-lg transition-all shadow-[0_0_20px_rgba(212,175,55,0.3)] hover:shadow-[0_0_30px_rgba(212,175,55,0.5)] uppercase tracking-wide skew-x-[-10deg]"
+                        >
+                            <span className="skew-x-[10deg] inline-block">Agendar Demo Estratégica</span>
+                        </Link>
+                        <a
+                            href="#pricing"
+                            className="text-white font-medium hover:text-gold transition-colors underline decoration-gold/50 underline-offset-4"
+                        >
+                            Ver Planes de Aceleración
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            {/* Trust Badges */}
+            <div className="border-y border-white/5 bg-white/[0.02] py-12">
+                <div className="max-w-7xl mx-auto px-6 text-center">
+                    <p className="text-xs font-mono text-muted uppercase tracking-[0.2em] mb-8">
+                        Potenciando equipos de ingeniería en
+                    </p>
+                    <div className="flex flex-wrap justify-center gap-12 sm:gap-20 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+                        {clients.map((client, i) => (
+                            <div key={i} className="text-center group">
+                                <div className="text-2xl font-bold text-white mb-1 group-hover:text-gold transition-colors">{client.name}</div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
 
             {/* Features */}
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
-                <h2 className="text-3xl sm:text-4xl font-bold text-white mb-12 text-center">
-                    Todo lo que Necesitas para Capacitar
-                </h2>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="max-w-7xl mx-auto px-6 py-24">
+                <div className="text-center mb-16">
+                    <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+                        Infraestructura de Aceleración
+                    </h2>
+                    <p className="text-muted">Todo lo que tu CTO necesita para escalar el equipo.</p>
+                </div>
+
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     {features.map((feature, i) => (
-                        <div key={i} className="glass-panel p-6 rounded-2xl border border-white/10 hover:border-neural-blue/50 transition">
-                            <div className="text-4xl mb-4">{feature.icon}</div>
-                            <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
-                            <p className="text-[#B8BFC9]">{feature.description}</p>
+                        <div key={i} className="p-8 bg-surface/30 border border-white/5 hover:border-gold/30 transition-all duration-300 group">
+                            <div className="text-4xl mb-6 grayscale group-hover:grayscale-0 transition-all">{feature.icon}</div>
+                            <h3 className="text-xl font-bold text-white mb-3 group-hover:text-gold transition-colors">{feature.title}</h3>
+                            <p className="text-muted leading-relaxed">{feature.description}</p>
                         </div>
                     ))}
                 </div>
             </div>
 
             {/* Stats */}
-            <div className="bg-white/[0.02] py-16 sm:py-24">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                        <div className="text-center">
-                            <div className="text-4xl font-bold text-neural-blue mb-2">70%</div>
-                            <div className="text-sm text-[#B8BFC9]">Reducción de Costos</div>
-                        </div>
-                        <div className="text-center">
-                            <div className="text-4xl font-bold text-neural-blue mb-2">3x</div>
-                            <div className="text-sm text-[#B8BFC9]">Más Rápido que Cursos Tradicionales</div>
-                        </div>
-                        <div className="text-center">
-                            <div className="text-4xl font-bold text-neural-blue mb-2">95%</div>
-                            <div className="text-sm text-[#B8BFC9]">Tasa de Completación</div>
-                        </div>
-                        <div className="text-center">
-                            <div className="text-4xl font-bold text-neural-blue mb-2">24/7</div>
-                            <div className="text-sm text-[#B8BFC9]">Soporte con IA</div>
-                        </div>
+            <div className="bg-gradient-to-r from-deep-space to-surfaceSoft py-24 border-y border-white/5 relative overflow-hidden">
+                <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-5"></div>
+                <div className="max-w-7xl mx-auto px-6 relative z-10">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
+                        {[
+                            { val: '70%', label: 'Ahorro en Hiring' },
+                            { val: '3x', label: 'Velocidad de Delivery' },
+                            { val: '95%', label: 'Retención de Talento' },
+                            { val: '24/7', label: 'Soporte Expertos' }
+                        ].map((stat, i) => (
+                            <div key={i} className="text-center">
+                                <div className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50 mb-2">{stat.val}</div>
+                                <div className="text-sm font-mono text-gold uppercase tracking-wider">{stat.label}</div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
 
             {/* Pricing */}
-            <div id="pricing" className="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
+            <div id="pricing" className="max-w-7xl mx-auto px-6 py-24">
                 <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4 text-center">
-                    Planes Empresariales
+                    Inversión en Talento
                 </h2>
-                <p className="text-lg text-[#B8BFC9] text-center mb-12">
-                    Elige el plan que mejor se adapte al tamaño de tu equipo
+                <p className="text-lg text-muted text-center mb-16 max-w-2xl mx-auto">
+                    Escala tu equipo de ingeniería con planes predecibles y transparentes.
                 </p>
 
-                <div className="grid md:grid-cols-3 gap-6">
+                <div className="grid md:grid-cols-3 gap-8 items-start">
                     {pricing.map((plan, i) => (
                         <div
                             key={i}
-                            className={`glass-panel p-8 rounded-2xl border ${plan.popular ? 'border-neural-blue shadow-neon-blue' : 'border-white/10'
-                                } relative`}
+                            className={`p-8 bg-surface border ${plan.popular ? 'border-gold shadow-[0_0_30px_rgba(212,175,55,0.15)] transform md:-translate-y-4' : 'border-white/10 hover:border-white/30'
+                                } relative transition-all duration-300`}
                         >
                             {plan.popular && (
-                                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                                    <span className="bg-neural-blue text-white px-4 py-1 rounded-full text-xs font-bold">
-                                        MÁS POPULAR
+                                <div className="absolute top-0 right-0">
+                                    <span className="bg-gold text-deep-space px-4 py-1 text-xs font-bold uppercase tracking-wider">
+                                        Recomendado
                                     </span>
                                 </div>
                             )}
 
-                            <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
-                            <div className="mb-4">
-                                <span className="text-4xl font-bold text-white">{plan.price}</span>
-                                <span className="text-[#B8BFC9]">{plan.period}</span>
+                            <h3 className="text-xl font-bold text-white mb-2">{plan.name}</h3>
+                            <div className="mb-6 flex items-baseline gap-1">
+                                <span className="text-3xl font-bold text-white">{plan.price}</span>
+                                <span className="text-muted text-sm">{plan.period}</span>
                             </div>
-                            <p className="text-sm text-[#B8BFC9] mb-6">{plan.users}</p>
+                            <p className="text-sm text-gold/80 mb-8 font-mono">{plan.users}</p>
 
-                            <ul className="space-y-3 mb-8">
+                            <ul className="space-y-4 mb-8">
                                 {plan.features.map((feature, j) => (
-                                    <li key={j} className="flex items-start gap-2 text-sm text-[#B8BFC9]">
-                                        <span className="text-neural-blue">✓</span>
+                                    <li key={j} className="flex items-start gap-3 text-sm text-muted">
+                                        <span className="text-gold mt-0.5">▹</span>
                                         <span>{feature}</span>
                                     </li>
                                 ))}
@@ -223,12 +230,12 @@ export default function EnterprisePage() {
 
                             <Link
                                 href="/contacto"
-                                className={`block text-center py-3 rounded-lg font-bold transition ${plan.popular
-                                    ? 'bg-neural-blue text-white hover:bg-blue-600'
-                                    : 'bg-white/10 text-white hover:bg-white/20'
+                                className={`block text-center py-4 font-bold transition-all uppercase tracking-wider text-xs ${plan.popular
+                                    ? 'bg-gold text-deep-space hover:bg-gold-light'
+                                    : 'bg-white/5 text-white hover:bg-white/10'
                                     }`}
                             >
-                                Contactar Ventas
+                                Contactar Growth
                             </Link>
                         </div>
                     ))}
@@ -236,21 +243,16 @@ export default function EnterprisePage() {
             </div>
 
             {/* CTA */}
-            <div className="bg-gradient-to-r from-neural-blue/20 to-synapse-purple/20 py-16 sm:py-24">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-                    <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
-                        ¿Listo para Transformar tu Equipo?
-                    </h2>
-                    <p className="text-lg text-[#B8BFC9] mb-8">
-                        Agenda una demo personalizada y descubre cómo SinapCode puede acelerar el crecimiento de tu empresa.
-                    </p>
-                    <Link
-                        href="/contacto"
-                        className="inline-block px-8 py-4 bg-neural-blue text-white rounded-lg font-bold text-lg hover:bg-blue-600 transition shadow-neon-blue"
-                    >
-                        Solicitar Demo →
-                    </Link>
-                </div>
+            <div className="py-24 text-center">
+                <h2 className="text-3xl font-bold text-white mb-6">
+                    ¿Tu equipo está listo para el siguiente nivel?
+                </h2>
+                <Link
+                    href="/contacto"
+                    className="inline-block px-12 py-5 border border-gold text-gold hover:bg-gold hover:text-deep-space transition-all font-bold uppercase tracking-widest text-sm"
+                >
+                    Hablar con un estratega
+                </Link>
             </div>
         </div>
     );

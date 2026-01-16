@@ -28,6 +28,6 @@ export const validateEnv = () => {
         return { success: false, errors: result.error.format() };
     }
 
-    console.log("✅ Entorno Validado Correctamente");
+
     return { success: true, data: result.data };
 };

@@ -11,7 +11,14 @@ export function RecaptchaProvider({ children }: { children: React.ReactNode }) {
         return <>{children}</>;
     }
 
-    console.log('[ReCAPTCHA] Initializing with site key:', siteKey.substring(0, 20) + '...');
+
+    // Safe check for valid key format (simple heuristic)
+    const isValidKey = siteKey && siteKey.length > 20;
+
+    if (!isValidKey) {
+        console.warn('[ReCAPTCHA] Invalid or missing Site Key. ReCAPTCHA disabled.');
+        return <>{children}</>;
+    }
 
     return (
         <GoogleReCaptchaProvider

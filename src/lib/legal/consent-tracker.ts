@@ -58,14 +58,7 @@ export class ConsentTracker {
             this.saveLocalConsent(payload);
 
             // Log para desarrollo
-            if (process.env.NODE_ENV === 'development') {
-                console.log('📝 Consent recorded:', {
-                    type: data.documentType,
-                    version: data.documentVersion,
-                    method: data.consentMethod,
-                    timestamp: metadata.timestamp,
-                });
-            }
+
 
         } catch (error) {
             console.error('❌ Error recording consent:', error);

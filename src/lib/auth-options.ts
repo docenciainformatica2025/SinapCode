@@ -11,7 +11,7 @@ export const authOptions: NextAuthOptions = {
                 password: { label: "Password", type: "password" }
             },
             async authorize(credentials) {
-                console.log('🔐 [AUTH] Inicio de autenticación');
+
 
                 if (!credentials?.email || !credentials?.password) {
                     console.error('❌ [AUTH] Credenciales faltantes');
@@ -22,12 +22,12 @@ export const authOptions: NextAuthOptions = {
                     return null;
                 }
 
-                console.log('✅ [AUTH] Credenciales recibidas:', credentials.email);
+
 
                 const { prisma } = await import("@/lib/prisma");
                 const { compare } = await import("bcryptjs");
 
-                console.log('🔍 [AUTH] Buscando usuario en base de datos...');
+
                 const user = await prisma.user.findUnique({
                     where: { email: credentials.email }
                 });
@@ -41,13 +41,7 @@ export const authOptions: NextAuthOptions = {
                     return null;
                 }
 
-                console.log('✅ [AUTH] Usuario encontrado:', {
-                    id: user.id,
-                    email: user.email,
-                    role: user.role,
-                    emailVerified: !!user.emailVerified,
-                    hasPassword: !!user.password
-                });
+
 
                 if (!user.password) {
                     console.error('❌ [AUTH] Usuario sin contraseña');
@@ -69,7 +63,7 @@ export const authOptions: NextAuthOptions = {
                     throw new Error("Por favor verifica tu correo electrónico para iniciar sesión");
                 }
 
-                console.log('✅ [AUTH] Email verificado');
+
 
                 // Check if user is deleted (soft delete)
                 if (user.deletedAt) {
@@ -94,7 +88,7 @@ export const authOptions: NextAuthOptions = {
                     throw new Error("Tu cuenta ha sido suspendida. Contacta al administrador.");
                 }
 
-                console.log('🔑 [AUTH] Verificando contraseña...');
+
                 const isPasswordValid = await compare(credentials.password, user.password);
 
                 if (!isPasswordValid) {
@@ -107,14 +101,10 @@ export const authOptions: NextAuthOptions = {
                     return null;
                 }
 
-                console.log('✅ [AUTH] Contraseña válida');
+
 
                 // Successful login
-                console.log('🎉 [AUTH] Login exitoso:', {
-                    userId: user.id,
-                    email: user.email,
-                    role: user.role
-                });
+
 
                 await secureLogger.authEvent('login_success', {
                     userId: user.id,

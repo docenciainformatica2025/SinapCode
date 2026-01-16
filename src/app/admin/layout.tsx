@@ -1,7 +1,4 @@
-'use client';
-
-import { AdminLayoutPro } from '@/components/admin/layout-pro';
-import { AdminAuthGuard } from '@/components/admin/auth-guard';
+import { AdminSidebar } from '@/components/admin/admin-sidebar';
 
 export default function AdminLayout({
     children,
@@ -9,10 +6,11 @@ export default function AdminLayout({
     children: React.ReactNode;
 }) {
     return (
-        <AdminAuthGuard>
-            <AdminLayoutPro>
+        <div className="min-h-screen bg-bg flex">
+            <AdminSidebar />
+            <main className="flex-1 ml-64 p-8">
                 {children}
-            </AdminLayoutPro>
-        </AdminAuthGuard>
+            </main>
+        </div>
     );
 }

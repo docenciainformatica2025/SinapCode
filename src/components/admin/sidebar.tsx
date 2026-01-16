@@ -15,8 +15,7 @@ import {
     LogOut,
     ChevronRight,
     Zap,
-    Database,
-    DollarSign
+    Database
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -44,11 +43,6 @@ const navigation: NavItem[] = [
         name: 'Cursos',
         href: '/admin/courses',
         icon: BookOpen,
-    },
-    {
-        name: 'Transacciones',
-        href: '/admin/transactions',
-        icon: DollarSign,
     },
     {
         name: 'Analytics',

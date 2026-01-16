@@ -6,50 +6,49 @@ import { CookieConsent } from '@/components/legal/cookie-consent';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { ToastProvider } from '@/components/ui/toast-provider';
 import { GlobalOrganizationSchema, WebSiteSchema } from '@/components/seo/json-ld';
-import { GoogleAnalytics } from '@next/third-parties/google';
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+
+import { siteConfig } from '@/lib/site-config';
 
 export const metadata: Metadata = {
-    metadataBase: new URL('https://sinapcode.com'),
+    metadataBase: new URL(siteConfig.url),
     title: {
-        default: 'SinapCode - Aprende a Programar con IA | Cursos Gratis',
-        template: '%s | SinapCode'
+        default: 'SinapCode | Forjando la próxima generación de Tech Builders',
+        template: `%s | ${siteConfig.name}`
     },
-    description: 'Plataforma educativa con tutor de IA personal. Aprende Python, JavaScript, Hacking Ético y más. 100% gratis para siempre. Certificados verificados con blockchain.',
-    keywords: ['programación', 'IA', 'educación', 'coding', 'Python', 'JavaScript', 'cursos gratis', 'tutor IA', 'certificados blockchain'],
-    authors: [{ name: 'SinapCode', url: 'https://sinapcode.com' }],
+    description: siteConfig.description,
+    keywords: siteConfig.keywords,
+    authors: [{ name: 'SinapCode Team', url: siteConfig.url }],
     creator: 'SinapCode',
-    publisher: 'SinapCode',
-    formatDetection: {
-        email: false,
-        address: false,
-        telephone: false,
-    },
     openGraph: {
         type: 'website',
-        locale: 'es_ES',
-        url: 'https://sinapcode.com',
-        siteName: 'SinapCode',
-        title: 'SinapCode - Aprende a Programar con IA',
-        description: 'Plataforma educativa con tutor de IA personal. Cursos gratis de programación.',
+        locale: 'es_CO',
+        url: siteConfig.url,
+        title: siteConfig.name,
+        description: siteConfig.description,
+        siteName: siteConfig.name,
         images: [
             {
-                url: '/og-image.jpg',
+                url: siteConfig.ogImage,
                 width: 1200,
                 height: 630,
-                alt: 'SinapCode - Aprende a Programar con IA',
+                alt: siteConfig.name,
             },
         ],
     },
     twitter: {
         card: 'summary_large_image',
         site: '@sinapcode',
+        title: siteConfig.name,
+        description: siteConfig.description,
+        images: [siteConfig.ogImage],
         creator: '@sinapcode',
-        title: 'SinapCode - Aprende a Programar con IA',
-        description: 'Plataforma educativa con tutor de IA personal. Cursos gratis de programación.',
-        images: ['/og-image.jpg'],
     },
+    icons: {
+        icon: '/favicon.ico',
+        shortcut: '/favicon-16x16.png',
+        apple: '/apple-touch-icon.png',
+    },
+    manifest: `${siteConfig.url}/site.webmanifest`,
     robots: {
         index: true,
         follow: true,
@@ -61,10 +60,21 @@ export const metadata: Metadata = {
             'max-snippet': -1,
         },
     },
-    // verification: {
-    //     google: 'google-site-verification-code',
-    // },
 };
+
+import { Inter, JetBrains_Mono } from 'next/font/google';
+
+const inter = Inter({
+    subsets: ['latin'],
+    variable: '--font-inter',
+    display: 'swap',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+    subsets: ['latin'],
+    variable: '--font-jetbrains',
+    display: 'swap',
+});
 
 export default function RootLayout({
     children,
@@ -72,8 +82,8 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="es">
-            <body className="bg-deep-space text-platinum antialiased" suppressHydrationWarning>
+        <html lang="es" className={`${inter.variable} ${jetbrainsMono.variable}`}>
+            <body className="bg-bg text-text antialiased font-sans" suppressHydrationWarning>
                 <Providers>
                     <RecaptchaProvider>
                         <ErrorBoundary>
@@ -82,12 +92,9 @@ export default function RootLayout({
                             <WebSiteSchema />
                             <CookieConsent />
                             {children}
-                            <Analytics />
-                            <SpeedInsights />
                         </ErrorBoundary>
                     </RecaptchaProvider>
                 </Providers>
-                <GoogleAnalytics gaId="G-PLACEHOLDER" />
             </body>
         </html>
     );

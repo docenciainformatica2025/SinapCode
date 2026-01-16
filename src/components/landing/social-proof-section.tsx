@@ -4,9 +4,9 @@ import { motion } from 'framer-motion';
 
 export function SocialProofSection() {
     const stats = [
-        { value: '12,450+', label: 'Estudiantes Activos', icon: '👨‍🎓' },
-        { value: '487', label: 'Profesores Certificados', icon: '👨‍🏫' },
-        { value: '98.7%', label: 'Tasa de Satisfacción', icon: '⭐' },
+        { value: '12,450+', label: 'Builders Activos', icon: '👨‍💻' },
+        { value: '487', label: 'Tech Leads Expertos', icon: '🚀' },
+        { value: '98.7%', label: 'Satisfacción Global', icon: '⭐' },
         { value: '24/7', label: 'Soporte con IA', icon: '🤖' },
     ];
 
@@ -40,7 +40,7 @@ export function SocialProofSection() {
                 {/* Companies */}
                 <div className="text-center">
                     <p className="text-platinum-dim mb-8">
-                        Nuestros graduados trabajan en:
+                        Nuestros <span className="text-gold font-medium">Builders</span> lideran proyectos en:
                     </p>
                     <div className="flex flex-wrap justify-center items-center gap-8 opacity-50">
                         {companies.map((company, i) => (

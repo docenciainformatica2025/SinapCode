@@ -4,6 +4,8 @@ import type { NextRequest } from 'next/server';
 export async function middleware(request: NextRequest) {
     const response = NextResponse.next();
 
+    // 🛡️ Security Headers (Hardening)
+
     // 🛡️ Security Headers (Enterprise Hardening)
 
     // HSTS: Strict HTTPS enforcement (2 years)
@@ -19,41 +21,32 @@ export async function middleware(request: NextRequest) {
     response.headers.set('X-DNS-Prefetch-Control', 'off');
     response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
 
-    // Permissions Policy (Block all intrusive features)
+    // Permissions Policy (Block potentially dangerous features)
     response.headers.set(
         'Permissions-Policy',
-        'camera=(), microphone=(), geolocation=(), browsing-topics=(), payment=(), usb=(), magnetomery=(), accelerometer=(), gyroscope=()'
+        'camera=(), microphone=(), geolocation=(), browsing-topics=(), payment=(), usb=()'
     );
 
-    // Content-Security-Policy (CSP)
-    // Allows: Self, Vercel Analytics, Google Analytics, Images from Unsplash/Gravatar/Supabase
-    const cspHeader = `
-        default-src 'self';
-        connect-src 'self' https://region1.google-analytics.com https://*.supabase.co https://vitals.vercel-insights.com;
-        script-src 'self' 'unsafe-eval' 'unsafe-inline' https://va.vercel-scripts.com https://www.googletagmanager.com https://www.google.com/recaptcha/ https://www.gstatic.com;
-        frame-src 'self' https://www.google.com/recaptcha/;
-        style-src 'self' 'unsafe-inline';
-        img-src 'self' blob: data: https://images.unsplash.com https://*.supabase.co https://gravatar.com https://www.gravatar.com;
-        font-src 'self' data:;
-        object-src 'none';
-        base-uri 'self';
-        form-action 'self';
-        frame-ancestors 'none';
-        block-all-mixed-content;
-        upgrade-insecure-requests;
-    `;
-
-    response.headers.set('Content-Security-Policy', cspHeader.replace(/\s{2,}/g, ' ').trim());
+    // Content-Security-Policy (CSP) - Temporarily Disabled for Debugging
+    // const csp = [ ... ];
+    // response.headers.set('Content-Security-Policy', csp);
 
     // 🔒 Route Protection (Auth Check)
+    // Nota: Como estamos usando Auth.js (NextAuth v5 beta) y Mock, la protección real de sesión
+    // suele ir en un envoltorio separado o usando `auth`. Aquí ponemos la lógica base.
+
     const path = request.nextUrl.pathname;
 
-    // Protección básica de Admin en Edge
-    // Si intenta entrar a /admin y no tiene cookie de sesión, redirigir a login.
+    // 🔒 Route Protection (Auth Check)
+    // Fix: Redirección estricta desde el servidor para evitar "flicker" del home antiguo.
     if (path.startsWith('/admin')) {
         const sessionToken = request.cookies.get('next-auth.session-token') || request.cookies.get('__Secure-next-auth.session-token');
+
+        // Si no hay token de sesión, redirigir inmediatamente a login
         if (!sessionToken) {
-            return NextResponse.redirect(new URL('/auth/login', request.url));
+            const loginUrl = new URL('/auth/login', request.url);
+            loginUrl.searchParams.set('callbackUrl', path);
+            return NextResponse.redirect(loginUrl);
         }
     }
 

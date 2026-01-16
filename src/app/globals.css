@@ -2,14 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+    body {
+        @apply bg-bg text-text font-sans antialiased;
+    }
 }
 
-body {
-    background: var(--background);
-    color: var(--foreground);
+@layer components {
+    .container-page {
+        @apply max-w-7xl mx-auto px-4 md:px-8;
+    }
+
+    .btn-primary {
+        @apply inline-flex items-center gap-2 rounded-xl bg-primary text-bg font-semibold px-6 py-3 transition hover:opacity-90 focus:outline-none;
+    }
+
+    .btn-secondary {
+        @apply inline-flex items-center gap-2 rounded-xl border border-borderSoft text-primary px-6 py-3 transition hover:bg-primary/10;
+    }
 }
 
 @layer utilities {

@@ -4,14 +4,10 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, User, Mail, Shield } from 'lucide-react';
 import { toast } from 'sonner';
+import { UIUser } from '@/types/admin';
 
 interface EditUserModalProps {
-    user: {
-        id: string;
-        name: string;
-        email: string;
-        role: string;
-    } | null;
+    user: UIUser | null;
     isOpen: boolean;
     onClose: () => void;
     onSuccess: () => void;

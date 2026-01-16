@@ -127,11 +127,7 @@ const getVerificationEmailHTML = (confirmLink: string, email: string) => {
 export const sendVerificationEmail = async (email: string, token: string) => {
     const confirmLink = `${process.env.NEXTAUTH_URL}/auth/new-verification?token=${token}`;
 
-    console.log('[EMAIL] ========== EMAIL SERVICE START ==========');
-    console.log('[EMAIL] Environment:', process.env.NODE_ENV);
-    console.log('[EMAIL] RESEND_API_KEY exists:', !!RESEND_API_KEY);
-    console.log('[EMAIL] Sending to:', email);
-    console.log('[EMAIL] Confirm link:', confirmLink);
+
 
     if (!RESEND_API_KEY) {
         console.error('[EMAIL] ❌ RESEND_API_KEY is not set!');
@@ -159,9 +155,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
             return { success: false, error };
         }
 
-        console.log('[EMAIL] ✅ Email sent successfully!');
-        console.log('[EMAIL] Email ID:', data?.id);
-        console.log('[EMAIL] ========== EMAIL SERVICE END ==========');
+
         return { success: true, data };
     } catch (error) {
         console.error('[EMAIL] ❌ Exception during email sending:', error);

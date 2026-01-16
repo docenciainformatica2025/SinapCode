@@ -14,8 +14,7 @@ import {
     ChevronLeft,
     ChevronRight,
     Zap,
-    LogOut,
-    DollarSign,
+    LogOut
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -44,12 +43,6 @@ const menuItems = [
         icon: BookOpen,
         href: '/admin/programs',
         badge: 'New'
-    },
-    {
-        title: 'Transacciones',
-        icon: DollarSign,
-        href: '/admin/transactions',
-        badge: null
     },
     {
         title: 'Banners',

@@ -4,28 +4,14 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, AlertTriangle } from 'lucide-react';
 import { toast } from 'sonner';
+import { UIUser, DELETION_REASONS } from '@/types/admin';
 
 interface DeleteUserModalProps {
-    user: {
-        id: string;
-        name: string;
-        email: string;
-        role?: string;
-    } | null;
+    user: UIUser | null;
     isOpen: boolean;
     onClose: () => void;
     onSuccess: () => void;
 }
-
-const DELETION_REASONS = [
-    { value: 'GDPR_REQUEST', label: 'Solicitud del usuario (Derecho al olvido)' },
-    { value: 'TOS_VIOLATION', label: 'Violación de términos de servicio' },
-    { value: 'FRAUD', label: 'Actividad fraudulenta' },
-    { value: 'DUPLICATE', label: 'Cuenta duplicada' },
-    { value: 'COURT_ORDER', label: 'Orden judicial' },
-    { value: 'INACTIVE', label: 'Cuenta inactiva (limpieza)' },
-    { value: 'OTHER', label: 'Otro (especificar)' },
-];
 
 export function DeleteUserModal({ user, isOpen, onClose, onSuccess }: DeleteUserModalProps) {
     const [confirmText, setConfirmText] = useState('');

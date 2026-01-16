@@ -18,23 +18,17 @@ export default function LoginPage() {
         e.preventDefault();
         setLoading(true);
 
-        console.log('🚀 [LOGIN] Iniciando proceso de login...');
-        console.log('📧 [LOGIN] Email:', formData.email);
+
 
         try {
-            console.log('🔄 [LOGIN] Llamando a signIn...');
+
             const result = await signIn('credentials', {
                 email: formData.email,
                 password: formData.password,
                 redirect: false,
             });
 
-            console.log('📊 [LOGIN] Resultado de signIn:', {
-                ok: result?.ok,
-                error: result?.error,
-                status: result?.status,
-                url: result?.url
-            });
+
 
             if (result?.error) {
                 console.error('❌ [LOGIN] Error en autenticación:', result.error);
@@ -42,7 +36,7 @@ export default function LoginPage() {
                 toast.error('Credenciales inválidas. Por favor intenta de nuevo.');
                 setLoading(false);
             } else if (result?.ok) {
-                console.log('✅ [LOGIN] Autenticación exitosa');
+
                 toast.success('¡Bienvenido!');
 
                 // Check for secure redirect from sessionStorage
@@ -50,7 +44,7 @@ export default function LoginPage() {
                     ? sessionStorage.getItem('auth_redirect') || '/dashboard'
                     : '/dashboard';
 
-                console.log('🔀 [LOGIN] Redirigiendo a:', redirectTo);
+
 
                 // Clear the redirect after use
                 if (typeof window !== 'undefined') {

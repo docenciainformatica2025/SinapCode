@@ -21,9 +21,7 @@ export async function verifyRecaptcha(token: string) {
         return { success: false, message: 'Configuración de seguridad incompleta' };
     }
 
-    console.log('[ReCAPTCHA] Starting verification...');
-    console.log('[ReCAPTCHA] Token length:', token.length);
-    console.log('[ReCAPTCHA] Using secret key:', RECAPTCHA_SECRET_KEY.substring(0, 20) + '...');
+
 
     try {
         const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
@@ -40,7 +38,7 @@ export async function verifyRecaptcha(token: string) {
         }
 
         const data = await response.json();
-        console.log('[ReCAPTCHA] Google response:', JSON.stringify(data, null, 2));
+
 
         // Google test keys return: { success: true }
         // Production keys return: { success: true, score: 0.0-1.0, ... }
@@ -49,7 +47,7 @@ export async function verifyRecaptcha(token: string) {
         if (data.success === true) {
             // Success! Check score only if it exists (production keys)
             if (data.score !== undefined) {
-                console.log('[ReCAPTCHA] Score:', data.score);
+
                 if (data.score < 0.3) {
                     console.warn('[ReCAPTCHA] Low score detected:', data.score);
                     return {
@@ -59,10 +57,10 @@ export async function verifyRecaptcha(token: string) {
                     };
                 }
             } else {
-                console.log('[ReCAPTCHA] Test key detected (no score)');
+
             }
 
-            console.log('[ReCAPTCHA] ✅ Verification successful');
+
             return { success: true, score: data.score };
         } else {
             // Validation failed

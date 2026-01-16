@@ -15,7 +15,7 @@ export async function closeAllUserSessions(userId: string): Promise<number> {
             },
         });
 
-        console.log(`✅ Cerradas ${result.count} sesiones del usuario ${userId}`);
+
         return result.count;
     } catch (error) {
         console.error('❌ Error cerrando sesiones:', error);

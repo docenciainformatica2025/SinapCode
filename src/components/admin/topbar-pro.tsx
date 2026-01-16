@@ -1,9 +1,8 @@
 'use client';
 
-import { Search, User, Command } from 'lucide-react';
+import { Search, Bell, User, Command } from 'lucide-react';
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { NotificationDropdown } from './notifications-dropdown';
 
 interface TopbarProps {
     onCommandPaletteOpen?: () => void;
@@ -11,7 +10,7 @@ interface TopbarProps {
 
 export function AdminTopbar({ onCommandPaletteOpen }: TopbarProps) {
     const { data: session } = useSession();
-
+    const [notificationCount] = useState(3);
 
     return (
         <div className="h-16 glass-panel border-b border-white/10 px-6 flex items-center justify-between">
@@ -36,7 +35,14 @@ export function AdminTopbar({ onCommandPaletteOpen }: TopbarProps) {
             {/* Right Section */}
             <div className="flex items-center gap-4">
                 {/* Notifications */}
-                <NotificationDropdown />
+                <button className="relative p-2 hover:bg-white/10 rounded-lg transition-colors">
+                    <Bell className="h-5 w-5 text-platinum-dim hover:text-white transition-colors" />
+                    {notificationCount > 0 && (
+                        <span className="absolute -top-1 -right-1 w-5 h-5 bg-rose-500 rounded-full flex items-center justify-center text-[10px] font-bold text-white">
+                            {notificationCount}
+                        </span>
+                    )}
+                </button>
 
                 {/* User Menu */}
                 <div className="flex items-center gap-3 pl-4 border-l border-white/10">

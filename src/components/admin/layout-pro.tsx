@@ -24,9 +24,7 @@ export function AdminLayoutPro({ children }: AdminLayoutProProps) {
             {/* Main Content */}
             <div className="flex-1 flex flex-col overflow-hidden">
                 {/* Topbar */}
-                <div className="relative z-50">
-                    <AdminTopbar onCommandPaletteOpen={() => setCommandPaletteOpen(true)} />
-                </div>
+                <AdminTopbar onCommandPaletteOpen={() => setCommandPaletteOpen(true)} />
 
                 {/* Page Content */}
                 <main className="flex-1 overflow-y-auto p-6">

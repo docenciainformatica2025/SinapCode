@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 
 interface AlertItemProps {
@@ -43,29 +43,26 @@ export function AlertItem({ severity, message, timestamp, source }: AlertItemPro
 }
 
 export function AlertsPanel() {
-    const [alerts, setAlerts] = useState<any[]>([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchAlerts = async () => {
-            try {
-                const res = await fetch('/api/admin/security/alerts');
-                if (res.ok) {
-                    const data = await res.json();
-                    setAlerts(data.alerts);
-                }
-            } catch (error) {
-                console.error(error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchAlerts();
-        // Poll every 30 seconds for "LIVE" feel
-        const interval = setInterval(fetchAlerts, 30000);
-        return () => clearInterval(interval);
-    }, []);
+    const [alerts] = useState([
+        {
+            severity: 'critical' as const,
+            message: '3 failed login attempts from IP 192.168.1.100',
+            timestamp: '2 min ago',
+            source: 'Auth Service',
+        },
+        {
+            severity: 'warning' as const,
+            message: 'Database query time exceeded 500ms threshold',
+            timestamp: '15 min ago',
+            source: 'PostgreSQL',
+        },
+        {
+            severity: 'info' as const,
+            message: 'System backup completed successfully',
+            timestamp: '1 hour ago',
+            source: 'Backup Service',
+        },
+    ]);
 
     return (
         <div className="glass-panel p-6 rounded-2xl">
@@ -77,21 +74,9 @@ export function AlertsPanel() {
             </div>
 
             <div className="space-y-3">
-                {loading ? (
-                    <div className="text-center text-platinum-dim py-8">Escaneando sistema...</div>
-                ) : alerts.length === 0 ? (
-                    <div className="text-center py-8">
-                        <div className="inline-flex items-center justify-center p-3 bg-emerald-500/10 rounded-full mb-3">
-                            <span className="text-2xl">🛡️</span>
-                        </div>
-                        <p className="text-white font-medium">Sistema Seguro</p>
-                        <p className="text-sm text-platinum-dim">No hay alertas recientes</p>
-                    </div>
-                ) : (
-                    alerts.map((alert, i) => (
-                        <AlertItem key={i} {...alert} />
-                    ))
-                )}
+                {alerts.map((alert, i) => (
+                    <AlertItem key={i} {...alert} />
+                ))}
             </div>
         </div>
     );
