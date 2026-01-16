@@ -1,0 +1,53 @@
+name: SinapCode Enterprise CI
+
+on:
+  push:
+    branches: ["main", "develop"]
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  quality-gate:
+    name: 🛡️ Quality Gate (Lint & Types)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
+      
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: 🔍 Linting (ESLint)
+        run: pnpm turbo run lint
+
+      - name: 📐 Type Checking (TypeScript)
+        run: pnpm turbo run type-check
+
+  build-test:
+    name: 🏗️ Build & Test
+    needs: quality-gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: 🧪 Unit Tests (Jest)
+        run: pnpm turbo run test
+
+      - name: 📦 Build Application
+        run: pnpm turbo run build
