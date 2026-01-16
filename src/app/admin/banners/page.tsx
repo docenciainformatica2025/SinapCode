@@ -54,6 +54,25 @@ export default function BannersPage() {
         fetchBanners();
     }, []);
 
+    const handleToggleActive = async (banner: any) => {
+        try {
+            const res = await fetch(`/api/admin/banners/${banner.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ...banner, isActive: !banner.isActive }),
+            });
+
+            if (res.ok) {
+                fetchBanners();
+                // toast.success(`Banner ${!banner.isActive ? 'activado' : 'desactivado'}`); // Requires toast import or just simple refresh
+            } else {
+                alert('Error al actualizar estado');
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     return (
         <div className="space-y-6">
             {/* Header */}
@@ -174,12 +193,16 @@ export default function BannersPage() {
                                             </div>
                                         </td>
                                         <td className="p-4">
-                                            <span className={`px-3 py-1 rounded-full text-xs font-bold border ${banner.isActive
-                                                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                                                : 'bg-rose-500/10 text-rose-400 border-rose-500/20'
-                                                }`}>
+                                            <button
+                                                onClick={() => handleToggleActive(banner)}
+                                                className={`px-3 py-1 rounded-full text-xs font-bold border transition-all hover:scale-105 ${banner.isActive
+                                                    ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/20'
+                                                    : 'bg-rose-500/10 text-rose-400 border-rose-500/20 hover:bg-rose-500/20'
+                                                    }`}
+                                                title={banner.isActive ? "Desactivar" : "Activar"}
+                                            >
                                                 {banner.isActive ? 'Activo' : 'Inactivo'}
-                                            </span>
+                                            </button>
                                         </td>
                                         <td className="p-4">
                                             <div className="text-xs text-platinum-dim space-y-1">

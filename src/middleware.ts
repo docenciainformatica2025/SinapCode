@@ -30,7 +30,8 @@ export async function middleware(request: NextRequest) {
     const cspHeader = `
         default-src 'self';
         connect-src 'self' https://region1.google-analytics.com https://*.supabase.co https://vitals.vercel-insights.com;
-        script-src 'self' 'unsafe-eval' 'unsafe-inline' https://va.vercel-scripts.com https://www.googletagmanager.com;
+        script-src 'self' 'unsafe-eval' 'unsafe-inline' https://va.vercel-scripts.com https://www.googletagmanager.com https://www.google.com/recaptcha/ https://www.gstatic.com;
+        frame-src 'self' https://www.google.com/recaptcha/;
         style-src 'self' 'unsafe-inline';
         img-src 'self' blob: data: https://images.unsplash.com https://*.supabase.co https://gravatar.com https://www.gravatar.com;
         font-src 'self' data:;
