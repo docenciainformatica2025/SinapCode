@@ -131,9 +131,23 @@ export const authOptions: NextAuthOptions = {
     },
     callbacks: {
         async jwt({ token, user }) {
+            // 1. Initial Sign In
             if (user) {
                 token.id = user.id;
                 token.role = (user as any).role;
+            }
+            // 2. Subsequent checks: Refresh Role from DB to avoid "stale token" issues
+            else if (token.email) {
+                const { prisma } = await import("@/lib/prisma"); // Dynamic import to avoid circular dep issues in some setups
+                const freshUser = await prisma.user.findUnique({
+                    where: { email: token.email },
+                    select: { role: true, id: true }
+                });
+
+                if (freshUser) {
+                    token.role = freshUser.role; // ✅ FORCE UPDATE FROM DB
+                    token.id = freshUser.id;
+                }
             }
             return token;
         },
