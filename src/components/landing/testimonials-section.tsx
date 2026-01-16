@@ -9,7 +9,7 @@ export function TestimonialsSection() {
             name: 'Sofía Rodríguez',
             role: 'Full Stack Builder',
             company: 'Mercado Libre',
-            image: 'https://ui-avatars.com/api/?name=Sofia+Rodriguez&background=0D8ABC&color=fff',
+            image: 'https://randomuser.me/api/portraits/women/44.jpg',
             quote: "SinapCode no es un curso, es un acelerador. Dejé mi trabajo de oficina y en 6 meses ya estaba deployando código.",
             badge: 'Verified'
         },
@@ -17,7 +17,7 @@ export function TestimonialsSection() {
             name: 'Carlos Mendez',
             role: 'Data Scientist',
             company: 'Nubank',
-            image: 'https://ui-avatars.com/api/?name=Carlos+Mendez&background=822B99&color=fff',
+            image: 'https://randomuser.me/api/portraits/men/32.jpg',
             quote: "La IA como tutor es un game-changer. Aprendí Python y Pandas más rápido que en la universidad.",
             badge: 'Verified'
         },
@@ -25,7 +25,7 @@ export function TestimonialsSection() {
             name: 'Ana García',
             role: 'Smart Contract Dev',
             company: 'Blockchain Startup',
-            image: 'https://ui-avatars.com/api/?name=Ana+Garcia&background=D69E2E&color=fff',
+            image: 'https://randomuser.me/api/portraits/women/68.jpg',
             quote: "Entender Web3 parecía imposible hasta que encontré esta plataforma. Los Tech Leads saben lo que pide la industria.",
             badge: 'Verified'
         },
@@ -33,7 +33,7 @@ export function TestimonialsSection() {
             name: 'David Torres',
             role: 'Frontend Dev',
             company: 'Rappi',
-            image: 'https://ui-avatars.com/api/?name=David+Torres&background=E53E3E&color=fff',
+            image: 'https://randomuser.me/api/portraits/men/86.jpg',
             quote: "Pasé de cero a junior en React en 4 meses. El portafolio que armé aquí fue clave para mi contratación.",
             badge: 'Verified'
         },
@@ -41,7 +41,7 @@ export function TestimonialsSection() {
             name: 'Laura P.',
             role: 'UX Engineer',
             company: 'Globant',
-            image: 'https://ui-avatars.com/api/?name=Laura+Perez&background=319795&color=fff',
+            image: 'https://randomuser.me/api/portraits/women/22.jpg',
             quote: "La integración de diseño y código es única. Aprendí a usar Figma y Tailwind como una pro.",
             badge: 'Verified'
         },
@@ -49,7 +49,7 @@ export function TestimonialsSection() {
             name: 'Miguel Ángel',
             role: 'Backend Java',
             company: 'Bancolombia',
-            image: 'https://ui-avatars.com/api/?name=Miguel+Angel&background=DD6B20&color=fff',
+            image: 'https://randomuser.me/api/portraits/men/54.jpg',
             quote: "Lo mejor es la comunidad. Siempre hay alguien dispuesto a ayudar, y los mentores son top.",
             badge: 'Verified'
         },
@@ -57,7 +57,7 @@ export function TestimonialsSection() {
             name: 'Patricia L.',
             role: 'DevOps',
             company: 'Encora',
-            image: 'https://ui-avatars.com/api/?name=Patricia+Lopez&background=805AD5&color=fff',
+            image: 'https://randomuser.me/api/portraits/women/90.jpg',
             quote: "Docker y Kubernetes explicados para humanos. Ahora manejo toda la infraestructura de mi startup.",
             badge: 'Verified'
         },
@@ -65,7 +65,7 @@ export function TestimonialsSection() {
             name: 'Jorge Ruiz',
             role: 'Mobile Dev',
             company: 'Huge',
-            image: 'https://ui-avatars.com/api/?name=Jorge+Ruiz&background=38A169&color=fff',
+            image: 'https://randomuser.me/api/portraits/men/29.jpg',
             quote: "Hice mi primera app en React Native gracias a los proyectos guiados. Directo al App Store.",
             badge: 'Verified'
         },
@@ -73,7 +73,7 @@ export function TestimonialsSection() {
             name: 'Valentina M.',
             role: 'QA Automation',
             company: 'Endava',
-            image: 'https://ui-avatars.com/api/?name=Valentina+Muñoz&background=D53F8C&color=fff',
+            image: 'https://randomuser.me/api/portraits/women/55.jpg',
             quote: "Aprendí Cypress y Selenium con casos reales. Mi salario aumentó un 40% después de certificarme.",
             badge: 'Verified'
         },
@@ -81,7 +81,7 @@ export function TestimonialsSection() {
             name: 'Andrés F.',
             role: 'Security Analyst',
             company: 'Scotiabank',
-            image: 'https://ui-avatars.com/api/?name=Andres+Felipe&background=3182CE&color=fff',
+            image: 'https://randomuser.me/api/portraits/men/11.jpg',
             quote: "El módulo de ciberseguridad es brutal. Hacking ético explicado desde la base.",
             badge: 'Verified'
         },
@@ -89,7 +89,7 @@ export function TestimonialsSection() {
             name: 'Camila S.',
             role: 'Product Owner',
             company: 'Agile Co',
-            image: 'https://ui-avatars.com/api/?name=Camila+Sanchez&background=E53E3E&color=fff',
+            image: 'https://randomuser.me/api/portraits/women/33.jpg',
             quote: "No soy técnica, pero necesitaba entender el código para gestionar mi equipo. SinapCode fue la solución.",
             badge: 'Verified'
         },
@@ -97,7 +97,7 @@ export function TestimonialsSection() {
             name: 'Roberto D.',
             role: 'Freelancer',
             company: 'Upwork',
-            image: 'https://ui-avatars.com/api/?name=Roberto+Diaz&background=718096&color=fff',
+            image: 'https://randomuser.me/api/portraits/men/75.jpg',
             quote: "Ahora cobro en dólares trabajando desde casa. La sección de freelancing me enseñó a venderme.",
             badge: 'Verified'
         }
