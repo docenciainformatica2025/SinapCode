@@ -49,7 +49,7 @@ export async function POST(req: Request) {
                 excerpt: body.excerpt,
                 content: body.content,
                 coverImage: body.coverImage,
-                authorId: session.user?.id as string, // Safe cast as we checked session
+                authorId: (session.user as any)?.id, // Safe cast as we checked session
                 isPublished: body.isPublished ?? false,
                 publishedAt: body.isPublished ? new Date() : null,
                 tags: body.tags || [],
