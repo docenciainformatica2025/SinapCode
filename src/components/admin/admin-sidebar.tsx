@@ -18,9 +18,9 @@ export function AdminSidebar() {
     const menuItems = [
         { icon: LayoutDashboard, label: 'Dashboard', href: '/admin' },
         { icon: Users, label: 'Usuarios', href: '/admin/users' },
-        { icon: FileText, label: 'Contenido (Blog)', href: '/admin/content' },
-        { icon: BarChart3, label: 'Finanzas', href: '/admin/finance' },
-        { icon: Shield, label: 'Sistema', href: '/admin/system' },
+        { icon: FileText, label: 'Banners', href: '/admin/banners' },
+        { icon: BarChart3, label: 'Analytics', href: '/admin/analytics' },
+        { icon: Shield, label: 'Auditoría', href: '/admin/audit' },
         { icon: Settings, label: 'Configuración', href: '/admin/settings' },
     ];
 
@@ -44,8 +44,8 @@ export function AdminSidebar() {
                             key={item.href}
                             href={item.href}
                             className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${isActive
-                                    ? 'bg-gold/10 text-gold border border-gold/20'
-                                    : 'text-muted hover:text-white hover:bg-white/5'
+                                ? 'bg-gold/10 text-gold border border-gold/20'
+                                : 'text-muted hover:text-white hover:bg-white/5'
                                 }`}
                         >
                             <Icon className={`w-5 h-5 ${isActive ? 'text-gold' : 'text-muted group-hover:text-white'}`} />
@@ -59,7 +59,7 @@ export function AdminSidebar() {
             <div className="p-4 border-t border-white/5">
                 <button
                     className="flex items-center gap-3 px-4 py-3 w-full rounded-xl text-red-400 hover:bg-red-500/10 transition"
-                    onClick={() => console.log('Logout')}
+                    onClick={() => window.location.href = '/api/auth/signout'}
                 >
                     <LogOut className="w-5 h-5" />
                     <span className="font-medium">Cerrar Sesión</span>
