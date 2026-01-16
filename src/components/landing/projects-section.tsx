@@ -1,11 +1,12 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Github, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 
 export function ProjectsSection() {
-    const projects = [
+    const defaultProjects = [
         {
             title: 'Bot de Trading con IA',
             student: 'Carlos M.',
@@ -31,6 +32,20 @@ export function ProjectsSection() {
             tags: ['Python', 'Docker', 'AWS'],
         }
     ];
+
+    const [projects, setProjects] = useState<any[]>(defaultProjects);
+
+    useEffect(() => {
+        // Fetch published projects
+        fetch('/api/admin/projects')
+            .then(res => res.json())
+            .then(data => {
+                if (data.projects && data.projects.length > 0) {
+                    setProjects(data.projects);
+                }
+            })
+            .catch(err => console.error(err));
+    }, []);
 
     return (
         <section id="proyectos" className="py-24 bg-bg relative overflow-hidden">
@@ -68,7 +83,7 @@ export function ProjectsSection() {
                             <div className="relative h-48 overflow-hidden">
                                 <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent z-10" />
                                 <Image
-                                    src={project.image}
+                                    src={project.imageUrl || project.image}
                                     alt={project.title}
                                     fill
                                     className="object-cover group-hover:scale-105 transition-transform duration-500"

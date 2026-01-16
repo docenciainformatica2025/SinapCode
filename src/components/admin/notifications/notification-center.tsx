@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
+import { Bell } from 'lucide-react';
 
 interface Notification {
     id: string;
@@ -13,32 +14,36 @@ interface Notification {
 }
 
 export function NotificationCenter() {
-    const [notifications, setNotifications] = useState<Notification[]>([
-        {
-            id: '1',
-            type: 'warning',
-            title: 'Alto uso de CPU',
-            message: 'El servidor está usando 85% de CPU',
-            timestamp: new Date(Date.now() - 5 * 60000),
-            read: false,
-        },
-        {
-            id: '2',
-            type: 'success',
-            title: 'Backup completado',
-            message: 'Backup diario completado exitosamente',
-            timestamp: new Date(Date.now() - 30 * 60000),
-            read: false,
-        },
-        {
-            id: '3',
-            type: 'info',
-            title: 'Nuevo usuario registrado',
-            message: 'Juan Pérez se registró en la plataforma',
-            timestamp: new Date(Date.now() - 60 * 60000),
-            read: true,
-        },
-    ]);
+    const [notifications, setNotifications] = useState<Notification[]>([]);
+
+    useEffect(() => {
+        setNotifications([
+            {
+                id: '1',
+                type: 'warning',
+                title: 'Alto uso de CPU',
+                message: 'El servidor está usando 85% de CPU',
+                timestamp: new Date(Date.now() - 5 * 60000),
+                read: false,
+            },
+            {
+                id: '2',
+                type: 'success',
+                title: 'Backup completado',
+                message: 'Backup diario completado exitosamente',
+                timestamp: new Date(Date.now() - 30 * 60000),
+                read: false,
+            },
+            {
+                id: '3',
+                type: 'info',
+                title: 'Nuevo usuario registrado',
+                message: 'Juan Pérez se registró en la plataforma',
+                timestamp: new Date(Date.now() - 60 * 60000),
+                read: true,
+            },
+        ]);
+    }, []);
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -82,19 +87,17 @@ export function NotificationCenter() {
         <div className="relative">
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="relative p-2 rounded-lg hover:bg-white/5 transition"
+                className="relative rounded-lg p-2 text-platinum-dim transition-all hover:bg-white/5 hover:text-white border border-white/5 hover:border-white/10"
             >
-                <span className="text-2xl">🔔</span>
+                <Bell className="h-5 w-6" />
                 {unreadCount > 0 && (
-                    <span className="absolute top-0 right-0 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold">
-                        {unreadCount}
-                    </span>
+                    <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-rose-500 ring-2 ring-deep-space animate-pulse" />
                 )}
             </button>
 
             {isOpen && (
-                <div className="absolute right-0 mt-2 w-96 glass-panel border border-white/10 rounded-2xl shadow-2xl z-50">
-                    <div className="p-4 border-b border-white/10 flex items-center justify-between">
+                <div className="absolute right-0 mt-2 w-96 bg-[#0F1117] border border-white/10 rounded-2xl shadow-2xl z-50 overflow-hidden">
+                    <div className="p-4 border-b border-white/10 flex items-center justify-between bg-white/5">
                         <h3 className="text-lg font-bold text-white">Notificaciones</h3>
                         {unreadCount > 0 && (
                             <button

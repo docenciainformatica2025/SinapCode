@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import {
     LayoutDashboard,
     Users,
@@ -9,17 +10,25 @@ import {
     Settings,
     LogOut,
     BarChart3,
-    Shield
+    Shield,
+    Briefcase, // New
+    MessageSquare, // New
+    Image // New
 } from 'lucide-react';
 
 export function AdminSidebar() {
     const pathname = usePathname();
+    const { data: session } = useSession();
 
     const menuItems = [
         { icon: LayoutDashboard, label: 'Dashboard', href: '/admin' },
+        { icon: LayoutDashboard, label: 'Home Page (CMS)', href: '/admin/cms/home' },
+        { icon: FileText, label: 'Blog / Noticias', href: '/admin/posts' },
         { icon: Users, label: 'Usuarios', href: '/admin/users' },
         // Core Value
         { icon: FileText, label: 'Cursos', href: '/admin/programs' },
+        { icon: Briefcase, label: 'Proyectos', href: '/admin/projects' }, // New
+        { icon: MessageSquare, label: 'Testimonios', href: '/admin/testimonials' }, // New
         { icon: LayoutDashboard, label: 'Banners (CMS)', href: '/admin/banners' },
         // Business Intelligence
         { icon: BarChart3, label: 'Finanzas', href: '/admin/finance' },
@@ -61,8 +70,24 @@ export function AdminSidebar() {
                 })}
             </nav>
 
-            {/* Footer */}
+            {/* Footer & User Profile */}
             <div className="p-4 border-t border-white/5">
+                <div className="mb-3 rounded-lg bg-white/5 p-3">
+                    <div className="flex items-center gap-3">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-accent-gold to-amber-600 text-sm font-bold text-deep-space">
+                            {session?.user?.name?.[0]?.toUpperCase() || 'A'}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                            <div className="truncate text-sm font-medium text-white">
+                                {session?.user?.name || 'Admin'}
+                            </div>
+                            <div className="truncate text-xs text-platinum-dim">
+                                {session?.user?.email}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <button
                     className="flex items-center gap-3 px-4 py-3 w-full rounded-xl text-red-400 hover:bg-red-500/10 transition"
                     onClick={() => window.location.href = '/api/auth/signout'}
@@ -70,6 +95,12 @@ export function AdminSidebar() {
                     <LogOut className="w-5 h-5" />
                     <span className="font-medium">Cerrar Sesión</span>
                 </button>
+
+                <div className="mt-4 text-center">
+                    <p className="text-[10px] text-white/20 font-mono">
+                        v{process.env.NEXT_PUBLIC_APP_VERSION || '1.2.0'}
+                    </p>
+                </div>
             </div>
         </aside>
     );

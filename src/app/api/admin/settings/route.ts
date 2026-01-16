@@ -19,7 +19,7 @@ export async function GET(req: Request) {
 
         // Read system info
         const systemInfo = {
-            appVersion: process.env.npm_package_version || '1.1.0',
+            appVersion: process.env.NEXT_PUBLIC_APP_VERSION || process.env.npm_package_version || '1.2.0',
             nextVersion: process.env.npm_package_dependencies_next || '14.1.0',
             nodeEnv: process.env.NODE_ENV || 'development',
             dbType: 'Supabase (PostgreSQL)'

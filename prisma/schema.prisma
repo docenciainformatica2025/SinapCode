@@ -23,7 +23,7 @@ model User {
   image         String?
   password      String?
   role          Role      @default(STUDENT)
-  
+
   // Security fields
   mfaEnabled       Boolean   @default(false)
   mfaSecret        String?
@@ -31,26 +31,26 @@ model User {
   lastLoginIp      String?
   failedLoginCount Int       @default(0)
   lockedUntil      DateTime?
-  
+
   // Age verification (COPPA compliance)
   birthDate     DateTime?
   isMinor       Boolean   @default(false)
   guardianEmail String?
-  
+
   // Soft delete (GDPR/Ley 1581 compliance)
-  deletedAt     DateTime?
-  deletedBy     String?   // userId del admin que eliminó
-  deletionReason String?  @db.Text
-  
+  deletedAt      DateTime?
+  deletedBy      String? // userId del admin que eliminó
+  deletionReason String?   @db.Text
+
   // Suspension tracking (Legal compliance)
-  suspendedAt   DateTime?
-  suspendedBy   String?   // userId del admin que suspendió
-  suspensionReason String? @db.Text
-  
+  suspendedAt      DateTime?
+  suspendedBy      String? // userId del admin que suspendió
+  suspensionReason String?   @db.Text
+
   // Timestamps
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   // Relations
   accounts      Account[]
   sessions      Session[]
@@ -59,42 +59,43 @@ model User {
   auditLogs     AuditLog[]
   dataRequests  DataSubjectRequest[]
   transactions  Transaction[]
-  
+  posts         BlogPost[] // Added for CMS
+
   @@map("users")
 }
 
 model Certificate {
-  id        String   @id @default(uuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  type      String   @default("LEGAL")
-  code      String   @unique
-  status    String   @default("ACTIVE")
-  
-  issuedAt  DateTime @default(now())
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  type   String @default("LEGAL")
+  code   String @unique
+  status String @default("ACTIVE")
+
+  issuedAt  DateTime  @default(now())
   expiresAt DateTime?
   metadata  Json?
   fileUrl   String?
-  
+
   @@index([userId])
   @@index([code])
   @@map("certificates")
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String? @db.Text
-  access_token       String? @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String? @db.Text
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -141,7 +142,7 @@ model LegalConsent {
   // Evidencia (GDPR Art. 7)
   ipAddress        String?
   userAgent        String?
-  geolocation      Json?    // {latitude, longitude, accuracy}
+  geolocation      Json? // {latitude, longitude, accuracy}
   screenResolution String?
   language         String?
   timezone         String?
@@ -175,24 +176,24 @@ model CookieConsent {
 }
 
 model LegalDocument {
-  id              String    @id @default(uuid())
-  documentType    DocumentType
-  version         String
-  content         String    @db.Text
-  contentHash     String    // SHA-256
-  
+  id           String       @id @default(uuid())
+  documentType DocumentType
+  version      String
+  content      String       @db.Text
+  contentHash  String // SHA-256
+
   // Vigencia
-  effectiveDate   DateTime
-  deprecatedDate  DateTime?
-  
+  effectiveDate  DateTime
+  deprecatedDate DateTime?
+
   // Metadata
-  changesSummary  String?   @db.Text
-  metadata        Json?
-  
+  changesSummary String? @db.Text
+  metadata       Json?
+
   // Auditoría
-  createdBy       String?
-  createdAt       DateTime  @default(now())
-  
+  createdBy String?
+  createdAt DateTime @default(now())
+
   @@unique([documentType, version])
   @@index([documentType])
   @@index([effectiveDate])
@@ -200,26 +201,26 @@ model LegalDocument {
 }
 
 model LegalNotification {
-  id              String   @id @default(uuid())
-  userId          String
-  
+  id     String @id @default(uuid())
+  userId String
+
   // Tipo de notificación
   notificationType NotificationType
   documentVersion  String?
-  
+
   // Entrega
-  deliveryMethod   DeliveryMethod
-  deliveryStatus   DeliveryStatus
-  sentAt           DateTime @default(now())
-  readAt           DateTime?
-  
+  deliveryMethod DeliveryMethod
+  deliveryStatus DeliveryStatus
+  sentAt         DateTime       @default(now())
+  readAt         DateTime?
+
   // Evidencia
-  emailId          String?  // ID de SendGrid/SES
-  trackingData     Json?
-  
+  emailId      String? // ID de SendGrid/SES
+  trackingData Json?
+
   // Metadata
-  metadata         Json?
-  
+  metadata Json?
+
   @@index([userId])
   @@index([notificationType])
   @@index([sentAt])
@@ -227,29 +228,29 @@ model LegalNotification {
 }
 
 model DataSubjectRequest {
-  id                String   @id @default(uuid())
-  userId            String
-  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   // Tipo de solicitud
-  requestType       RequestType
-  status            RequestStatus
-  
+  requestType RequestType
+  status      RequestStatus
+
   // Datos
-  requestData       Json?
-  responseData      Json?
-  
+  requestData  Json?
+  responseData Json?
+
   // Verificación
   verificationMethod String?
-  
+
   // Compliance
-  requestedAt       DateTime @default(now())
-  completedAt       DateTime?
-  responseDeadline  DateTime // 30 días GDPR
-  
+  requestedAt      DateTime  @default(now())
+  completedAt      DateTime?
+  responseDeadline DateTime // 30 días GDPR
+
   // Metadata
-  metadata          Json?
-  
+  metadata Json?
+
   @@index([userId])
   @@index([requestType])
   @@index([status])
@@ -262,37 +263,37 @@ model DataSubjectRequest {
 // ============================================
 
 model AuditLog {
-  id            String   @id @default(uuid())
-  userId        String?
-  user          User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
-  
+  id     String  @id @default(uuid())
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
   // Evento
-  action        String?   // Legacy support ("user.create")
-  eventType     String?   // New structure
+  action        String? // Legacy support ("user.create")
+  eventType     String? // New structure
   eventCategory EventCategory?
   eventData     Json?
-  
+
   // Contexto
-  entity        String?  // Legacy
-  entityId      String?  // Legacy
-  changes       Json?    // Legacy
-  result        String?  // Legacy
-  errorMsg      String?  // Legacy
-  
-  ipAddress     String?
-  userAgent     String?
-  sessionId     String?
-  
+  entity   String? // Legacy
+  entityId String? // Legacy
+  changes  Json? // Legacy
+  result   String? // Legacy
+  errorMsg String? // Legacy
+
+  ipAddress String?
+  userAgent String?
+  sessionId String?
+
   // Inmutabilidad (blockchain-style)
-  hash          String?
-  previousHash  String?
-  
+  hash         String?
+  previousHash String?
+
   // Metadata
-  metadata      Json?
-  
+  metadata Json?
+
   // Timestamp
-  createdAt     DateTime @default(now())
-  
+  createdAt DateTime @default(now())
+
   @@index([userId])
   @@index([eventType])
   @@index([action])
@@ -302,10 +303,10 @@ model AuditLog {
 
 model SystemMetric {
   id        String   @id @default(cuid())
-  metric    String   // "api.response_time", "db.connections", "memory.usage"
+  metric    String // "api.response_time", "db.connections", "memory.usage"
   value     Float
-  unit      String   // "ms", "count", "%", "bytes"
-  tags      Json?    // {"endpoint": "/api/users", "method": "GET"}
+  unit      String // "ms", "count", "%", "bytes"
+  tags      Json? // {"endpoint": "/api/users", "method": "GET"}
   timestamp DateTime @default(now())
 
   @@index([metric])
@@ -388,37 +389,37 @@ enum EventCategory {
 // ============================================
 
 model Program {
-  id            String    @id @default(uuid())
-  title         String
-  description   String?
-  slug          String    @unique
-  thumbnailUrl  String?   @map("thumbnail_url")
-  level         String?
-  durationHours Int?      @map("duration_hours")
-  price         Decimal?  @default(0) @db.Decimal(10, 2)
-  discountPrice Decimal?  @map("discount_price") @db.Decimal(10, 2)
-  isPublished   Boolean   @default(false) @map("is_published")
-  isFeatured    Boolean   @default(false) @map("is_featured")
-  category      String?
-  tags          String[]
-  instructorId  String?   @map("instructor_id")
-  enrolledCount Int       @default(0) @map("enrolled_count")
-  completionRate Decimal? @default(0) @map("completion_rate") @db.Decimal(5, 2)
-  rating        Decimal?  @default(0) @db.Decimal(3, 2)
-  reviewCount   Int       @default(0) @map("review_count")
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at")
-  publishedAt   DateTime? @map("published_at")
-  archivedAt    DateTime? @map("archived_at")
-  
-  modules       ProgramModule[]
-  enrollments   ProgramEnrollment[]
+  id             String    @id @default(uuid())
+  title          String
+  description    String?
+  slug           String    @unique
+  thumbnailUrl   String?   @map("thumbnail_url")
+  level          String?
+  durationHours  Int?      @map("duration_hours")
+  price          Decimal?  @default(0) @db.Decimal(10, 2)
+  discountPrice  Decimal?  @map("discount_price") @db.Decimal(10, 2)
+  isPublished    Boolean   @default(false) @map("is_published")
+  isFeatured     Boolean   @default(false) @map("is_featured")
+  category       String?
+  tags           String[]
+  instructorId   String?   @map("instructor_id")
+  enrolledCount  Int       @default(0) @map("enrolled_count")
+  completionRate Decimal?  @default(0) @map("completion_rate") @db.Decimal(5, 2)
+  rating         Decimal?  @default(0) @db.Decimal(3, 2)
+  reviewCount    Int       @default(0) @map("review_count")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @default(now()) @updatedAt @map("updated_at")
+  publishedAt    DateTime? @map("published_at")
+  archivedAt     DateTime? @map("archived_at")
 
-  @@map("programs")
+  modules     ProgramModule[]
+  enrollments ProgramEnrollment[]
+
   @@index([slug])
   @@index([instructorId])
   @@index([isPublished])
   @@index([category])
+  @@map("programs")
 }
 
 model ProgramModule {
@@ -432,9 +433,9 @@ model ProgramModule {
   isPublished     Boolean  @default(false) @map("is_published")
   createdAt       DateTime @default(now()) @map("created_at")
   updatedAt       DateTime @default(now()) @updatedAt @map("updated_at")
-  
-  lessons         ProgramLesson[]
-  
+
+  lessons ProgramLesson[]
+
   @@map("program_modules")
 }
 
@@ -453,61 +454,61 @@ model ProgramLesson {
   resources       Json?
   createdAt       DateTime      @default(now()) @map("created_at")
   updatedAt       DateTime      @default(now()) @updatedAt @map("updated_at")
-  
+
   @@map("program_lessons")
 }
 
 model ProgramEnrollment {
-  id            String    @id @default(uuid())
-  userId        String    @map("user_id")
-  programId     String    @map("program_id")
-  program       Program   @relation(fields: [programId], references: [id], onDelete: Cascade)
-  status        String    @default("active") // active, completed, cancelled
-  progress      Decimal?  @default(0) @db.Decimal(5, 2)
-  startedAt     DateTime? @default(now()) @map("started_at")
-  completedAt   DateTime? @map("completed_at")
+  id             String    @id @default(uuid())
+  userId         String    @map("user_id")
+  programId      String    @map("program_id")
+  program        Program   @relation(fields: [programId], references: [id], onDelete: Cascade)
+  status         String    @default("active") // active, completed, cancelled
+  progress       Decimal?  @default(0) @db.Decimal(5, 2)
+  startedAt      DateTime? @default(now()) @map("started_at")
+  completedAt    DateTime? @map("completed_at")
   lastAccessedAt DateTime? @map("last_accessed_at")
-  createdAt     DateTime  @default(now()) @map("created_at")
-  
+  createdAt      DateTime  @default(now()) @map("created_at")
+
   @@unique([userId, programId])
   @@map("program_enrollments")
 }
 
 model Banner {
-  id            String    @id @default(uuid())
-  title         String
-  description   String?
-  imageUrl      String    @map("image_url")
-  linkUrl       String?   @map("link_url")
-  ctaText       String?   @map("cta_text")
-  position      String    @default("hero") // hero, sidebar, modal, notification
-  priority      Int       @default(0)
-  isActive      Boolean   @default(false) @map("is_active")
-  targetAudience Json?    @map("target_audience")
-  startDate     DateTime? @map("start_date")
-  endDate       DateTime? @map("end_date")
-  impressions   Int       @default(0)
-  clicks        Int       @default(0)
-  createdBy     String?   @map("created_by")
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at")
-  
+  id             String    @id @default(uuid())
+  title          String
+  description    String?
+  imageUrl       String    @map("image_url")
+  linkUrl        String?   @map("link_url")
+  ctaText        String?   @map("cta_text")
+  position       String    @default("hero") // hero, sidebar, modal, notification
+  priority       Int       @default(0)
+  isActive       Boolean   @default(false) @map("is_active")
+  targetAudience Json?     @map("target_audience")
+  startDate      DateTime? @map("start_date")
+  endDate        DateTime? @map("end_date")
+  impressions    Int       @default(0)
+  clicks         Int       @default(0)
+  createdBy      String?   @map("created_by")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @default(now()) @updatedAt @map("updated_at")
+
   @@map("banners")
 }
 
 model AnalyticsEvent {
-  id          String   @id @default(uuid())
-  userId      String?  @map("user_id")
-  eventType   String   @map("event_type")
-  eventName   String   @map("event_name")
-  properties  Json?
-  pageUrl     String?  @map("page_url")
-  referrer    String?
-  userAgent   String?  @map("user_agent")
-  ipAddress   String?  @map("ip_address")
-  sessionId   String?  @map("session_id")
-  createdAt   DateTime @default(now()) @map("created_at")
-  
+  id         String   @id @default(uuid())
+  userId     String?  @map("user_id")
+  eventType  String   @map("event_type")
+  eventName  String   @map("event_name")
+  properties Json?
+  pageUrl    String?  @map("page_url")
+  referrer   String?
+  userAgent  String?  @map("user_agent")
+  ipAddress  String?  @map("ip_address")
+  sessionId  String?  @map("session_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+
   @@map("analytics_events")
 }
 
@@ -521,55 +522,130 @@ model SystemSetting {
   updatedBy   String?  @map("updated_by")
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
-  
+
   @@map("system_settings")
 }
 
 model Notification {
-  id          String    @id @default(uuid())
-  userId      String    @map("user_id")
-  type        String
-  title       String
-  message     String
-  linkUrl     String?   @map("link_url")
-  isRead      Boolean   @default(false) @map("is_read")
-  priority    String    @default("medium")
-  metadata    Json?
-  createdAt   DateTime  @default(now()) @map("created_at")
-  readAt      DateTime? @map("read_at")
-  
+  id        String    @id @default(uuid())
+  userId    String    @map("user_id")
+  type      String
+  title     String
+  message   String
+  linkUrl   String?   @map("link_url")
+  isRead    Boolean   @default(false) @map("is_read")
+  priority  String    @default("medium")
+  metadata  Json?
+  createdAt DateTime  @default(now()) @map("created_at")
+  readAt    DateTime? @map("read_at")
+
   @@map("notifications")
 }
-
 
 // ============================================
 // SISTEMA FINANCIERO
 // ============================================
 
 model Transaction {
-  id            String    @id @default(uuid())
-  userId        String    @map("user_id")
-  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  amount        Decimal   @db.Decimal(10, 2)
-  currency      String    @default("USD")
-  status        String    // COMPLETED, PENDING, FAILED, REFUNDED
-  provider      String    // STRIPE, PAYPAL, BANK_TRANSFER, MANUAL
-  providerTxId  String?   @map("provider_tx_id")
-  
-  productType   String?   @map("product_type") // COURSE, SUBSCRIPTION, CERTIFICATE
-  productId     String?   @map("product_id")
-  description   String?
-  
-  billingData   Json?     @map("billing_data")
-  metadata      Json?
-  
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at")
+  id     String @id @default(uuid())
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@map("transactions")
-  @@index([userId])
-  @@index([status])
-  @@index([createdAt])
+  amount       Decimal @db.Decimal(10, 2)
+  currency     String  @default("USD")
+  status       String // COMPLETED, PENDING, FAILED, REFUNDED
+  provider     String // STRIPE, PAYPAL, BANK_TRANSFER, MANUAL
+  providerTxId String? @map("provider_tx_id")
+
+  productType String? @map("product_type") // COURSE, SUBSCRIPTION, CERTIFICATE
+  productId   String? @map("product_id")
+  description String?
+
+  billingData Json? @map("billing_data")
+  metadata    Json?
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
   @@index([providerTxId])
+  @@map("transactions")
+}
+
+// ============================================
+// CMS & CONTENIDO DINÁMICO (SUPER CPANEL)
+// ============================================
+
+model PageSection {
+  id         String   @id @default(uuid())
+  page       String // e.g. "home", "about", "landing"
+  key        String // e.g. "hero", "features", "social_proof"
+  title      String?
+  content    Json? // Flexible JSON content (images, texts, links)
+  isVisible  Boolean  @default(true) @map("is_visible")
+  orderIndex Int      @default(0) @map("order_index")
+  updatedBy  String?  @map("updated_by")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@unique([page, key])
+  @@index([page])
+  @@map("page_sections")
+}
+
+model BlogPost {
+  id          String    @id @default(uuid())
+  slug        String    @unique
+  title       String
+  excerpt     String?   @db.Text
+  content     String    @db.Text // Markdown or HTML
+  coverImage  String?   @map("cover_image")
+  authorId    String    @map("author_id")
+  author      User      @relation(fields: [authorId], references: [id])
+  isPublished Boolean   @default(false) @map("is_published")
+  publishedAt DateTime? @map("published_at")
+  tags        String[]
+
+  // SEO
+  seoTitle String? @map("seo_title")
+  seoDesc  String? @map("seo_desc")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([isPublished])
+  @@index([slug])
+  @@map("blog_posts")
+}
+
+model Testimonial {
+  id         String   @id @default(uuid())
+  name       String
+  role       String? // e.g. "Software Engineer @ Google"
+  content    String   @db.Text
+  avatarUrl  String?  @map("avatar_url")
+  rating     Int      @default(5)
+  isVisible  Boolean  @default(true) @map("is_visible")
+  orderIndex Int      @default(0) @map("order_index")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@map("testimonials")
+}
+
+model Project {
+  id          String   @id @default(uuid())
+  title       String
+  student     String // "Carlos M."
+  role        String // "Backend Python"
+  description String   @db.Text
+  imageUrl    String   @map("image_url")
+  tags        String[]
+
+  // Downloads & Links
+  repoUrl String? @map("repo_url")
+  demoUrl String? @map("demo_url") // For live demo or download
+
+  isVisible  Boolean  @default(true) @map("is_visible")
+  orderIndex Int      @default(0) @map("order_index")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@map("projects")
 }

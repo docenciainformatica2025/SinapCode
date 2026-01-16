@@ -123,10 +123,10 @@ export default function AdminDashboard() {
                             </div>
                         </div>
                         <div className="bg-green-400/5 border border-green-400/20 rounded-xl p-4 mt-6">
-                            <p className="text-green-400 text-sm font-bold flex items-center gap-2">
+                            <div className="text-green-400 text-sm font-bold flex items-center gap-2">
                                 <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
                                 Todos los sistemas operativos
-                            </p>
+                            </div>
                         </div>
                     </div>
                 </div>

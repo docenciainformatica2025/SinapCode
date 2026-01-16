@@ -18,18 +18,45 @@ export const metadata: Metadata = {
     description: 'Deja de estudiar código. Empieza a construir software. La única plataforma con tutores de IA y certificación blockchain.',
 };
 
-export default function HomePage() {
+import { prisma } from '@/lib/prisma';
+
+async function getCMSData() {
+    try {
+        const [heroSection, statsSection, companiesSection, testimonials] = await Promise.all([
+            prisma.pageSection.findUnique({ where: { page_key: { page: 'home', key: 'hero' } } }),
+            prisma.pageSection.findUnique({ where: { page_key: { page: 'home', key: 'stats' } } }),
+            prisma.pageSection.findUnique({ where: { page_key: { page: 'home', key: 'companies' } } }),
+            prisma.testimonial.findMany({
+                where: { isVisible: true },
+                orderBy: { orderIndex: 'asc' }
+            })
+        ]);
+        return {
+            heroContent: heroSection?.content as any || null,
+            statsContent: statsSection?.content as any || null,
+            companiesContent: companiesSection?.content as any || null,
+            testimonials
+        };
+    } catch (e) {
+        console.error('CMS Fetch Error:', e);
+        return { heroContent: null, testimonials: [] };
+    }
+}
+
+export default async function HomePage() {
+    const { heroContent, statsContent, companiesContent, testimonials } = await getCMSData();
+
     return (
         <div className="min-h-screen bg-bg">
             <LandingNavbar />
 
             <main>
-                <HeroSection />
-                <SocialProofSection />
+                <HeroSection content={heroContent} />
+                <SocialProofSection stats={statsContent} companies={companiesContent} />
 
                 <HowItWorksSection />
                 <ProjectsSection />
-                <TestimonialsSection />
+                <TestimonialsSection initialTestimonials={testimonials} />
                 <CTASection />
                 <LatestInsightsSection />
             </main>

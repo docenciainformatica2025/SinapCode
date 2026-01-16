@@ -3,7 +3,12 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
-export function HeroSection() {
+export function HeroSection({ content }: { content?: any }) {
+    const title = content?.title || "Aprende tecnología aplicada con IA real (v2.0)";
+    const subtitle = content?.subtitle || "Cursos prácticos, proyectos reales y formación diseñada para el mundo profesional moderno.";
+    const ctaText = content?.cta_text || "Comenzar ahora";
+    const ctaLink = content?.cta_link || "/auth/register";
+
     return (
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-36 pb-20 md:pt-40 md:pb-24">
             {/* Ambient Background Effects */}
@@ -31,23 +36,22 @@ export function HeroSection() {
                     </div>
 
                     <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-white">
-                        Aprende tecnología <br className="hidden lg:block" />
-                        aplicada <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">con IA real (v2.0)</span>
+                        {title.split(' con IA')[0]} <br className="hidden lg:block" />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
+                            {title.includes('con IA') ? 'con IA ' + title.split('con IA')[1] : ''}
+                        </span>
                     </h1>
 
-                    <p className="text-lg sm:text-xl text-muted max-w-xl mx-auto md:mx-0 leading-relaxed">
-                        Cursos prácticos, proyectos reales y formación diseñada para el mundo profesional moderno.
-                        <span className="block mt-2 text-gold-light/80 font-medium">
-                            Tu tutor personal de IA te guía paso a paso.
-                        </span>
-                    </p>
+                    <div className="text-lg sm:text-xl text-muted max-w-xl mx-auto md:mx-0 leading-relaxed">
+                        {subtitle}
+                    </div>
 
                     <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                         <Link
-                            href="/auth/register"
+                            href={ctaLink}
                             className="btn-primary text-lg shadow-[0_0_20px_rgba(34,211,238,0.3)] hover:shadow-[0_0_30px_rgba(34,211,238,0.5)]"
                         >
-                            Comenzar ahora
+                            {ctaText}
                         </Link>
 
                         <Link
@@ -89,7 +93,7 @@ export function HeroSection() {
                                 <div className="w-3 h-3 rounded-full bg-green-500/50" />
                             </div>
                             <div className="ml-4 px-3 py-1 rounded bg-black/20 text-xs text-muted font-mono">
-                                ai-tutor.py
+                                {content?.code_block?.filename || 'ai-tutor.py'}
                             </div>
                         </div>
 
@@ -97,7 +101,7 @@ export function HeroSection() {
                         <div className="p-6 font-mono text-sm leading-relaxed text-gray-300">
                             <div className="flex">
                                 <span className="text-gray-600 select-none mr-4">1</span>
-                                <span className="text-purple-400">class</span> <span className="text-yellow-200 ml-2">FutureDev</span>:
+                                <span className="text-purple-400">class</span> <span className="text-yellow-200 ml-2">{content?.code_block?.class_name || 'FutureDev'}</span>:
                             </div>
                             <div className="flex">
                                 <span className="text-gray-600 select-none mr-4">2</span>
@@ -105,11 +109,11 @@ export function HeroSection() {
                             </div>
                             <div className="flex">
                                 <span className="text-gray-600 select-none mr-4">3</span>
-                                <span className="ml-8 text-cyan-400">self</span>.skills = [<span className="text-green-400">'AI'</span>, <span className="text-green-400">'Web3'</span>, <span className="text-green-400">'Security'</span>]
+                                <span className="ml-8 text-cyan-400">self</span>.skills = <span className="text-green-400">{content?.code_block?.skills || "['AI', 'Web3', 'Security']"}</span>
                             </div>
                             <div className="flex">
                                 <span className="text-gray-600 select-none mr-4">4</span>
-                                <span className="ml-8 text-cyan-400">self</span>.status = <span className="text-green-400">'Ready for Impact'</span>
+                                <span className="ml-8 text-cyan-400">self</span>.status = <span className="text-green-400">{content?.code_block?.status || "'Ready for Impact'"}</span>
                             </div>
                             <div className="flex">
                                 <span className="text-gray-600 select-none mr-4">5</span>
@@ -120,11 +124,11 @@ export function HeroSection() {
                             </div>
                             <div className="flex bg-gold/10 -mx-6 px-6 border-l-2 border-gold">
                                 <span className="text-gray-600 select-none mr-4">7</span>
-                                <span className="ml-8 text-muted">// Optimizing learning path...</span>
+                                <span className="ml-8 text-muted">{content?.code_block?.comment || '// Optimizing learning path...'}</span>
                             </div>
                             <div className="flex">
                                 <span className="text-gray-600 select-none mr-4">8</span>
-                                <span className="ml-8 text-purple-400">return</span> <span className="text-gold font-bold">Success.GUARANTEED</span>
+                                <span className="ml-8 text-purple-400">return</span> <span className="text-gold font-bold ml-2">{content?.code_block?.return_value || 'Success.GUARANTEED'}</span>
                             </div>
                         </div>
                     </div>

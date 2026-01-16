@@ -3,8 +3,9 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
-export function TestimonialsSection() {
-    const testimonials = [
+export function TestimonialsSection({ initialTestimonials }: { initialTestimonials?: any[] }) {
+    // Fallback data if DB is empty
+    const defaultTestimonials = [
         {
             name: 'Sofía Rodríguez',
             role: 'Full Stack Builder',
@@ -13,95 +14,19 @@ export function TestimonialsSection() {
             quote: "SinapCode no es un curso, es un acelerador. Dejé mi trabajo de oficina y en 6 meses ya estaba deployando código.",
             badge: 'Verified'
         },
-        {
-            name: 'Carlos Mendez',
-            role: 'Data Scientist',
-            company: 'Nubank',
-            image: 'https://randomuser.me/api/portraits/men/32.jpg',
-            quote: "La IA como tutor es un game-changer. Aprendí Python y Pandas más rápido que en la universidad.",
-            badge: 'Verified'
-        },
-        {
-            name: 'Ana García',
-            role: 'Smart Contract Dev',
-            company: 'Blockchain Startup',
-            image: 'https://randomuser.me/api/portraits/women/68.jpg',
-            quote: "Entender Web3 parecía imposible hasta que encontré esta plataforma. Los Tech Leads saben lo que pide la industria.",
-            badge: 'Verified'
-        },
-        {
-            name: 'David Torres',
-            role: 'Frontend Dev',
-            company: 'Rappi',
-            image: 'https://randomuser.me/api/portraits/men/86.jpg',
-            quote: "Pasé de cero a junior en React en 4 meses. El portafolio que armé aquí fue clave para mi contratación.",
-            badge: 'Verified'
-        },
-        {
-            name: 'Laura P.',
-            role: 'UX Engineer',
-            company: 'Globant',
-            image: 'https://randomuser.me/api/portraits/women/22.jpg',
-            quote: "La integración de diseño y código es única. Aprendí a usar Figma y Tailwind como una pro.",
-            badge: 'Verified'
-        },
-        {
-            name: 'Miguel Ángel',
-            role: 'Backend Java',
-            company: 'Bancolombia',
-            image: 'https://randomuser.me/api/portraits/men/54.jpg',
-            quote: "Lo mejor es la comunidad. Siempre hay alguien dispuesto a ayudar, y los mentores son top.",
-            badge: 'Verified'
-        },
-        {
-            name: 'Patricia L.',
-            role: 'DevOps',
-            company: 'Encora',
-            image: 'https://randomuser.me/api/portraits/women/90.jpg',
-            quote: "Docker y Kubernetes explicados para humanos. Ahora manejo toda la infraestructura de mi startup.",
-            badge: 'Verified'
-        },
-        {
-            name: 'Jorge Ruiz',
-            role: 'Mobile Dev',
-            company: 'Huge',
-            image: 'https://randomuser.me/api/portraits/men/29.jpg',
-            quote: "Hice mi primera app en React Native gracias a los proyectos guiados. Directo al App Store.",
-            badge: 'Verified'
-        },
-        {
-            name: 'Valentina M.',
-            role: 'QA Automation',
-            company: 'Endava',
-            image: 'https://randomuser.me/api/portraits/women/55.jpg',
-            quote: "Aprendí Cypress y Selenium con casos reales. Mi salario aumentó un 40% después de certificarme.",
-            badge: 'Verified'
-        },
-        {
-            name: 'Andrés F.',
-            role: 'Security Analyst',
-            company: 'Scotiabank',
-            image: 'https://randomuser.me/api/portraits/men/11.jpg',
-            quote: "El módulo de ciberseguridad es brutal. Hacking ético explicado desde la base.",
-            badge: 'Verified'
-        },
-        {
-            name: 'Camila S.',
-            role: 'Product Owner',
-            company: 'Agile Co',
-            image: 'https://randomuser.me/api/portraits/women/33.jpg',
-            quote: "No soy técnica, pero necesitaba entender el código para gestionar mi equipo. SinapCode fue la solución.",
-            badge: 'Verified'
-        },
-        {
-            name: 'Roberto D.',
-            role: 'Freelancer',
-            company: 'Upwork',
-            image: 'https://randomuser.me/api/portraits/men/75.jpg',
-            quote: "Ahora cobro en dólares trabajando desde casa. La sección de freelancing me enseñó a venderme.",
-            badge: 'Verified'
-        }
+        // ... (Keep one or two as static fallback)
     ];
+
+    const testimonials = (initialTestimonials && initialTestimonials.length > 0)
+        ? initialTestimonials.map(t => ({
+            name: t.name,
+            role: t.role,
+            company: 'SinapCode Student', // This field wasn't in DB, setting default or adding to DB later
+            image: t.avatarUrl || 'https://randomuser.me/api/portraits/lego/1.jpg',
+            quote: t.content,
+            badge: 'Verified'
+        }))
+        : defaultTestimonials;
 
     return (
         <section className="py-24 relative overflow-hidden bg-bg">
