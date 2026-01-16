@@ -1,18 +1,51 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 export function RevenueChart() {
-    // Mock Data for 12 months (0-100 scale relative)
-    const dataPoints = [20, 35, 30, 45, 60, 55, 75, 80, 70, 85, 90, 100];
-    const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const [data, setData] = useState<{ name: string, revenue: number }[]>([]);
+    const [growth, setGrowth] = useState(0);
+    const [loading, setLoading] = useState(true);
 
-    // Calculate path
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await fetch('/api/admin/analytics/financial');
+                if (res.ok) {
+                    const json = await res.json();
+                    setData(json.data);
+                    setGrowth(Number(json.meta.growth));
+                }
+            } catch (error) {
+                console.error('Failed to load chart data');
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, []);
+
+    if (loading || data.length === 0) {
+        return (
+            <div className="glass-panel p-6 rounded-2xl border border-white/10 w-full h-[300px] flex items-center justify-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+            </div>
+        );
+    }
+
+    // Transform Data for SVG
+    const labels = data.map(d => d.name);
+    const revenues = data.map(d => d.revenue);
+    const maxVal = Math.max(...revenues, 100); // Scale based on max revenue, min 100 default
+
     const width = 800;
     const height = 300;
     const padding = 40;
     const chartWidth = width - padding * 2;
     const chartHeight = height - padding * 2;
+
+    const dataPoints = revenues.map(val => (val / maxVal) * 100); // Normalize to 0-100 for drawing logic
 
     // Points logic
     const points = dataPoints.map((val, idx) => {
@@ -27,12 +60,14 @@ export function RevenueChart() {
         <div className="glass-panel p-6 rounded-2xl border border-white/10 w-full overflow-hidden">
             <div className="flex justify-between items-center mb-6">
                 <div>
-                    <h3 className="text-xl font-bold text-white">Revenue Growth (MRR)</h3>
-                    <p className="text-sm text-platinum-dim">Monthly Recurring Revenue</p>
+                    <h3 className="text-xl font-bold text-white">Crecimiento de Ingresos (Semestral)</h3>
+                    <p className="text-sm text-platinum-dim">Ingresos procesados últimos 6 meses</p>
                 </div>
                 <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full bg-emerald-500"></span>
-                    <span className="text-emerald-400 font-bold">+24.5%</span>
+                    <span className={`w-3 h-3 rounded-full ${growth >= 0 ? 'bg-emerald-500' : 'bg-rose-500'}`}></span>
+                    <span className={`${growth >= 0 ? 'text-emerald-400' : 'text-rose-400'} font-bold`}>
+                        {growth > 0 ? '+' : ''}{growth}%
+                    </span>
                 </div>
             </div>
 
@@ -108,7 +143,7 @@ export function RevenueChart() {
                 {/* X Axis Labels */}
                 <div className="flex justify-between px-2 mt-2 text-xs text-platinum-dim font-mono">
                     {labels.map((label, idx) => (
-                        <span key={idx} style={{ width: `${100 / 12}%`, textAlign: 'center' }}>{label}</span>
+                        <span key={idx} style={{ width: `${100 / labels.length}%`, textAlign: 'center' }}>{label}</span>
                     ))}
                 </div>
             </div>

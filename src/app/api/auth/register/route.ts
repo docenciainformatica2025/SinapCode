@@ -137,7 +137,36 @@ export async function POST(req: Request) {
             action: 'registration'
         });
 
-        // 6. TODO: Send Verification Email (Out of scope for this specific fix, but implied standard flow)
+        // 6. Notify Admins
+        try {
+            const admins = await prisma.user.findMany({
+                where: {
+                    role: {
+                        in: ['ADMIN', 'SUPER_ADMIN']
+                    }
+                },
+                select: { id: true }
+            });
+
+            if (admins.length > 0) {
+                await prisma.notification.createMany({
+                    data: admins.map(admin => ({
+                        userId: admin.id,
+                        type: 'USER_REGISTER',
+                        title: 'Nuevo Usuario Registrado',
+                        message: `${name} (${email}) se ha unido a la plataforma.`,
+                        priority: 'high',
+                        linkUrl: `/admin/users?search=${email}`,
+                        isRead: false
+                    }))
+                });
+            }
+        } catch (notifyError) {
+            console.error('Failed to notify admins:', notifyError);
+            // Don't fail registration
+        }
+
+        // 7. TODO: Send Verification Email
 
         return NextResponse.json({
             success: true,

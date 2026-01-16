@@ -6,10 +6,10 @@ export function HeatmapWidget() {
     return (
         <div className="glass-panel p-6 rounded-2xl border border-white/10 w-full h-[400px] relative overflow-hidden bg-deep-space">
             <div className="absolute top-6 left-6 z-10">
-                <h3 className="text-xl font-bold text-white mb-1">Live User Activity</h3>
+                <h3 className="text-xl font-bold text-white mb-1">Usuarios en Vivo</h3>
                 <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse-fast"></span>
-                    <span className="text-sm text-platinum-dim">847 Users Online now</span>
+                    <span className="text-sm text-platinum-dim">847 Usuarios Online ahora</span>
                 </div>
             </div>
 

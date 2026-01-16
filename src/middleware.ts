@@ -4,8 +4,6 @@ import type { NextRequest } from 'next/server';
 export async function middleware(request: NextRequest) {
     const response = NextResponse.next();
 
-    // 🛡️ Security Headers (Hardening)
-
     // 🛡️ Security Headers (Enterprise Hardening)
 
     // HSTS: Strict HTTPS enforcement (2 years)
@@ -21,27 +19,40 @@ export async function middleware(request: NextRequest) {
     response.headers.set('X-DNS-Prefetch-Control', 'off');
     response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
 
-    // Permissions Policy (Block potentially dangerous features)
+    // Permissions Policy (Block all intrusive features)
     response.headers.set(
         'Permissions-Policy',
-        'camera=(), microphone=(), geolocation=(), browsing-topics=(), payment=(), usb=()'
+        'camera=(), microphone=(), geolocation=(), browsing-topics=(), payment=(), usb=(), magnetomery=(), accelerometer=(), gyroscope=()'
     );
 
-    // Content-Security-Policy (CSP) - Temporarily Disabled for Debugging
-    // const csp = [ ... ];
-    // response.headers.set('Content-Security-Policy', csp);
+    // Content-Security-Policy (CSP)
+    // Allows: Self, Vercel Analytics, Google Analytics, Images from Unsplash/Gravatar/Supabase
+    const cspHeader = `
+        default-src 'self';
+        script-src 'self' 'unsafe-eval' 'unsafe-inline' https://va.vercel-scripts.com https://www.googletagmanager.com;
+        style-src 'self' 'unsafe-inline';
+        img-src 'self' blob: data: https://images.unsplash.com https://*.supabase.co https://gravatar.com https://www.gravatar.com;
+        font-src 'self' data:;
+        object-src 'none';
+        base-uri 'self';
+        form-action 'self';
+        frame-ancestors 'none';
+        block-all-mixed-content;
+        upgrade-insecure-requests;
+    `;
+
+    response.headers.set('Content-Security-Policy', cspHeader.replace(/\s{2,}/g, ' ').trim());
 
     // 🔒 Route Protection (Auth Check)
-    // Nota: Como estamos usando Auth.js (NextAuth v5 beta) y Mock, la protección real de sesión
-    // suele ir en un envoltorio separado o usando `auth`. Aquí ponemos la lógica base.
-
     const path = request.nextUrl.pathname;
 
-    // Proteger rutas de admin
+    // Protección básica de Admin en Edge
+    // Si intenta entrar a /admin y no tiene cookie de sesión, redirigir a login.
     if (path.startsWith('/admin')) {
-        // En una implementación real con JWT en cookie, verificaríamos aquí el token.
-        // Dado que usamos SessionProvider y verificación en cliente (RoleGate) + Server Components,
-        // este middleware actúa como primera línea de defensa para headers.
+        const sessionToken = request.cookies.get('next-auth.session-token') || request.cookies.get('__Secure-next-auth.session-token');
+        if (!sessionToken) {
+            return NextResponse.redirect(new URL('/auth/login', request.url));
+        }
     }
 
     return response;

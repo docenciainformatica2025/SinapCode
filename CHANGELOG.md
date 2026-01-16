@@ -1,62 +1,43 @@
 # Changelog
 
-Todos los cambios notables de este proyecto serán documentados en este archivo.
+All notable changes to this project will be documented in this file.
 
-El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
-y este proyecto adhiere a [Versionado Semántico](https://semver.org/lang/es/).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.1.0] - 2026-01-12
+## [1.1.0] - 2026-01-15
 
-### Agregado
-- Sistema completo de registro de usuarios (`/api/auth/register`)
-- Hash de contraseñas con bcrypt (10 rounds)
-- Validación de emails duplicados
-- Endpoint de consentimientos legales (`/api/legal/consent`)
-- Soporte para usuarios anónimos durante registro
-- Cliente Prisma singleton para optimización de conexiones
-- Dependencia bcryptjs para seguridad de contraseñas
+### Added
+- **Advanced Admin Suite**: Complete administrative dashboard for "SinapCode".
+    - `Programs` Module: CRUD operations for educational programs.
+    - `Banners` Module: Management of promotional banners.
+    - `Financial` Module: Real-time revenue analytics and transaction ledger.
+- **Security Hardening (Military-Grade)**:
+    - Implemented strict Content Security Policy (CSP) in Middleware.
+    - Added HTTP Strict Transport Security (HSTS) and X-Frame-Options.
+    - Integrated In-Memory Rate Limiting (Token Bucket) for critical APIs (`auth`, `admin/write`).
+- **Analytics & SEO**:
+    - Integrated Google Analytics 4, Vercel Analytics, and Speed Insights.
+    - Optimized SEO Metadata, Sitemap.xml, and Robots.txt.
+    - Added JSON-LD Structured Data for `Organization` and `WebSite`.
+- **Transactions**:
+    - Secured PDF Receipt generation with Anti-fraud QR Code and SHA-256 Hash.
+    - Active management actions: `Refund` and `Cancel` transaction.
+    - CSV Export functionality for accounting audits.
 
-### Corregido
-- Error 500 en endpoint de consentimientos legales
-- Violación de integridad referencial en tabla `legal_consents`
-- Errores de build por módulos faltantes
-- Errores de TypeScript por campos inexistentes en schema
-- Configuración de `.gitignore` para excluir archivos temporales
+### Changed
+- **Architecture**: Migrated to a Domain-Driven Design structure for Admin components.
+- **Database**: Updated Prisma Schema to include `Transaction`, `AuditLog`, and `Certificate` models.
+- **Performance**: Optimized database queries with server-side pagination and filtering.
 
-### Cambiado
-- Simplificado modelo de User (removidos campos no utilizados)
-- Actualizado `.gitignore` siguiendo mejores prácticas de Next.js
-- Mejorada documentación del sistema de autenticación
+### Security
+- Patched potential IDOR vulnerabilities in User Management.
+- Removed all debug logging (`console.log`) from production builds.
+- Enforced Role-Based Access Control (RBAC) on all `/api/admin` routes.
 
-### Seguridad
-- Implementado hashing de contraseñas con bcrypt
-- Validación de entrada con Zod
-- Protección contra inyección SQL con Prisma
+## [1.0.0] - 2025-12-01
 
-## [1.0.0] - 2026-01-10
-
-### Agregado
-- Estructura inicial del proyecto Next.js 14
-- Configuración de NextAuth para autenticación
-- Integración con Supabase PostgreSQL
-- Esquema de Prisma para base de datos
-- Sistema de consentimientos legales (GDPR/COPPA)
-- Páginas de login y registro (UI)
-- Configuración de Tailwind CSS
-- Configuración de TypeScript
-
-### Notas
-- Primera versión funcional del sistema
-- Base de datos configurada en Supabase
-- Autenticación con NextAuth v4
-
----
-
-## Tipos de Cambios
-
-- `Agregado` para nuevas funcionalidades
-- `Cambiado` para cambios en funcionalidades existentes
-- `Obsoleto` para funcionalidades que serán removidas
-- `Removido` para funcionalidades removidas
-- `Corregido` para corrección de bugs
-- `Seguridad` para vulnerabilidades corregidas
+### Added
+- Initial release of SinapCode Learning Platform.
+- AI Tutor integration.
+- User authentication via NextAuth.js.

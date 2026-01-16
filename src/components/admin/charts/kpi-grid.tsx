@@ -4,7 +4,7 @@ export function KPIGrid() {
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <KPICard
-                title="Total Revenue (YTD)"
+                title="Ingresos Totales (YTD)"
                 value="$1,245,300"
                 change="+12.5%"
                 chartColor="text-emerald-400"
@@ -12,7 +12,7 @@ export function KPIGrid() {
                 glowColor="shadow-neon-green"
             />
             <KPICard
-                title="Avg. Revenue Per User"
+                title="Ingreso Promedio por Usuario"
                 value="$48.50"
                 change="+5.2%"
                 chartColor="text-blue-400"
@@ -20,7 +20,7 @@ export function KPIGrid() {
                 glowColor="shadow-neon-blue"
             />
             <KPICard
-                title="Churn Rate"
+                title="Tasa de Cancelación (Churn)"
                 value="2.1%"
                 change="-0.4%"
                 chartColor="text-purple-400"

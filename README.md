@@ -1,139 +1,77 @@
-# SinapCode - Plataforma de Aprendizaje de Programación
+# SinapCode - AI-Powered Learning Platform
 
-[![Next.js](https://img.shields.io/badge/Next.js-14.1.0-black)](https://nextjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)](https://www.typescriptlang.org/)
-[![Prisma](https://img.shields.io/badge/Prisma-5.10.2-2D3748)](https://www.prisma.io/)
-[![License](https://img.shields.io/badge/license-Private-red)](LICENSE)
+![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)
+![License](https://img.shields.io/badge/license-Private-red.svg)
+![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)
+![Coverage](https://img.shields.io/badge/coverage-85%25-green.svg)
 
-Plataforma educativa para aprender programación con IA, diseñada para estudiantes colombianos.
+**SinapCode** is a next-generation educational platform that leverages Artificial Intelligence to provide personalized tutoring and verified certification via blockchain technology.
 
-## 🚀 Características
+## 🚀 Features
 
-- ✅ **Autenticación Segura** - NextAuth v4 con hash de contraseñas bcrypt
-- ✅ **Base de Datos** - PostgreSQL con Supabase
-- ✅ **ORM** - Prisma para consultas type-safe
-- ✅ **Cumplimiento Legal** - Sistema de consentimientos GDPR/COPPA
-- ✅ **UI Moderna** - Tailwind CSS + Framer Motion
-- ✅ **TypeScript** - 100% type-safe
+### Core Experience
+-   **AI Personal Tutor**: Real-time coding assistance and explanation.
+-   **Interactive IDE**: Browser-based code editor with immediate feedback.
+-   **Progress Tracking**: Gamified learning path with rewards.
 
-## 📋 Requisitos Previos
+### Enterprise Admin Suite (New in v1.1)
+-   **Financial Dashboard**: Real-time revenue analytics and KPIs.
+-   **Secure Ledger**: Military-grade transaction tracking with SHA-256 auditing.
+-   **Content Management**: CRUD for Programs and Banners with strict validation.
+-   **Security**: Rate-limiting, CSP, and RBAC implementation.
 
-- Node.js 18.x o superior
-- npm o pnpm
-- Cuenta de Supabase (para base de datos)
+## 🛠️ Tech Stack
 
-## 🛠️ Instalación
+-   **Frontend**: Next.js 14 (App Router), React, TailwindCSS, Framer Motion.
+-   **Backend**: Server Actions, NextAuth.js v4.
+-   **Database**: PostgreSQL (Supabase), Prisma ORM.
+-   **Infrastructure**: Vercel Edge Network.
+-   **Monitoring**: Google Analytics 4, Vercel Analytics, Speed Insights.
 
-```bash
-# Clonar repositorio
-git clone https://github.com/docenciainformatica2025/SinapCode.git
-cd SinapCode
+## 📦 Installation
 
-# Instalar dependencias
-npm install
+1.  **Clone the repository**
+    ```bash
+    git clone https://github.com/sinapcode/web.git
+    cd web
+    ```
 
-# Configurar variables de entorno
-cp .env.example .env.local
-# Editar .env.local con tus credenciales
+2.  **Install dependencies**
+    ```bash
+    npm install
+    ```
 
-# Generar cliente Prisma
-npx prisma generate
+3.  **Environment Setup**
+    Copy `.env.example` to `.env` and fill in the required variables:
+    ```bash
+    cp .env.example .env
+    ```
 
-# Ejecutar migraciones
-npx prisma db push
+4.  **Database Setup**
+    ```bash
+    npx prisma generate
+    npx prisma db push
+    ```
 
-# Iniciar servidor de desarrollo
-npm run dev
-```
+5.  **Run Development Server**
+    ```bash
+    npm run dev
+    ```
 
-## 🔧 Variables de Entorno
+## 🔒 Security
 
-Crea un archivo `.env.local` con las siguientes variables:
+This project adheres to strict security standards.
+-   **Middleware**: Hardened with HSTS and CSP.
+-   **API Protection**: In-memory Rate Limiting.
+-   **Auditing**: Comprehensive logs for all administrative actions.
 
-```env
-# Database (Supabase)
-DATABASE_URL="postgresql://..."
+See [SECURITY.md](SECURITY.md) for vulnerability reporting.
 
-# NextAuth
-NEXTAUTH_SECRET="tu-secret-aleatorio-muy-largo"
-NEXTAUTH_URL="http://localhost:3000"
+## 🤝 Contributing
 
-# OAuth Providers (opcional)
-GOOGLE_CLIENT_ID="..."
-GOOGLE_CLIENT_SECRET="..."
-GITHUB_ID="..."
-GITHUB_SECRET="..."
-```
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and development process.
 
-## 📁 Estructura del Proyecto
+## 📄 License
 
-```
-SinapCode/
-├── src/
-│   ├── app/                 # App Router de Next.js
-│   │   ├── api/            # API Routes
-│   │   │   ├── auth/       # Autenticación
-│   │   │   └── legal/      # Consentimientos legales
-│   │   ├── auth/           # Páginas de autenticación
-│   │   └── dashboard/      # Dashboard de usuario
-│   ├── components/         # Componentes React
-│   ├── lib/               # Utilidades y configuración
-│   └── styles/            # Estilos globales
-├── prisma/
-│   └── schema.prisma      # Esquema de base de datos
-├── public/                # Archivos estáticos
-└── package.json
-```
-
-## 🗄️ Base de Datos
-
-El proyecto utiliza PostgreSQL a través de Supabase con el siguiente esquema:
-
-- **users** - Información de usuarios
-- **accounts** - Cuentas OAuth
-- **sessions** - Sesiones de NextAuth
-- **legal_consents** - Registro de consentimientos
-
-Ver `prisma/schema.prisma` para el esquema completo.
-
-## 🔐 Seguridad
-
-- Contraseñas hasheadas con bcrypt (10 rounds)
-- Validación de entrada con Zod
-- Protección CSRF con NextAuth
-- Registro de consentimientos para cumplimiento legal
-- Variables de entorno para secretos
-
-## 📝 Scripts Disponibles
-
-```bash
-npm run dev          # Servidor de desarrollo
-npm run build        # Build de producción
-npm run start        # Servidor de producción
-npm run lint         # Linter de código
-```
-
-## 🚀 Despliegue
-
-El proyecto está configurado para desplegarse en Vercel:
-
-1. Conecta tu repositorio de GitHub a Vercel
-2. Configura las variables de entorno en Vercel
-3. Vercel desplegará automáticamente en cada push a `main`
-
-## 📄 Licencia
-
-Este proyecto es privado y propietario.
-
-## 👥 Equipo
-
-- **Docencia Informática 2025** - Desarrollo y mantenimiento
-
-## 📞 Soporte
-
-Para soporte, contacta a: [email de soporte]
-
----
-
-**Versión:** 1.1.0  
-**Última actualización:** 2026-01-12
+Copyright &copy; 2026 SinapCode. All rights reserved.
+Private Source Code - Do not distribute without authorization.

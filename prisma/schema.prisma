@@ -58,6 +58,7 @@ model User {
   certificates  Certificate[]
   auditLogs     AuditLog[]
   dataRequests  DataSubjectRequest[]
+  transactions  Transaction[]
   
   @@map("users")
 }
@@ -380,4 +381,195 @@ enum EventCategory {
   SECURITY
   DATA
   TRANSACTION
+}
+
+// ============================================
+// DASHBOARD ADMINISTRATIVO PRO
+// ============================================
+
+model Program {
+  id            String    @id @default(uuid())
+  title         String
+  description   String?
+  slug          String    @unique
+  thumbnailUrl  String?   @map("thumbnail_url")
+  level         String?
+  durationHours Int?      @map("duration_hours")
+  price         Decimal?  @default(0) @db.Decimal(10, 2)
+  discountPrice Decimal?  @map("discount_price") @db.Decimal(10, 2)
+  isPublished   Boolean   @default(false) @map("is_published")
+  isFeatured    Boolean   @default(false) @map("is_featured")
+  category      String?
+  tags          String[]
+  instructorId  String?   @map("instructor_id")
+  enrolledCount Int       @default(0) @map("enrolled_count")
+  completionRate Decimal? @default(0) @map("completion_rate") @db.Decimal(5, 2)
+  rating        Decimal?  @default(0) @db.Decimal(3, 2)
+  reviewCount   Int       @default(0) @map("review_count")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at")
+  publishedAt   DateTime? @map("published_at")
+  archivedAt    DateTime? @map("archived_at")
+  
+  modules       ProgramModule[]
+  enrollments   ProgramEnrollment[]
+
+  @@map("programs")
+  @@index([slug])
+  @@index([instructorId])
+  @@index([isPublished])
+  @@index([category])
+}
+
+model ProgramModule {
+  id              String   @id @default(uuid())
+  programId       String   @map("program_id")
+  program         Program  @relation(fields: [programId], references: [id], onDelete: Cascade)
+  title           String
+  description     String?
+  orderIndex      Int      @map("order_index")
+  durationMinutes Int?     @map("duration_minutes")
+  isPublished     Boolean  @default(false) @map("is_published")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @default(now()) @updatedAt @map("updated_at")
+  
+  lessons         ProgramLesson[]
+  
+  @@map("program_modules")
+}
+
+model ProgramLesson {
+  id              String        @id @default(uuid())
+  moduleId        String        @map("module_id")
+  module          ProgramModule @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  title           String
+  description     String?
+  content         String?
+  videoUrl        String?       @map("video_url")
+  durationMinutes Int?          @map("duration_minutes")
+  orderIndex      Int           @map("order_index")
+  isFree          Boolean       @default(false) @map("is_free")
+  isPublished     Boolean       @default(false) @map("is_published")
+  resources       Json?
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @default(now()) @updatedAt @map("updated_at")
+  
+  @@map("program_lessons")
+}
+
+model ProgramEnrollment {
+  id            String    @id @default(uuid())
+  userId        String    @map("user_id")
+  programId     String    @map("program_id")
+  program       Program   @relation(fields: [programId], references: [id], onDelete: Cascade)
+  status        String    @default("active") // active, completed, cancelled
+  progress      Decimal?  @default(0) @db.Decimal(5, 2)
+  startedAt     DateTime? @default(now()) @map("started_at")
+  completedAt   DateTime? @map("completed_at")
+  lastAccessedAt DateTime? @map("last_accessed_at")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  
+  @@unique([userId, programId])
+  @@map("program_enrollments")
+}
+
+model Banner {
+  id            String    @id @default(uuid())
+  title         String
+  description   String?
+  imageUrl      String    @map("image_url")
+  linkUrl       String?   @map("link_url")
+  ctaText       String?   @map("cta_text")
+  position      String    @default("hero") // hero, sidebar, modal, notification
+  priority      Int       @default(0)
+  isActive      Boolean   @default(false) @map("is_active")
+  targetAudience Json?    @map("target_audience")
+  startDate     DateTime? @map("start_date")
+  endDate       DateTime? @map("end_date")
+  impressions   Int       @default(0)
+  clicks        Int       @default(0)
+  createdBy     String?   @map("created_by")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at")
+  
+  @@map("banners")
+}
+
+model AnalyticsEvent {
+  id          String   @id @default(uuid())
+  userId      String?  @map("user_id")
+  eventType   String   @map("event_type")
+  eventName   String   @map("event_name")
+  properties  Json?
+  pageUrl     String?  @map("page_url")
+  referrer    String?
+  userAgent   String?  @map("user_agent")
+  ipAddress   String?  @map("ip_address")
+  sessionId   String?  @map("session_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  
+  @@map("analytics_events")
+}
+
+model SystemSetting {
+  id          String   @id @default(uuid())
+  key         String   @unique
+  value       Json
+  category    String?
+  description String?
+  isPublic    Boolean  @default(false) @map("is_public")
+  updatedBy   String?  @map("updated_by")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
+  
+  @@map("system_settings")
+}
+
+model Notification {
+  id          String    @id @default(uuid())
+  userId      String    @map("user_id")
+  type        String
+  title       String
+  message     String
+  linkUrl     String?   @map("link_url")
+  isRead      Boolean   @default(false) @map("is_read")
+  priority    String    @default("medium")
+  metadata    Json?
+  createdAt   DateTime  @default(now()) @map("created_at")
+  readAt      DateTime? @map("read_at")
+  
+  @@map("notifications")
+}
+
+
+// ============================================
+// SISTEMA FINANCIERO
+// ============================================
+
+model Transaction {
+  id            String    @id @default(uuid())
+  userId        String    @map("user_id")
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  amount        Decimal   @db.Decimal(10, 2)
+  currency      String    @default("USD")
+  status        String    // COMPLETED, PENDING, FAILED, REFUNDED
+  provider      String    // STRIPE, PAYPAL, BANK_TRANSFER, MANUAL
+  providerTxId  String?   @map("provider_tx_id")
+  
+  productType   String?   @map("product_type") // COURSE, SUBSCRIPTION, CERTIFICATE
+  productId     String?   @map("product_id")
+  description   String?
+  
+  billingData   Json?     @map("billing_data")
+  metadata      Json?
+  
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at")
+
+  @@map("transactions")
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+  @@index([providerTxId])
 }

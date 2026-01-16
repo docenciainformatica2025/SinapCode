@@ -6,6 +6,9 @@ import { CookieConsent } from '@/components/legal/cookie-consent';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { ToastProvider } from '@/components/ui/toast-provider';
 import { GlobalOrganizationSchema, WebSiteSchema } from '@/components/seo/json-ld';
+import { GoogleAnalytics } from '@next/third-parties/google';
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
     metadataBase: new URL('https://sinapcode.com'),
@@ -79,9 +82,12 @@ export default function RootLayout({
                             <WebSiteSchema />
                             <CookieConsent />
                             {children}
+                            <Analytics />
+                            <SpeedInsights />
                         </ErrorBoundary>
                     </RecaptchaProvider>
                 </Providers>
+                <GoogleAnalytics gaId="G-PLACEHOLDER" />
             </body>
         </html>
     );

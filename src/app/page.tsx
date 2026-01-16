@@ -6,10 +6,12 @@ import { CoursesPreviewSection } from '@/components/landing/courses-preview-sect
 import { AIDemoSection } from '@/components/landing/ai-demo-section';
 import { PricingSection } from '@/components/landing/pricing-section';
 import { LandingFooter } from '@/components/landing/landing-footer';
+import HomeRedirect from '@/components/auth/home-redirect';
 
 export default function HomePage() {
     return (
         <div className="min-h-screen bg-deep-space">
+            <HomeRedirect />
             <LandingNavbar />
             <HeroSection />
             <SocialProofSection />
