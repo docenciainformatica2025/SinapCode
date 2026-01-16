@@ -19,8 +19,8 @@ export async function GET(req: Request) {
         const logs = await prisma.auditLog.findMany({
             where: {
                 OR: [
-                    { status: 'error' },
-                    { status: 'warning' },
+                    { result: 'error' },
+                    { result: 'warning' },
                     { action: { contains: 'LOGIN_FAIL' } },
                     { action: { contains: 'DELETE' } }
                 ]
@@ -33,13 +33,13 @@ export async function GET(req: Request) {
         // Transform to frontend Alert format
         const alerts = logs.map(log => {
             let severity = 'info';
-            if (log.status === 'error' || log.action.includes('FAIL')) severity = 'critical';
-            else if (log.status === 'warning' || log.action.includes('DELETE')) severity = 'warning';
+            if (log.result === 'error' || log?.action?.includes('FAIL')) severity = 'critical';
+            else if (log.result === 'warning' || log?.action?.includes('DELETE')) severity = 'warning';
 
             return {
                 id: log.id,
                 severity,
-                message: log.details || log.action,
+                message: (log.eventData as any)?.details || log.action,
                 timestamp: formatDistanceToNow(new Date(log.createdAt), { addSuffix: true, locale: es }),
                 source: log.user?.email || log.ipAddress || 'System'
             };
