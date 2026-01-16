@@ -26,7 +26,7 @@ export async function PUT(
     { params }: { params: { id: string } }
 ) {
     const session = await getServerSession(authOptions);
-    if (!session || (session.user?.role !== 'ADMIN' && session.user?.role !== 'SUPER_ADMIN')) {
+    if (!session || (session.user as any)?.role !== 'ADMIN' && (session.user as any)?.role !== 'SUPER_ADMIN') {
         return new NextResponse("Unauthorized", { status: 401 });
     }
 
@@ -58,7 +58,7 @@ export async function PUT(
             updateData.thumbnail_url = body.thumbnail_url;
         }
 
-        const program = await prisma.program.update({
+        const program = await (prisma as any).program.update({
             where: { id },
             data: updateData
         });
@@ -86,14 +86,14 @@ export async function DELETE(
     { params }: { params: { id: string } }
 ) {
     const session = await getServerSession(authOptions);
-    if (!session || (session.user?.role !== 'ADMIN' && session.user?.role !== 'SUPER_ADMIN')) {
+    if (!session || (session.user as any)?.role !== 'ADMIN' && (session.user as any)?.role !== 'SUPER_ADMIN') {
         return new NextResponse("Unauthorized", { status: 401 });
     }
 
     try {
         const { id } = params;
 
-        const program = await prisma.program.delete({
+        const program = await (prisma as any).program.delete({
             where: { id }
         });
 

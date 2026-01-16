@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(req: Request) {
     const session = await getServerSession(authOptions);
-    if (!session || (session.user?.role !== 'ADMIN' && session.user?.role !== 'SUPER_ADMIN')) {
+    if (!session || (session.user as any)?.role !== 'ADMIN' && (session.user as any)?.role !== 'SUPER_ADMIN') {
         return new NextResponse("Unauthorized", { status: 401 });
     }
 
@@ -37,8 +37,9 @@ export async function GET(req: Request) {
         });
         const liveUsers = liveUsersLogs.length;
 
+
         // 4. Content Metrics
-        const activeCourses = await prisma.program.count({
+        const activeCourses = await (prisma as any).program.count({
             where: { isPublished: true }
         });
 
