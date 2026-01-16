@@ -10,7 +10,7 @@ export function ProjectsSection() {
             title: 'Bot de Trading con IA',
             student: 'Carlos M.',
             role: 'Backend Python',
-            image: 'https://images.unsplash.com/photo-1611974765270-ca12586343bb?auto=format&fit=crop&q=80&w=600',
+            image: 'https://ui-avatars.com/api/?name=Trading+Bot&background=0D8ABC&color=fff&size=512',
             description: 'Algoritmo que analiza sentimiento en Twitter para predecir movimientos de crypto. +45% de rentabilidad en simulación.',
             tags: ['Python', 'NLP', 'Binance API'],
         },
@@ -18,7 +18,7 @@ export function ProjectsSection() {
             title: 'DeFi Dashboard',
             student: 'Ana R.',
             role: 'Full Stack Web3',
-            image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80&w=600',
+            image: 'https://ui-avatars.com/api/?name=DeFi+Dash&background=822B99&color=fff&size=512',
             description: 'Panel visual para gestionar staking en múltiples cadenas. Integra wallets reales y calcula APY en tiempo real.',
             tags: ['Next.js', 'Solidity', 'Ethers.js'],
         },
@@ -26,7 +26,7 @@ export function ProjectsSection() {
             title: 'SaaS de Ciberseguridad',
             student: 'David L.',
             role: 'SecDevOps',
-            image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=600',
+            image: 'https://ui-avatars.com/api/?name=Sec+SaaS&background=E53E3E&color=fff&size=512',
             description: 'Plataforma automatizada que escanea vulnerabilidades en repositorios de GitHub al hacer push. Uso real en 3 empresas.',
             tags: ['Python', 'Docker', 'AWS'],
         }
@@ -72,6 +72,7 @@ export function ProjectsSection() {
                                     alt={project.title}
                                     fill
                                     className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                    unoptimized
                                 />
                                 <div className="absolute top-4 right-4 z-20 flex gap-2">
                                     <div className="bg-black/50 backdrop-blur-md p-2 rounded-full border border-white/10 hover:bg-white/10 transition cursor-pointer">
