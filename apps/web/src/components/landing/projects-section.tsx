@@ -86,7 +86,7 @@ export function ProjectsSection() {
                             {/* Content */}
                             <div className="p-6">
                                 <div className="flex gap-2 mb-4">
-                                    {project.tags.map((tag) => (
+                                    {project.tags.map((tag: string) => (
                                         <span key={tag} className="text-xs font-mono px-2 py-1 rounded bg-white/5 text-primary border border-white/5">
                                             {tag}
                                         </span>
