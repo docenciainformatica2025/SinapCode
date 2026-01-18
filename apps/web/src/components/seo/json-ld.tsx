@@ -1,7 +1,7 @@
 import React from 'react';
 
 type JsonLdProps = {
-    type: 'Course' | 'Organization' | 'Person' | 'Article' | 'WebSite' | 'EducationalOrganization';
+    type: 'Course' | 'Organization' | 'Person' | 'Article' | 'WebSite' | 'EducationalOrganization' | 'DigitalDocument';
     data: Record<string, any>;
 };
 

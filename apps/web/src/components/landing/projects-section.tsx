@@ -10,7 +10,7 @@ export function ProjectsSection() {
             title: 'Bot de Trading con IA',
             student: 'Carlos M.',
             role: 'Backend Python',
-            image: 'https://images.unsplash.com/photo-1611974765270-ca12586343bb?auto=format&fit=crop&q=80',
+            image: 'https://images.unsplash.com/photo-1642751399797-94648934ca1c?auto=format&fit=crop&q=80',
             description: 'Algoritmo que analiza sentimiento en Twitter para predecir movimientos de crypto. +45% de rentabilidad en simulación.',
             tags: ['Python', 'NLP', 'Binance API'],
         },

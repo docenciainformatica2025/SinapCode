@@ -3,11 +3,21 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { getLegalDocument } from '@/lib/markdown';
 
+import { LegalDocumentSchema } from '@/components/seo/legal-document-schema';
+
 export default function TermsPage() {
-    const { frontmatter, content } = getLegalDocument('terms/terms_of_service.md');
+    const { content, frontmatter } = getLegalDocument('terms/terms_of_service.md');
 
     return (
-        <div className="min-h-screen bg-deep-space">
+        <main className="min-h-screen bg-bg relative overflow-hidden pt-32 pb-24">
+            <LegalDocumentSchema
+                title={frontmatter.title || "Términos de Servicio"}
+                version={frontmatter.version || "1.0.0"}
+                datePublished={frontmatter.date || "2026-01-01"}
+                url="https://sinapcode.com/legal/terms"
+            />
+
+            {/* Background Effects */}
             <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
                 {/* Header */}
                 <div className="mb-12">
@@ -52,6 +62,6 @@ export default function TermsPage() {
                     </Link>
                 </div>
             </div>
-        </div>
+        </main>
     );
 }

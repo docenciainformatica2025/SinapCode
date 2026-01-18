@@ -3,11 +3,20 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { getLegalDocument } from '@/lib/markdown';
 
+import { LegalDocumentSchema } from '@/components/seo/legal-document-schema';
+
 export default function PrivacyPage() {
-    const { frontmatter, content } = getLegalDocument('privacy/habeas_data.md');
+    const { content, frontmatter } = getLegalDocument('privacy/habeas_data.md');
 
     return (
-        <div className="min-h-screen bg-deep-space">
+        <main className="min-h-screen bg-bg relative overflow-hidden pt-32 pb-24">
+            <LegalDocumentSchema
+                title={frontmatter.title || "Política de Privacidad"}
+                version={frontmatter.version || "1.0.0"}
+                datePublished={frontmatter.date || "2026-01-01"}
+                url="https://sinapcode.com/privacy"
+            />
+            {/* Background Effects */}
             <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
                 {/* Header */}
                 <div className="mb-12">
@@ -52,6 +61,6 @@ export default function PrivacyPage() {
                     </Link>
                 </div>
             </div>
-        </div>
+        </main>
     );
 }

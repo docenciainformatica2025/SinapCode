@@ -1,54 +1,52 @@
-# 🛡️ PROTOCOLO DE INGENIERÍA SAFE-GUARD (NIVEL STARTUP/ENTERPRISE)
+# 🛡️ PROTOCOLO DE INGENIERÍA SAFE-GUARD V2.0 (MILITARY/ENTERPRISE GRADE)
 
-> **Objetivo:** Eliminar riesgos de pérdida de código, duplicidad de versiones y daños irreversibles.  
-> **Estándar:** Basado en prácticas de Google, Meta y YC Startups.
+> **Autoridad:** Principal Software Architect & DevSecOps Expert  
+> **Nivel de Seguridad:** Top Secret / Zero Trust  
+> **Estándar de Calidad:** ISO/IEC 25010
 
-## 1. La Regla de Oro: "Single Source of Truth" (SSOT)
-
-**PRINCIPIO:** Solo existe UNA ubicación válida para el código fuente.
-- ✅ **Ubicación Sagrada:** `apps/web` (dentro del monorepo)
-- ⛔ **Prohibido:** Crear carpetas `src` en la raíz del proyecto.
-- ⛔ **Prohibido:** Editar archivos fuera de la estructura designada sin autorización.
-
-**ACCIÓN AUTOMÁTICA:**
-Cualquier carpeta `src` detectada en la raíz debe ser auditada y eliminada inmediatamente tras migrar su contenido útil.
+ESTE PROTOCOLO ES DE CUMPLIMIENTO OBLIGATORIO. TODA VIOLACIÓN SERÁ RECHAZADA.
 
 ---
 
-## 2. Protocolo "Atomic & Reversible" (Git Flow)
+## 1. 🏛️ Arquitectura & Código (Clean Architecture / ISO 25010)
+**"Código Perfecto o Nada"**
+- **Patrones:** Adherencia estricta a SOLID, DRY, KISS y GoF Design Patterns.
+- **Arquitectura:** Modular y Desacoplada (Hexagonal/Clean/Microservicios). Nada de "Spaghetti Code".
+- **QA:** Cobertura de Tests Unitarios >95%. Tests de Integración y E2E obligatorios para features críticas.
+- **Review:** Todo PR debe pasar por análisis estático (Linting estricto) y revisión humana de arquitectura.
 
-**PRINCIPIO:** Ningún cambio es final hasta que se verifica.
-- **Commits Atómicos:** Un commit por tarea lógica.
-- **Mensajes Semánticos:** Usar [Conventional Commits](https://www.conventionalcommits.org/).
-- **Regla del Build:** JAMÁS hacer `git push` sin haber corrido `npm run build` localmente con éxito.
+## 2. 🔐 Seguridad de Grado Militar (DevSecOps / Zero Trust)
+**"Confianza Cero, Verificación Constante"**
+- **Cifrado:** AES-256 para datos en reposo, TLS 1.3 para tránsito.
+- **Autenticación:** IAM robusto con MFA y rotación de claves.
+- **Sanitización:** Validación estricta de TODO input (Server & Client) para prevenir OWASP Top 10 (SQLi, XSS, CSRF).
+- **Secretos:** Jamás commitear credenciales. Uso estricto de variables de entorno.
+
+## 3. 💎 UI/UX de Alta Gama (Pixel-Perfect / AAA)
+**"Excelencia Visual y Accesibilidad Universal"**
+- **Accesibilidad:** Cumplimiento total WCAG 2.1 Nivel AAA.
+- **Diseño:** Sistemas de Diseño Atómico. Componentes reusables y estandarizados.
+- **Interacción:** Feedback visual inmediato (micro-interacciones) en <100ms.
+- **Consistencia:** Respetar estrictamente el Manual de Identidad Visual.
+
+## 4. 📚 Documentación Técnica (Normativa IEEE)
+**"Si no está documentado, no existe"**
+- **Autodocumentación:** Código legible con Javadoc/TSDoc.
+- **Diagramas:** UML/C4 Model actualizados para cambios arquitectónicos.
+- **Changelog:** Conventional Commits (`feat:`, `fix:`, `sec:`) obligatorios.
+
+## 5. 🚀 Ciclo de Vida & Despliegue (CI/CD Automizado)
+**"Despliegue Continuo, Sin Downtime"**
+- **CI/CD:** Pipelines automatizados de Build, Test y Deploy.
+- **Update Strategy:** Soporte para Blue-Green Deployment y Rollbacks instantáneos.
+- **Observabilidad:** Logging centralizado y monitoreo proactivo de errores.
 
 ---
+**Protocolo de Emergencia (Rollback):**
+Ante cualquier anomalía crítica en producción:
+1. 🛑 DETENER despliegues.
+2. ⏪ REVERTIR al último snapshot validado.
+3. 🕵️ AUDITAR causa raíz (RCA) antes de cualquier fix.
 
-## 3. Procedimiento de "Contexto Persistente"
-
-**PRINCIPIO:** El Agente no debe "olvidar" el estado del proyecto.
-1. 📖 **Leer `task.md` y `ENGINEERING_PROTOCOLS.md`** al inicio de cada sesión.
-2. 🔍 **Escanear estructura** (`list_dir`) para detectar anomalías.
-3. 🧠 **Revisar logs anteriores** si hay dudas sobre decisiones pasadas.
-
----
-
-## 4. Política de "Zero Broken Links"
-
-**PRINCIPIO:** Calidad visual y funcional.
-- **Verificación:** Revisar `href` en Navbar/Footer antes de cerrar tareas.
-- **Limpieza:** Eliminar enlaces a páginas inexistentes inmediatamente.
-
----
-
-## 5. Recuperación ante Desastres (Rollback Plan)
-
-Si se detecta un "Daño Irreversible":
-1. 🛑 **DETENER** toda escritura.
-2. ⏪ **REVERTIR** (`git reset --hard HEAD~1`).
-3. 📋 **RE-EVALUAR** estrategia.
-
----
-
-**Estado:** ACTIVO
-**Implementado:** 18 de Enero de 2026
+**Firmado:**
+*Principal Architect - SinapCode Engineering*
