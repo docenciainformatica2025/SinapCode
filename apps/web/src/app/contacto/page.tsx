@@ -144,8 +144,8 @@ export default function ContactPage() {
                                     <div className="text-neural-blue text-xl">📧</div>
                                     <div>
                                         <p className="text-sm font-semibold text-white">Email</p>
-                                        <a href="mailto:hola@sinapcode.com" className="text-[#B8BFC9] hover:text-white transition">
-                                            hola@sinapcode.com
+                                        <a href="mailto:sinapcodeia@gmail.com" className="text-[#B8BFC9] hover:text-white transition">
+                                            sinapcodeia@gmail.com
                                         </a>
                                     </div>
                                 </div>

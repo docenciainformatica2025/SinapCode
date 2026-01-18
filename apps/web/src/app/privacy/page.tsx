@@ -118,8 +118,8 @@ export default function PrivacyPage() {
                             </div>
                             <p className="text-platinum-dim mt-4">
                                 Para ejercer estos derechos, contáctenos en:{' '}
-                                <a href="mailto:privacy@sinapcode.com" className="text-neural-blue hover:text-white transition">
-                                    privacy@sinapcode.com
+                                <a href="mailto:sinapcodeia@gmail.com" className="text-neural-blue hover:text-white transition">
+                                    sinapcodeia@gmail.com
                                 </a>
                             </p>
                         </section>
@@ -177,7 +177,7 @@ export default function PrivacyPage() {
                         <section>
                             <h2 className="text-2xl font-bold text-white mb-4">13. Contacto y Quejas</h2>
                             <div className="text-platinum-dim space-y-2">
-                                <p><strong className="text-white">Email:</strong> <a href="mailto:privacy@sinapcode.com" className="text-neural-blue hover:text-white transition">privacy@sinapcode.com</a></p>
+                                <p><strong className="text-white">Email:</strong> <a href="mailto:sinapcodeia@gmail.com" className="text-neural-blue hover:text-white transition">sinapcodeia@gmail.com</a></p>
                                 <p><strong className="text-white">Autoridad de Control (Colombia):</strong> Superintendencia de Industria y Comercio (SIC)</p>
                                 <p><strong className="text-white">Autoridad de Control (EU):</strong> Puede presentar una queja ante su autoridad local de protección de datos</p>
                             </div>

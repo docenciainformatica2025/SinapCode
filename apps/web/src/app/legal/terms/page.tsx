@@ -132,8 +132,8 @@ export default function TermsPage() {
                             <h2 className="text-2xl font-bold text-white mb-4">12. Contacto</h2>
                             <p className="text-platinum-dim">
                                 Para preguntas sobre estos términos, contáctenos en:{' '}
-                                <a href="mailto:legal@sinapcode.com" className="text-neural-blue hover:text-white transition">
-                                    legal@sinapcode.com
+                                <a href="mailto:sinapcodeia@gmail.com" className="text-neural-blue hover:text-white transition">
+                                    sinapcodeia@gmail.com
                                 </a>
                             </p>
                         </section>

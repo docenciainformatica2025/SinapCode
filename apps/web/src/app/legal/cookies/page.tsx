@@ -201,8 +201,8 @@ export default function CookiePolicyPage() {
                             <div className="text-platinum-dim space-y-2">
                                 <p>Para preguntas sobre cookies o privacidad:</p>
                                 <p><strong className="text-white">Email:</strong>{' '}
-                                    <a href="mailto:privacy@sinapcode.com" className="text-neural-blue hover:text-white transition">
-                                        privacy@sinapcode.com
+                                    <a href="mailto:sinapcodeia@gmail.com" className="text-neural-blue hover:text-white transition">
+                                        sinapcodeia@gmail.com
                                     </a>
                                 </p>
                                 <p className="text-sm mt-4">
