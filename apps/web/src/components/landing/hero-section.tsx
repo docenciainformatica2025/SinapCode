@@ -19,7 +19,7 @@ export function HeroSection() {
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: "outCirc" }}
+                    transition={{ duration: 0.8, ease: "circOut" }}
                     className="space-y-8 text-center md:text-left"
                 >
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface border border-gold/20 text-xs font-mono text-gold mb-4">

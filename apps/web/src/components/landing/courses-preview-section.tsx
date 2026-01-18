@@ -72,7 +72,7 @@ export function CoursesPreviewSection() {
                 "
                     style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                 >
-                    {courses.map((course, i) => (
+                    {courses.slice(0, 3).map((course, i) => (
                         <motion.div
                             key={i}
                             initial={{ opacity: 0, y: 20 }}

@@ -54,8 +54,8 @@ export function ProjectsSection() {
                     </p>
                 </div>
 
-                <div className="grid md:grid-cols-3 gap-8">
-                    {projects.map((project, i) => (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {projects.slice(0, 3).map((project, i) => (
                         <motion.div
                             key={i}
                             initial={{ opacity: 0, y: 20 }}

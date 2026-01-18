@@ -27,7 +27,6 @@ export default function TermsPage() {
                     <div className="glass-panel p-6 sm:p-8 rounded-2xl border border-white/10">
                         <ReactMarkdown
                             remarkPlugins={[remarkGfm]}
-                            className="markdown-content"
                             components={{
                                 h1: ({ node, ...props }) => <h2 className="text-2xl font-bold text-white mb-4 mt-8" {...props} />,
                                 h2: ({ node, ...props }) => <h3 className="text-xl font-bold text-white mb-3 mt-6" {...props} />,

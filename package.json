@@ -3,13 +3,13 @@
     "version": "1.2.0",
     "private": true,
     "scripts": {
-        "dev": "next dev",
-        "build": "npx prisma generate && npx prisma db push && next build",
-        "start": "next start",
-        "lint": "next lint",
-        "test": "jest",
-        "test:watch": "jest --watch",
-        "test:coverage": "jest --coverage"
+        "dev": "cd apps/web && next dev",
+        "build": "cd apps/web && npx prisma generate && npx prisma db push && next build",
+        "start": "cd apps/web && next start",
+        "lint": "cd apps/web && next lint",
+        "test": "cd apps/web && jest",
+        "test:watch": "cd apps/web && jest --watch",
+        "test:coverage": "cd apps/web && jest --coverage"
     },
     "dependencies": {
         "@hookform/resolvers": "^5.2.2",
