@@ -119,7 +119,7 @@ Notificaremos cambios materiales mediante:
 ## 11. Contacto
 
 **Responsable de Protección de Datos:**
-- Email: sinapcodeia@gmail.com
+- Email: dpo@sinapcode.com
 - Dirección: [Dirección física de la empresa]
 - Teléfono: [Número de contacto]
 
