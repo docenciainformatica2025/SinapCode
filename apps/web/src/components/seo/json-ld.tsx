@@ -59,7 +59,7 @@ export function GlobalOrganizationSchema() {
                     '@type': "ContactPoint",
                     telephone: "+57-300-123-4567",
                     contactType: "Customer Support",
-                    email: "soporte@sinapcode.com",
+                    email: "sinapcodeia@gmail.com",
                     areaServed: ["CO", "MX", "ES", "US", "LATAM"],
                     availableLanguage: ["Spanish", "English"]
                 },

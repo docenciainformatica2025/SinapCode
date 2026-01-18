@@ -61,8 +61,8 @@ export default function VerificationEmail({
 
                     <Text style={footer}>
                         ¿Tienes problemas? Contáctanos en{' '}
-                        <Link href="mailto:soporte@sinapcode.com" style={link}>
-                            soporte@sinapcode.com
+                        <Link href="mailto:sinapcodeia@gmail.com" style={link}>
+                            sinapcodeia@gmail.com
                         </Link>
                     </Text>
                 </Container>

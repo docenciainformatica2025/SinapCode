@@ -184,7 +184,7 @@
 ## Contacto
 
 **Data Protection Officer (DPO):**
-- Email: dpo@sinapcode.com
+- Email: sinapcodeia@gmail.com
 - Responsable: [Nombre del DPO]
 
 **Autoridad de Supervisión:**

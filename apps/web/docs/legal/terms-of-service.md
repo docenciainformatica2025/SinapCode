@@ -173,7 +173,7 @@ Puede utilizar la Plataforma para:
 **Política de Reembolso:**
 - 14 días de garantía de devolución de dinero
 - Reembolso completo si no está satisfecho
-- Proceso simple a través de soporte@sinapcode.com
+- Proceso simple a través de sinapcodeia@gmail.com
 
 **Excepciones:**
 - Cursos completados en más del 80%
@@ -249,7 +249,7 @@ Usted acepta indemnizar y eximir de responsabilidad a SinapCode, sus directores,
 
 Puede terminar su cuenta en cualquier momento:
 - Desde configuración de cuenta
-- Enviando solicitud a soporte@sinapcode.com
+- Enviando solicitud a sinapcodeia@gmail.com
 - Ejerciendo su derecho al olvido (GDPR Art. 17)
 
 **Efecto:** Perderá acceso a:
@@ -352,10 +352,10 @@ Estos Términos, junto con la Política de Privacidad, constituyen el acuerdo co
 
 **Para ejercer derechos de privacidad:**
 - **Email:** privacy@sinapcode.com
-- **DPO:** dpo@sinapcode.com
+- **DPO:** sinapcodeia@gmail.com
 
 **Para soporte técnico:**
-- **Email:** soporte@sinapcode.com
+- **Email:** sinapcodeia@gmail.com
 - **Chat en vivo:** Disponible en la Plataforma
 
 ---

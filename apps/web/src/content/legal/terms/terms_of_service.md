@@ -69,7 +69,7 @@ SinapCode se reserva el derecho de modificar o discontinuar, temporal o permanen
 *Esta sección actúa como el Acuerdo de Procesamiento de Datos (DPA).*
 
 ### 10.1 Responsable del Tratamiento (Data Controller)
-Ing. Antonio Rodriguez, con domicilio en Pasto, Colombia. Contacto de Privacidad/DPO: [correo de contacto].
+Ing. Antonio Rodriguez, con domicilio en Pasto, Colombia. Contacto de Privacidad/DPO: sinapcodeia@gmail.com.
 
 ### 10.2 Base Legal para el Procesamiento
 Procesamos sus datos basándonos en:

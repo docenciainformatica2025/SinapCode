@@ -96,7 +96,7 @@ export function LandingFooter() {
 
                 {/* Bottom Bar */}
                 <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted/60">
-                    <p>© 2026 SinapCode Inc. Todos los derechos reservados.</p>
+                    <p>© 2026 SinapCode Inc. Todos los derechos reservados. • v2.1.1</p>
                     <div className="flex items-center gap-6">
                         <span className="flex items-center gap-2">
                             <span className="block w-2 h-2 rounded-full bg-green-500"></span>

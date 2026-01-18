@@ -150,8 +150,8 @@ function CheckEmailContent() {
                 <div className="mt-8 pt-6 border-t border-white/10">
                     <p className="text-[#B8BFC9] text-xs text-center">
                         ¿Problemas? Contáctanos en{' '}
-                        <a href="mailto:soporte@sinapcode.com" className="text-neural-blue hover:underline">
-                            soporte@sinapcode.com
+                        <a href="mailto:sinapcodeia@gmail.com" className="text-neural-blue hover:underline">
+                            sinapcodeia@gmail.com
                         </a>
                     </p>
                 </div>

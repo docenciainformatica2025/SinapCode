@@ -10,7 +10,7 @@ compliance_frameworks:
   - "LGPD (Brazil)"
   - "COPPA (Children's Online Privacy Protection Act)"
   - "Ley 1581 (Colombia)"
-dpo_contact: "dpo@sinapcode.global"
+dpo_contact: "sinapcodeia@gmail.com"
 lead_supervisory_authority: "Irish Data Protection Commission (EU)"
 ---
 

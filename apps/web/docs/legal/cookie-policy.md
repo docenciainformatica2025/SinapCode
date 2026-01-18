@@ -289,8 +289,8 @@ Versiones anteriores disponibles en:
 **Para preguntas sobre cookies:**
 
 - **Email:** privacy@sinapcode.com
-- **DPO:** dpo@sinapcode.com
-- **Soporte:** soporte@sinapcode.com
+- **DPO:** sinapcodeia@gmail.com
+- **Soporte:** sinapcodeia@gmail.com
 
 **Autoridad de Control:**
 - **Colombia:** Superintendencia de Industria y Comercio (SIC)

@@ -9,7 +9,7 @@ En SinapCode, entendemos que los datos de aprendizaje son una extensión de la m
 ## 2. Responsable del Tratamiento
 - **Identidad:** Ing. Antonio Rodriguez (actuando como SinapCode).
 - **Domicilio:** Pasto, Nariño, Colombia.
-- **Canal de Privacidad:** [correo-soporte]@sinapcode.com
+- **Canal de Privacidad:** sinapcodeia@gmail.com
 
 ## 3. Tipología de Datos Recolectados
 Para que nuestra IA educativa funcione, clasificamos los datos en tres niveles de seguridad:

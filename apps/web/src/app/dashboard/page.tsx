@@ -61,7 +61,7 @@ export default function DashboardPage() {
         <div className="min-h-screen bg-deep-space">
             <GlobalNavbar />
 
-            <main className="max-w-7xl mx-auto p-8">
+            <main className="max-w-7xl mx-auto p-8 pt-16">
                 {/* Welcome Header */}
                 <div className="mb-8">
                     <h1 className="text-4xl font-bold text-white mb-2">

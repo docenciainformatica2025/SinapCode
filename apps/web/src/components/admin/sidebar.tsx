@@ -212,6 +212,11 @@ export function AdminSidebar({ isOpen = true, onClose }: AdminSidebarProps) {
                         </div>
                     </div>
 
+                    {/* Version Display */}
+                    <div className="mb-2 px-3 py-1 text-center">
+                        <span className="text-xs text-platinum-dim/60">v2.1.1</span>
+                    </div>
+
                     <button
                         onClick={() => window.location.href = '/api/auth/signout'}
                         className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-platinum-dim transition-all hover:bg-rose-500/10 hover:text-rose-400"
