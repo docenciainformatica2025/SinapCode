@@ -35,7 +35,7 @@ export function LandingFooter() {
             title: 'Legal',
             links: [
                 { label: 'Términos de Servicio', href: '/legal/terms' },
-                { label: 'Política de Privacidad', href: '/privacy' },
+                { label: 'Habeas Data', href: '/privacy' },
                 { label: 'Cookies', href: '/legal/cookies' },
             ],
         },
