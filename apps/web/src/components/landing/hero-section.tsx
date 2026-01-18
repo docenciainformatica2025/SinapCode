@@ -22,17 +22,11 @@ export function HeroSection() {
                     transition={{ duration: 0.8, ease: "circOut" }}
                     className="space-y-8 text-center md:text-left"
                 >
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface border border-gold/20 text-xs font-mono text-gold mb-4">
-                        <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-gold"></span>
-                        </span>
-                        v2.0 Lanzamiento Oficial
-                    </div>
+
 
                     <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-white">
                         Aprende tecnología <br className="hidden lg:block" />
-                        aplicada <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">con IA real (v2.0)</span>
+                        aplicada <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">con IA real</span>
                     </h1>
 
                     <p className="text-lg sm:text-xl text-muted max-w-xl mx-auto md:mx-0 leading-relaxed">
