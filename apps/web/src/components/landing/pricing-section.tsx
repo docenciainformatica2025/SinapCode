@@ -80,12 +80,12 @@ export function PricingSection() {
                             viewport={{ once: true }}
                             transition={{ delay: i * 0.1 }}
                             className={`glass-panel p-8 rounded-2xl border ${plan.popular
-                                ? 'border-neural-blue shadow-neon-blue scale-105'
+                                ? 'border-gold shadow-[0_0_30px_rgba(212,175,55,0.3)] scale-105'
                                 : 'border-white/10'
                                 } relative`}
                         >
                             {plan.popular && (
-                                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-neural-blue text-white text-sm font-bold rounded-full">
+                                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-gold to-amber-500 text-deep-space text-sm font-bold rounded-full shadow-[0_0_20px_rgba(212,175,55,0.5)]">
                                     MÁS POPULAR
                                 </div>
                             )}
@@ -102,7 +102,7 @@ export function PricingSection() {
                             <ul className="space-y-4 mb-8">
                                 {plan.features.map((feature, j) => (
                                     <li key={j} className="flex items-start gap-3">
-                                        <span className="text-emerald-400 mt-1">✓</span>
+                                        <span className="text-gold mt-1">✓</span>
                                         <span className="text-platinum-dim">{feature}</span>
                                     </li>
                                 ))}
@@ -111,7 +111,7 @@ export function PricingSection() {
                             <Link
                                 href={plan.href}
                                 className={`block w-full py-4 rounded-xl font-bold text-center transition ${plan.popular
-                                    ? 'bg-neural-blue text-white hover:bg-blue-600 shadow-neon-blue'
+                                    ? 'bg-gradient-to-r from-gold to-amber-500 text-deep-space hover:from-amber-500 hover:to-gold shadow-[0_0_20px_rgba(212,175,55,0.4)]'
                                     : 'bg-white/10 text-white hover:bg-white/20 border border-white/20'
                                     }`}
                             >
