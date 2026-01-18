@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "dev": "cd apps/web && next dev",
-        "build": "cd apps/web && npx prisma generate && npx prisma db push && next build",
+        "build": "cd apps/web && npx prisma generate && next build",
         "start": "cd apps/web && next start",
         "lint": "cd apps/web && next lint",
         "test": "cd apps/web && jest",
