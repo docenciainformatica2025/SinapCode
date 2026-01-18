@@ -13,7 +13,7 @@ export default function CookiePolicyPage() {
                         Política de Cookies
                     </h1>
                     <p className="text-platinum-dim">
-                        Última actualización: 12 de enero de 2026 | Cumplimiento: GDPR, ePrivacy Directive
+                        Última actualización: 18 de enero de 2026 | Cumplimiento: GDPR, ePrivacy Directive
                     </p>
                 </div>
 

@@ -13,7 +13,7 @@ export default function PrivacyPage() {
                         Política de Privacidad
                     </h1>
                     <p className="text-platinum-dim">
-                        Última actualización: 9 de enero de 2026 | Cumplimiento: GDPR, COPPA, Ley 1581/2012
+                        Última actualización: 18 de enero de 2026 | Cumplimiento: GDPR, COPPA, Ley 1581/2012
                     </p>
                 </div>
 

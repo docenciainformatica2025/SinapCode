@@ -13,7 +13,7 @@ export default function TermsPage() {
                         Términos de Servicio
                     </h1>
                     <p className="text-platinum-dim">
-                        Última actualización: 9 de enero de 2026 | Versión 2.0
+                        Última actualización: 18 de enero de 2026 | Versión 2.1.1
                     </p>
                 </div>
 
