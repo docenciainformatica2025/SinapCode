@@ -1,1 +1,40 @@
-import fs from 'fs'; \nimport path from 'path'; \nimport matter from 'gray-matter'; \n\nexport interface LegalDocument { \n    frontmatter: { \n        title ?: string; \n        version ?: string; \n        id ?: string; \n        jurisdiction ?: string; \n[key: string]: any; \n }; \n    content: string; \n}\n\nexport function getLegalDocument(filename: string): LegalDocument { \n    const filePath = path.join(process.cwd(), 'apps/web/src/content/legal', filename); \n    const fileContents = fs.readFileSync(filePath, 'utf8'); \n    const { data, content } = matter(fileContents); \n\n    return { \n        frontmatter: data, \n        content\n }; \n } \n
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
+
+export interface LegalDocument {
+    frontmatter: {
+        title?: string;
+        version?: string;
+        id?: string;
+        jurisdiction?: string;
+        [key: string]: any;
+    };
+    content: string;
+}
+
+export function getLegalDocument(filename: string): LegalDocument {
+    const cwd = process.cwd();
+    // Check if we are already in apps/web or root
+    const basePath = cwd.includes('apps\\web') || cwd.includes('apps/web')
+        ? path.join(cwd, 'src/content/legal')
+        : path.join(cwd, 'apps/web/src/content/legal');
+
+    const filePath = path.join(basePath, filename);
+
+    try {
+        const fileContents = fs.readFileSync(filePath, 'utf8');
+        const { data, content } = matter(fileContents);
+
+        return {
+            frontmatter: data,
+            content
+        };
+    } catch (error) {
+        console.error(`Error reading markdown file at ${filePath}:`, error);
+        return {
+            frontmatter: { title: 'Error loading document', version: '0.0.0' },
+            content: '# Error\nCould not load the document. Please contact support.'
+        };
+    }
+}

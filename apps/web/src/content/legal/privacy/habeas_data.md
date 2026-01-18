@@ -1,4 +1,11 @@
-# 🛡️ Política de Privacidad y Protección de Datos (Data Privacy Charter)
+---
+title: "Política de Privacidad y Protección de Datos (Data Privacy Charter)"
+version: "2.1.1"
+date: "2026-01-18"
+entity: "SinapCode / Ing. Antonio Rodriguez"
+scope: "Global (Colombia + Internacional)"
+compliance: "GDPR, COPPA, Ley 1581/2012"
+---
 
 **Entidad Responsable:** SinapCode / Ing. Antonio Rodriguez  
 **Alcance:** Global (Colombia + Internacional)
@@ -48,18 +55,4 @@ El tratamiento de datos de menores asegura el respeto a sus derechos fundamental
 - **Proveedores de IA:** Si SinapCode utiliza APIs de terceros (ej. OpenAI, Anthropic), los datos se envían anonimizados y bajo acuerdos de "Zero Data Retention" (no retención de datos) para entrenamiento externo, garantizando que el código del estudiante no se filtre públicamente.
 
 ## 7. Derechos del Titular (ARCO)
-El estudiante (o su acudiente) tiene derecho a:
-- **Acceso:** Conocer qué datos tenemos.
-- **Rectificación:** Corregir datos erróneos (ej. nombre mal escrito).
-- **Cancelación (Derecho al Olvido):** Solicitar la eliminación total de la cuenta y sus registros, salvo los que deban conservarse por ley.
-- **Oposición:** Negarse a recibir correos no esenciales o a que sus datos se usen para analítica.
-- **Portabilidad:** Solicitar la descarga de todo su historial y proyectos en formato abierto (JSON/ZIP).
-
-## 8. Medidas de Seguridad
-Aplicamos estándares de la industria "High Tech":
-- **Cifrado en tránsito:** Protocolo TLS 1.3 para todas las comunicaciones.
-- **Cifrado en reposo:** Las bases de datos están encriptadas (AES-256).
-- **Control de Acceso:** Solo personal técnico autorizado (bajo acuerdo de confidencialidad) tiene acceso al backend.
-
-## 9. Transferencias Internacionales
-Los datos pueden ser procesados en servidores ubicados en EE.UU. o Europa (ej. AWS, Vercel, Supabase). SinapCode asegura que estos proveedores cumplen con el Data Privacy Framework (DPF) o Cláusulas Contractuales Tipo (SCC) de la UE.
+El usuario tiene derecho a Acceder, Rectificar, Cancelar (borrar) y Oponerse al tratamiento de sus datos. Puede ejercer estos derechos enviando un correo a `sinapcodeia@gmail.com`.

@@ -2,7 +2,7 @@
 title: "Global Privacy Policy & Data Protection"
 id: "POL-PRIV-INTL-001"
 version: "3.0.0 (International)"
-effective_date: "2026-01-08"
+effective_date: "2026-01-18"
 status: "published"
 compliance_frameworks: 
   - "GDPR (European Union)"

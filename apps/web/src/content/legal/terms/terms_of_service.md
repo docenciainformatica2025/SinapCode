@@ -1,6 +1,11 @@
-# 🌐 TÉRMINOS Y CONDICIONES GLOBALES DE USO - SINAPCODE
+---
+title: "TÉRMINOS Y CONDICIONES GLOBALES DE USO - SINAPCODE"
+version: "2.1.1"
+date: "2026-01-18"
+entity: "SinapCode / Ing. Antonio Rodriguez"
+jurisdiction: "Mundial (con adhesión a estándares UE/EEE)"
+---
 
-**Versión:** 2.0 (Cumplimiento Internacional & GDPR)  
 **Entidad Legal Responsable:** Ing. Antonio Rodriguez / [Nombre Legal de la Empresa]  
 **Domicilio Social:** Pasto, Nariño, Colombia.  
 **Ámbito de Aplicación:** Mundial (con adhesión a estándares UE/EEE).
@@ -48,41 +53,3 @@ El Usuario reconoce y acepta que el uso de SinapCode es bajo su propio riesgo ex
 
 **7.2 Ausencia de Garantía de Resultados (Educational Disclaimer)**  
 Aunque nuestra metodología se fundamenta en estándares pedagógicos avanzados, SinapCode **no garantiza** resultados académicos específicos, admisión a instituciones, certificaciones de terceros ni empleabilidad futura. El Usuario comprende que la plataforma es una herramienta de apoyo y que el éxito educativo depende exclusivamente de su dedicación, esfuerzo y aptitud individual.
-
-**7.3 Límite de Responsabilidad (Liability Cap)**  
-En la máxima medida permitida por la ley aplicable, ni SinapCode ni sus proveedores serán responsables por:  
-(a) Daños indirectos, incidentales, especiales, consecuentes o punitivos (incluyendo lucro cesante, pérdida de datos o reputación).  
-(b) Errores, inexactitudes u omisiones en el contenido generado por la IA.  
-(c) Cualquier acceso no autorizado o uso de nuestros servidores seguros.  
-
-*Nota: En jurisdicciones que no permiten la exclusión completa de responsabilidad, esta se limitará al monto abonado por el Usuario por el servicio durante los últimos doce (12) meses o a $100 USD, lo que sea mayor.*
-
-## 8. Modificaciones del Servicio
-SinapCode se reserva el derecho de modificar o discontinuar, temporal o permanentemente, el servicio (o cualquier parte del mismo) con o sin previo aviso. En caso de cierre definitivo, se facilitará la portabilidad de los datos del estudiante.
-
-## 9. Ley Aplicable y Resolución de Disputas
-- **Legislación:** Estos Términos se rigen por las leyes de Colombia.
-- **Fuero:** Para cualquier disputa, las partes se someten a los tribunales de Pasto, Nariño.
-- **Resolución en Línea (ODR):** Para usuarios en la UE, la Comisión Europea facilita una plataforma de resolución de litigios en línea, disponible en [ec.europa.eu/consumers/odr](https://ec.europa.eu/consumers/odr).
-
-## 10. POLÍTICA DE PRIVACIDAD Y PROTECCIÓN DE DATOS (GDPR Compliance)
-*Esta sección actúa como el Acuerdo de Procesamiento de Datos (DPA).*
-
-### 10.1 Responsable del Tratamiento (Data Controller)
-Ing. Antonio Rodriguez, con domicilio en Pasto, Colombia. Contacto de Privacidad/DPO: sinapcodeia@gmail.com.
-
-### 10.2 Base Legal para el Procesamiento
-Procesamos sus datos basándonos en:
-- **Ejecución de un contrato:** Para proveer el servicio educativo.
-- **Interés Legítimo:** Para mejorar la seguridad y los algoritmos de la plataforma.
-- **Consentimiento:** Para comunicaciones de marketing o uso de cookies no esenciales.
-
-### 10.3 Transferencias Internacionales de Datos
-Dado que nuestros servidores pueden estar alojados fuera del país de residencia del usuario (ej. en EE.UU. a través de proveedores como AWS o Vercel), garantizamos que dichas transferencias están cubiertas por Cláusulas Contractuales Tipo (SCC) aprobadas por la Comisión Europea o marcos de adecuación similares.
-
-### 10.4 Derechos del Usuario (ARCO + Portabilidad)
-Cualquier usuario (especialmente bajo GDPR) tiene derecho a:
-- **Acceso:** Solicitar una copia de todos sus datos almacenados.
-- **Rectificación:** Corregir datos erróneos.
-- **Supresión ("Derecho al Olvido"):** Solicitar el borrado total de su cuenta e historial.
-- **Portabilidad:** Recibir sus datos (progreso, código escrito) en un formato estructurado (JSON/XML) para llevarlos a otra plataforma.
