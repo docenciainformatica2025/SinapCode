@@ -2,7 +2,7 @@
 
 import { AdminHeader } from '@/components/admin/header';
 import { Shield, Search, Filter, Download, AlertTriangle, CheckCircle, Info } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // Mock data removed in favor of real API
 

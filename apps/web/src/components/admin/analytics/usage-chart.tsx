@@ -34,19 +34,32 @@ interface UsageData {
     }[];
 }
 
-export function UsageChart() {
+interface UsageChartProps {
+    data: {
+        labels: string[];
+        newUsers: number[];
+        activeUsers: number[];
+    } | null;
+}
+
+export function UsageChart({ data: serverData }: UsageChartProps) {
+    // Default empty state to avoid potential errors if data is null
+    const safeLabels = serverData?.labels || ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
+    const safeActive = serverData?.activeUsers || [0, 0, 0, 0, 0, 0, 0];
+    const safeNew = serverData?.newUsers || [0, 0, 0, 0, 0, 0, 0];
+
     const data: UsageData = {
-        labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+        labels: safeLabels,
         datasets: [
             {
                 label: 'Usuarios Activos',
-                data: [1200, 1900, 1500, 2100, 1800, 900, 600],
+                data: safeActive,
                 borderColor: 'rgb(59, 130, 246)',
                 backgroundColor: 'rgba(59, 130, 246, 0.1)',
             },
             {
                 label: 'Nuevos Registros',
-                data: [150, 230, 180, 290, 210, 120, 80],
+                data: safeNew,
                 borderColor: 'rgb(168, 85, 247)',
                 backgroundColor: 'rgba(168, 85, 247, 0.1)',
             },

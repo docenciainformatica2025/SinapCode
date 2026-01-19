@@ -41,7 +41,7 @@ const navigation: NavItem[] = [
     },
     {
         name: 'Cursos',
-        href: '/admin/courses',
+        href: '/admin/programs',
         icon: BookOpen,
     },
     {
