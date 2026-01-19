@@ -1,15 +1,12 @@
 {
-    "name": "sinapcode-web",
-    "version": "1.2.0",
+    "name": "sinapcode",
     "private": true,
+    "workspaces": [
+        "apps/*"
+    ],
     "scripts": {
-        "dev": "cd apps/web && next dev",
-        "build": "cd apps/web && npx prisma generate && next build",
-        "start": "cd apps/web && next start",
-        "lint": "cd apps/web && next lint",
-        "test": "cd apps/web && jest",
-        "test:watch": "cd apps/web && jest --watch",
-        "test:coverage": "cd apps/web && jest --coverage"
+        "build": "echo \"root build skipped\"",
+        "dev": "echo \"use apps/web\""
     },
     "dependencies": {},
     "devDependencies": {}
