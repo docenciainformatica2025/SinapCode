@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { GlobalNavbar } from '@/components/global-navbar';
 
-
+export const dynamic = 'force-dynamic';
 export default function TeachersPage() {
     const benefits = [
         {

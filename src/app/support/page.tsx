@@ -2,6 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 // Helper simple para parsear la tabla del markdown (muy básico, para este caso específico)
 function parseMarkdownTable(text: string) {
     const lines = text.split('\n').filter(l => l.trim().startsWith('|'));

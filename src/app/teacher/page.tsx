@@ -1,6 +1,8 @@
 import { MagicToolCard } from '@/components/teacher/magic-tool-card';
 import { GlobalNavbar } from '@/components/global-navbar';
 
+export const dynamic = 'force-dynamic';
+
 export default function TeacherDashboard() {
     return (
         <div className="min-h-screen bg-deep-space text-foreground relative overflow-hidden">

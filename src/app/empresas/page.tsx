@@ -3,6 +3,8 @@ import { GlobalNavbar } from '@/components/global-navbar';
 
 import { type Metadata } from 'next';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
     title: 'Aceleración de Talento Tech para Empresas',
     description: 'Transforma a tu equipo de ingeniería en Builders de Alto Rendimiento. ROI medible, rutas personalizadas y soporte nivel Tech Lead.',

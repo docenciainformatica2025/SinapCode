@@ -9,7 +9,7 @@ import { GlobalOrganizationSchema, WebSiteSchema } from '@/components/seo/json-l
 
 import { siteConfig } from '@/lib/site-config';
 
-// Force dynamic rendering for all pages to avoid SSR/client hydration issues
+// Required for Next.js 13.5.6 to handle client components during SSG
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
