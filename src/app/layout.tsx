@@ -12,8 +12,14 @@ import { siteConfig } from '@/lib/site-config';
 // Required for Next.js 13.5.6 to handle client components during SSG
 export const dynamic = 'force-dynamic';
 
+// Helper to ensure valid URL for metadataBase
+const getBaseUrl = () => {
+    const url = siteConfig.url || 'https://sinapcode.com';
+    return url.startsWith('http') ? url : `https://${url}`;
+};
+
 export const metadata: Metadata = {
-    metadataBase: new URL(siteConfig.url || 'https://sinapcode.com'),
+    metadataBase: new URL(getBaseUrl()),
     title: {
         default: 'SinapCode | Forjando la próxima generación de Tech Builders',
         template: `%s | ${siteConfig.name}`
