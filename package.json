@@ -11,8 +11,6 @@
         "test:watch": "cd apps/web && jest --watch",
         "test:coverage": "cd apps/web && jest --coverage"
     },
-    "dependencies": {
-        "next": "14.1.0"
-    },
+    "dependencies": {},
     "devDependencies": {}
 }
