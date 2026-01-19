@@ -84,6 +84,10 @@ const nextConfig = {
             '/api/admin/users/**/*': ['./public/fonts/**/*'],
         },
     },
+    // Disable automatic static optimization to prevent prerender errors
+    generateBuildId: async () => {
+        return 'build-' + Date.now()
+    },
 }
 
 module.exports = withMDX(nextConfig)
