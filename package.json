@@ -7,7 +7,5 @@
     "scripts": {
         "build": "echo \"root build skipped\"",
         "dev": "echo \"use apps/web\""
-    },
-    "dependencies": {},
-    "devDependencies": {}
+    }
 }
