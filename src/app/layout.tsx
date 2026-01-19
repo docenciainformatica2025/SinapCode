@@ -13,7 +13,7 @@ import { siteConfig } from '@/lib/site-config';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-    metadataBase: new URL(siteConfig.url),
+    metadataBase: new URL(siteConfig.url || 'https://sinapcode.com'),
     title: {
         default: 'SinapCode | Forjando la próxima generación de Tech Builders',
         template: `%s | ${siteConfig.name}`

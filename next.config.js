@@ -71,10 +71,10 @@ const nextConfig = {
                         key: 'Referrer-Policy',
                         value: 'origin-when-cross-origin'
                     },
-                    {
-                        key: 'Content-Security-Policy',
-                        value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.google.com https://www.gstatic.com https://va.vercel-scripts.com https://vercel.live https://api.mapbox.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://api.mapbox.com; img-src 'self' blob: data: https://images.unsplash.com https://*.googleusercontent.com; font-src 'self' https://fonts.gstatic.com; frame-src 'self' https://www.google.com https://vercel.live;"
-                    }
+                    // {
+                    //    key: 'Content-Security-Policy',
+                    //    value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.google.com https://www.gstatic.com https://va.vercel-scripts.com https://vercel.live https://api.mapbox.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://api.mapbox.com; img-src 'self' blob: data: https://images.unsplash.com https://*.googleusercontent.com; font-src 'self' https://fonts.gstatic.com; frame-src 'self' https://www.google.com https://vercel.live;"
+                    // }
                 ]
             }
         ];
@@ -83,10 +83,6 @@ const nextConfig = {
         outputFileTracingIncludes: {
             '/api/admin/users/**/*': ['./public/fonts/**/*'],
         },
-    },
-    // Disable automatic static optimization to prevent prerender errors
-    generateBuildId: async () => {
-        return 'build-' + Date.now()
     },
 }
 
