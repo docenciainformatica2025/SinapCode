@@ -55,6 +55,12 @@ export async function GET() {
         return NextResponse.json(dashboardData);
 
     } catch (error: any) {
+        // WORLD CLASS FIX: Allow DynamicServerError to bubble up. 
+        // This stops Next.js from trying to statically generate this page during build time.
+        if (error.digest === 'DYNAMIC_SERVER_USAGE') {
+            throw error;
+        }
+
         console.error('Error fetching dashboard data:', error);
         return NextResponse.json(
             { error: 'Error al obtener datos' },

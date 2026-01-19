@@ -66,6 +66,11 @@ export async function POST(request: Request) {
         return NextResponse.json({ success: true, id: consent.id });
 
     } catch (error: any) {
+        // WORLD CLASS FIX: Allow DynamicServerError to bubble up. 
+        if (error.digest === 'DYNAMIC_SERVER_USAGE') {
+            throw error;
+        }
+
         console.error('Error recording consent:', error);
 
         // Manejar duplicados (usuario ya aceptó)
