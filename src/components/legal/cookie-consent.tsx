@@ -18,7 +18,7 @@ export function CookieConsent() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    documentType: 'cookies',
+                    documentType: 'COOKIES',
                     documentVersion: '1.0', // Este debería venir de config
                     consentMethod: method,
                     timestamp: new Date().toISOString(),

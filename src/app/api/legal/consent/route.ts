@@ -18,6 +18,22 @@ export async function POST(request: Request) {
         // Si hay sesión, usamos el ID de la sesión. Si no, esperamos el userId del body (flujo registro)
         const effectiveUserId = (session?.user as any)?.id || userId;
 
+        // WORLD CLASS LOGIC: Si es para cookies y no hay usuario, usamos el modelo CookieConsent (que permite anonimato)
+        if (documentType === 'COOKIES' && !effectiveUserId) {
+            const consent = await prisma.cookieConsent.create({
+                data: {
+                    userId: null,
+                    preferences: JSON.stringify(metadata?.preferences || { essential: true }),
+                    policyVersion: documentVersion,
+                    ipAddress: headersList.get('x-forwarded-for') || headersList.get('x-real-ip') || '0.0.0.0',
+                    userAgent: headersList.get('user-agent') || 'anonymous',
+                    acceptedAt: new Date()
+                }
+            });
+
+            return NextResponse.json({ success: true, id: consent.id, anonymous: true });
+        }
+
         if (!effectiveUserId) {
             return NextResponse.json({ error: 'User ID required' }, { status: 400 });
         }
@@ -26,7 +42,7 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
         }
 
-        // Crear registro de consentimiento
+        // Crear registro de consentimiento formal (requiere usuario)
         const consent = await prisma.legalConsent.create({
             data: {
                 userId: effectiveUserId,
