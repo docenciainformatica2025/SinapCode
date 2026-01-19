@@ -13,12 +13,7 @@ const nextConfig = {
         ];
     },
     images: {
-        remotePatterns: [
-            {
-                protocol: 'https',
-                hostname: 'images.unsplash.com',
-            },
-        ],
+        domains: ['images.unsplash.com'],
     },
     async redirects() {
         return [
