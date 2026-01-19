@@ -9,7 +9,7 @@ import { GlobalOrganizationSchema, WebSiteSchema } from '@/components/seo/json-l
 
 import { siteConfig } from '@/lib/site-config';
 
-// Force dynamic rendering to avoid prerender errors with client hooks
+// Force dynamic rendering for all pages to avoid SSR/client hydration issues
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
