@@ -84,8 +84,6 @@ style.css
 index.html
 script.js
 docker-compose.yml
-pnpm-workspace.yaml
-turbo.json
 
 # local env files
 .env*.local
