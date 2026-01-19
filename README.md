@@ -2,8 +2,8 @@
 
 [![Next.js](https://img.shields.io/badge/Next.js-14.1.0-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)](https://www.typescriptlang.org/)
-[![Prisma](https://img.shields.io/badge/Prisma-5.10.2-2D3748)](https://www.prisma.io/)
-[![License](https://img.shields.io/badge/license-Private-red)](LICENSE)
+[![Prisma](https://img.shields.io/badge/Prisma-5.22.0-2D3748)](https://www.prisma.io/)
+[![Protocol](https://img.shields.io/badge/Protocol-SAFE--GUARD-gold)](https://sinapcode.com)
 
 Plataforma educativa para aprender programación con IA, diseñada para estudiantes colombianos.
 
@@ -65,24 +65,25 @@ GITHUB_ID="..."
 GITHUB_SECRET="..."
 ```
 
-## 📁 Estructura del Proyecto
+## 📁 Estructura del Proyecto (Monorepo)
+
+El proyecto utiliza una arquitectura de monorepo gestionada por **NPM Workspaces** y siguiendo el protocolo **SAFE-GUARD**:
 
 ```
-SinapCode/
-├── src/
-│   ├── app/                 # App Router de Next.js
-│   │   ├── api/            # API Routes
-│   │   │   ├── auth/       # Autenticación
-│   │   │   └── legal/      # Consentimientos legales
-│   │   ├── auth/           # Páginas de autenticación
-│   │   └── dashboard/      # Dashboard de usuario
-│   ├── components/         # Componentes React
-│   ├── lib/               # Utilidades y configuración
-│   └── styles/            # Estilos globales
-├── prisma/
-│   └── schema.prisma      # Esquema de base de datos
-├── public/                # Archivos estáticos
-└── package.json
+SinapCode/ (Root - Capa de Orquestación)
+├── apps/
+│   └── web/ (SSOT - Aplicación Principal)
+│       ├── src/
+│       │   ├── app/           # App Router (Next.js 14)
+│       │   ├── components/    # Componentes UI/UX
+│       │   ├── lib/           # Utilidades y configs
+│       │   └── contexts/      # Proveedores de estado
+│       ├── prisma/            # Esquema y migraciones
+│       ├── public/            # Assets estáticos
+│       └── content/           # MDX y docs legales
+├── package.json               # Workspaces y scripts puente
+├── vercel.json                # Configuración de despliegue
+└── CHANGELOG.md               # Historial de cambios SemVer
 ```
 
 ## 🗄️ Base de Datos
@@ -135,5 +136,5 @@ Para soporte, contacta a: [email de soporte]
 
 ---
 
-**Versión:** 1.1.0  
-**Última actualización:** 2026-01-12
+**Versión:** 2.2.0  
+**Última actualización:** 2026-01-19

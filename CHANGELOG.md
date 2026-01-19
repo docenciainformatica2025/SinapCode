@@ -1,62 +1,33 @@
 # Changelog
 
-Todos los cambios notables de este proyecto serán documentados en este archivo.
+All notable changes to this project will be documented in this file.
 
-El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
-y este proyecto adhiere a [Versionado Semántico](https://semver.org/lang/es/).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.1.0] - 2026-01-12
+## [2.2.0] - 2026-01-19
 
-### Agregado
-- Sistema completo de registro de usuarios (`/api/auth/register`)
-- Hash de contraseñas con bcrypt (10 rounds)
-- Validación de emails duplicados
-- Endpoint de consentimientos legales (`/api/legal/consent`)
-- Soporte para usuarios anónimos durante registro
-- Cliente Prisma singleton para optimización de conexiones
-- Dependencia bcryptjs para seguridad de contraseñas
+### Added
+- **Arquitectura Monorepo Profesional**: Migración de todo el código fuente y activos a `apps/web` siguiendo el protocolo SAFE-GUARD.
+- **NPM Workspaces**: Implementación de espacios de trabajo en la raíz para una gestión de dependencias centralizada y eficiente.
+- **Vercel Native Deployment**: Archivo `vercel.json` para configuración de despliegue sin hacks de consola.
+- **Syllabus Placeholder**: Nueva página `/syllabus` para mejorar la experiencia del usuario y evitar errores 404.
 
-### Corregido
-- Error 500 en endpoint de consentimientos legales
-- Violación de integridad referencial en tabla `legal_consents`
-- Errores de build por módulos faltantes
-- Errores de TypeScript por campos inexistentes en schema
-- Configuración de `.gitignore` para excluir archivos temporales
+### Changed
+- **Upgrade a Next.js 14.1.0**: Salto a versión 14 estable para resolver problemas de `jsx-runtime` y optimizar el App Router.
+- **Estandarización de React**: Forzado de versión 18.2.0 en todo el árbol de dependencias para garantizar consistencia en hooks y renderizado.
+- **Configuración de Imágenes**: Transición a `remotePatterns` para Unsplash, cumpliendo con los últimos estándares de seguridad de Next.js.
+- **Estructura de Directorios**: Limpieza total de la raíz; `src/`, `public/` y `prisma/` ahora residen exclusivamente en `apps/web`.
 
-### Cambiado
-- Simplificado modelo de User (removidos campos no utilizados)
-- Actualizado `.gitignore` siguiendo mejores prácticas de Next.js
-- Mejorada documentación del sistema de autenticación
+### Fixed
+- **Internal Server Error (500)**: Resuelto conflicto de versiones entre React 18.3 y Next.js 13.
+- **Console Errors (404)**: Corregidos errores de carga de imágenes de Unsplash en producción.
+- **Legal Consent API**: Fix en error 400 para usuarios anónimos y estandarización del esquema Prisma.
+- **Build Warnings**: Silenciado de `DynamicServerError` ruidosos durante la generación estática.
 
-### Seguridad
-- Implementado hashing de contraseñas con bcrypt
-- Validación de entrada con Zod
-- Protección contra inyección SQL con Prisma
+## [2.1.1] - 2026-01-18
 
-## [1.0.0] - 2026-01-10
-
-### Agregado
-- Estructura inicial del proyecto Next.js 14
-- Configuración de NextAuth para autenticación
-- Integración con Supabase PostgreSQL
-- Esquema de Prisma para base de datos
-- Sistema de consentimientos legales (GDPR/COPPA)
-- Páginas de login y registro (UI)
-- Configuración de Tailwind CSS
-- Configuración de TypeScript
-
-### Notas
-- Primera versión funcional del sistema
-- Base de datos configurada en Supabase
-- Autenticación con NextAuth v4
-
----
-
-## Tipos de Cambios
-
-- `Agregado` para nuevas funcionalidades
-- `Cambiado` para cambios en funcionalidades existentes
-- `Obsoleto` para funcionalidades que serán removidas
-- `Removido` para funcionalidades removidas
-- `Corregido` para corrección de bugs
-- `Seguridad` para vulnerabilidades corregidas
+### Fixed
+- Downgrade temporal a Next.js 13.5.6 para depuración de dependencias.
+- Ajustes de `metadataBase` en el layout raíz.
+- Conexión proxy del backend en `next.config.js`.

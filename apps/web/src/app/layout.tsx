@@ -9,9 +9,6 @@ import { GlobalOrganizationSchema, WebSiteSchema } from '@/components/seo/json-l
 
 import { siteConfig } from '@/lib/site-config';
 
-// Required for Next.js 13.5.6 to handle client components during SSG
-export const dynamic = 'force-dynamic';
-
 // Helper to ensure valid URL for metadataBase
 const getBaseUrl = () => {
     const url = siteConfig.url || 'https://sinapcode.com';
