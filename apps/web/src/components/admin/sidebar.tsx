@@ -62,7 +62,7 @@ const navigation: NavItem[] = [
     },
     {
         name: 'System Health',
-        href: '/admin/health',
+        href: '/admin/system',
         icon: Activity,
     },
     {
@@ -214,7 +214,7 @@ export function AdminSidebar({ isOpen = true, onClose }: AdminSidebarProps) {
 
                     {/* Version Display */}
                     <div className="mb-2 px-3 py-1 text-center">
-                        <span className="text-xs text-platinum-dim/60">v2.1.1</span>
+                        <span className="text-xs text-platinum-dim/60">v2.2.0</span>
                     </div>
 
                     <button
