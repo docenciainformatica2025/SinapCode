@@ -204,7 +204,7 @@ export default function BannersPage() {
                                                     <div className="relative w-32 h-20 rounded-lg overflow-hidden border border-white/10 shadow-sm group-hover:shadow-md transition-all group-hover:scale-105">
                                                         {banner.imageUrl ? (
                                                             <img
-                                                                src={banner.imageUrl}
+                                                                src={banner.imageUrl || undefined}
                                                                 alt={banner.title}
                                                                 className="w-full h-full object-cover"
                                                                 loading="lazy"

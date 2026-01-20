@@ -225,7 +225,7 @@ export default function SiteEditorPage() {
                                 </div>
                                 {config.logoUrl && (
                                     <div className="mt-4 p-4 bg-white/5 rounded-lg flex justify-center border border-white/5">
-                                        <img src={config.logoUrl} alt="Logo Preview" className="h-10 object-contain" />
+                                        <img src={config.logoUrl || undefined} alt="Logo Preview" className="h-10 object-contain" />
                                     </div>
                                 )}
                             </div>

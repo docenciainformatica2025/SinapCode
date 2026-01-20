@@ -168,7 +168,7 @@ export default function ProjectsPage() {
                         {/* Image Placeholder */}
                         <div className="aspect-video bg-gradient-to-br from-[#1a1c25] to-[#0f1117] relative flex items-center justify-center overflow-hidden">
                             {project.thumbnail ? (
-                                <img src={project.thumbnail} alt={project.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition" />
+                                <img src={project.thumbnail || undefined} alt={project.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition" />
                             ) : (
                                 <LayoutGrid className="h-10 w-10 text-white/10" />
                             )}
