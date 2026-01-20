@@ -5,8 +5,23 @@ import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 
-async function getProjects() {
-    return await prisma.cmsProject.findMany({
+interface ProjectWithAuthor {
+    id: string;
+    title: string;
+    description: string;
+    thumbnail: string | null;
+    tags: string[];
+    repoUrl: string | null;
+    liveUrl: string | null;
+    createdAt: Date;
+    author: {
+        name: string | null;
+        image: string | null;
+    } | null;
+}
+
+async function getProjects(): Promise<ProjectWithAuthor[]> {
+    return await (prisma.cmsProject.findMany({
         where: { status: 'published' },
         orderBy: { createdAt: 'desc' },
         include: {
@@ -14,7 +29,7 @@ async function getProjects() {
                 select: { name: true, image: true }
             }
         }
-    });
+    }) as any);
 }
 
 export default async function ProjectsPage() {
@@ -57,7 +72,7 @@ export default async function ProjectsPage() {
                                 <div className="relative h-48 overflow-hidden bg-black/40 group-hover:bg-black/20 transition-colors">
                                     {project.thumbnail ? (
                                         <img
-                                            src={project.thumbnail}
+                                            src={project.thumbnail || undefined}
                                             alt={project.title}
                                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                         />
@@ -104,7 +119,7 @@ export default async function ProjectsPage() {
                                     <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
                                         <div className="flex items-center gap-3">
                                             {project.author?.image ? (
-                                                <img src={project.author.image} alt={project.author.name} className="w-8 h-8 rounded-full border border-white/10" />
+                                                <img src={project.author.image || undefined} alt={project.author.name || ''} className="w-8 h-8 rounded-full border border-white/10" />
                                             ) : (
                                                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-neural-blue to-purple-600 flex items-center justify-center text-xs font-bold text-white">
                                                     {project.author?.name?.charAt(0) || 'S'}
