@@ -6,10 +6,10 @@
         "apps/*"
     ],
     "scripts": {
-        "dev": "npm run dev --prefix apps/web",
-        "build": "npm run build --prefix apps/web",
-        "start": "npm run start --prefix apps/web",
-        "lint": "npm run lint --prefix apps/web",
-        "test": "npm run test --prefix apps/web"
+        "dev": "npm run dev -w sinapcode-web-app",
+        "build": "npm run build -w sinapcode-web-app",
+        "start": "npm run start -w sinapcode-web-app",
+        "lint": "npm run lint -w sinapcode-web-app",
+        "test": "npm run test -w sinapcode-web-app"
     }
 }
