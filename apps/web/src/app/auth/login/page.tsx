@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import Link from 'next/link';
-import { signIn } from 'next-auth/react';
+import { signIn, getSession } from 'next-auth/react';
 import { toast } from 'sonner';
 
 
@@ -36,15 +36,24 @@ export default function LoginPage() {
                 toast.error('Credenciales inválidas. Por favor intenta de nuevo.');
                 setLoading(false);
             } else if (result?.ok) {
-
                 toast.success('¡Bienvenido!');
 
-                // Check for secure redirect from sessionStorage
-                const redirectTo = typeof window !== 'undefined'
-                    ? sessionStorage.getItem('auth_redirect') || '/dashboard'
-                    : '/dashboard';
+                // Fetch the updated session to determine role-based redirect
+                const session = await getSession();
+                const userRole = (session?.user as any)?.role;
 
+                let redirectTo = '/dashboard';
 
+                if (userRole === 'ADMIN' || userRole === 'SUPER_ADMIN') {
+                    redirectTo = '/admin';
+                } else {
+                    const savedRedirect = typeof window !== 'undefined'
+                        ? sessionStorage.getItem('auth_redirect')
+                        : null;
+                    if (savedRedirect) {
+                        redirectTo = savedRedirect;
+                    }
+                }
 
                 // Clear the redirect after use
                 if (typeof window !== 'undefined') {
