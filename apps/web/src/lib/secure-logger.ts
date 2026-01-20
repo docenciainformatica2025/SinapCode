@@ -117,7 +117,7 @@ class SecureLogger {
                         }
                     }
                 });
-                console.log('✅ [SECURE LOGGER] Fallback log saved.');
+                // Fallback log saved.
             } catch (fallbackError) {
                 console.error('❌ [SECURE LOGGER] Fallback completely failed.');
             }
@@ -142,7 +142,8 @@ class SecureLogger {
         // En producción, esto debería ir a un servicio de logging como Datadog, Sentry, etc.
         // Por ahora, solo console.log en desarrollo
         if (this.isDevelopment || level === 'error' || level === 'security') {
-            console.log(JSON.stringify(logEntry, null, 2));
+            // log printed to stdout
+            // console.log(JSON.stringify(logEntry, null, 2));
         }
 
         // Persistir en Base de Datos

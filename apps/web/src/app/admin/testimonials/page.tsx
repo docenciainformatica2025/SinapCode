@@ -7,12 +7,25 @@ import { AdminHeader } from '@/components/admin/header';
 import { TestimonialModal } from '@/components/admin/modals/testimonial-modal';
 import { toast } from 'sonner';
 
+interface Testimonial {
+    id: string;
+    authorName: string;
+    authorRole: string;
+    authorImage?: string;
+    content: string;
+    rating: number;
+    company?: string;
+    companyLogo?: string;
+    status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
+    featured: boolean;
+}
+
 export default function TestimonialsPage() {
-    const [testimonials, setTestimonials] = useState<any[]>([]);
+    const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [testimonialToEdit, setTestimonialToEdit] = useState<any>(null);
+    const [testimonialToEdit, setTestimonialToEdit] = useState<Testimonial | null>(null);
 
     const fetchTestimonials = async () => {
         setIsLoading(true);

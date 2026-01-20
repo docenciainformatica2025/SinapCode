@@ -16,10 +16,29 @@ import {
 import { AdminHeader } from '@/components/admin/header';
 import { toast } from 'sonner';
 
+interface SiteConfig {
+    siteName: string;
+    logoUrl?: string;
+    faviconUrl?: string;
+    primaryColor: string;
+    secondaryColor: string;
+    description?: string;
+}
+
+interface MenuItem {
+    label: string;
+    href: string;
+}
+
+interface NavMenus {
+    header: MenuItem[];
+    footer: MenuItem[];
+}
+
 export default function SiteEditorPage() {
     const [activeTab, setActiveTab] = useState<'identity' | 'navigation'>('identity');
-    const [config, setConfig] = useState<any>({});
-    const [menus, setMenus] = useState<any>({ header: [], footer: [] });
+    const [config, setConfig] = useState<Partial<SiteConfig>>({});
+    const [menus, setMenus] = useState<NavMenus>({ header: [], footer: [] });
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
 

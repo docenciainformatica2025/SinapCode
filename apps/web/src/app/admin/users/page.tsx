@@ -86,11 +86,6 @@ export default function UsersPage() {
                 // Normalizar datos antes de guardarlos en el estado
                 const normalizedUsers = (data.users || []).map(normalizeUser);
 
-                // Development-only logging
-                if (process.env.NODE_ENV === 'development') {
-                    console.log('✅ Normalized users:', normalizedUsers);
-                }
-
                 setUsers(normalizedUsers);
             } else {
                 console.error('❌ Error de API:', data.error);

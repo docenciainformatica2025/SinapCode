@@ -5,7 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.2.0] - 2026-01-19
+## [2.3.0] - 2026-01-20
+
+### Added
+- **Enterprise CMS Core**: Implementación de arquitectura SQL-first para gestión de Proyectos, Blog, Banners y Cursos.
+- **Site Identity Manager**: Panel de administración para personalizar logotipo, colores de marca y menús de navegación dinámicos.
+- **Pricing Engine**: Motor de gestión de planes y precios totalmente configurable desde el panel administrativo.
+- **Testimonials Module**: Sistema de recolección y exhibición de testimonios con soporte para destacados.
+- **Sincronización de Identidad**: Alineación estética "Premium" entre Navbars globales y de landing (Efectos de scroll, dorados dinámicos).
+
+### Fixed
+- **Vercel Build Stability**: Resolución de conflictos de rutas dinámicas en la API de testimonios (`[id]` vs `[testimonialId]`).
+- **Standardization**: Estandarización de directivas `'use client'` en todos los componentes administrativos para cumplimiento con Next.js App Router.
+- **Content Layout**: Ajuste de padding en páginas públicas para evitar solapamiento con el Navbar fijo.
+
+## [2.2.2] - 2026-01-19
 
 ### Added
 - **Arquitectura Monorepo Profesional**: Migración de todo el código fuente y activos a `apps/web` siguiendo el protocolo SAFE-GUARD.
