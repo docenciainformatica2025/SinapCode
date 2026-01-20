@@ -33,6 +33,7 @@ interface MenuItem {
 interface NavMenus {
     header: MenuItem[];
     footer: MenuItem[];
+    [key: string]: MenuItem[];
 }
 
 export default function SiteEditorPage() {

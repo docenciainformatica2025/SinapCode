@@ -16,15 +16,6 @@ import {
 import { AdminHeader } from '@/components/admin/header';
 import { toast } from 'sonner';
 
-export default function ProjectsPage() {
-    LayoutGrid,
-        ExternalLink,
-        Github,
-        Trash2,
-        Edit3
-} from 'lucide-react';
-import { AdminHeader } from '@/components/admin/header';
-import { toast } from 'sonner';
 import { ProjectModal } from '@/components/admin/project-modal';
 
 export default function ProjectsPage() {
