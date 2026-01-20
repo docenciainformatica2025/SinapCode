@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import {
     Users,
     DollarSign,
@@ -8,6 +9,14 @@ import {
 } from 'lucide-react';
 
 export default function AdminDashboard() {
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    if (!mounted) return null;
+
     const stats = [
         {
             label: 'Usuarios Totales',

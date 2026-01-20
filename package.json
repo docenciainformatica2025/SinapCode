@@ -1,15 +1,15 @@
 {
     "name": "sinapcode-monorepo",
-    "version": "2.2.0",
+    "version": "2.2.2",
     "private": true,
     "workspaces": [
         "apps/*"
     ],
     "scripts": {
-        "dev": "npm run dev -w sinapcode-web-app",
-        "build": "npm run build -w sinapcode-web-app",
-        "start": "npm run start -w sinapcode-web-app",
-        "lint": "npm run lint -w sinapcode-web-app",
-        "test": "npm run test -w sinapcode-web-app"
+        "dev": "cd apps/web && npm run dev",
+        "build": "cd apps/web && npm run build",
+        "start": "cd apps/web && npm run start",
+        "lint": "cd apps/web && npm run lint",
+        "test": "cd apps/web && npm run test"
     }
 }

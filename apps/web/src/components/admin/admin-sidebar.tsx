@@ -15,8 +15,20 @@ import {
     LogOut
 } from 'lucide-react';
 
+import { useState, useEffect } from 'react';
+
 export function AdminSidebar() {
+    const [mounted, setMounted] = useState(false);
     const pathname = usePathname();
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    // Prevent hydration mismatch by waiting for mount
+    if (!mounted) {
+        return <aside className="w-64 bg-[#0F1117] border-r border-white/5 h-screen fixed left-0 top-0 z-50" />;
+    }
 
     const menuItems = [
         { icon: LayoutDashboard, label: 'Dashboard', href: '/admin' },
