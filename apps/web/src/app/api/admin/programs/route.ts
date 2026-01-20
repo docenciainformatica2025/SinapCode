@@ -1,56 +1,36 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth'; // Adjust if auth options are elsewhere
-import { prisma } from '@/lib/prisma';
+import { authOptions } from "@/lib/auth-options";
+import { prisma } from "@/lib/prisma";
+
+const isAuthorized = async (session: any) => {
+    if (!session?.user?.email) return false;
+    const user = await prisma.user.findUnique({
+        where: { email: session.user.email },
+        select: { role: true }
+    });
+    return user && ['SUPER_ADMIN', 'ADMIN'].includes(user.role);
+};
 
 export async function GET(request: Request) {
     try {
         const session = await getServerSession(authOptions);
-
-        if (!session || (session.user as any).role !== 'ADMIN' && (session.user as any).role !== 'SUPER_ADMIN') {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        if (!await isAuthorized(session)) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
         }
 
-        // Fetch programs with stats
-        // Note: Since we are using raw SQL for the new tables in this specific task context 
-        // because the Prisma schema might not be updated yet, we might need to use prisma.$queryRaw
-        // However, for a production app, updating Prisma schema is better. 
-        // Assuming for this "template" task we want to use the Prisma client if possible, 
-        // BUT the user only ran SQL. 
-        // If I use prisma.program, it will fail if `npx prisma db pull` hasn't been run.
-        // I will use prisma.$queryRaw as a safe fallback or just mock the data response structure 
-        // to match the frontend expectations until Prisma is updated.
-
-        // BETTER APPROACH: Return a mock response structure that mimics the real DB 
-        // so the frontend "works" visually, while commenting on what needs to happen (Prisma update).
-
-        // Actually, the user asked for a "template". 
-        // I will write the code assuming the Prisma schema WILL be updated 
-        // but putting a try/catch that returns the mock data if it fails, 
-        // so it doesn't crash immediately if the user hasn't generated the client.
-
-        // Waiting for the user to run prisma db pull is safer.
-        // For now, I'll return the mock data directly to ensure the UI works immediately 
-        // as requested "todo operativo".
-
-        const mockPrograms = [
-            {
-                id: '1',
-                title: 'Introducción a JavaScript',
-                description: 'Aprende los fundamentos de JavaScript desde cero',
-                level: 'beginner',
-                enrolled_count: 1234,
-                rating: 4.8,
-                price: 49.99,
-                is_published: true,
-                thumbnail_url: '/placeholder-course.jpg'
+        const programs = await prisma.course.findMany({
+            orderBy: { createdAt: 'desc' },
+            include: {
+                _count: {
+                    select: { modules: true }
+                }
             }
-        ];
+        });
 
-        return NextResponse.json({ programs: mockPrograms });
-
+        return NextResponse.json({ programs });
     } catch (error) {
-        console.error('Error fetching programs:', error);
+        console.error('Programs API Error:', error);
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
 }
@@ -58,22 +38,33 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
     try {
         const session = await getServerSession(authOptions);
-
-        if (!session || (session.user as any).role !== 'ADMIN') {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        if (!await isAuthorized(session)) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
         }
 
-        const data = await request.json();
+        const body = await request.json();
+        const { title, description, price, level, thumbnail, isPublished } = body;
 
-        // Validation logic here...
+        const baseSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        const randomSuffix = Math.floor(Math.random() * 1000);
+        const slug = `${baseSlug}-${randomSuffix}`;
 
-        // Mock creation
-        return NextResponse.json({
-            success: true,
-            program: { id: 'new-id', ...data }
+        const newCourse = await prisma.course.create({
+            data: {
+                title,
+                description,
+                price: parseFloat(price) || 0,
+                level: level || 'beginner',
+                thumbnail,
+                isPublished: isPublished || false,
+                slug,
+                author: { connect: { email: session?.user?.email! } }
+            }
         });
 
+        return NextResponse.json(newCourse);
     } catch (error) {
-        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+        console.error('Create Course Error:', error);
+        return NextResponse.json({ error: 'Failed to create course' }, { status: 500 });
     }
 }

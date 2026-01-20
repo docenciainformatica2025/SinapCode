@@ -84,24 +84,7 @@ export function CoursesPreviewSection() {
                             <CourseCard {...course} />
                         </motion.div>
                     ))}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.5 }}
-                        className="
-                            h-full min-w-[280px] sm:min-w-[320px] snap-center
-                            flex items-center justify-center p-6 rounded-2xl border-2 border-dashed border-white/10 hover:border-gold/30 hover:bg-gold/5 transition-colors group cursor-pointer
-                        "
-                    >
-                        <Link href="/courses" className="text-center w-full">
-                            <div className="w-16 h-16 mx-auto rounded-full bg-surface border border-white/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                                <span className="text-2xl text-gold">+</span>
-                            </div>
-                            <h3 className="text-xl font-bold text-white mb-2">Ver Catálogo Completo</h3>
-                            <p className="text-sm text-muted">Explora más de 50 cursos disponibles</p>
-                        </Link>
-                    </motion.div>
+
                 </div>
 
                 <div className="text-center mt-8 md:mt-16">

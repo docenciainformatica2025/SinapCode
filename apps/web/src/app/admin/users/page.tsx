@@ -229,12 +229,18 @@ export default function UsersPage() {
                                         </div>
                                     </div>
 
-                                    <div className="grid grid-cols-3 gap-2 pt-2">
+                                    <div className="grid grid-cols-4 gap-2 pt-2">
                                         <button
                                             onClick={() => setEditingUser(user)}
                                             className="px-3 py-2 bg-neural-blue/20 hover:bg-neural-blue/30 text-neural-blue rounded-lg text-xs font-bold transition flex justify-center"
                                         >
                                             Editar
+                                        </button>
+                                        <button
+                                            onClick={() => window.open(`/api/admin/users/${user.id}/legal-certificate`, '_blank')}
+                                            className="px-3 py-2 bg-gold/10 hover:bg-gold/20 text-gold rounded-lg text-xs font-bold transition flex justify-center items-center gap-1"
+                                        >
+                                            <span>PDF</span>
                                         </button>
                                         <button
                                             onClick={() => handleSuspendUser(user)}
@@ -317,6 +323,17 @@ export default function UsersPage() {
                                                         >
                                                             Editar
                                                         </button>
+
+                                                        {/* Botón Certificado Legal */}
+                                                        <button
+                                                            onClick={() => window.open(`/api/admin/users/${user.id}/legal-certificate`, '_blank')}
+                                                            className="px-3 py-1 bg-gold/10 hover:bg-gold/20 text-gold rounded text-xs font-medium transition flex items-center gap-1"
+                                                            title="Descargar Certificado Legal (PDF)"
+                                                        >
+                                                            <span className="hidden xl:inline">Certificado</span>
+                                                            <span className="xl:hidden">PDF</span>
+                                                        </button>
+
                                                         <button
                                                             onClick={() => handleSuspendUser(user)}
                                                             className={`px-3 py-1 rounded text-xs font-medium transition ${user.status === 'suspended'

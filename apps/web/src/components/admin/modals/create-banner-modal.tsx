@@ -1,292 +1,281 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { Modal } from '@/components/ui/modal';
-import { Loader2, Upload, X, Image as ImageIcon } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { X, Image as ImageIcon, Link as LinkIcon, Save, Type, Layout, Calendar } from 'lucide-react';
 import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
-import { useDropzone } from 'react-dropzone';
-import Image from 'next/image';
-
-const bannerSchema = z.object({
-    title: z.string().min(3, 'El título es requerido'),
-    description: z.string().optional(),
-    linkUrl: z.string().url('Debe ser una URL válida').optional().or(z.literal('')),
-    position: z.number().int(),
-    isActive: z.boolean(),
-    startDate: z.string().optional(),
-    endDate: z.string().optional(),
-});
-
-type BannerFormValues = z.infer<typeof bannerSchema>;
 
 interface CreateBannerModalProps {
     isOpen: boolean;
     onClose: () => void;
     onSuccess: () => void;
-    bannerToEdit?: any | null;
+    bannerToEdit?: any; // If provided, mode is EDIT
 }
 
 export function CreateBannerModal({ isOpen, onClose, onSuccess, bannerToEdit }: CreateBannerModalProps) {
-    const router = useRouter();
-    const [isLoading, setIsLoading] = useState(false);
-    const [uploadedImage, setUploadedImage] = useState<string | null>(null);
-    const [isUploading, setIsUploading] = useState(false);
-
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<BannerFormValues>({
-        resolver: zodResolver(bannerSchema),
-        defaultValues: {
-            title: '',
-            description: '',
-            linkUrl: '',
-            position: 0,
-            isActive: true,
-        },
+    const [formData, setFormData] = useState({
+        title: '',
+        description: '',
+        imageUrl: '',
+        linkUrl: '',
+        position: 'HOME_HERO',
+        isActive: true,
+        order: 0,
+        startDate: '',
+        endDate: ''
     });
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    // Load initial data for editing
     useEffect(() => {
         if (bannerToEdit) {
-            reset({
-                title: bannerToEdit.title,
+            setFormData({
+                title: bannerToEdit.title || '',
                 description: bannerToEdit.description || '',
+                imageUrl: bannerToEdit.imageUrl || '',
                 linkUrl: bannerToEdit.linkUrl || '',
-                position: bannerToEdit.position || 0,
-                isActive: bannerToEdit.isActive,
-                startDate: bannerToEdit.startDate ? new Date(bannerToEdit.startDate).toISOString().split('T')[0] : '',
-                endDate: bannerToEdit.endDate ? new Date(bannerToEdit.endDate).toISOString().split('T')[0] : '',
+                position: bannerToEdit.position || 'HOME_HERO',
+                isActive: bannerToEdit.isActive ?? true,
+                order: bannerToEdit.order || 0,
+                startDate: bannerToEdit.startDate ? new Date(bannerToEdit.startDate).toISOString().slice(0, 10) : '',
+                endDate: bannerToEdit.endDate ? new Date(bannerToEdit.endDate).toISOString().slice(0, 10) : ''
             });
-            setUploadedImage(bannerToEdit.imageUrl);
         } else {
-            reset({
+            // Reset form for create mode
+            setFormData({
                 title: '',
                 description: '',
+                imageUrl: '',
                 linkUrl: '',
-                position: 0,
+                position: 'HOME_HERO',
                 isActive: true,
+                order: 0,
+                startDate: '',
+                endDate: ''
             });
-            setUploadedImage(null);
         }
-    }, [bannerToEdit, isOpen, reset]);
+    }, [bannerToEdit, isOpen]);
 
-    // Dropzone for image upload
-    const onDrop = async (acceptedFiles: File[]) => {
-        const file = acceptedFiles[0];
-        if (!file) return;
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsSubmitting(true);
 
-        setIsUploading(true);
-        const formData = new FormData();
-        formData.append('file', file);
-
-        try {
-            const res = await fetch('/api/upload', {
-                method: 'POST',
-                body: formData,
-            });
-
-            if (!res.ok) throw new Error('Error subiendo imagen');
-
-            const data = await res.json();
-            setUploadedImage(data.url);
-            toast.success('Imagen subida correctamente');
-        } catch (error) {
-            console.error(error);
-            toast.error('Error al subir la imagen');
-        } finally {
-            setIsUploading(false);
-        }
-    };
-
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({
-        onDrop,
-        accept: {
-            'image/*': ['.png', '.jpg', '.jpeg', '.webp']
-        },
-        maxFiles: 1,
-        multiple: false
-    });
-
-    const onSubmit = async (data: BannerFormValues) => {
-        if (!uploadedImage) {
-            toast.error('Debes subir una imagen para el banner');
-            return;
-        }
-
-        setIsLoading(true);
         try {
             const url = bannerToEdit
                 ? `/api/admin/banners/${bannerToEdit.id}`
                 : '/api/admin/banners';
+
             const method = bannerToEdit ? 'PUT' : 'POST';
 
-            const response = await fetch(url, {
-                method: method,
+            const res = await fetch(url, {
+                method,
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    ...data,
-                    imageUrl: uploadedImage
-                }),
+                    ...formData,
+                    startDate: formData.startDate ? new Date(formData.startDate).toISOString() : null,
+                    endDate: formData.endDate ? new Date(formData.endDate).toISOString() : null,
+                    order: Number(formData.order) // Ensure number
+                })
             });
 
-            if (!response.ok) {
-                throw new Error('Error al guardar el banner');
-            }
+            if (!res.ok) throw new Error('Failed to save banner');
 
-            toast.success(bannerToEdit ? 'Banner actualizado' : 'Banner creado exitosamente');
+            toast.success(bannerToEdit ? 'Banner actualizado' : 'Banner creado');
             onSuccess();
             onClose();
-            router.refresh();
         } catch (error) {
             console.error(error);
-            toast.error('No se pudo guardar el banner');
+            toast.error('Error al guardar banner');
         } finally {
-            setIsLoading(false);
+            setIsSubmitting(false);
         }
     };
 
-    return (
-        <Modal
-            isOpen={isOpen}
-            onClose={onClose}
-            title={bannerToEdit ? "Editar Banner" : "Crear Nuevo Banner"}
-            description="Gestiona las imágenes promocionales que aparecen en el inicio."
-        >
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                {/* Title */}
-                <div className="space-y-2">
-                    <label className="text-sm font-medium text-platinum">Título Interno</label>
-                    <input
-                        {...register('title')}
-                        className="w-full px-3 py-2 bg-black/50 border border-white/10 rounded-lg text-white focus:outline-none focus:border-neural-blue transition"
-                        placeholder="Ej: Promo Verano 2025"
-                    />
-                    {errors.title && <p className="text-xs text-red-400">{errors.title.message}</p>}
-                </div>
+    if (!isOpen) return null;
 
-                {/* Image Upload */}
-                <div className="space-y-2">
-                    <label className="text-sm font-medium text-platinum">Imagen del Banner</label>
-                    <div
-                        {...getRootProps()}
-                        className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors
-                            ${isDragActive ? 'border-neural-blue bg-neural-blue/10' : 'border-white/10 hover:border-white/30 bg-black/30'}`}
+    return (
+        <AnimatePresence>
+            {isOpen && (
+                <>
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={onClose}
+                        className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100]"
+                    />
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                        className="fixed inset-0 m-auto w-full max-w-2xl h-fit max-h-[90vh] overflow-y-auto bg-[#0F1117] border border-white/10 rounded-2xl shadow-2xl z-[101] p-0"
                     >
-                        <input {...getInputProps()} />
-                        {isUploading ? (
-                            <div className="flex flex-col items-center">
-                                <Loader2 className="h-8 w-8 animate-spin text-neural-blue mb-2" />
-                                <span className="text-sm text-platinum">Subiendo...</span>
-                            </div>
-                        ) : uploadedImage ? (
-                            <div className="relative w-full aspect-video rounded-md overflow-hidden group">
-                                <Image
-                                    src={uploadedImage}
-                                    alt="Preview"
-                                    fill
-                                    className="object-cover"
-                                />
-                                <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <span className="text-white text-sm font-bold flex items-center gap-2">
-                                        <Upload className="h-4 w-4" /> Cambiar Imagen
-                                    </span>
+                        {/* Header */}
+                        <div className="flex items-center justify-between p-6 border-b border-white/10 bg-white/5 sticky top-0 backdrop-blur-md">
+                            <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                                <ImageIcon className="w-5 h-5 text-gold" />
+                                {bannerToEdit ? 'Editar Banner' : 'Nuevo Banner'}
+                            </h2>
+                            <button
+                                onClick={onClose}
+                                className="p-2 hover:bg-white/10 rounded-full transition-colors text-platinum-dim hover:text-white"
+                            >
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+
+                        {/* Form */}
+                        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+
+                            {/* Title & Description */}
+                            <div className="space-y-4">
+                                <div>
+                                    <label className="block text-xs font-bold text-platinum-dim uppercase mb-2">Título del Banner</label>
+                                    <div className="relative">
+                                        <Type className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-platinum-dim" />
+                                        <input
+                                            type="text"
+                                            required
+                                            value={formData.title}
+                                            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                                            className="w-full bg-black/50 border border-white/10 rounded-lg py-3 pl-10 pr-4 text-white focus:border-neural-blue outline-none transition"
+                                            placeholder="Ej: Descuento de Verano 50%"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="block text-xs font-bold text-platinum-dim uppercase mb-2">Descripción (Opcional)</label>
+                                    <textarea
+                                        value={formData.description}
+                                        onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                        className="w-full bg-black/50 border border-white/10 rounded-lg py-3 px-4 text-white focus:border-neural-blue outline-none transition min-h-[80px]"
+                                        placeholder="Breve descripción para SEO o subtítulo..."
+                                    />
                                 </div>
                             </div>
-                        ) : (
-                            <div className="flex flex-col items-center text-platinum-dim">
-                                <ImageIcon className="h-8 w-8 mb-2" />
-                                <span className="text-sm">Arrastra una imagen o haz clic para seleccionar</span>
-                                <span className="text-xs mt-1">(Max 5MB - JPG, PNG, WEBP)</span>
+
+                            {/* Image & Link */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="block text-xs font-bold text-platinum-dim uppercase mb-2">URL de Imagen</label>
+                                    <div className="relative">
+                                        <ImageIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-platinum-dim" />
+                                        <input
+                                            type="url"
+                                            required
+                                            value={formData.imageUrl}
+                                            onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+                                            className="w-full bg-black/50 border border-white/10 rounded-lg py-3 pl-10 pr-4 text-white focus:border-neural-blue outline-none transition"
+                                            placeholder="https://..."
+                                        />
+                                    </div>
+                                    {/* Preview */}
+                                    {formData.imageUrl && (
+                                        <div className="mt-2 aspect-video rounded-lg overflow-hidden border border-white/10 relative group">
+                                            <img src={formData.imageUrl} alt="Preview" className="w-full h-full object-cover" />
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="space-y-4">
+                                    <div>
+                                        <label className="block text-xs font-bold text-platinum-dim uppercase mb-2">Enlace de Destino</label>
+                                        <div className="relative">
+                                            <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-platinum-dim" />
+                                            <input
+                                                type="text"
+                                                value={formData.linkUrl}
+                                                onChange={(e) => setFormData({ ...formData, linkUrl: e.target.value })}
+                                                className="w-full bg-black/50 border border-white/10 rounded-lg py-3 pl-10 pr-4 text-white focus:border-neural-blue outline-none transition"
+                                                placeholder="/cursos/react-mastery"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-xs font-bold text-platinum-dim uppercase mb-2">Posición</label>
+                                        <div className="relative">
+                                            <Layout className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-platinum-dim" />
+                                            <select
+                                                value={formData.position}
+                                                onChange={(e) => setFormData({ ...formData, position: e.target.value })}
+                                                className="w-full bg-black/50 border border-white/10 rounded-lg py-3 pl-10 pr-4 text-white focus:border-neural-blue outline-none transition appearance-none"
+                                            >
+                                                <option value="HOME_HERO">Home Hero (Principal)</option>
+                                                <option value="PROMO_BAR">Barra Promocional</option>
+                                                <option value="SIDEBAR">Sidebar</option>
+                                                <option value="FOOTER">Footer</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-xs font-bold text-platinum-dim uppercase mb-2">Orden</label>
+                                        <input
+                                            type="number"
+                                            value={formData.order}
+                                            onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) })}
+                                            className="w-full bg-black/50 border border-white/10 rounded-lg py-3 px-4 text-white focus:border-neural-blue outline-none transition"
+                                        />
+                                    </div>
+                                </div>
                             </div>
-                        )}
-                    </div>
-                </div>
 
-                {/* Manual URL Input (Fallback for production) */}
-                <div className="space-y-2">
-                    <label className="text-sm font-medium text-platinum">O pegar URL de imagen externa</label>
-                    <input
-                        type="url"
-                        placeholder="https://i.imgur.com/..."
-                        value={uploadedImage || ''}
-                        onChange={(e) => setUploadedImage(e.target.value)}
-                        className="w-full px-3 py-2 bg-black/50 border border-white/10 rounded-lg text-white focus:outline-none focus:border-neural-blue transition text-sm"
-                    />
-                    <p className="text-xs text-platinum-dim">Útil si tienes la imagen alojada en otro servidor.</p>
-                </div>
+                            {/* Scheduling */}
+                            <div className="p-4 bg-white/5 rounded-xl border border-white/5">
+                                <h3 className="text-sm font-bold text-white mb-4 flex items-center gap-2">
+                                    <Calendar className="w-4 h-4 text-gold" />
+                                    Programación (Opcional)
+                                </h3>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-xs text-platinum-dim mb-1">Fecha Inicio</label>
+                                        <input
+                                            type="date"
+                                            value={formData.startDate}
+                                            onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+                                            className="w-full bg-black/50 border border-white/10 rounded-lg py-2 px-3 text-white text-sm focus:border-gold outline-none"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs text-platinum-dim mb-1">Fecha Fin</label>
+                                        <input
+                                            type="date"
+                                            value={formData.endDate}
+                                            onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
+                                            className="w-full bg-black/50 border border-white/10 rounded-lg py-2 px-3 text-white text-sm focus:border-gold outline-none"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
 
-                {/* Additional Info */}
-                <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium text-platinum">Link de Redirección (Opcional)</label>
-                        <input
-                            {...register('linkUrl')}
-                            className="w-full px-3 py-2 bg-black/50 border border-white/10 rounded-lg text-white focus:outline-none focus:border-neural-blue transition"
-                            placeholder="https://..."
-                        />
-                        {errors.linkUrl && <p className="text-xs text-red-400">{errors.linkUrl.message}</p>}
-                    </div>
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium text-platinum">Posición (Orden)</label>
-                        <input
-                            type="number"
-                            {...register('position', { valueAsNumber: true })}
-                            className="w-full px-3 py-2 bg-black/50 border border-white/10 rounded-lg text-white focus:outline-none focus:border-neural-blue transition"
-                        />
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium text-platinum">Fecha Inicio</label>
-                        <input
-                            type="date"
-                            {...register('startDate')}
-                            className="w-full px-3 py-2 bg-black/50 border border-white/10 rounded-lg text-white focus:outline-none focus:border-neural-blue transition"
-                        />
-                    </div>
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium text-platinum">Fecha Fin</label>
-                        <input
-                            type="date"
-                            {...register('endDate')}
-                            className="w-full px-3 py-2 bg-black/50 border border-white/10 rounded-lg text-white focus:outline-none focus:border-neural-blue transition"
-                        />
-                    </div>
-                </div>
-
-                <div className="flex items-center gap-2">
-                    <input
-                        type="checkbox"
-                        id="isActive"
-                        {...register('isActive')}
-                        className="w-4 h-4 rounded border-white/20 bg-black/50 text-neural-blue focus:ring-neural-blue"
-                    />
-                    <label htmlFor="isActive" className="text-sm font-medium text-platinum">Activar Banner inmediatamente</label>
-                </div>
-
-                {/* Footer Buttons */}
-                <div className="flex justify-end gap-3 mt-6 pt-4 border-t border-white/10">
-                    <button
-                        type="button"
-                        onClick={onClose}
-                        className="px-4 py-2 text-sm font-medium text-platinum hover:text-white transition-colors"
-                        disabled={isLoading}
-                    >
-                        Cancelar
-                    </button>
-                    <button
-                        type="submit"
-                        disabled={isLoading}
-                        className="px-4 py-2 bg-neural-blue hover:bg-blue-600 text-white text-sm font-bold rounded-lg transition-colors shadow-neon-blue flex items-center gap-2"
-                    >
-                        {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
-                        {isLoading ? (bannerToEdit ? 'Guardando...' : 'Creando...') : (bannerToEdit ? 'Guardar Cambios' : 'Crear Banner')}
-                    </button>
-                </div>
-            </form>
-        </Modal>
+                            <div className="pt-4 border-t border-white/10 flex justify-end gap-3">
+                                <button
+                                    type="button"
+                                    onClick={onClose}
+                                    className="px-4 py-2 hover:bg-white/10 rounded-lg text-platinum-dim hover:text-white transition font-bold"
+                                >
+                                    Cancelar
+                                </button>
+                                <button
+                                    type="submit"
+                                    disabled={isSubmitting}
+                                    className="px-6 py-2 bg-neural-blue hover:bg-blue-600 text-white rounded-lg font-bold transition shadow-neon-blue flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    {isSubmitting ? (
+                                        <>Guardando...</>
+                                    ) : (
+                                        <>
+                                            <Save className="w-4 h-4" />
+                                            Guardar Banner
+                                        </>
+                                    )}
+                                </button>
+                            </div>
+                        </form>
+                    </motion.div>
+                </>
+            )}
+        </AnimatePresence>
     );
 }

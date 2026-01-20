@@ -13,6 +13,7 @@ export function AITutorWithGate({ courseId }: AITutorWithGateProps) {
     const [messages, setMessages] = useState<Array<{ role: 'user' | 'ai'; text: string }>>([]);
     const [input, setInput] = useState('');
     const [showGate, setShowGate] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const MAX_QUESTIONS_GUEST = 3;
     const questionsAsked = messages.filter(m => m.role === 'user').length;
@@ -31,15 +32,26 @@ export function AITutorWithGate({ courseId }: AITutorWithGateProps) {
         setMessages([...messages, { role: 'user', text: input }]);
 
         // Simulate AI response
-        setTimeout(() => {
-            setMessages(prev => [
-                ...prev,
-                {
-                    role: 'ai',
-                    text: '🤔 Excelente pregunta. ¿Qué has intentado hasta ahora? Recuerda que mi objetivo es guiarte, no darte la respuesta directamente.',
-                },
-            ]);
-        }, 1000);
+        setIsLoading(true);
+        fetch('/api/ai/tutor', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: input })
+        })
+            .then(res => res.json())
+            .then(data => {
+                setMessages(prev => [
+                    ...prev,
+                    { role: 'ai', text: data.text || 'Error de conexión.' }
+                ]);
+            })
+            .catch(() => {
+                setMessages(prev => [
+                    ...prev,
+                    { role: 'ai', text: 'Lo siento, perdí la conexión con el servidor.' }
+                ]);
+            })
+            .finally(() => setIsLoading(false));
 
         setInput('');
     };
@@ -72,8 +84,8 @@ export function AITutorWithGate({ courseId }: AITutorWithGateProps) {
                     >
                         <div
                             className={`max-w-[80%] px-4 py-2 rounded-2xl ${msg.role === 'user'
-                                    ? 'bg-neural-blue text-white'
-                                    : 'bg-white/10 text-white'
+                                ? 'bg-neural-blue text-white'
+                                : 'bg-white/10 text-white'
                                 }`}
                         >
                             {msg.text}

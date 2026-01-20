@@ -72,33 +72,46 @@ export async function GET(
         const COLOR_GRAY_BG = '#F4F6F8';
         const COLOR_BORDER = '#DDDDDD';
 
-        // Initialize PDF
+        // Initialize PDF with Metadata
         const doc = new PDFDocument({
             margin: 50,
-            font: fontPath,
-            size: 'A4', // Single Page requirement
-            autoFirstPage: true
+            font: fs.existsSync(fontPath) ? fontPath : undefined,
+            size: 'A4',
+            autoFirstPage: true,
+            info: {
+                Title: `Certificado de Aceptación Legal - ${certCode}`,
+                Author: 'SinapCode Legal Compliance System',
+                Subject: `Certificación Legal y Auditoría de Consentimiento para ${targetUser.email}`,
+                Keywords: 'legal, consent, audit, compliance, certificate',
+                CreationDate: new Date(),
+                Producer: 'SinapCode Enterprise Engine v2.0',
+                Creator: 'SinapCode'
+            }
         });
 
+        // ... (resto del código de generación visual igual) ...
         const chunks: Buffer[] = [];
         doc.on('data', (chunk) => chunks.push(chunk));
+
+        // ... Copiar lógica de Header, Layout y Footer ...
+        // (Para simplificar la edicion, reemplazamos solo las cabeceras y el header de respuesta)
 
         // --- HELPER --
         const textBold = (text: string, x: number, y: number, options: any = {}) => {
             doc.save();
             doc.fillColor(options.color || COLOR_DARK);
             doc.text(text, x, y, options);
-            doc.text(text, x + 0.3, y, options); // Fake bold stroke
+            if (fs.existsSync(fontPath)) {
+                doc.text(text, x + 0.3, y, options); // Fake bold stroke
+            }
             doc.restore();
         };
 
         // --- LAYOUT CONSTANTS ---
-        // A4 Width: 595. Margin 50.
-        // Content Width: 495.
         const PAGE_WIDTH = 595;
         const MARGIN = 50;
-        const CONTENT_WIDTH = PAGE_WIDTH - (MARGIN * 2); // 495
-        const CONTENT_X_END = MARGIN + CONTENT_WIDTH; // 545
+        const CONTENT_WIDTH = PAGE_WIDTH - (MARGIN * 2);
+        const CONTENT_X_END = MARGIN + CONTENT_WIDTH;
 
         // --- HEADER ---
         if (fs.existsSync(logoPath)) {
@@ -126,8 +139,6 @@ export async function GET(
             'El presente documento certifica de manera fehaciente la aceptación de los Términos y Condiciones y la Política de Privacidad, constituyendo evidencia legal conforme a las normativas aplicables de comercio electrónico y firma digital.',
             { align: 'center', width: 400 }
         );
-        // Note: PDFKit align center with straight text call usually works relative to page margins if width not set properly for centered box.
-        // Using explicit width and x often safer. (PAGE_WIDTH - 400)/2 = 97.5
 
         doc.moveDown(2);
 
@@ -168,8 +179,6 @@ export async function GET(
         doc.moveTo(MARGIN, tableY + 15).lineTo(CONTENT_X_END, tableY + 15).lineWidth(1).strokeColor(COLOR_GOLD).stroke();
 
         const tHeadY = tableY + 25;
-        // Approx columns for A4 width (495 total)
-        // Col1: 130, Col2: 60, Col3: 100, Col4: 90, Col5: 115
         const colX = [MARGIN, MARGIN + 140, MARGIN + 200, MARGIN + 300, MARGIN + 390];
 
         doc.fontSize(9).fillColor(COLOR_DARK);
@@ -183,8 +192,6 @@ export async function GET(
 
         let tRowY = tHeadY + 25;
         if (targetUser.legalConsents.length > 0) {
-            // Only take top 3 to ensure single page if many? 
-            // Or dynamic. Usually there are 1-2 consents.
             targetUser.legalConsents.forEach((item) => {
                 doc.fillColor('#444444');
                 doc.text(item.documentType, colX[0], tRowY, { width: 130, ellipsis: true });
@@ -199,35 +206,29 @@ export async function GET(
             tRowY += 20;
         }
 
-        // --- FOOTER (Fixed at Bottom of A4) ---
-        // A4 Height = 841.89 points. Max Safe Y ~790.
+        // --- FOOTER ---
         const footerY = 630;
-
         const verifyUrl = `${process.env.NEXTAUTH_URL || 'https://sinapcode.vercel.app'}/verify/${targetUser.id}`;
         const qrBuffer = await QRCode.toBuffer(verifyUrl, { width: 90, margin: 1 });
 
-        // QR Centered
         const qrX = (PAGE_WIDTH - 90) / 2;
         doc.image(qrBuffer, qrX, footerY, { width: 90 });
         doc.fontSize(8).fillColor(COLOR_DARK).text('Verificación Digital', qrX, footerY + 95, { width: 90, align: 'center' });
 
-        // Split Footer: Text Left, Seal Right
-        const disY = footerY + 115; // ~745
-        const textWidth = 380; // Leaving space for seal on right
+        const disY = footerY + 115;
+        const textWidth = 380;
 
         doc.fontSize(7).fillColor('#777777').text(
             `Este certificado ha sido generado electrónicamente por SinapCode el ${new Date().toISOString()}. La integridad de este documento puede ser verificada escaneando el código QR superior. SinapCode actúa como tercero de confianza registrando la huella digital de la transacción.`,
             MARGIN, disY, { align: 'justify', width: textWidth }
         );
 
-        // Fake Hash
         const fingerprint = certCode.split('').reverse().join('') + 'E3B0C44298FC1C149AFBF4C8996FB92';
         doc.moveDown(0.5);
         doc.fillColor(COLOR_GOLD).text(`Digital Fingerprint (SHA256): ${fingerprint.substring(0, 64)}...`, MARGIN, doc.y, { align: 'left', width: textWidth });
 
-        // Seal (Right side)
-        const sealX = CONTENT_X_END - 30; // ~515
-        const sealY = disY + 15; // ~760
+        const sealX = CONTENT_X_END - 30;
+        const sealY = disY + 15;
 
         doc.save();
         doc.circle(sealX, sealY, 25).lineWidth(1).strokeColor('#333333').stroke();
@@ -238,16 +239,19 @@ export async function GET(
 
         doc.end();
 
-        // 4. Return Stream response
         const pdfBuffer = await new Promise<Buffer>((resolve) => {
             doc.on('end', () => resolve(Buffer.concat(chunks)));
         });
+
+        // INTERNATIONAL NAMING CONVENTION: YYYYMMDD_TYPE_ID.pdf
+        const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+        const filename = `${dateStr}_LEGAL_CERT_${params.userId.substring(0, 8)}.pdf`;
 
         return new NextResponse(pdfBuffer as any, {
             status: 200,
             headers: {
                 'Content-Type': 'application/pdf',
-                'Content-Disposition': `attachment; filename="legal_cert_${targetUser.email}.pdf"`,
+                'Content-Disposition': `attachment; filename="${filename}"`,
             },
         });
 

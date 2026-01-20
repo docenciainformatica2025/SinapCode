@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { ExternalLink, Github, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export function ProjectsSection() {
     const projects = [
@@ -115,10 +116,12 @@ export function ProjectsSection() {
                 </div>
 
                 <div className="mt-12 text-center">
-                    <button className="btn-secondary group">
-                        Ver Portafolio Completo
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </button>
+                    <Link href="/projects">
+                        <button className="btn-secondary group">
+                            Ver Portafolio Completo
+                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </button>
+                    </Link>
                 </div>
             </div>
         </section>

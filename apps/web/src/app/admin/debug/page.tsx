@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -42,17 +41,17 @@ export default function DebugPage() {
 
     return (
         <div className="p-8 bg-black min-h-screen text-white font-mono">
-            <h1 className="text-3xl font-bold text-neural-blue mb-8">🛠️ DB Diagnostic Tool</h1>
+            <h1 className="text-3xl font-bold text-neural-blue mb-8">🛠️ Diagnóstico de Base de Datos</h1>
 
             {/* Connection Check */}
             <div className="mb-8 p-4 border border-white/20 rounded-lg">
-                <h2 className="text-xl mb-4">1. Database Connection & Stats</h2>
+                <h2 className="text-xl mb-4">1. Conexión y Estadísticas</h2>
                 <button
                     onClick={checkDB}
                     disabled={loading}
                     className="px-4 py-2 bg-neural-blue rounded hover:bg-blue-600 disabled:opacity-50"
                 >
-                    {loading ? 'Checking...' : 'Run Diagnostics'}
+                    {loading ? 'Verificando...' : 'Ejecutar Diagnóstico'}
                 </button>
                 {status && (
                     <pre className="mt-4 p-4 bg-gray-900 rounded overflow-auto border border-gray-700">
@@ -63,13 +62,13 @@ export default function DebugPage() {
 
             {/* User Search */}
             <div className="p-4 border border-white/20 rounded-lg">
-                <h2 className="text-xl mb-4">2. "Ghost User" Detector</h2>
+                <h2 className="text-xl mb-4">2. Detector de Usuarios "Fantasma"</h2>
                 <div className="flex gap-2 mb-4">
                     <input
                         type="email"
                         value={email}
                         onChange={e => setEmail(e.target.value)}
-                        placeholder="target@email.com"
+                        placeholder="objetivo@email.com"
                         className="flex-1 bg-black border border-gray-600 px-4 py-2 rounded"
                     />
                     <button
@@ -77,13 +76,13 @@ export default function DebugPage() {
                         disabled={loading}
                         className="px-4 py-2 bg-purple-600 rounded hover:bg-purple-700 disabled:opacity-50"
                     >
-                        Search DB
+                        Buscar DB
                     </button>
                 </div>
                 {searchResult && (
                     <div className={`p-4 rounded border ${searchResult.found ? 'border-green-500 bg-green-900/20' : 'border-red-500 bg-red-900/20'}`}>
                         <p className="text-lg font-bold mb-2">
-                            {searchResult.found ? '✅ FOUND IN DATABASE' : '❌ NOT FOUND IN DATABASE'}
+                            {searchResult.found ? '✅ ENCONTRADO EN LA BASE DE DATOS' : '❌ NO ENCONTRADO EN LA BASE DE DATOS'}
                         </p>
                         <pre className="text-sm">
                             {JSON.stringify(searchResult.user || searchResult, null, 2)}

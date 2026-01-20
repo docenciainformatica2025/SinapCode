@@ -1,20 +1,45 @@
 'use client';
 
 import { useState } from 'react';
+import { signIn } from 'next-auth/react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { toast } from 'sonner';
 
 export function LoginForm() {
     const [loading, setLoading] = useState(false);
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         setLoading(true);
 
-        // Simular handshake seguro
-        setTimeout(() => {
+        const formData = new FormData(event.currentTarget);
+        const email = formData.get('email') as string;
+        const password = formData.get('password') as string;
+
+        try {
+            const result = await signIn('credentials', {
+                email,
+                password,
+                redirect: false,
+                callbackUrl,
+            });
+
+            if (result?.error) {
+                toast.error('Error de autenticación: ' + result.error);
+                setLoading(false);
+            } else if (result?.ok) {
+                toast.success('Inicio de sesión exitoso');
+                router.push(callbackUrl);
+                router.refresh(); // Sync server components
+            }
+        } catch (error) {
+            toast.error('Ocurrió un error inesperado');
+            console.error('Login error:', error);
             setLoading(false);
-            // Log for demo
-            // Authentication initiated
-        }, 1500);
+        }
     }
 
     return (
@@ -24,6 +49,7 @@ export function LoginForm() {
                     ID Global / Correo
                 </label>
                 <input
+                    name="email"
                     type="email"
                     required
                     className="w-full bg-deep-space/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neural-blue focus:ring-1 focus:ring-neural-blue transition"
@@ -36,6 +62,7 @@ export function LoginForm() {
                     Llave de Acceso (Passkey)
                 </label>
                 <input
+                    name="password"
                     type="password"
                     required
                     className="w-full bg-deep-space/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neural-blue focus:ring-1 focus:ring-neural-blue transition"

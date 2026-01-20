@@ -28,7 +28,7 @@ export function HowItWorksSection() {
     ];
 
     return (
-        <section className="py-20 relative overflow-hidden">
+        <section id="como-funciona" className="py-20 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-neural-blue/5 to-transparent" />
 
             <div className="max-w-7xl mx-auto px-6 relative z-10">

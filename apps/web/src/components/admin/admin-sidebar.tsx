@@ -12,7 +12,10 @@ import {
     Shield,
     Image,
     Settings,
-    LogOut
+    LogOut,
+    DollarSign,
+    Palette,
+    MessageSquare
 } from 'lucide-react';
 
 import { useState, useEffect } from 'react';
@@ -32,9 +35,13 @@ export function AdminSidebar() {
 
     const menuItems = [
         { icon: LayoutDashboard, label: 'Dashboard', href: '/admin' },
+        { icon: Palette, label: 'Identidad Sitio', href: '/admin/site-editor' }, // NEW
         { icon: Users, label: 'Usuarios', href: '/admin/users' },
         { icon: BookOpen, label: 'Cursos (Prog)', href: '/admin/programs' },
+        { icon: DollarSign, label: 'Planes/Precios', href: '/admin/pricing' }, // NEW
         { icon: Image, label: 'Banners', href: '/admin/banners' },
+        { icon: Image, label: 'Proyectos', href: '/admin/projects' },
+        { icon: MessageSquare, label: 'Testimonios', href: '/admin/testimonials' }, // NEW
         { icon: FileText, label: 'Contenido (Blog)', href: '/admin/content' },
         { icon: BarChart3, label: 'Estadísticas', href: '/admin/analytics' },
         { icon: Shield, label: 'Auditoría', href: '/admin/audit' },

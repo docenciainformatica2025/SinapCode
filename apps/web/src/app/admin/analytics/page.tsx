@@ -36,7 +36,7 @@ export default function AnalyticsPage() {
             <Breadcrumbs />
 
             <div>
-                <h2 className="text-3xl font-bold text-white mb-2">Analytics Dashboard</h2>
+                <h2 className="text-3xl font-bold text-white mb-2">Panel de Analíticas</h2>
                 <p className="text-platinum-dim">Métricas y análisis de la plataforma en tiempo real</p>
             </div>
 

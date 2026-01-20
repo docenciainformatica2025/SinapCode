@@ -8,14 +8,31 @@ export function LandingNavbar() {
     const [scrolled, setScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [activeSection, setActiveSection] = useState('');
+    const [siteConfig, setSiteConfig] = useState<any>(null);
 
+    useEffect(() => {
+        // Fetch Site Config
+        fetch('/api/site-config')
+            .then(res => res.json())
+            .then(data => setSiteConfig(data))
+            .catch(() => { });
+
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 20);
+            // ... rest of scroll logic
+        };
+        // ...
+    }, []);
+
+    // ... (rest of the logic remains similar, just use siteConfig.siteName and siteConfig.logoUrl)
+
+    // Logic for scroll spy
     useEffect(() => {
         const handleScroll = () => {
             setScrolled(window.scrollY > 20);
 
-            // Scroll Spy Logic
             const sections = ['cursos', 'como-funciona', 'proyectos', 'demo'];
-            const scrollPosition = window.scrollY + 100; // Offset
+            const scrollPosition = window.scrollY + 100;
 
             for (const section of sections) {
                 const element = document.getElementById(section);
@@ -36,12 +53,34 @@ export function LandingNavbar() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const navLinks = [
+    const [navLinks, setNavLinks] = useState<any[]>([
         { label: 'Cursos', href: '#cursos' },
         { label: 'Metodología', href: '#como-funciona' },
         { label: 'Proyectos', href: '#proyectos' },
         { label: 'Blog', href: '/blog' },
-    ];
+    ]);
+
+    useEffect(() => {
+        // Fetch Site Config
+        fetch('/api/site-config')
+            .then(res => res.json())
+            .then(data => setSiteConfig(data))
+            .catch(() => { });
+
+        // Fetch Navigation
+        fetch('/api/navigation')
+            .then(res => res.json())
+            .then(data => {
+                if (data.menus?.header && data.menus.header.length > 0) {
+                    setNavLinks(data.menus.header);
+                }
+            })
+            .catch(() => { });
+
+        // ... (rest of scroll logic is in the other useEffect)
+    }, []);
+
+    const siteDisplayName = siteConfig?.siteName || 'SINAPCODE';
 
     return (
         <>
@@ -58,10 +97,14 @@ export function LandingNavbar() {
                 <div className="container-page h-16 sm:h-20 flex items-center justify-between">
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-2 group">
-                        <span className="text-xl sm:text-2xl font-bold tracking-tight text-white group-hover:text-primary transition-colors">
-                            SINAP<span className="text-primary">CODE</span>
-                        </span>
-                        {/* Subtle Gold Dot indicating Premium Quality */}
+                        {siteConfig?.logoUrl ? (
+                            <img src={siteConfig.logoUrl} alt={siteDisplayName} className="h-8 w-auto object-contain" />
+                        ) : (
+                            <span className="text-xl sm:text-2xl font-bold tracking-tight text-white group-hover:text-primary transition-colors">
+                                {siteDisplayName.split('Code')[0]}<span className="text-primary">{siteDisplayName.includes('Code') ? 'CODE' : ''}</span>
+                            </span>
+                        )}
+                        {/* Subtle Gold Dot */}
                         <div className="w-1.5 h-1.5 rounded-full bg-gold shadow-[0_0_8px_rgba(212,175,55,0.8)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     </Link>
 

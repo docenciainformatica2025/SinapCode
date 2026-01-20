@@ -58,6 +58,9 @@ model User {
   certificates  Certificate[]
   auditLogs     AuditLog[]
   dataRequests  DataSubjectRequest[]
+  projects      CmsProject[]
+  posts         CmsPost[]
+  courses       Course[]
   
   @@map("users")
 }
@@ -299,6 +302,229 @@ model AuditLog {
   @@map("audit_logs")
 }
 
+// ============================================
+// CMS SYSTEM (Big Tech Standard)
+// ============================================
+
+model CmsProject {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  content     String?  @db.Text
+  slug        String   @unique
+  tags        String[] // Array of strings (Postgres)
+  
+  // Media
+  thumbnail   String?
+  images      String[]
+  
+  // Links
+  repoUrl     String?
+  liveUrl     String?
+  
+  // Status
+  status      String   @default("DRAFT") // DRAFT, PUBLISHED, ARCHIVED
+  featured    Boolean  @default(false)
+  
+  // Metadata & Audit
+  views       Int      @default(0)
+  authorId    String?
+  author      User?    @relation(fields: [authorId], references: [id])
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  publishedAt DateTime?
+
+  @@index([status])
+  @@index([featured])
+  @@index([slug])
+  @@map("cms_projects")
+}
+
+model CmsPost {
+  id          String   @id @default(cuid())
+  title       String
+  excerpt     String   @db.Text
+  content     String   @db.Text
+  slug        String   @unique
+  category    String
+  tags        String[]
+  
+  // Media
+  coverImage  String?
+  
+  // Status
+  status      String   @default("DRAFT") // DRAFT, PUBLISHED
+  featured    Boolean  @default(false)
+  
+  // Metadata
+  views       Int      @default(0)
+  likes       Int      @default(0)
+  readingTime Int?     // minutes
+  
+  authorId    String?
+  author      User?    @relation(fields: [authorId], references: [id])
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  publishedAt DateTime?
+
+  @@index([status])
+  @@index([category])
+  @@index([slug])
+  @@map("cms_posts")
+}
+
+model CmsBanner {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  imageUrl    String
+  linkUrl     String?
+  
+  position    String   @default("HOME_HERO") // HOME_HERO, PROMO_BAR, etc.
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  
+  startDate   DateTime?
+  endDate     DateTime?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([isActive])
+  @@index([position])
+  @@map("cms_banners")
+}
+
+// ============================================
+// LMS SYSTEM
+// ============================================
+
+model Course {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  slug        String   @unique
+  price       Float    @default(0)
+  level       String   @default("beginner") // beginner, intermediate, advanced
+  
+  thumbnail   String?
+  
+  isPublished Boolean  @default(false)
+  
+  // Metadata
+  enrolledCount Int    @default(0)
+  rating        Float  @default(0)
+  
+  authorId    String?
+  author      User?    @relation(fields: [authorId], references: [id])
+  
+  modules     Module[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([isPublished])
+  @@index([slug])
+  @@map("courses")
+}
+
+model Module {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  order       Int      @default(0)
+  
+  courseId    String
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  
+  // Content (Lessons would be a sub-table, but let's keep it simple for now or JSON)
+  content     Json?    // Array of lessons { title, videoUrl, duration }
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([courseId])
+  @@map("modules")
+}
+
+// ============================================
+// ENTERPRISE CMS EXPANSION
+// ============================================
+
+model SiteConfig {
+  id          String   @id @default("global") // Singleton
+  siteName    String   @default("SinapCode")
+  description String?  @db.Text
+  
+  // Branding
+  logoUrl     String?
+  faviconUrl  String?
+  primaryColor String? @default("#0EA5E9") // Neural Blue
+  secondaryColor String? @default("#F59E0B") // Gold
+  
+  // Contact & Social
+  supportEmail String?
+  socialLinks  Json?   // { twitter: url, linkedin: url }
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("site_config")
+}
+
+model NavigationMenu {
+  id          String   @id @default(cuid())
+  location    String   @unique // "header", "footer_1", "footer_2"
+  items       Json     // Array of { label, href, children? }
+  
+  updatedAt   DateTime @updatedAt
+  
+  @@map("navigation_menus")
+}
+
+model PricingPlan {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  price       Float
+  currency    String   @default("USD") // or COP
+  interval    String   @default("MONTHLY") // MONTHLY, YEARLY, ONETIME
+  
+  features    Json     // Array of strings or objects
+  isPopular   Boolean  @default(false)
+  isActive    Boolean  @default(true)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([isActive])
+  @@map("pricing_plans")
+}
+
+model CmsTestimonial {
+  id          String   @id @default(cuid())
+  authorName  String
+  authorRole  String?  // e.g. "Senior Dev at Google"
+  authorImage String?
+  content     String   @db.Text
+  rating      Int      @default(5)
+  
+  company     String?
+  companyLogo String?
+  
+  status      String   @default("DRAFT") // DRAFT, PUBLISHED
+  featured    Boolean  @default(false)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([status])
+  @@index([featured])
+  @@map("cms_testimonials")
+}
+
 model SystemMetric {
   id        String   @id @default(cuid())
   metric    String   // "api.response_time", "db.connections", "memory.usage"
@@ -380,4 +606,14 @@ enum EventCategory {
   SECURITY
   DATA
   TRANSACTION
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("newsletter_subscribers")
 }

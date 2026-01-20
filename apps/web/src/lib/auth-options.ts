@@ -130,14 +130,45 @@ export const authOptions: NextAuthOptions = {
         error: "/auth/login", // Redirect errors to login page (no URL params)
     },
     callbacks: {
-        async jwt({ token, user }) {
+        async jwt({ token, user, trigger, session }) {
+            // 1. Initial Sign In
             if (user) {
                 token.id = user.id;
                 token.role = (user as any).role;
+                return token;
             }
+
+            // 2. Subsequent calls - Re-validate user from DB to ensure sync
+            // This prevents "Zombie Sessions" where a banned/changed user keeps access
+            try {
+                const { prisma } = await import("@/lib/prisma");
+                const dbUser = await prisma.user.findUnique({
+                    where: { id: token.id as string },
+                    select: { role: true, suspendedAt: true, deletedAt: true }
+                });
+
+                if (!dbUser || dbUser.deletedAt || dbUser.suspendedAt) {
+                    // Invalid user, invalidate token (return null or empty)
+                    // NextAuth doesn't support returning null to invalidate, 
+                    // but we can set an error flag to handle in session
+                    token.error = "RefreshAccessTokenError";
+                    return token;
+                }
+
+                // Update role if changed
+                token.role = dbUser.role;
+            } catch (error) {
+                console.error("Error re-validating user", error);
+            }
+
             return token;
         },
         async session({ session, token }) {
+            // If token has error (deleted user), invalidate session
+            if (token.error) {
+                return { ...session, error: "RefreshAccessTokenError" } as any; // Force logout logic on client
+            }
+
             if (session.user) {
                 (session.user as any).id = token.id;
                 (session.user as any).role = token.role;

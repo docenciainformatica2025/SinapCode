@@ -207,18 +207,18 @@ export default function ProgramsPage() {
                             </div>
                         </div>
 
-                        {/* Actions Group */}
-                        <div className="flex justify-end gap-2 mt-4 pt-4 border-t border-white/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                        {/* Actions Group - Always visible for better UX */}
+                        <div className="flex justify-end gap-2 mt-4 pt-4 border-t border-white/5">
                             <button
                                 onClick={(e) => handleEdit(program, e)}
-                                className="p-2 hover:bg-white/10 rounded-lg text-platinum hover:text-white transition"
+                                className="p-2 bg-white/5 hover:bg-neural-blue/20 rounded-lg text-platinum hover:text-white transition"
                                 title="Editar"
                             >
                                 <Edit className="h-4 w-4" />
                             </button>
                             <button
                                 onClick={(e) => handleDelete(program.id, e)}
-                                className="p-2 hover:bg-rose-500/20 rounded-lg text-platinum hover:text-rose-400 transition"
+                                className="p-2 bg-white/5 hover:bg-rose-500/20 rounded-lg text-platinum hover:text-rose-400 transition"
                                 title="Eliminar"
                             >
                                 <Trash2 className="h-4 w-4" />
@@ -231,17 +231,37 @@ export default function ProgramsPage() {
             {/* Empty State (si no hay programas) */}
             {
                 !isLoading && programs.length === 0 && (
-                    <div className="glass-panel p-12 rounded-xl border border-white/10 text-center">
+                    <div className="col-span-full glass-panel p-12 rounded-xl border border-white/10 text-center">
                         <BookOpen className="h-16 w-16 text-platinum-dim mx-auto mb-4" />
                         <h3 className="text-white font-bold text-xl mb-2">No hay programas</h3>
                         <p className="text-platinum-dim mb-6">
-                            Comienza creando tu primer programa educativo
+                            Comienza creando tu primer programa educativo o carga uno de ejemplo.
                         </p>
-                        <button
-                            onClick={() => setIsCreateModalOpen(true)}
-                            className="px-6 py-3 bg-neural-blue hover:bg-blue-600 text-white rounded-lg font-bold transition shadow-neon-blue">
-                            Crear Primer Programa
-                        </button>
+                        <div className="flex justify-center gap-4">
+                            <button
+                                onClick={() => setIsCreateModalOpen(true)}
+                                className="px-6 py-3 bg-neural-blue hover:bg-blue-600 text-white rounded-lg font-bold transition shadow-neon-blue">
+                                Crear Primer Programa
+                            </button>
+                            <button
+                                onClick={async () => {
+                                    const res = await fetch('/api/admin/seed', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({ type: 'courses' })
+                                    });
+                                    if (res.ok) {
+                                        // toast.success('Curso generado'); // Assuming toast is available or alert
+                                        alert('Curso de ejemplo generado!');
+                                        fetchPrograms();
+                                    } else {
+                                        alert('Error al generar curso');
+                                    }
+                                }}
+                                className="px-6 py-3 bg-white/5 hover:bg-white/10 text-white rounded-lg font-bold transition border border-white/10">
+                                Generar Curso de Ejemplo
+                            </button>
+                        </div>
                     </div>
                 )
             }

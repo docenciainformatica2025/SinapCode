@@ -38,7 +38,7 @@ export default function CoursesPage() {
         <div className="min-h-screen bg-deep-space">
             <GlobalNavbar />
 
-            <main className="max-w-7xl mx-auto p-8">
+            <main className="max-w-7xl mx-auto px-4 sm:px-8 pt-24 pb-12">
                 <div className="mb-8">
                     <Link href="/dashboard" className="inline-flex items-center gap-2 text-platinum-dim hover:text-white transition group mb-4">
                         <span className="group-hover:-translate-x-1 transition-transform">←</span>
