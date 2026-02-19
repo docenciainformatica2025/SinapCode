@@ -74,21 +74,22 @@ export function CoursesPreviewSection({ data }: CoursesPreviewSectionProps) {
 
     return (
         <section id="courses" className="py-20 md:py-28 bg-black relative overflow-hidden section-spacing subpixel-text">
+            <div className="absolute inset-0 mesh-gradient-green opacity-30 pointer-events-none" />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+                <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-10">
                     <div className="max-w-3xl">
                         <motion.span
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 0.6 }}
-                            className="text-[10px] font-black uppercase tracking-[0.4em] text-platinum mb-4 block italic"
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 0.6, y: 0 }}
+                            className="text-[11px] font-bold uppercase tracking-[0.3em] text-primary mb-6 block"
                         >
                             Propulsión de Carrera
                         </motion.span>
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-8 tracking-tighter italic leading-tight">
-                            TRAYECTORIAS DE <span className="text-primary italic">ALTO IMPACTO</span>
+                        <h2 className="text-[clamp(1.8rem,5vw,2.8rem)] font-bold text-white mb-6 tracking-tight text-balance leading-[1.1]">
+                            Trayectorias de <span className="text-apple-blue font-extrabold">Alto Impacto</span>
                         </h2>
-                        <p className="text-xl text-platinum-dim font-medium leading-relaxed max-w-2xl">
-                            No solo aprendes, <span className="text-white">evolucionas</span>. Protocolos diseñados por ingenieros senior para llevarte a la frontera tecnológica.
+                        <p className="text-base md:text-lg text-platinum-dim font-medium leading-relaxed max-w-xl opacity-70 text-pretty">
+                            No solo aprendes, <span className="text-white/90">evolucionas</span>. Protocolos diseñados por ingenieros de élite para la frontera tecnológica.
                         </p>
                     </div>
                 </div>
@@ -114,13 +115,15 @@ export function CoursesPreviewSection({ data }: CoursesPreviewSectionProps) {
                     ))}
                 </div>
 
-                <div className="text-center mt-12">
+                <div className="text-center mt-20">
                     <Link
                         href={isAuthenticated ? "/courses" : "/auth/login"}
-                        className="inline-flex items-center gap-4 px-12 py-6 bg-white border border-white text-black rounded-2xl font-black uppercase text-xs tracking-[0.2em] hover:bg-primary hover:text-white hover:border-primary transition-all shadow-2xl hover:-translate-y-1 active:scale-95"
+                        className="btn-primary group"
                     >
-                        Descubrir tu Siguiente Nivel
-                        <ArrowRight className="w-5 h-5" />
+                        <span className="relative z-10 flex items-center gap-3">
+                            Ver todos los protocolos
+                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300" />
+                        </span>
                     </Link>
                 </div>
             </div>

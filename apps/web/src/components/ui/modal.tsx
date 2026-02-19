@@ -53,35 +53,35 @@ export function Modal({ isOpen, onClose, title, description, children, maxWidth 
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
+                        className="fixed inset-0 bg-black/80 backdrop-blur-xl z-0"
                     />
 
                     {/* Modal Content */}
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                        initial={{ opacity: 0, scale: 0.9, y: 40 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                        transition={{ duration: 0.3 }}
-                        className={`relative w-full ${maxWidth} bg-white border border-gray-200 rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]`}
+                        exit={{ opacity: 0, scale: 0.9, y: 40 }}
+                        transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                        className={`relative w-full ${maxWidth} glass-panel-nexus overflow-hidden flex flex-col max-h-[90vh] z-10 shadow-[0_0_50px_rgba(0,0,0,0.5)]`}
                     >
                         {/* Header */}
-                        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-gray-50/50">
+                        <div className="flex items-center justify-between px-8 py-6 border-b border-white/5 bg-white/[0.02]">
                             <div>
-                                <h2 className="text-xl font-bold text-gray-900">{title}</h2>
+                                <h2 className="text-2xl font-bold text-white tracking-tight text-balance">{title}</h2>
                                 {description && (
-                                    <p className="text-sm text-gray-500 mt-1">{description}</p>
+                                    <p className="text-sm text-platinum-dim mt-2 leading-relaxed text-pretty opacity-80">{description}</p>
                                 )}
                             </div>
                             <button
                                 onClick={onClose}
-                                className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                                className="p-2.5 text-platinum-dim hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300"
                             >
                                 <X className="h-5 w-5" />
                             </button>
                         </div>
 
                         {/* Body */}
-                        <div className="p-6 overflow-y-auto custom-scrollbar">
+                        <div className="p-8 overflow-y-auto custom-scrollbar">
                             {children}
                         </div>
                     </motion.div>

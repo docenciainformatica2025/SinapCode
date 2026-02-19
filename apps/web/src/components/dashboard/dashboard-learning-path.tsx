@@ -11,7 +11,7 @@ export function DashboardLearningPath() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="relative overflow-hidden bg-surface/30 backdrop-blur-3xl p-10 rounded-[2.5rem] border border-white/5 h-full flex flex-col group shadow-[0_0_80px_rgba(34,211,238,0.05)]"
+            className="relative overflow-hidden bg-white/[0.02] border border-white/10 p-10 rounded-[3rem] h-full flex flex-col group transition-all duration-700 hover:bg-white/[0.04]"
         >
             <div className="flex items-center gap-3 mb-10">
                 <Layers className="text-secondary w-6 h-6" />
@@ -20,9 +20,8 @@ export function DashboardLearningPath() {
 
             <div className="flex flex-col md:flex-row items-center justify-around flex-1 gap-12">
                 <div className="relative group/ring">
-                    {/* Concentric Glow Effects */}
-                    <div className="absolute inset-0 bg-secondary/10 blur-[60px] rounded-full group-hover/ring:bg-secondary/20 transition-all duration-700" />
-                    <div className="absolute inset-0 bg-primary/5 blur-[100px] rounded-full" />
+                    {/* Simplified Atmosphere */}
+                    <div className="absolute inset-0 bg-secondary/5 blur-[40px] rounded-full" />
 
                     <ProgressRing progress={75} size={220} strokeWidth={18} color="#22d3ee" />
 

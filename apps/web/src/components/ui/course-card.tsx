@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { ArrowRight } from 'lucide-react';
 
 interface CourseCardProps {
     title: string;
@@ -15,26 +16,28 @@ interface CourseCardProps {
 
 export function CourseCard({ title, description, level, duration, image, tags, slug = '#', isPro = false, progress }: CourseCardProps) {
     return (
-        <div className="group relative rounded-2xl bg-surface border border-borderSoft p-0 overflow-hidden transition-all duration-300 hover:shadow-glow hover:-translate-y-1 h-full flex flex-col">
+        <div className="group relative rounded-3xl bg-surface/40 backdrop-blur-3xl border border-white/5 p-0 overflow-hidden transition-all duration-700 hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)] hover:-translate-y-2 h-full flex flex-col hover:border-primary/20">
+            {/* Shimmer Effect */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.02] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
 
             {/* Image Section */}
-            <div className="relative h-48 w-full overflow-hidden">
+            <div className="relative h-56 w-full overflow-hidden">
                 <Image
                     src={image}
                     alt={title}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"
+                    className="object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000 ease-out"
                 />
                 {/* Overlay details */}
-                <div className="absolute inset-0 bg-gradient-to-t from-bg via-transparent to-transparent opacity-60" />
+                <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/20 to-transparent" />
 
                 <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center pointer-events-none">
-                    <span className="px-3 py-1 bg-primary/20 backdrop-blur-md border border-primary/30 text-primary text-[10px] font-black uppercase tracking-widest rounded-full">
+                    <span className="px-3 py-1 bg-apple-blue/10 backdrop-blur-xl border border-apple-blue/20 text-apple-blue text-[10px] font-bold uppercase tracking-widest rounded-lg">
                         {level}
                     </span>
                     {isPro && (
-                        <span className="px-3 py-1 bg-accent-gold/20 backdrop-blur-md border border-accent-gold/30 text-accent-gold text-[10px] font-black uppercase tracking-widest rounded-full">
+                        <span className="px-3 py-1 bg-apple-lemon/10 backdrop-blur-xl border border-apple-lemon/20 text-apple-lemon text-[10px] font-bold uppercase tracking-widest rounded-lg">
                             PRO
                         </span>
                     )}
@@ -42,58 +45,54 @@ export function CourseCard({ title, description, level, duration, image, tags, s
             </div>
 
             {/* Content */}
-            <div className="p-6 flex flex-col flex-grow pointer-events-none">
-                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-primary transition-colors">
+            <div className="p-8 flex flex-col flex-grow">
+                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-apple-blue transition-colors duration-500 tracking-tight text-balance">
                     {title}
                 </h3>
 
-                <p className="text-sm text-platinum-dim mb-6 line-clamp-2">
+                <p className="text-xs text-platinum-dim mb-6 line-clamp-2 leading-relaxed text-pretty opacity-60">
                     {description}
                 </p>
 
                 {/* Tags */}
-                <div className="flex flex-wrap gap-2 mb-6 pointer-events-none">
+                <div className="flex flex-wrap gap-2 mb-6">
                     {tags.map((tag) => (
-                        <span key={tag} className="px-2 py-1 bg-white/5 text-platinum-dim text-[10px] font-bold uppercase rounded border border-white/10">
+                        <span key={tag} className="px-2.5 py-1 bg-white/[0.02] text-platinum-dim text-[9px] font-bold uppercase tracking-wider rounded-md border border-white/5">
                             {tag}
                         </span>
                     ))}
                 </div>
 
                 {/* Progress Bar or Footer */}
-                <div className="mt-auto pt-4 border-t border-white/10 pointer-events-none">
+                <div className="mt-auto pt-6 border-t border-white/5">
                     {progress !== undefined && progress > 0 ? (
-                        <div className="space-y-2">
-                            <div className="flex justify-between text-[10px] font-bold uppercase tracking-wider">
-                                <span className="text-platinum-dim">Progreso</span>
+                        <div className="space-y-3">
+                            <div className="flex justify-between text-[11px] font-bold uppercase tracking-wider">
+                                <span className="text-platinum-dim opacity-60">Progreso</span>
                                 <span className="text-primary">{progress}%</span>
                             </div>
-                            <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+                            <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
                                 <div
-                                    className="h-full bg-gradient-to-r from-primary to-secondary"
+                                    className="h-full bg-gradient-to-r from-primary to-secondary transition-all duration-1000 ease-out"
                                     style={{ width: `${progress}%` }}
                                 />
                             </div>
                         </div>
                     ) : (
                         <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                                <span className="text-xl">⏱️</span>
-                                <span className="text-xs font-bold text-platinum-dim uppercase tracking-wider">{duration}</span>
+                            <div className="flex items-center gap-2 text-platinum-dim/60 group-hover:text-white transition-colors duration-500">
+                                <span className="text-[10px] font-bold uppercase tracking-widest">{duration}</span>
                             </div>
-                            <span className="text-primary text-sm font-black uppercase tracking-widest group-hover:translate-x-1 transition-transform">
-                                Explorar →
+                            <span className="text-apple-blue text-xs font-bold tracking-tight group-hover:translate-x-1 transition-transform duration-500 flex items-center gap-1.5">
+                                Protocolo <ArrowRight className="w-3.5 h-3.5" />
                             </span>
                         </div>
                     )}
                 </div>
             </div>
 
-            {/* Hover Glow Border Effect */}
-            <div className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-primary/20 pointer-events-none transition-colors duration-300 z-20" />
-
-            {/* Main Card Link Overlay - Moved to end for stacking context */}
-            <Link href={slug} className="absolute inset-0 z-50 rounded-2xl" aria-label={`Ver curso ${title}`} />
+            {/* Main Card Link Overlay */}
+            <Link href={slug} className="absolute inset-0 z-10 rounded-[2.5rem]" aria-label={`Ver curso ${title}`} />
         </div>
     );
 }

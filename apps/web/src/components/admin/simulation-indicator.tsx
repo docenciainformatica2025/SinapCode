@@ -1,15 +1,19 @@
 'use client';
 
+import * as React from 'react';
 import { useAuth } from '@/contexts/auth-context';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Eye, LogOut } from 'lucide-react';
 
 export function SimulationIndicator() {
     const { isSimulating, user, exitSimulation } = useAuth();
+    const [mounted, setMounted] = React.useState(false);
 
+    React.useEffect(() => {
+        setMounted(true);
+    }, []);
 
-
-    if (!isSimulating || !user) return null;
+    if (!mounted || !isSimulating || !user) return null;
 
     return (
         <AnimatePresence>

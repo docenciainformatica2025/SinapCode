@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import * as React from 'react';
 import { useSession } from "next-auth/react";
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -28,17 +28,24 @@ interface Message {
 
 export default function AIConcierge() {
     const { status, data: session } = useSession();
-    const [isOpen, setIsOpen] = useState(false);
-    const [messages, setMessages] = useState<Message[]>([
+    const [mounted, setMounted] = React.useState(false);
+    const [isOpen, setIsOpen] = React.useState(false);
+    const [messages, setMessages] = React.useState<Message[]>([
         { id: 1, text: `¡Bienvenido de nuevo! Me alegra verte siguiendo con tu formación.`, sender: 'ai' },
         { id: 2, text: "Recuerda que puedes usar tus Tokens CODE para canjear mentorías 1-a-1 y acelerar tu progreso.", sender: 'ai', type: 'text' },
     ]);
-    const [inputValue, setInputValue] = useState('');
-    const chatEndRef = useRef<HTMLDivElement>(null);
+    const [inputValue, setInputValue] = React.useState('');
+    const chatEndRef = React.useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [messages, isOpen]);
+    React.useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    React.useEffect(() => {
+        if (mounted) {
+            chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [messages, isOpen, mounted]);
 
     const handleSendMessage = () => {
         if (!inputValue.trim()) return;
@@ -57,7 +64,8 @@ export default function AIConcierge() {
         }, 1000);
     };
 
-    if (status !== "authenticated") return null;
+    // Ensure status check doesn't break hook count
+    if (!mounted || status !== "authenticated") return null;
 
     return (
         <>
@@ -108,7 +116,7 @@ export default function AIConcierge() {
                             initial={{ y: 100, opacity: 0, scale: 0.9 }}
                             animate={{ y: 0, opacity: 1, scale: 1 }}
                             exit={{ y: 100, opacity: 0, scale: 0.9 }}
-                            className="pointer-events-auto w-full max-w-[440px] h-[85vh] flex flex-col bg-[#162e2e]/70 backdrop-blur-3xl rounded-[3rem] overflow-hidden shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8)] border border-white/10 ring-1 ring-[#0df2f2]/10 relative"
+                            className="pointer-events-auto w-full max-w-[440px] h-[85vh] flex flex-col glass-4k rounded-[3rem] overflow-hidden relative border border-white/10"
                         >
                             {/* Header */}
                             <header className="p-8 pb-4 flex items-start justify-between bg-gradient-to-b from-[#0df2f2]/10 to-transparent">
@@ -120,8 +128,8 @@ export default function AIConcierge() {
                                     <div>
                                         <h1 className="text-2xl font-black text-white italic tracking-tighter uppercase">Sinap<span className="text-[#0df2f2]">AI</span></h1>
                                         <div className="flex items-center gap-2 mt-1 px-3 py-1 bg-white/5 rounded-full border border-white/5 w-fit">
-                                            <span className="w-2 h-2 bg-[#0df2f2] rounded-full animate-pulse shadow-[0_0_8px_rgba(13,242,242,1)]"></span>
-                                            <span className="text-[10px] text-slate-300 font-bold tracking-widest uppercase italic">Guía Personal_</span>
+                                            <span className="w-2 h-2 bg-[#0df2f2] rounded-full animate-pulse shadow-[0_0_12px_rgba(13,242,242,0.8)]"></span>
+                                            <span className="text-[10px] text-white/40 font-black tracking-[0.2em] uppercase italic">Neural Advisor_</span>
                                         </div>
                                     </div>
                                 </div>
@@ -155,19 +163,19 @@ export default function AIConcierge() {
 
                                         <div className={`space-y-3 max-w-[85%] ${msg.sender === 'user' ? 'text-right' : ''}`}>
                                             {msg.type === 'resume' ? (
-                                                <div className="bg-[#0df2f2]/10 px-6 py-5 rounded-[2rem] rounded-tl-none text-sm leading-relaxed text-slate-200 border-l-4 border-l-[#0df2f2] backdrop-blur-sm flex items-center gap-4 group cursor-pointer hover:bg-[#0df2f2]/20 transition-all border border-pink-500/0 hover:border-[#0df2f2]/20">
-                                                    <div className="bg-[#0df2f2]/20 p-3 rounded-2xl text-[#0df2f2] shadow-glow">
+                                                <div className="bg-[#0df2f2]/5 px-6 py-5 rounded-[2rem] rounded-tl-none text-sm leading-relaxed text-slate-200 border border-[#0df2f2]/20 backdrop-blur-sm flex items-center gap-4 group cursor-pointer hover:bg-[#0df2f2]/10 transition-all">
+                                                    <div className="bg-[#0df2f2]/20 p-3 rounded-2xl text-[#0df2f2] shadow-[0_0_20px_rgba(13,242,242,0.2)]">
                                                         <Play className="w-6 h-6 fill-current" />
                                                     </div>
                                                     <div className="text-left">
-                                                        <p className="font-black text-white text-[11px] uppercase tracking-widest italic leading-tight">{msg.text}_</p>
-                                                        <p className="text-[10px] text-[#0df2f2] font-bold uppercase tracking-widest opacity-80 mt-1">Acción Recomendada_</p>
+                                                        <p className="font-black text-white text-[11px] uppercase tracking-[0.15em] italic leading-tight">{msg.text}_</p>
+                                                        <p className="text-[9px] text-[#0df2f2] font-black uppercase tracking-[0.2em] opacity-40 mt-1">Sugerencia de la IA_</p>
                                                     </div>
                                                 </div>
                                             ) : (
                                                 <div className={`p-5 rounded-[2rem] text-[13px] leading-relaxed backdrop-blur-md border ${msg.sender === 'ai'
-                                                    ? 'bg-[#0df2f2]/5 border-[#0df2f2]/10 text-slate-200 rounded-tl-none'
-                                                    : 'bg-white/5 border-white/10 text-white rounded-tr-none italic'
+                                                    ? 'bg-white/[0.03] border-white/10 text-white/90 rounded-tl-none font-medium'
+                                                    : 'bg-[#0df2f2]/10 border-[#0df2f2]/20 text-white rounded-tr-none italic font-medium'
                                                     }`}>
                                                     {msg.text}
                                                 </div>
@@ -190,21 +198,21 @@ export default function AIConcierge() {
 
                                 <div className="relative group mt-2">
                                     <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-                                        <Search className="w-5 h-5 text-[#0df2f2]/60 group-focus-within:text-[#0df2f2] transition-colors" />
+                                        <Search className="w-5 h-5 text-white/30 group-focus-within:text-[#0df2f2] transition-colors" />
                                     </div>
                                     <input
                                         type="text"
                                         value={inputValue}
                                         onChange={(e) => setInputValue(e.target.value)}
                                         onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                                        className="block w-full pl-14 pr-16 py-5 bg-black/40 border border-white/5 rounded-3xl text-sm placeholder-slate-600 text-white focus:outline-none focus:ring-1 focus:ring-[#0df2f2]/50 focus:border-[#0df2f2]/50 transition-all shadow-inner font-medium italic"
-                                        placeholder="Escribe para chatear o buscar funciones..."
+                                        className="block w-full pl-14 pr-16 py-5 bg-black/40 border border-white/10 rounded-3xl text-sm placeholder-white/20 text-white focus:outline-none focus:ring-1 focus:ring-[#0df2f2]/50 focus:border-[#0df2f2]/50 transition-all shadow-inner font-medium italic"
+                                        placeholder="Consultar al núcleo central..."
                                     />
                                     <div className="absolute inset-y-0 right-0 flex items-center pr-3 gap-2">
-                                        <button className="p-2.5 text-slate-500 hover:text-white transition-colors rounded-xl hover:bg-white/5">
+                                        <button className="p-2.5 text-white/20 hover:text-[#0df2f2] transition-colors rounded-xl hover:bg-white/5">
                                             <Mic className="w-4 h-4" />
                                         </button>
-                                        <button onClick={handleSendMessage} className="p-3 bg-[#0df2f2] text-[#102222] rounded-2xl hover:shadow-[0_0_20px_rgba(13,242,242,0.6)] transition-all transform active:scale-95">
+                                        <button onClick={handleSendMessage} className="p-3 bg-white text-black rounded-2xl hover:bg-[#0df2f2] hover:text-black transition-all transform active:scale-95 shadow-xl">
                                             <Send className="w-4 h-4" />
                                         </button>
                                     </div>

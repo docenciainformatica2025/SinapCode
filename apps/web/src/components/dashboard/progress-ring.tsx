@@ -27,7 +27,7 @@ export function ProgressRing({
                     cx={size / 2}
                     cy={size / 2}
                     r={radius}
-                    stroke="rgba(255, 255, 255, 0.05)"
+                    stroke="rgba(255, 255, 255, 0.02)"
                     strokeWidth={strokeWidth}
                     fill="none"
                 />
@@ -49,7 +49,7 @@ export function ProgressRing({
                 />
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-2xl font-bold text-white">{Math.round(progress)}%</span>
+                <span className="text-2xl font-bold text-white/90 tracking-tighter">{Math.round(progress)}%</span>
             </div>
         </div>
     );

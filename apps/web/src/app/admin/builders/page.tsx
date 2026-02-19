@@ -259,7 +259,7 @@ export default function TalentMarketplace() {
                                                 <Star className="text-amber-500 animate-pulse w-2.5 h-2.5" />
                                             </h4>
                                             <p className="text-[13px] text-slate-300 leading-relaxed font-medium italic">
-                                                "{builder.aiInsight}"
+                                                &quot;&#123;builder.aiInsight&#125;&quot;
                                             </p>
                                         </div>
                                     </div>

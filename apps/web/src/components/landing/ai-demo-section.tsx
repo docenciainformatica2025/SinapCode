@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 
@@ -50,82 +51,94 @@ export function AIDemoSection({ data }: AIDemoSectionProps) {
             icon: '🧠',
             title: 'Aprende a Pensar',
             description: 'No memorices código. Entiende la lógica profunda detrás de cada concepto técnico.',
+            color: 'bg-apple-lavender/10 border-apple-lavender/20 text-apple-lavender'
         },
         {
             icon: '⚡',
             title: 'Respuestas Instantáneas',
             description: 'Disponible 24/7. Sin esperas, tu mentor personal siempre está listo para ayudarte.',
+            color: 'bg-apple-lemon/10 border-apple-lemon/20 text-apple-lemon'
         },
         {
             icon: '🎯',
             title: 'Personalizado',
             description: 'La IA se adapta a tu nivel actual, ritmo y estilo de aprendizaje individual.',
+            color: 'bg-apple-mint/10 border-apple-mint/20 text-apple-mint'
         },
         {
             icon: '🔒',
             title: 'Privado y Seguro',
             description: 'Tus conversaciones son privadas y seguras. Cumplimos estrictamente con GDPR.',
+            color: 'bg-apple-pink/10 border-apple-pink/20 text-apple-pink'
         },
     ];
 
     return (
-        <section className="py-20 md:py-28 bg-bg/50 border-y border-white/5 overflow-hidden section-spacing subpixel-text">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-12">
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 uppercase italic tracking-tighter">
-                        Experimenta la <span className="text-primary italic">Mentoría IA</span>
+        <section id="demo" className="py-24 md:py-32 bg-black overflow-hidden section-spacing relative">
+            <div className="absolute inset-0 mesh-gradient-purple opacity-40 pointer-events-none" />
+            <div className="container-page px-6 sm:px-12">
+                <div className="text-center mb-16">
+                    <h2 className="text-[clamp(2.5rem,6vw,4rem)] font-black text-white mb-8 tracking-tighter leading-none">
+                        Tu Mentor IA <span className="text-glow text-[#BF5AF2]">Evolutivo</span>
                     </h2>
-                    <p className="text-lg text-platinum-dim max-w-2xl mx-auto font-bold leading-relaxed">
-                        Resuelve dudas en segundos con nuestra IA entrenada específicamente
-                        en ciencias de la computación y metodologías de aprendizaje acelerado.
+                    <p className="max-w-xl mx-auto text-base md:text-lg text-platinum-dim font-medium leading-relaxed opacity-60 text-pretty">
+                        Resuelve dudas complejas en segundos con protocolos de ingeniería de élite.
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-16">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-24">
                     {/* Sidebar / Options */}
-                    <div className="lg:col-span-4 space-y-3 order-2 lg:order-1">
+                    <div className="lg:col-span-4 space-y-4 order-2 lg:order-1">
                         {scenarios.map((s, i) => (
                             <button
                                 key={i}
                                 onClick={() => setActiveScenario(i)}
-                                className={`w-full p-5 md:p-6 rounded-2xl text-left border transition-all duration-300 group ${activeScenario === i
-                                    ? 'bg-primary/10 border-primary text-white shadow-lg shadow-primary/10'
-                                    : 'bg-white/5 border-white/10 text-platinum-dim hover:bg-white/10 hover:border-white/20'
+                                className={`w-full p-6 md:p-8 rounded-[2rem] text-left border transition-all duration-500 group relative overflow-hidden ${activeScenario === i
+                                    ? 'bg-apple-blue/10 border-apple-blue/30 text-white shadow-2xl shadow-apple-blue/10'
+                                    : 'bg-white/[0.03] border-white/5 text-platinum-dim hover:bg-white/[0.05] hover:border-white/10'
                                     }`}
                             >
-                                <span className={`block text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] mb-2 transition-colors ${activeScenario === i ? 'text-primary' : 'text-platinum-dim/40 group-hover:text-platinum-dim'}`}>
-                                    ESCENARIO 0{i + 1}
+                                <span className={`block text-[10px] font-bold uppercase tracking-widest mb-3 transition-colors ${activeScenario === i ? 'text-apple-blue' : 'text-platinum-dim/40 group-hover:text-platinum-dim'}`}>
+                                    Escenario 0{i + 1}
                                 </span>
-                                <span className="text-base md:text-lg font-black block mb-1 italic">{s.title}</span>
-                                <p className="text-[10px] md:text-xs font-bold leading-relaxed opacity-70 line-clamp-2">{s.description}</p>
+                                <span className="text-xl font-bold block mb-2 tracking-tight">{s.title}</span>
+                                <p className="text-sm font-medium leading-relaxed opacity-60 line-clamp-2 text-pretty">{s.description}</p>
+                                {activeScenario === i && (
+                                    <motion.div layoutId="active-bg" className="absolute left-0 top-0 bottom-0 w-1 bg-apple-blue" />
+                                )}
                             </button>
                         ))}
                     </div>
 
                     {/* Chat Display */}
-                    <div className="lg:col-span-8 bg-bg rounded-3xl border border-white/10 overflow-hidden shadow-2xl h-[500px] flex flex-col relative">
+                    <div className="lg:col-span-8 glass-panel-nexus rounded-[2.5rem] border border-white/5 overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.4)] h-[550px] flex flex-col relative">
                         {/* Header */}
-                        <div className="bg-white/5 border-b border-white/10 p-4 flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary text-sm">🤖</div>
-                            <div>
-                                <div className="text-sm font-black text-white uppercase tracking-widest leading-none">SINAP MENTOR</div>
-                                <div className="text-[10px] font-bold text-primary flex items-center gap-1.5 mt-1">
-                                    <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></span>
-                                    En línea ahora
+                        <div className="bg-white/[0.02] border-b border-white/5 p-6 flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                                <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary text-lg">🤖</div>
+                                <div>
+                                    <div className="text-sm font-bold text-white tracking-tight leading-none mb-1.5 transition-all">Sinap Mentor AI</div>
+                                    <div className="text-[10px] font-bold text-primary flex items-center gap-2">
+                                        <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></span>
+                                        Protocolo Activo
+                                    </div>
                                 </div>
+                            </div>
+                            <div className="px-3 py-1 rounded-full bg-white/[0.05] border border-white/5 text-[10px] font-bold text-platinum-dim uppercase tracking-widest">
+                                v2.4.0
                             </div>
                         </div>
 
                         {/* Messages Area */}
-                        <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 scrollbar-thin scrollbar-thumb-white/10">
+                        <div className="flex-1 overflow-y-auto p-8 space-y-6 scrollbar-thin scrollbar-thumb-white/5">
                             <AnimatePresence mode="wait">
                                 <motion.div
                                     key={activeScenario}
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: -10 }}
-                                    transition={{ duration: 0.3 }}
-                                    className="space-y-4"
+                                    initial={{ opacity: 0, scale: 0.98 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 0.98 }}
+                                    transition={{ duration: 0.5, ease: 'easeOut' }}
+                                    className="space-y-6"
                                 >
                                     {scenarios[activeScenario].conversation.map((msg, idx) => (
                                         <div
@@ -133,9 +146,9 @@ export function AIDemoSection({ data }: AIDemoSectionProps) {
                                             className={`flex ${msg.role === 'student' ? 'justify-start' : 'justify-end'}`}
                                         >
                                             <div
-                                                className={`max-w-[90%] md:max-w-[85%] px-4 py-3 rounded-2xl text-[13px] md:text-sm font-bold shadow-sm ${msg.role === 'student'
-                                                    ? 'bg-white/5 text-gray-300 border border-white/10'
-                                                    : 'bg-primary text-white border border-primary shadow-lg shadow-primary/10'
+                                                className={`max-w-[85%] px-6 py-4 rounded-[2rem] text-sm font-medium leading-relaxed shadow-xl backdrop-blur-md border ${msg.role === 'student'
+                                                    ? 'bg-white/[0.02] text-platinum-dim border-white/5 rounded-tl-none'
+                                                    : 'bg-primary text-white border-primary/20 shadow-primary/20 rounded-tr-none'
                                                     }`}
                                             >
                                                 {msg.text}
@@ -147,8 +160,8 @@ export function AIDemoSection({ data }: AIDemoSectionProps) {
                         </div>
 
                         {/* Input Mockup */}
-                        <div className="p-4 bg-white/5 border-t border-white/10">
-                            <div className="bg-bg border border-white/10 rounded-xl px-4 py-2.5 text-gray-500 text-sm font-bold italic">
+                        <div className="p-6 bg-white/[0.02] border-t border-white/5">
+                            <div className="bg-black/20 border border-white/5 rounded-2xl px-6 py-3.5 text-platinum-dim/40 text-sm font-medium">
                                 Haz una pregunta sobre el escenario actual...
                             </div>
                         </div>
@@ -156,21 +169,33 @@ export function AIDemoSection({ data }: AIDemoSectionProps) {
                 </div>
 
                 {/* Features Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {features.map((feature, i) => (
                         <motion.div
                             key={i}
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ delay: i * 0.1 }}
-                            className="p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-primary/30 transition-all duration-300 group"
+                            transition={{ delay: i * 0.1, duration: 0.8 }}
+                            className="p-10 rounded-[2rem] bg-white/[0.03] border border-white/5 hover:border-primary/20 transition-all duration-500 group"
                         >
-                            <div className="text-4xl mb-6 transform group-hover:scale-110 transition-transform duration-300">{feature.icon}</div>
-                            <h3 className="text-sm font-black text-white uppercase tracking-[0.1em] mb-3 italic">{feature.title}</h3>
-                            <p className="text-xs text-platinum-dim font-bold leading-relaxed">{feature.description}</p>
+                            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-3xl mb-8 transition-all duration-500 transform group-hover:scale-110 border ${feature.color}`}>
+                                {feature.icon}
+                            </div>
+                            <h3 className="text-lg font-bold text-white mb-4 tracking-tight">{feature.title}</h3>
+                            <p className="text-sm text-platinum-dim font-medium leading-relaxed opacity-70 group-hover:opacity-100 transition-opacity text-pretty">
+                                {feature.description}
+                            </p>
                         </motion.div>
                     ))}
+                </div>
+                <div className="text-center mt-16">
+                    <Link
+                        href="/auth/register"
+                        className="btn-primary !px-12 !py-5 shadow-2xl shadow-apple-blue/20"
+                    >
+                        Acceso Instantáneo al Mentor
+                    </Link>
                 </div>
             </div>
         </section>

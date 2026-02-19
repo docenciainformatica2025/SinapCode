@@ -20,6 +20,11 @@ export function PricingSection() {
             cta: 'Empieza Gratis',
             href: '/auth/register',
             popular: false,
+            color: 'bg-[#F2FAF7]', // Mint Pastel ultra pale
+            borderColor: 'border-emerald-200/50',
+            textColor: 'text-[#1A1A1A]',
+            mutedColor: 'text-[#1A1A1A]/60',
+            btnClass: 'btn-secondary !bg-emerald-100 border-none'
         },
         {
             name: 'Pro',
@@ -38,6 +43,11 @@ export function PricingSection() {
             cta: 'Prueba 7 Días Gratis',
             href: '/auth/register?plan=pro',
             popular: true,
+            color: 'bg-[#F2F8FF]', // Blue Pastel ultra pale
+            borderColor: 'border-blue-200',
+            textColor: 'text-[#1A1A1A]',
+            mutedColor: 'text-[#1A1A1A]/60',
+            btnClass: 'btn-primary shadow-xl shadow-blue-200/50'
         },
         {
             name: 'Empresa',
@@ -56,18 +66,24 @@ export function PricingSection() {
             cta: 'Contactar Ventas',
             href: '/contact',
             popular: false,
+            color: 'bg-[#F2F0FF]', // Lavender Pastel ultra pale
+            borderColor: 'border-indigo-200/50',
+            textColor: 'text-[#1A1A1A]',
+            mutedColor: 'text-[#1A1A1A]/60',
+            btnClass: 'btn-secondary !bg-indigo-100 border-none'
         },
     ];
 
     return (
-        <section id="pricing" className="py-24 bg-bg relative overflow-hidden">
+        <section id="membresia" className="py-32 bg-black relative overflow-hidden">
+            <div className="absolute inset-0 mesh-gradient-blue opacity-30 pointer-events-none" />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="text-center mb-20">
-                    <h2 className="text-4xl md:text-6xl font-black text-white mb-6">
-                        Elige tu <span className="text-primary">Plan de Poder</span>
+                <div className="text-center mb-24">
+                    <h2 className="text-5xl md:text-7xl font-black text-white mb-8 tracking-tighter drop-shadow-2xl">
+                        Membresía <span className="bg-gradient-to-r from-apple-blue to-emerald-300 bg-clip-text text-transparent">SinapCode Pro</span>
                     </h2>
-                    <p className="max-w-2xl mx-auto text-xl text-platinum-dim">
-                        Sin contratos ocultos. Cancela cuando quieras. Acelera tu carrera hoy.
+                    <p className="max-w-2xl mx-auto text-xl text-platinum-dim font-medium">
+                        Sin contratos ocultos. Cancela cuando quieras. Acelera tu carrera hoy bajo el estándar Apple de ingeniería.
                     </p>
                 </div>
 
@@ -75,33 +91,33 @@ export function PricingSection() {
                     {plans.map((plan, i) => (
                         <div
                             key={i}
-                            className={`relative rounded-2xl p-8 border transition-all duration-300 ${plan.popular
-                                ? 'bg-white border-primary shadow-xl hover:-translate-y-2 scale-105 z-10'
-                                : 'bg-gray-50 border-gray-200 hover:-translate-y-1 hover:shadow-lg'
+                            className={`relative rounded-[2.5rem] p-6 md:p-10 border transition-all duration-500 group ${plan.color} ${plan.borderColor} ${plan.popular
+                                ? 'shadow-2xl shadow-apple-blue/10 scale-105 z-10'
+                                : 'hover:scale-[1.02]'
                                 }`}
                         >
                             {plan.popular && (
-                                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-primary to-secondary text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg">
-                                    MÁS POPULAR
+                                <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-apple-blue text-black text-[10px] font-black px-6 py-2.5 rounded-full shadow-2xl shadow-apple-blue/40 whitespace-nowrap tracking-widest border-2 border-white z-20">
+                                    MÁS VENDIDO
                                 </div>
                             )}
 
                             <div className="mb-8">
-                                <h3 className={`text-xl font-bold mb-2 ${plan.popular ? 'text-gray-900' : 'text-gray-900'}`}>{plan.name}</h3>
+                                <h3 className={`text-xl font-black mb-2 ${plan.textColor}`}>{plan.name}</h3>
                                 <div className="flex items-baseline gap-1">
-                                    <span className={`text-4xl font-bold ${plan.popular ? 'text-primary' : 'text-gray-900'}`}>
+                                    <span className={`text-4xl font-black ${plan.textColor}`}>
                                         {plan.price}
                                     </span>
-                                    {plan.period && <span className="text-gray-500 text-sm">{plan.period}</span>}
+                                    {plan.period && <span className={`${plan.mutedColor} text-sm font-bold uppercase tracking-widest`}>{plan.period}</span>}
                                 </div>
-                                <p className="text-gray-500 text-sm mt-4 min-h-[40px]">{plan.description}</p>
+                                <p className={`${plan.mutedColor} text-sm mt-4 min-h-[40px] font-semibold leading-relaxed`}>{plan.description}</p>
                             </div>
 
-                            <ul className="space-y-4 mb-8">
+                            <ul className="space-y-4 mb-10">
                                 {plan.features.map((feature, j) => (
-                                    <li key={j} className="flex items-start gap-3 text-sm text-gray-600">
-                                        <svg className={`w-5 h-5 flex-shrink-0 ${plan.popular ? 'text-primary' : 'text-gray-400'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                    <li key={j} className={`flex items-start gap-3 text-sm font-bold ${plan.textColor}`}>
+                                        <svg className="w-5 h-5 flex-shrink-0 text-black/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                                         </svg>
                                         <span>{feature}</span>
                                     </li>
@@ -110,10 +126,7 @@ export function PricingSection() {
 
                             <Link
                                 href={plan.href}
-                                className={`block w-full py-4 rounded-xl font-bold text-center transition-all ${plan.popular
-                                    ? 'bg-primary text-white hover:bg-primary/90 shadow-lg hover:shadow-xl'
-                                    : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300'
-                                    }`}
+                                className={`inline-flex items-center justify-center w-full rounded-2xl py-4 text-xs font-black uppercase tracking-widest transition-all duration-300 ${plan.btnClass}`}
                             >
                                 {plan.cta}
                             </Link>

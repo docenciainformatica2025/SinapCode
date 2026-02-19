@@ -254,7 +254,7 @@ export default function AIAutomationPage() {
                                 <card.icon className="w-6 h-6" />
                             </div>
                             <h4 className="text-lg font-black text-white mb-3 tracking-tighter">{card.title}</h4>
-                            <p className="text-xs font-bold text-platinum-dim opacity-70 leading-relaxed italic">"{card.desc}"</p>
+                            <p className="text-xs font-bold text-platinum-dim opacity-70 leading-relaxed italic">&quot;&#123;card.desc&#125;&quot;</p>
                         </div>
                     ))}
                 </div>

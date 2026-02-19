@@ -187,7 +187,7 @@ export default function MentorPage() {
                                     <p className="pl-4">useCases: <span className="text-blue-400">UseCase[]</span>;</p>
                                     <p className="pl-4">adapters: <span className="text-blue-400">Adapter[]</span>;</p>
                                     <p>{'}'}</p>
-                                    <p className="mt-4"><span className="text-gray-500 block italic">// El mentor está analizando esta estructura</span></p>
+                                    <p className="mt-4"><span className="text-gray-500 block italic">&#123;`// El mentor está analizando esta estructura`&#125;</span></p>
                                     <p className="pl-4 bg-emerald-500/10 -mx-6 px-6 border-l-2 border-emerald-500"><span className="text-purple-400">const</span> domain = <span className="text-emerald-400">new</span> DomainCore();</p>
                                 </div>
                             </div>

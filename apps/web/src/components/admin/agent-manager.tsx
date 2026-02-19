@@ -41,7 +41,7 @@ const INITIAL_AGENTS: Agent[] = [
     },
     {
         id: 'news-01',
-        name: 'Nexus News Bot',
+        name: 'SinapCode News Bot',
         role: 'Síntesis de Contenido',
         status: 'processing',
         health: 100,
@@ -111,7 +111,7 @@ export default function AgentManager() {
 
                 <div className="relative z-10 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-8">
                     <div className="space-y-2">
-                        <h2 className="text-3xl font-black text-white italic tracking-tighter uppercase">Nexus Command Center_</h2>
+                        <h2 className="text-3xl font-black text-white italic tracking-tighter uppercase">SinapCode Command Center</h2>
                         <p className="text-sm text-platinum-dim font-black uppercase tracking-widest opacity-60 flex items-center gap-2">
                             <Activity className="w-4 h-4 text-neural-blue" />
                             Monitoreando {agents.length} Agentes Activos
@@ -125,11 +125,11 @@ export default function AgentManager() {
                             className="px-8 py-4 bg-neural-blue text-white rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] flex items-center gap-3 hover:shadow-glow transition-all disabled:opacity-50"
                         >
                             {isSyncing ? <RefreshCw className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
-                            Sincronizar Protocolos_
+                            Sincronizar Protocolos
                         </button>
                         <button className="px-8 py-4 bg-white/5 border border-white/10 text-white rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] flex items-center gap-3 hover:bg-white/10 transition-all">
                             <Settings className="w-4 h-4" />
-                            Parámetros Globales_
+                            Parámetros Globales
                         </button>
                     </div>
                 </div>
@@ -152,8 +152,8 @@ export default function AgentManager() {
                                     <agent.icon className="w-7 h-7 text-white" />
                                 </div>
                                 <div className={`px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-widest flex items-center gap-1.5 ${agent.status === 'online' ? 'bg-emerald-500/10 text-emerald-400' :
-                                        agent.status === 'processing' ? 'bg-neural-blue/10 text-neural-blue' :
-                                            'bg-platinum-dim/10 text-platinum-dim'
+                                    agent.status === 'processing' ? 'bg-neural-blue/10 text-neural-blue' :
+                                        'bg-platinum-dim/10 text-platinum-dim'
                                     }`}>
                                     <div className={`w-1.5 h-1.5 rounded-full ${agent.status === 'online' ? 'bg-emerald-400' : 'bg-neural-blue'} animate-pulse`} />
                                     {agent.status}
@@ -162,7 +162,7 @@ export default function AgentManager() {
 
                             <div className="space-y-4">
                                 <div>
-                                    <h3 className="text-xl font-black text-white italic tracking-tighter uppercase">{agent.name}_</h3>
+                                    <h3 className="text-xl font-black text-white italic tracking-tighter uppercase">{agent.name}</h3>
                                     <p className="text-[10px] text-platinum-dim font-bold uppercase tracking-widest">{agent.role}</p>
                                 </div>
 
@@ -190,14 +190,14 @@ export default function AgentManager() {
                     <div className="bg-black/40 backdrop-blur-3xl p-8 rounded-[3rem] border border-white/5 h-full flex flex-col min-h-[500px]">
                         <div className="flex items-center gap-3 mb-8 text-neural-blue">
                             <Activity className="w-5 h-5" />
-                            <h3 className="text-xl font-black text-white italic tracking-tighter uppercase">Bitácora Kernel_</h3>
+                            <h3 className="text-xl font-black text-white italic tracking-tighter uppercase">Bitácora Kernel</h3>
                         </div>
 
                         <div className="flex-1 space-y-6 overflow-y-auto pr-2">
                             {logs.map((log) => (
                                 <div key={log.id} className="flex gap-4 group/log">
                                     <div className={`w-1 h-1 rounded-full mt-2 shrink-0 ${log.type === 'success' ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]' :
-                                            log.type === 'process' ? 'bg-neural-blue animate-pulse' : 'bg-platinum-dim'
+                                        log.type === 'process' ? 'bg-neural-blue animate-pulse' : 'bg-platinum-dim'
                                         }`} />
                                     <div className="space-y-1">
                                         <div className="flex items-center gap-2">

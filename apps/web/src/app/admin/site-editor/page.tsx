@@ -224,27 +224,126 @@ export default function SiteEditorPage() {
                         <div className="glass-panel p-6 rounded-xl border border-white/10 space-y-6">
                             <h3 className="text-lg font-bold text-white flex items-center gap-2">
                                 <Palette className="w-5 h-5 text-gold" />
-                                Branding y Colores
+                                Branding — Logo & Banner
                             </h3>
 
-                            <div>
-                                <label className="block text-xs font-bold text-platinum-dim uppercase mb-2">Logo URL</label>
-                                <div className="flex gap-2">
-                                    <input
-                                        type="text"
-                                        value={config.logoUrl || ''}
-                                        onChange={(e) => setConfig({ ...config, logoUrl: e.target.value })}
-                                        className="w-full bg-black/50 border border-white/10 rounded-lg py-3 px-4 text-white focus:border-gold outline-none transition"
-                                        placeholder="https://..."
-                                    />
-                                </div>
-                                {config.logoUrl && (
-                                    <div className="mt-4 p-4 bg-white/5 rounded-lg flex justify-center border border-white/5">
-                                        <img src={config.logoUrl || undefined} alt="Logo Preview" className="h-10 object-contain" />
+                            {/* Logo Upload */}
+                            <div className="space-y-3">
+                                <label className="block text-xs font-bold text-platinum-dim uppercase mb-2">Logo del Sitio</label>
+                                <div className="p-6 bg-black/40 rounded-xl border-2 border-dashed border-white/10 hover:border-gold/40 transition-all text-center group">
+                                    <div className="mb-4 flex justify-center">
+                                        <img
+                                            src="/branding/Logo.png"
+                                            alt="Logo actual"
+                                            className="h-20 w-auto object-contain"
+                                            onError={(e) => { (e.target as any).style.display = 'none'; }}
+                                        />
                                     </div>
-                                )}
+                                    <label className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-gold/20 hover:bg-gold/30 text-gold rounded-lg text-sm font-bold transition">
+                                        <Upload className="w-4 h-4" />
+                                        Cambiar Logo
+                                        <input
+                                            type="file"
+                                            accept="image/png,image/svg+xml,image/webp"
+                                            className="hidden"
+                                            onChange={async (e) => {
+                                                const file = e.target.files?.[0];
+                                                if (!file) return;
+                                                const formData = new FormData();
+                                                formData.append('file', file);
+                                                formData.append('type', 'logo');
+                                                try {
+                                                    const res = await fetch('/api/admin/upload-branding', { method: 'POST', body: formData });
+                                                    if (res.ok) {
+                                                        toast.success('Logo actualizado — recarga la página para ver los cambios');
+                                                        setConfig({ ...config, logoUrl: '/branding/Logo.png?v=' + Date.now() });
+                                                    } else throw new Error();
+                                                } catch { toast.error('Error subiendo logo'); }
+                                            }}
+                                        />
+                                    </label>
+                                    <p className="text-[10px] text-platinum-dim mt-2 italic">PNG, SVG o WebP • Fondo transparente recomendado</p>
+                                </div>
                             </div>
 
+                            {/* Banner Upload */}
+                            <div className="space-y-3">
+                                <label className="block text-xs font-bold text-platinum-dim uppercase mb-2">Banner Principal (Hero)</label>
+                                <div className="p-4 bg-black/40 rounded-xl border-2 border-dashed border-white/10 hover:border-primary/40 transition-all text-center group">
+                                    <div className="mb-4 rounded-lg overflow-hidden">
+                                        <img
+                                            src="/branding/hero-banner.png"
+                                            alt="Banner actual"
+                                            className="w-full h-32 object-cover rounded-lg"
+                                            onError={(e) => { (e.target as any).style.display = 'none'; }}
+                                        />
+                                    </div>
+                                    <label className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-primary/20 hover:bg-primary/30 text-primary rounded-lg text-sm font-bold transition">
+                                        <Upload className="w-4 h-4" />
+                                        Cambiar Banner
+                                        <input
+                                            type="file"
+                                            accept="image/png,image/jpeg,image/webp"
+                                            className="hidden"
+                                            onChange={async (e) => {
+                                                const file = e.target.files?.[0];
+                                                if (!file) return;
+                                                const formData = new FormData();
+                                                formData.append('file', file);
+                                                formData.append('type', 'banner');
+                                                try {
+                                                    const res = await fetch('/api/admin/upload-branding', { method: 'POST', body: formData });
+                                                    if (res.ok) toast.success('Banner actualizado — recarga para ver los cambios');
+                                                    else throw new Error();
+                                                } catch { toast.error('Error subiendo banner'); }
+                                            }}
+                                        />
+                                    </label>
+                                    <p className="text-[10px] text-platinum-dim mt-2 italic">1920×1080px mínimo • PNG, JPG o WebP</p>
+                                </div>
+                            </div>
+
+                            {/* Favicon Upload */}
+                            <div className="space-y-3">
+                                <label className="block text-xs font-bold text-platinum-dim uppercase mb-2">Favicon (Icono del navegador)</label>
+                                <div className="p-4 bg-black/40 rounded-xl border-2 border-dashed border-white/10 hover:border-secondary/40 transition-all text-center group">
+                                    <div className="mb-3 flex justify-center items-center gap-4">
+                                        <div className="p-3 bg-white/5 rounded-lg border border-white/10">
+                                            <img
+                                                src="/favicon.png"
+                                                alt="Favicon actual"
+                                                className="h-8 w-8 object-contain"
+                                                onError={(e) => { (e.target as any).src = '/favicon.ico'; }}
+                                            />
+                                        </div>
+                                        <span className="text-xs text-platinum-dim">Favicon actual</span>
+                                    </div>
+                                    <label className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-secondary/20 hover:bg-secondary/30 text-secondary rounded-lg text-sm font-bold transition">
+                                        <Upload className="w-4 h-4" />
+                                        Cambiar Favicon
+                                        <input
+                                            type="file"
+                                            accept="image/png,image/x-icon,image/svg+xml"
+                                            className="hidden"
+                                            onChange={async (e) => {
+                                                const file = e.target.files?.[0];
+                                                if (!file) return;
+                                                const formData = new FormData();
+                                                formData.append('file', file);
+                                                formData.append('type', 'favicon');
+                                                try {
+                                                    const res = await fetch('/api/admin/upload-branding', { method: 'POST', body: formData });
+                                                    if (res.ok) toast.success('Favicon actualizado — recarga para ver los cambios');
+                                                    else throw new Error();
+                                                } catch { toast.error('Error subiendo favicon'); }
+                                            }}
+                                        />
+                                    </label>
+                                    <p className="text-[10px] text-platinum-dim mt-2 italic">PNG cuadrado recomendado • 512×512px ideal</p>
+                                </div>
+                            </div>
+
+                            {/* Colors */}
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-xs font-bold text-platinum-dim uppercase mb-2">Color Primario</label>

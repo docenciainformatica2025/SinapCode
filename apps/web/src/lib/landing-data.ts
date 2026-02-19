@@ -11,12 +11,12 @@ export interface HeroData {
 }
 
 export const FALLBACK_HERO: HeroData = {
-    title: "DOMINA EL CÓDIGO",
-    subtitle: "PROTOCOLOS DE INGENIERÍA IA",
-    description: "Ingeniería de élite para mentes que buscan trascender. Despliegue puro, sin límites.",
-    primaryCtaText: "COMENZAR EVOLUCIÓN",
+    title: "Diseña el futuro de la tecnología",
+    subtitle: "Ingeniería de Élite con IA",
+    description: "Únete a la nueva generación de ingenieros que dominan la IA, el desarrollo de software moderno y la arquitectura de sistemas. Una evolución real, diseñada para mentes ambiciosas.",
+    primaryCtaText: "Comienza tu formación",
     primaryCtaLink: "/auth/register",
-    secondaryCtaText: "EXPLORAR INGENIERÍA",
+    secondaryCtaText: "Ver Cursos",
     secondaryCtaLink: "/courses"
 };
 
@@ -31,24 +31,24 @@ export interface ProcessStep {
 export const FALLBACK_PROCESS: ProcessStep[] = [
     {
         number: '01',
-        title: 'Define tu Objetivo',
-        description: 'Identifica tu meta técnica. Nuestro ecosistema te asigna el protocolo de ingeniería exacto para tu nivel actual.',
+        title: 'Traza tu camino',
+        description: 'Define tus metas técnicas. Nuestro sistema analiza tu perfil y te asigna el protocolo de aprendizaje perfecto para tu nivel actual.',
         icon: '🎯',
-        color: 'from-primary to-blue-600',
+        color: 'from-blue-500 to-indigo-600',
     },
     {
         number: '02',
-        title: 'Construye con IA',
-        description: 'No estás solo. Tu Arquitecto IA te guía en el desarrollo de soluciones reales, optimizando cada línea de código.',
+        title: 'Crea con propósito',
+        description: 'Aprende construyendo soluciones reales. Tu mentor IA te acompaña en cada paso, optimizando tu lógica y tu código.',
         icon: '⚡',
-        color: 'from-blue-600 to-indigo-600',
+        color: 'from-indigo-600 to-purple-600',
     },
     {
         number: '03',
-        title: 'Valida tu Talento',
-        description: 'Tus logros se graban en la infraestructura inmutable de nuestro protocolo, listos para ser verificados por la industria.',
+        title: 'Certifica tu maestría',
+        description: 'Tus habilidades se graban en la red. Obtén validación real y demostrable, respaldada por la infraestructura de SinapCode.',
         icon: '🛡️',
-        color: 'from-indigo-600 to-primary',
+        color: 'from-purple-600 to-blue-500',
     },
 ];
 

@@ -6,6 +6,9 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Sparkles, Code, Database, Shield, Cpu, Cloud, Smartphone, BookOpen, Layers } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { PaymentGate } from '@/components/gates/payment-gate';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 // Mock Data
 const COURSES = [
@@ -94,8 +97,23 @@ const CATEGORIES = [
 ];
 
 export default function CoursesPage() {
+    const { data: session } = useSession();
+    const router = useRouter();
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
+    const [isPaymentGateOpen, setIsPaymentGateOpen] = useState(false);
+    const [targetCourse, setTargetCourse] = useState<string | undefined>(undefined);
+
+    const userHasPremium = session?.user?.role === 'SUPER_ADMIN' || (session?.user as any)?.hasActivePlan;
+
+    const handleCourseClick = (courseTitle?: string) => {
+        if (!userHasPremium) {
+            setTargetCourse(courseTitle);
+            setIsPaymentGateOpen(true);
+            return;
+        }
+        // Logic for entering course would go here if not handled by Link
+    };
 
     const filteredCourses = COURSES.filter(course => {
         const matchesCategory = selectedCategory === 'all' || course.category === selectedCategory;
@@ -193,13 +211,13 @@ export default function CoursesPage() {
                                     <span className="bg-white/5 px-4 py-2 rounded-xl text-xs font-bold text-platinum-dim border border-white/5">📅 {featuredCourse.duration} de Contenido</span>
                                 </div>
                                 <div className="pt-4">
-                                    <Link
-                                        href={`/courses/${featuredCourse.slug}`}
+                                    <button
+                                        onClick={() => handleCourseClick(featuredCourse.title)}
                                         className="inline-flex items-center gap-3 bg-emerald-500 text-deep-space font-black px-10 py-5 rounded-2xl hover:bg-emerald-400 hover:scale-105 transition-all shadow-xl shadow-emerald-500/20 active:scale-95 group"
                                     >
                                         Empezar Ahora
                                         <Sparkles className="w-4 h-4 group-hover:rotate-12 transition-transform" />
-                                    </Link>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -219,21 +237,32 @@ export default function CoursesPage() {
                                 transition={{ duration: 0.3, delay: idx * 0.05 }}
                                 className="h-full"
                             >
-                                <CourseCard
-                                    title={course.title}
-                                    description={course.description}
-                                    level={course.level}
-                                    duration={course.duration}
-                                    image={course.image}
-                                    tags={[course.category]}
-                                    slug={`/courses/${course.slug}`}
-                                    isPro={true}
-                                    progress={course.progress}
-                                />
+                                <div
+                                    onClick={() => handleCourseClick(course.title)}
+                                    className="h-full cursor-pointer"
+                                >
+                                    <CourseCard
+                                        title={course.title}
+                                        description={course.description}
+                                        level={course.level}
+                                        duration={course.duration}
+                                        image={course.image}
+                                        tags={[course.category]}
+                                        slug={userHasPremium ? `/courses/${course.slug}` : '#'}
+                                        isPro={true}
+                                        progress={course.progress}
+                                    />
+                                </div>
                             </motion.div>
                         ))}
                     </AnimatePresence>
                 </motion.div>
+
+                <PaymentGate
+                    isOpen={isPaymentGateOpen}
+                    onClose={() => setIsPaymentGateOpen(false)}
+                    courseTitle={targetCourse}
+                />
 
                 {filteredCourses.length === 0 && (
                     <div className="text-center py-32 bg-surface/20 rounded-[3rem] border border-white/5 border-dashed">

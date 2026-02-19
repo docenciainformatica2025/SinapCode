@@ -123,8 +123,8 @@ export default function RegisterPage() {
 
                 <div className="w-full max-w-md relative z-10 py-6 sm:py-0">
                     <div className="text-center mb-8 lg:text-left">
-                        <Link href="/" className="text-2xl font-black text-white italic tracking-tighter inline-block mb-2 uppercase">
-                            SinapCode
+                        <Link href="/" className="inline-block mb-2">
+                            <img src="/branding/Logo.png" alt="SinapCode" className="h-10 w-auto object-contain" />
                         </Link>
                         <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
                             Crea tu Cuenta

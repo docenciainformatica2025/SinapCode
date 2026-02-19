@@ -1,26 +1,25 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import * as React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export function CookieConsent() {
-    const [isVisible, setIsVisible] = useState(false);
-    const [showPreferences, setShowPreferences] = useState(false);
+    const [mounted, setMounted] = React.useState(false);
+    const [isVisible, setIsVisible] = React.useState(false);
+    const [showPreferences, setShowPreferences] = React.useState(false);
 
     // State for preferences
-    const [preferences, setPreferences] = useState({
+    const [preferences, setPreferences] = React.useState({
         essential: true, // Always true and locked
         analytics: false,
         marketing: false,
     });
 
-    useEffect(() => {
+    React.useEffect(() => {
+        setMounted(true);
         const consent = localStorage.getItem('sinap_cookie_consent');
         if (!consent) {
             setIsVisible(true);
-        } else {
-            // Load saved preferences if they exist to populate standard state (optional, logic depends on if we want to show banner again)
-            // For this component, we only show if *no* consent is found.
         }
     }, []);
 
@@ -78,47 +77,52 @@ export function CookieConsent() {
         setPreferences(prev => ({ ...prev, [key]: !prev[key] }));
     };
 
-    if (!isVisible) return null;
+
+    if (!mounted || !isVisible) return null;
 
     return (
         <>
             {/* Main Banner */}
             {!showPreferences && (
                 <motion.div
-                    initial={{ y: 100, opacity: 0 }}
+                    initial={{ y: 50, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    className="fixed bottom-5 left-1/2 -translate-x-1/2 w-[90%] max-w-4xl bg-[#1A1B20] border border-white/10 rounded-2xl p-6 shadow-2xl z-50 flex flex-col md:flex-row gap-6 items-center"
+                    className="fixed bottom-6 left-6 right-6 md:left-auto md:right-8 md:bottom-8 md:w-[450px] glass-panel-nexus p-8 z-[100] shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/5"
                 >
-                    <div className="flex-1">
-                        <h3 className="text-white font-bold text-lg mb-2 flex items-center gap-2">
-                            Trazabilidad & Privacidad <span className="text-[10px] bg-white/10 px-2 py-0.5 rounded text-platinum">GDPR</span>
-                        </h3>
-                        <p className="text-platinum-dim text-xs leading-relaxed">
-                            Utilizamos cookies y tecnologías de análisis cognitivo para optimizar el rendimiento de la plataforma y adaptar la Inteligencia Artificial a tu ritmo de aprendizaje. Respetamos tu soberanía de datos bajo estándares internacionales.
-                        </p>
-                        <button
-                            onClick={() => setShowPreferences(true)}
-                            className="text-xs text-neural-blue underline mt-2 hover:text-white transition"
-                        >
-                            Configurar Preferencias
-                        </button>
-                    </div>
+                    <div className="flex flex-col gap-6">
+                        <div>
+                            <h3 className="text-white font-bold text-xl mb-3 flex items-center gap-3 tracking-tight text-balance">
+                                Trazabilidad & Privacidad
+                                <span className="text-[10px] bg-primary/20 border border-primary/20 px-2 py-0.5 rounded-full text-primary font-bold uppercase tracking-widest">GDPR</span>
+                            </h3>
+                            <p className="text-platinum-dim text-sm leading-relaxed opacity-80 text-pretty font-medium">
+                                Utilizamos cookies y tecnologías de análisis cognitivo para optimizar el rendimiento de la plataforma y adaptar la IA a tu ritmo de aprendizaje. Respetamos tu soberanía de datos.
+                            </p>
+                            <button
+                                onClick={() => setShowPreferences(true)}
+                                className="text-xs text-primary font-bold mt-4 hover:underline transition-all duration-300"
+                            >
+                                Configurar Preferencias
+                            </button>
+                        </div>
 
-                    <div className="flex flex-col gap-3 min-w-[250px]">
-                        <button
-                            onClick={handleAcceptAll}
-                            className="w-full py-3 bg-neural-blue hover:bg-blue-600 text-white font-bold text-xs rounded-lg shadow-neon-blue transition-all"
-                        >
-                            [ ACEPTAR TODAS Y CONTINUAR ]
-                        </button>
-                        <div className="text-[9px] text-center text-platinum-dim opacity-60">Habilita la personalización completa con IA</div>
-
-                        <button
-                            onClick={handleRejectNonEssential}
-                            className="w-full py-3 bg-transparent border border-white/30 text-platinum hover:bg-white/5 hover:border-white font-bold text-xs rounded-lg transition-all"
-                        >
-                            [ RECHAZAR NO ESENCIALES ]
-                        </button>
+                        <div className="flex flex-col gap-3">
+                            <button
+                                onClick={handleAcceptAll}
+                                className="w-full py-3.5 bg-primary hover:bg-primary-hover text-white font-bold text-sm rounded-xl transition-all duration-300 shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95"
+                            >
+                                Aceptar todas y continuar
+                            </button>
+                            <button
+                                onClick={handleRejectNonEssential}
+                                className="w-full py-3.5 bg-white/[0.03] border border-white/10 text-platinum hover:bg-white/5 font-bold text-sm rounded-xl transition-all duration-300"
+                            >
+                                Rechazar no esenciales
+                            </button>
+                            <div className="text-[10px] text-center text-platinum-dim opacity-40 font-medium mt-1">
+                                Habilita la personalización completa con IA
+                            </div>
+                        </div>
                     </div>
                 </motion.div>
             )}

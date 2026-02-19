@@ -70,7 +70,7 @@ function CheckEmailContent() {
                             </div>
                         </div>
                         <div>
-                            <p className="text-white font-medium mb-1">Haz clic en "INICIAR SINAPSIS"</p>
+                            <p className="text-white font-medium mb-1">Haz clic en &quot;INICIAR SINAPSIS&quot;</p>
                             <p className="text-[#B8BFC9] text-sm">
                                 Esto verificará tu cuenta y activará tu acceso
                             </p>

@@ -57,12 +57,12 @@ export function HeroNewsBanner() {
                     transition={{ duration: 1.5 }}
                     className="absolute inset-0 z-0"
                 >
-                    <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/80 to-transparent z-10" />
-                    <div className="absolute inset-0 bg-gradient-to-r from-bg via-bg/50 to-transparent z-10" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/40 to-transparent z-10" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-bg via-bg/20 to-transparent z-10" />
                     <img
                         src={news.image}
                         alt={news.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover brightness-[1.1]"
                     />
                 </motion.div>
             </AnimatePresence>
@@ -79,9 +79,8 @@ export function HeroNewsBanner() {
                             transition={{ duration: 0.5 }}
                         >
                             {/* Tag */}
-                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/10 mb-6">
-                                <Sparkles className="w-4 h-4 text-primary" />
-                                <span className={`text-sm font-bold bg-clip-text text-transparent bg-gradient-to-r ${news.color}`}>
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-white/5 border border-white/10 mb-6 font-mono">
+                                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-apple-blue">
                                     {news.tag}
                                 </span>
                             </div>
@@ -92,17 +91,17 @@ export function HeroNewsBanner() {
                             </h1>
 
                             {/* Description */}
-                            <p className="text-lg md:text-2xl text-gray-300 mb-10 max-w-2xl leading-relaxed">
+                            <p className="text-lg md:text-2xl text-apple-blue/90 mb-10 max-w-2xl leading-relaxed font-medium">
                                 {news.description}
                             </p>
 
                             {/* CTA */}
                             <Link
                                 href={`/blog/news-${news.id}`}
-                                className="group inline-flex items-center gap-3 px-8 py-4 bg-primary hover:bg-primary-dim text-white rounded-xl font-bold text-lg transition-all duration-300 shadow-[0_0_20px_rgba(25,127,230,0.3)] hover:shadow-[0_0_30px_rgba(25,127,230,0.5)]"
+                                className="group inline-flex items-center gap-2 px-8 py-3.5 bg-[#0A84FF] text-white rounded-xl font-bold text-[15px] transition-all duration-200 hover:bg-[#0060DF] shadow-lg active:scale-95"
                             >
                                 Leer Más
-                                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                             </Link>
                         </motion.div>
                     </AnimatePresence>

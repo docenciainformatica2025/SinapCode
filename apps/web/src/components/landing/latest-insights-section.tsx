@@ -31,20 +31,20 @@ export function LatestInsightsSection() {
     ];
 
     return (
-        <section className="py-24 bg-bg/50 border-y border-white/5">
+        <section id="insights" className="py-24 bg-bg/50 border-y border-white/5">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between mb-16">
-                    <h2 className="text-4xl font-black text-white italic tracking-tighter uppercase">Aprendizajes <span className="text-primary italic">.bin</span></h2>
-                    <Link href="/blog" className="text-sm font-black text-primary uppercase tracking-[0.2em] hover:translate-x-1 transition-transform">Ver todo →</Link>
+                    <h2 className="text-[clamp(1.8rem,5vw,2.8rem)] font-bold text-white tracking-tight leading-[1.1] mb-0">Últimos <span className="text-apple-blue font-extrabold text-glow">Aprendizajes</span></h2>
+                    <Link href="/blog" className="btn-secondary !py-2 !px-5">Ver todo →</Link>
                 </div>
 
                 <div className="grid md:grid-cols-3 gap-8">
                     {articles.map((article, i) => (
-                        <Link key={i} href={article.link} className="group opacity-75 hover:opacity-100 transition-opacity">
-                            <article className="h-full bg-white/5 border border-white/10 rounded-2xl p-6 hover:shadow-md transition-shadow">
-                                <div className="text-4xl mb-4">{article.icon}</div>
-                                <div className="text-xs font-mono text-primary font-bold mb-3">{article.category}</div>
-                                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-primary transition-colors">{article.title}</h3>
+                        <Link key={i} href={article.link} className="group opacity-90 hover:opacity-100 transition-opacity">
+                            <article className="h-full bg-white/[0.02] border border-white/5 rounded-[2rem] p-8 hover:border-apple-blue/20 transition-all duration-500 hover:shadow-2xl">
+                                <div className="text-4xl mb-6">{article.icon}</div>
+                                <div className="text-[10px] font-bold text-apple-blue uppercase tracking-widest mb-4">{article.category}</div>
+                                <h3 className="text-xl font-bold text-white mb-4 group-hover:text-apple-blue transition-colors tracking-tight">{article.title}</h3>
                                 <p className="text-sm text-gray-400 mb-4 font-bold">
                                     {article.excerpt}
                                 </p>

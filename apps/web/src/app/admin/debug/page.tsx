@@ -62,7 +62,7 @@ export default function DebugPage() {
 
             {/* User Search */}
             <div className="p-4 border border-white/20 rounded-lg">
-                <h2 className="text-xl mb-4">2. Detector de Usuarios "Fantasma"</h2>
+                <h2 className="text-xl mb-4">2. Detector de Usuarios &quot;Fantasma&quot;</h2>
                 <div className="flex gap-2 mb-4">
                     <input
                         type="email"

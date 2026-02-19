@@ -14,7 +14,6 @@ export function GlobalHeader() {
     const [userMenuOpen, setUserMenuOpen] = useState(false);
     const pathname = usePathname();
 
-    // Hide header on auth pages and dashboard (dashboard usually has its own layout)
 
 
     useEffect(() => {
@@ -27,10 +26,10 @@ export function GlobalHeader() {
 
     const navLinks = [
         { label: 'Inicio', href: '/' },
-        { label: 'Noticias', href: '/#news' },
-        { label: 'Cursos', href: '/#courses' },
+        { label: 'Noticias', href: '/blog' },
+        { label: 'Cursos', href: '/courses' },
         { label: 'Metodología', href: '/methodology' },
-        { label: 'Proyectos', href: '/#projects' },
+        { label: 'Proyectos', href: '/projects' },
     ];
 
     // Hide header on auth pages and dashboard (dashboard usually has its own layout)
@@ -41,33 +40,34 @@ export function GlobalHeader() {
     return (
         <>
             <motion.header
-                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled || mobileMenuOpen
-                    ? 'bg-bg/80 backdrop-blur-xl border-b border-white/10 shadow-lg'
+                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled || mobileMenuOpen
+                    ? 'glass-4k border-b border-white/10 shadow-2xl translate-y-0'
                     : 'bg-transparent border-b border-white/5'
                     }`}
                 initial={{ y: -100 }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.5 }}
             >
-                <div className="container-page h-20 flex items-center justify-between">
-                    {/* Logo */}
-                    <Link href="/" className="flex items-center gap-2 group relative z-50">
-                        <span className="text-2xl font-black tracking-tighter text-white">
-                            SINAP<span className="text-primary">CODE</span>
-                        </span>
-                        <div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_10px_rgba(25,127,230,0.8)] group-hover:scale-150 transition-transform duration-300" />
+                <div className="container-page py-2 flex items-center justify-between">
+                    {/* Logo Oficial - Responsive */}
+                    <Link href={session ? '/dashboard' : '/'} className="flex items-center group relative z-50 flex-shrink-0">
+                        <img
+                            src="/branding/Logo.png"
+                            alt="SinapCode"
+                            className="h-8 md:h-10 lg:h-12 w-auto max-w-[160px] md:max-w-[200px] lg:max-w-[240px] object-contain group-hover:scale-105 transition-transform duration-300"
+                        />
                     </Link>
 
                     {/* Desktop Navigation */}
-                    <nav className="hidden md:flex items-center gap-8">
+                    <nav className="hidden md:flex items-center gap-10">
                         {navLinks.map((link) => (
                             <Link
                                 key={link.href}
                                 href={link.href}
-                                className="text-sm font-bold text-gray-300 hover:text-white transition-colors relative group"
+                                className="text-[15px] font-medium text-white/70 hover:text-white transition-all duration-200 relative group"
                             >
                                 {link.label}
-                                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+                                <span className={`absolute -bottom-1 left-0 w-full h-[1.5px] bg-apple-blue transition-all duration-200 origin-left ${pathname === link.href ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`} />
                             </Link>
                         ))}
                     </nav>
@@ -138,7 +138,7 @@ export function GlobalHeader() {
                                 </Link>
                                 <Link
                                     href="/auth/register"
-                                    className="px-6 py-2.5 bg-primary hover:bg-primary-dim text-white text-sm font-bold rounded-full transition-all duration-300 shadow-[0_0_15px_rgba(25,127,230,0.4)] hover:shadow-[0_0_25px_rgba(25,127,230,0.6)] hover:-translate-y-0.5"
+                                    className="btn-primary !px-5 !py-2 !text-sm !rounded-lg"
                                 >
                                     Empieza Gratis
                                 </Link>
@@ -149,7 +149,7 @@ export function GlobalHeader() {
                     {/* Mobile Menu Button */}
                     <button
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                        className="md:hidden relative z-50 p-2 text-white hover:text-primary transition-colors"
+                        className="md:hidden relative z-50 p-2 text-white bg-white/5 rounded-xl border border-white/10 hover:text-primary hover:border-primary/50 transition-all shadow-lg"
                     >
                         {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                     </button>
@@ -163,7 +163,7 @@ export function GlobalHeader() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-40 bg-bg/95 backdrop-blur-xl md:hidden flex flex-col pt-24 px-6"
+                        className="fixed inset-0 z-40 glass-4k md:hidden flex flex-col pt-32 px-8"
                     >
                         <nav className="flex flex-col gap-6">
                             {navLinks.map((link) => (

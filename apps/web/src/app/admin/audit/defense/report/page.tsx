@@ -196,12 +196,12 @@ export default function PostMortemReport() {
                         <div className="flex-1 grid grid-cols-2 font-mono text-[11px] overflow-hidden italic-none">
                             {/* Código Vulnerable */}
                             <div className="p-8 bg-[#0d1117]/80 border-r border-white/5 overflow-y-auto custom-scrollbar italic-none">
-                                <div className="text-slate-600 mb-4 select-none">// middleware/auth.js (Original)</div>
+                                <div className="text-slate-600 mb-4 select-none">&#123;`// middleware/auth.js (Original)`&#125;</div>
                                 <div className="space-y-1 opacity-40">
                                     <div>async function login(req, res) {"{"}</div>
                                     <div className="pl-4">const {"{ user, pass }"} = req.body;</div>
                                     <div className="bg-rose-500/10 border-l-2 border-rose-500 pl-4 py-1 -mx-8 w-[calc(100%+4rem)] text-rose-300">
-                                        // VULNERABILIDAD: No rate limiting activo
+                                        &#123;`// VULNERABILIDAD: No rate limiting activo`&#125;
                                     </div>
                                     <div className="bg-rose-500/10 border-l-2 border-rose-500 pl-4 py-1 -mx-8 w-[calc(100%+4rem)] text-rose-300">
                                         const isValid = await checkCredentials(user, pass);
@@ -216,12 +216,12 @@ export default function PostMortemReport() {
                             {/* Código Parcheado */}
                             <div className="p-8 bg-[#0d1117] overflow-y-auto custom-scrollbar relative italic-none">
                                 <div className="absolute inset-0 bg-emerald-500/5 pointer-events-none"></div>
-                                <div className="text-emerald-500/80 mb-4 select-none">// middleware/auth.js (IA Patched)</div>
+                                <div className="text-emerald-500/80 mb-4 select-none">&#123;`// middleware/auth.js (IA Patched)`&#125;</div>
                                 <div className="space-y-1 text-slate-300">
                                     <div>async function login(req, res) {"{"}</div>
                                     <div className="pl-4">const {"{ user, pass }"} = req.body;</div>
                                     <div className="bg-emerald-500/10 border-l-2 border-emerald-500 pl-4 py-1 -mx-8 w-[calc(100%+4rem)] text-emerald-400">
-                                        // PARCHE: Añadido backoff exponencial
+                                        &#123;`// PARCHE: Añadido backoff exponencial`&#125;
                                     </div>
                                     <div className="bg-emerald-500/10 border-l-2 border-emerald-500 pl-4 py-1 -mx-8 w-[calc(100%+4rem)] text-emerald-400">
                                         await rateLimiter.consume(req.ip);

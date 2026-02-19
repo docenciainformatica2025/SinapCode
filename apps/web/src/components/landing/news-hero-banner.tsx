@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Brain, Zap, Cpu, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
 
 interface Banner {
     id: string;
@@ -18,11 +17,11 @@ interface Banner {
 const FALLBACK_NEWS = [
     {
         id: 'fallback-1',
-        title: 'Sincronización Neuronal SinapCode',
-        description: 'La infraestructura de IA más avanzada para la próxima generación de ingenieros.',
-        imageUrl: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=2000',
-        category: 'Infrasctructura',
-        linkUrl: '#',
+        title: 'Conecta. Crea. Evoluciona.',
+        description: 'La plataforma de ingeniería de élite impulsada por IA para la próxima generación de desarrolladores.',
+        imageUrl: '/branding/hero-banner.png',
+        category: 'SinapCode',
+        linkUrl: '/auth/register',
     }
 ];
 
@@ -76,29 +75,25 @@ export function NewsHeroBanner() {
 
     return (
         <section className="relative w-full h-[60vh] md:h-[75vh] flex items-center overflow-hidden bg-black group/banner subpixel-text">
-            <AnimatePresence mode="wait">
+            <Link href={activeNews.linkUrl} className="absolute inset-0 z-0 cursor-pointer block">
                 <motion.div
                     key={activeNews.id}
                     initial={{ opacity: 0, scale: 1.1 }}
-                    animate={{ opacity: 0.6, scale: 1 }}
+                    animate={{ opacity: 0.85, scale: 1 }}
                     exit={{ opacity: 0, scale: 1.05 }}
                     transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-                    className="absolute inset-0 z-0"
+                    className="absolute inset-0"
                 >
-                    <Image
+                    <img
                         src={activeNews.imageUrl}
                         alt={activeNews.title}
-                        fill
-                        className="object-cover"
-                        priority
-                        quality={90}
-                        sizes="100vw"
+                        className="absolute inset-0 w-full h-full object-cover brightness-[1.1]"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent z-10" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent z-10" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10" />
-                    <div className="absolute inset-0 sharp-vignette opacity-80" />
+                    <div className="absolute inset-0 sharp-vignette opacity-40" />
                 </motion.div>
-            </AnimatePresence>
+            </Link>
 
             <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden">
                 <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[150px] animate-pulse will-change-transform" />
@@ -109,56 +104,57 @@ export function NewsHeroBanner() {
                 <div className="max-w-4xl space-y-8">
                     <motion.div
                         key={`meta-${activeNews.id}`}
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-4k"
+                        transition={{ duration: 0.4, delay: 0.2 }}
+                        className="inline-flex items-center gap-2 px-4 py-1.5 rounded-lg bg-white/5 border border-white/10"
                     >
-                        <span className="text-primary">{CATEGORY_ICONS[activeNews.category || 'Default']}</span>
-                        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-platinum">
+                        <span className="text-[#0A84FF]">{CATEGORY_ICONS[activeNews.category || 'Default']}</span>
+                        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">
                             {activeNews.category || 'MOMENTUM'}
                         </span>
                     </motion.div>
 
-                    <motion.h2
-                        key={`title-${activeNews.id}`}
-                        initial={{ opacity: 0, x: -30 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-                        className="text-[clamp(1.5rem,5vw,3.2rem)] font-black text-white leading-[1.05] tracking-tighter italic text-glow"
-                    >
-                        {activeNews.title}
-                    </motion.h2>
+                    <Link href={activeNews.linkUrl} className="block transition-transform hover:scale-[1.01] active:scale-100 cursor-pointer">
+                        <motion.h2
+                            key={`title-${activeNews.id}`}
+                            initial={{ opacity: 0, x: -30 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+                            className="text-[clamp(2rem,6vw,4rem)] font-bold text-white leading-[1.1] tracking-tight text-glow text-balance mb-8"
+                        >
+                            {activeNews.title}
+                        </motion.h2>
 
-                    <motion.p
-                        key={`desc-${activeNews.id}`}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 1, delay: 0.5 }}
-                        className="text-lg md:text-xl text-platinum-dim max-w-2xl leading-relaxed font-bold opacity-80"
-                    >
-                        {activeNews.description}
-                    </motion.p>
+                        <motion.p
+                            key={`desc-${activeNews.id}`}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 1, delay: 0.5 }}
+                            className="text-lg md:text-xl text-white/90 max-w-2xl leading-relaxed font-medium text-pretty"
+                        >
+                            {activeNews.description}
+                        </motion.p>
+                    </Link>
 
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.7 }}
+                        transition={{ duration: 0.4, delay: 0.7 }}
                         className="flex items-center gap-8 pt-6"
                     >
                         <Link
                             href={activeNews.linkUrl}
-                            className="group relative px-10 py-5 bg-white text-black rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all hover:bg-primary hover:text-white shadow-[0_20px_40px_rgba(255,255,255,0.1)] active:scale-95 overflow-hidden"
+                            className="group relative px-10 py-4 bg-[#0A84FF] text-white rounded-xl font-bold text-sm transition-all hover:bg-[#0060DF] active:scale-95 shadow-lg"
                         >
                             <span className="relative z-10 flex items-center gap-2">
-                                LEER MÁS <ArrowRight className="w-4 h-4" />
+                                Leer más <ArrowRight className="w-4 h-4" />
                             </span>
-                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                         </Link>
 
-                        <div className="flex items-center gap-2 text-white/50 font-black text-[10px] uppercase tracking-[0.2em]">
-                            <Sparkles className="w-4 h-4 text-primary animate-pulse" />
-                            <span>GENERADO POR SINAPCODE AI</span>
+                        <div className="flex items-center gap-2 text-white/30 font-bold text-[10px] uppercase tracking-widest">
+                            <span className="w-1 h-1 rounded-full bg-[#0A84FF]" />
+                            <span>Sintetizado por SinapCode AI</span>
                         </div>
                     </motion.div>
                 </div>

@@ -1,137 +1,122 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 export function LandingNavbar() {
+    const pathname = usePathname();
+    const { data: session } = useSession();
     const [scrolled, setScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [activeSection, setActiveSection] = useState('');
-    const [siteConfig, setSiteConfig] = useState<any>(null);
 
-    useEffect(() => {
-        // Fetch Site Config
-        fetch('/api/site-config')
-            .then(res => res.json())
-            .then(data => setSiteConfig(data))
-            .catch(() => { });
-
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 20);
-            // ... rest of scroll logic
-        };
-        // ...
-    }, []);
-
-    // ... (rest of the logic remains similar, just use siteConfig.siteName and siteConfig.logoUrl)
-
-    // Logic for scroll spy
-    useEffect(() => {
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 20);
-
-            const sections = ['cursos', 'como-funciona', 'proyectos', 'demo'];
-            const scrollPosition = window.scrollY + 100;
-
-            for (const section of sections) {
-                const element = document.getElementById(section);
-                if (element) {
-                    const offsetTop = element.offsetTop;
-                    const offsetHeight = element.offsetHeight;
-
-                    if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-                        setActiveSection(`#${section}`);
-                        return;
-                    }
-                }
-            }
-            setActiveSection('');
-        };
-
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-
-    const [navLinks, setNavLinks] = useState<any[]>([
-        { label: 'Cursos', href: '#cursos' },
+    const [navLinks, setNavLinks] = useState([
+        { label: 'Inicio', href: '/' },
+        { label: 'Noticias', href: '/blog' },
+        { label: 'Cursos', href: '/courses' },
         { label: 'Metodología', href: '/methodology' },
-        { label: 'Proyectos', href: '#proyectos' },
-        { label: 'Blog', href: '/blog' },
+        { label: 'Proyectos', href: '/projects' },
     ]);
 
+    // Smart logo redirect: logged in → dashboard, not logged in → home
+    const logoHref = session ? '/dashboard' : '/';
+
     useEffect(() => {
-        // Fetch Site Config
-        fetch('/api/site-config')
-            .then(res => res.json())
-            .then(data => setSiteConfig(data))
-            .catch(() => { });
+        // 1. Fetch Navigation
+        fetch('/api/navigation').then(res => res.json()).then((navData) => {
+            if (navData.menus?.header && navData.menus.header.length > 0) {
+                const headerLinks = navData.menus.header.map((l: any) => {
+                    const label = l.label.toLowerCase();
+                    if (label.includes('curso') || label.includes('academia')) return { ...l, label: 'Cursos', href: '/courses' };
+                    if (label.includes('noticia') || label.includes('blog')) return { ...l, label: 'Noticias', href: '/blog' };
+                    if (label.includes('metodo')) return { ...l, label: 'Metodología', href: '/methodology' };
+                    if (label.includes('proyecto') || label.includes('exito')) return { ...l, label: 'Proyectos', href: '/projects' };
+                    if (label.includes('inicio')) return { ...l, label: 'Inicio', href: '/' };
+                    return l;
+                });
+                setNavLinks(headerLinks);
+            }
+        }).catch(() => { });
 
-        // Fetch Navigation
-        fetch('/api/navigation')
-            .then(res => res.json())
-            .then(data => {
-                if (data.menus?.header && data.menus.header.length > 0) {
-                    // 1. Create a copy and REMOVE any existing 'Metodología' link (to avoid duplicates or bad hrefs)
-                    const headerLinks = data.menus.header.filter((l: any) => l.label !== 'Metodología');
+        // 2. Window Scroll Listener
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 20);
+        };
+        window.addEventListener('scroll', handleScroll);
 
-                    // 2. Force Insert the correct link
-                    const insertIdx = headerLinks.findIndex((l: any) => l.label.toLowerCase().includes('cursos'));
-                    if (insertIdx !== -1) {
-                        headerLinks.splice(insertIdx + 1, 0, { label: 'Metodología', href: '/methodology' });
-                    } else {
-                        headerLinks.push({ label: 'Metodología', href: '/methodology' });
-                    }
+        // 3. Intersection Observer (Scroll Spy)
+        const sections = ['courses', 'methodology', 'projects', 'demo', 'membresia'];
+        const observers: IntersectionObserver[] = [];
 
-                    setNavLinks(headerLinks);
-                }
-            })
-            .catch(() => { });
+        sections.forEach(sectionId => {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                const observer = new IntersectionObserver(
+                    (entries) => {
+                        entries.forEach((entry) => {
+                            if (entry.isIntersecting) {
+                                setActiveSection(`/#${entry.target.id}`);
+                            }
+                        });
+                    },
+                    { threshold: 0.1, rootMargin: '-10% 0px -80% 0px' }
+                );
+                observer.observe(element);
+                observers.push(observer);
+            }
+        });
 
-        // ... (rest of scroll logic is in the other useEffect)
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            observers.forEach(observer => observer.disconnect());
+        };
     }, []);
-
-    const siteDisplayName = siteConfig?.siteName || 'SINAPCODE';
 
     return (
         <>
             <motion.nav
                 suppressHydrationWarning
-                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-                    ? 'bg-bg/80 backdrop-blur-md border-b border-white/10'
-                    : 'bg-transparent border-b border-transparent'
+                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled
+                    ? 'bg-black/80 backdrop-blur-2xl shadow-2xl py-3'
+                    : 'bg-transparent py-5'
                     }`}
                 initial={{ y: -100 }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.5 }}
             >
                 <div className="container-page h-16 sm:h-20 flex items-center justify-between">
-                    {/* Logo sin puntos decorativos */}
-                    <Link href="/" className="flex items-center gap-2 group">
-                        {siteConfig?.logoUrl ? (
-                            <img src={siteConfig.logoUrl} alt={siteDisplayName} className="h-6 w-auto object-contain" />
-                        ) : (
-                            <span className="text-xl font-black tracking-tighter text-white group-hover:text-primary transition-colors flex items-center gap-2">
-                                <div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(25,127,230,0.8)]" />
-                                SINAP<span className="text-primary group-hover:text-blue-400 transition-colors uppercase">CODE</span>
-                            </span>
-                        )}
+                    {/* Logo Oficial - Solo imagen, sin texto */}
+                    <Link href={logoHref} className="flex-shrink-0 group" title="SinapCode">
+                        <Image
+                            src="/branding/Logo.png"
+                            alt="SinapCode"
+                            width={160}
+                            height={40}
+                            className="h-8 sm:h-10 w-auto object-contain group-hover:scale-105 transition-transform duration-300"
+                            priority
+                        />
                     </Link>
 
-                    {/* Desktop Navigation Links */}
                     <div className="hidden md:flex items-center gap-8 text-sm font-bold text-platinum-dim">
                         {navLinks.map((link) => {
-                            const isActive = activeSection === link.href || (link.href === '/blog' && typeof window !== 'undefined' && window.location.pathname === '/blog');
+                            const isHome = pathname === '/';
+                            const isMatchPath = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
+                            const isMatchSection = isHome && activeSection === link.href;
+                            const isActive = isMatchPath || isMatchSection;
 
                             return (
-                                <a
+                                <Link
                                     key={link.href}
                                     href={link.href}
                                     className={`transition-colors relative group ${isActive ? 'text-primary font-semibold' : 'text-platinum-dim hover:text-white'}`}
                                 >
                                     {link.label}
                                     <span className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`} />
-                                </a>
+                                </Link>
                             );
                         })}
                     </div>
@@ -182,27 +167,40 @@ export function LandingNavbar() {
                     >
                         <div className="p-6 space-y-6">
                             <div className="flex justify-between items-center mb-8">
-                                <span className="font-bold text-white">Menu</span>
+                                <Image
+                                    src="/branding/Logo.png"
+                                    alt="SinapCode"
+                                    width={120}
+                                    height={30}
+                                    className="h-6 w-auto object-contain"
+                                />
                                 <button onClick={() => setMobileMenuOpen(false)} className="text-gray-400">✕</button>
                             </div>
 
                             <div className="space-y-4">
-                                {navLinks.map((link) => (
-                                    <a
-                                        key={link.href}
-                                        href={link.href}
-                                        onClick={() => setMobileMenuOpen(false)}
-                                        className="block text-lg font-bold text-platinum hover:text-primary transition-colors"
-                                    >
-                                        {link.label}
-                                    </a>
-                                ))}
+                                {navLinks.map((link) => {
+                                    const isHome = pathname === '/';
+                                    const isMatchPath = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
+                                    const isMatchSection = isHome && activeSection === link.href;
+                                    const isActive = isMatchPath || isMatchSection;
+
+                                    return (
+                                        <Link
+                                            key={link.href}
+                                            href={link.href}
+                                            onClick={() => setMobileMenuOpen(false)}
+                                            className={`block text-lg font-bold transition-colors ${isActive ? 'text-primary' : 'text-platinum hover:text-primary'}`}
+                                        >
+                                            {link.label}
+                                        </Link>
+                                    );
+                                })}
                             </div>
 
-                            <div className="pt-8 border-t border-gray-100 space-y-4">
+                            <div className="pt-8 border-t border-white/10 space-y-4">
                                 <Link
                                     href="/auth/login"
-                                    className="block w-full py-3 text-center text-gray-700 border border-gray-200 rounded-xl hover:bg-gray-50 transition"
+                                    className="block w-full py-3 text-center text-platinum-dim border border-white/10 rounded-xl hover:bg-white/5 transition"
                                     onClick={() => setMobileMenuOpen(false)}
                                 >
                                     Ingresar
