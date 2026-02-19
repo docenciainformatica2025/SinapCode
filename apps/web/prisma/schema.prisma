@@ -23,7 +23,7 @@ model User {
   image         String?
   password      String?
   role          Role      @default(STUDENT)
-// bio           String?   @db.Text
+  bio           String?   @db.Text
   
   // Security fields
   mfaEnabled       Boolean   @default(false)
