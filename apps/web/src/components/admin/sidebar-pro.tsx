@@ -96,13 +96,11 @@ export function AdminSidebarPro({ collapsed = false, onToggle }: SidebarProps) {
                             exit={{ opacity: 0 }}
                             className="flex items-center gap-2"
                         >
-                            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-neural-blue to-synapse-purple flex items-center justify-center">
-                                <Zap className="h-5 w-5 text-white" />
-                            </div>
-                            <div>
-                                <h2 className="text-white font-bold text-sm">SinapCode</h2>
-                                <p className="text-platinum-dim text-xs">Admin Pro</p>
-                            </div>
+                            <img
+                                src="/branding/Logo.png"
+                                alt="SinapCode"
+                                className="h-8 w-auto object-contain"
+                            />
                         </motion.div>
                     )}
                     <button

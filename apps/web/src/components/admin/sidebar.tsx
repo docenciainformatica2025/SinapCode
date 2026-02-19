@@ -117,13 +117,11 @@ export function AdminSidebar({ isOpen = true, onClose }: AdminSidebarProps) {
                 {/* Logo/Brand */}
                 <div className="flex h-16 items-center justify-between border-b border-white/5 px-6">
                     <div className="flex items-center gap-3">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-neural-blue to-synapse-purple">
-                            <Zap className="h-5 w-5 text-white" />
-                        </div>
-                        <div>
-                            <div className="text-sm font-bold text-white">SinapCode</div>
-                            <div className="text-xs text-platinum-dim">Admin Panel</div>
-                        </div>
+                        <img
+                            src="/branding/Logo.png"
+                            alt="SinapCode"
+                            className="h-8 w-auto object-contain"
+                        />
                     </div>
                     {/* Mobile Close Button */}
                     <button
