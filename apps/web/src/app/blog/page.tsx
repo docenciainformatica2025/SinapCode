@@ -60,9 +60,9 @@ export default async function BlogPage() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-24 sm:py-32">
                 {/* Header 4K */}
                 <div className="mb-24 text-center">
-                    <motion_div_placeholder className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-4k mb-8">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-4k mb-8">
                         <span className="text-[10px] font-black uppercase tracking-[0.4em] text-platinum italic">Protocolos de Conocimiento</span>
-                    </motion_div_placeholder>
+                    </div>
 
                     <h1 className="text-5xl md:text-7xl font-black text-white mb-8 tracking-tighter italic uppercase text-glow">
                         Nexus <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-indigo-400">Insights</span>
@@ -106,7 +106,4 @@ export default async function BlogPage() {
     );
 }
 
-// Minimal placeholder for motion.div since I'm in a Server Component context
-function motion_div_placeholder({ children, className }: any) {
-    return <div className={className}>{children}</div>;
-}
+
