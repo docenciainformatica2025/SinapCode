@@ -4,7 +4,7 @@
 
 **Error:** `Could not find Prisma Schema`
 
-**Causa:** El schema de Prisma está en `/prisma/schema.prisma` (raíz del proyecto), pero Vercel intenta ejecutar `npx prisma generate` desde `apps/web`.
+**Causa:** El schema de Prisma está en `apps/web/prisma/schema.prisma`. Si Vercel no está configurado con el "Root Directory" correcto, puede fallar al localizarlo.
 
 ---
 

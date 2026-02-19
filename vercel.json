@@ -1,5 +1,5 @@
 {
-    "buildCommand": "cd ../.. && npx prisma generate --schema=apps/web/prisma/schema.prisma && cd apps/web && next build",
+    "buildCommand": "cd apps/web && npx prisma generate && next build",
     "outputDirectory": "apps/web/.next",
     "framework": "nextjs"
 }
