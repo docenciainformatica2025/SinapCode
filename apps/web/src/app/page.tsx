@@ -1,3 +1,4 @@
+import { NewsHeroBanner } from '@/components/landing/news-hero-banner';
 import { CoursesPreviewSection } from '@/components/landing/courses-preview-section';
 import { SocialProofSection } from '@/components/landing/social-proof-section';
 import { AIDemoSection } from '@/components/landing/ai-demo-section';
@@ -13,7 +14,10 @@ export default async function HomePage() {
     return (
         <div className="min-h-screen bg-black">
             <main>
-                {/* 1. Autoridad: Validación Social y Trust */}
+                {/* 1. Banner de Noticias */}
+                <NewsHeroBanner />
+
+                {/* 2. Autoridad: Validación Social y Trust */}
                 <SocialProofSection data={landingData.socialProof} />
 
                 {/* 3. Inmersión: La Experiencia (WOW Factor) */}
