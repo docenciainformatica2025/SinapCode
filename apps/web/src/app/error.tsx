@@ -13,7 +13,7 @@ export default function Error({
 }) {
     useEffect(() => {
         // Log the error to an error reporting service
-        console.error('Runtime Error:', error);
+        console.error('Error de Tiempo de Ejecución:', error);
     }, [error]);
 
     return (

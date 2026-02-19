@@ -21,7 +21,7 @@ export default function AuditPage() {
                     setLogs(data);
                 }
             } catch (error) {
-                console.error('Failed to fetch audit logs', error);
+                console.error('Error al obtener registros de auditoría:', error);
             } finally {
                 setLoading(false);
             }

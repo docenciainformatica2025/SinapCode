@@ -51,7 +51,7 @@ export async function POST(request: Request) {
 
         return NextResponse.json(newPlan);
     } catch (error) {
-        console.error('Create Plan Error:', error);
+        console.error('Error al crear Plan:', error);
         return NextResponse.json({ error: 'Failed to create plan' }, { status: 500 });
     }
 }

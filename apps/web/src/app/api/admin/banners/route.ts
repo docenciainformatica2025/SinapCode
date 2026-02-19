@@ -25,7 +25,7 @@ export async function GET(request: Request) {
 
         return NextResponse.json({ banners });
     } catch (error) {
-        console.error('Banners API Error:', error);
+        console.error('Error en la API de Banners:', error);
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
 }
@@ -53,7 +53,7 @@ export async function POST(request: Request) {
 
         return NextResponse.json(newBanner);
     } catch (error) {
-        console.error('Create Banner Error:', error);
+        console.error('Error al crear Banner:', error);
         return NextResponse.json({ error: 'Failed to create banner' }, { status: 500 });
     }
 }

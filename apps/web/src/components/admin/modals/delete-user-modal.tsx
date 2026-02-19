@@ -64,7 +64,7 @@ export function DeleteUserModal({ user, isOpen, onClose, onSuccess }: DeleteUser
                 toast.error(data.error || 'Error al eliminar usuario');
             }
         } catch (error) {
-            console.error('Error deleting user:', error);
+            console.error('Error al eliminar usuario:', error);
             toast.error('Error al eliminar usuario');
         } finally {
             setIsDeleting(false);

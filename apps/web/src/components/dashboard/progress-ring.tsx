@@ -21,13 +21,13 @@ export function ProgressRing({
 
     return (
         <div className="relative inline-flex items-center justify-center">
-            <svg width={size} height={size} className="transform -rotate-90">
+            <svg width={size} height={size} className="transform -rotate-90 drop-shadow-[0_0_8px_rgba(59,130,246,0.3)]">
                 {/* Background circle */}
                 <circle
                     cx={size / 2}
                     cy={size / 2}
                     r={radius}
-                    stroke="rgba(255, 255, 255, 0.1)"
+                    stroke="rgba(255, 255, 255, 0.05)"
                     strokeWidth={strokeWidth}
                     fill="none"
                 />
@@ -45,7 +45,6 @@ export function ProgressRing({
                     transition={{ duration: 1, ease: 'easeOut' }}
                     style={{
                         strokeDasharray: circumference,
-                        filter: `drop-shadow(0 0 8px ${color})`,
                     }}
                 />
             </svg>

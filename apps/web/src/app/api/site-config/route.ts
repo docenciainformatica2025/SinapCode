@@ -28,7 +28,7 @@ export async function GET() {
 
         return NextResponse.json(config);
     } catch (error) {
-        console.error('Public Site Config Error:', error);
+        console.error('Error en Configuración del Sitio Pública:', error);
         return NextResponse.json({ siteName: 'SinapCode' }, { status: 500 });
     }
 }

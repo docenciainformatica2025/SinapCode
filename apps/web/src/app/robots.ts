@@ -1,5 +1,7 @@
 import { MetadataRoute } from 'next';
 
+import { siteConfig } from '@/lib/site-config';
+
 export default function robots(): MetadataRoute.Robots {
     return {
         rules: [
@@ -14,6 +16,6 @@ export default function robots(): MetadataRoute.Robots {
                 disallow: ['/admin/', '/api/', '/dashboard/private/', '/auth/'],
             },
         ],
-        sitemap: 'https://sinapcode.com/sitemap.xml',
+        sitemap: `${siteConfig.url}/sitemap.xml`,
     };
 }

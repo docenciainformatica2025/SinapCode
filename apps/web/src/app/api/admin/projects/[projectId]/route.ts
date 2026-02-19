@@ -42,7 +42,7 @@ export async function PUT(
 
         return NextResponse.json(updatedProject);
     } catch (error) {
-        console.error('Update Project Error:', error);
+        console.error('Error al actualizar Proyecto:', error);
         return NextResponse.json({ error: 'Failed to update project' }, { status: 500 });
     }
 }
@@ -63,7 +63,7 @@ export async function DELETE(
 
         return NextResponse.json({ message: 'Project deleted successfully' });
     } catch (error) {
-        console.error('Delete Project Error:', error);
+        console.error('Error al eliminar Proyecto:', error);
         return NextResponse.json({ error: 'Failed to delete project' }, { status: 500 });
     }
 }

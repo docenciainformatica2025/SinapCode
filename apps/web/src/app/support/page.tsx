@@ -34,7 +34,7 @@ function getSLAContent() {
             slaRows
         };
     } catch (error) {
-        console.error('Error reading SLA content:', error);
+        console.error('Error al leer contenido de SLA:', error);
         return { raw: '', slaRows: [] };
     }
 }

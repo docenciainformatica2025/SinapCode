@@ -40,7 +40,7 @@ export async function PUT(request: Request, { params }: { params: { planId: stri
 
         return NextResponse.json(updatedPlan);
     } catch (error) {
-        console.error('Update Plan Error:', error);
+        console.error('Error al actualizar Plan:', error);
         return NextResponse.json({ error: 'Failed to update plan' }, { status: 500 });
     }
 }
@@ -60,7 +60,7 @@ export async function DELETE(request: Request, { params }: { params: { planId: s
 
         return NextResponse.json({ success: true });
     } catch (error) {
-        console.error('Delete Plan Error:', error);
+        console.error('Error al eliminar Plan:', error);
         return NextResponse.json({ error: 'Failed to delete plan' }, { status: 500 });
     }
 }

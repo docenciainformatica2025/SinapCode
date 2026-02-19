@@ -112,7 +112,7 @@ export async function POST(
         });
 
     } catch (error: any) {
-        console.error('Error suspending user:', error);
+        console.error('Error al suspender al usuario:', error);
         return NextResponse.json({ error: 'Error al suspender usuario' }, { status: 500 });
     }
 }

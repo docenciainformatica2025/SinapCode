@@ -1,4 +1,5 @@
 import { Resend } from 'resend';
+import { siteConfig } from './site-config';
 
 // Use hardcoded API key as fallback
 const RESEND_API_KEY = process.env.RESEND_API_KEY || 're_ECh6b4DS_Ft8smJZMKuWoZEmDh2pg3Zxq';
@@ -109,9 +110,9 @@ const getVerificationEmailHTML = (confirmLink: string, email: string) => {
                                 Todos los derechos reservados.
                             </p>
                             <p style="margin: 10px 0 0;">
-                                <a href="https://sinapcode.com/terminos" style="color: #666; text-decoration: underline; font-size: 12px;">Términos</a>
+                                <a href="${siteConfig.url}/legal/terms" style="color: #666; text-decoration: underline; font-size: 12px;">Términos</a>
                                 <span style="color: #666; font-size: 12px;"> • </span>
-                                <a href="https://sinapcode.com/privacidad" style="color: #666; text-decoration: underline; font-size: 12px;">Privacidad</a>
+                                <a href="${siteConfig.url}/privacy" style="color: #666; text-decoration: underline; font-size: 12px;">Privacidad</a>
                             </p>
                         </td>
                     </tr>
@@ -130,8 +131,8 @@ export const sendVerificationEmail = async (email: string, token: string) => {
 
 
     if (!RESEND_API_KEY) {
-        console.error('[EMAIL] ❌ RESEND_API_KEY is not set!');
-        return { success: false, error: 'API key not configured' };
+        console.error('[EMAIL] ❌ ¡RESEND_API_KEY no está configurada!');
+        return { success: false, error: 'API key no configurada' };
     }
 
     try {
@@ -151,14 +152,14 @@ export const sendVerificationEmail = async (email: string, token: string) => {
         });
 
         if (error) {
-            console.error('[EMAIL] ❌ Resend API error:', error);
+            console.error('[EMAIL] ❌ Error de la API de Resend:', error);
             return { success: false, error };
         }
 
 
         return { success: true, data };
     } catch (error) {
-        console.error('[EMAIL] ❌ Exception during email sending:', error);
+        console.error('[EMAIL] ❌ Excepción durante el envío del correo:', error);
         return { success: false, error };
     }
 };

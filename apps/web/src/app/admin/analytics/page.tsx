@@ -1,10 +1,10 @@
 'use client';
 
 import { Breadcrumbs } from '@/components/admin/breadcrumbs';
+import { MarketingROIDashboard } from '@/components/admin/analytics/marketing-roi-dashboard';
 import { UsageChart } from '@/components/admin/analytics/usage-chart';
 import { PerformanceMetrics } from '@/components/admin/analytics/performance-metrics';
 import { ExportReports } from '@/components/admin/analytics/export-reports';
-
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 
@@ -21,7 +21,7 @@ export default function AnalyticsPage() {
                     setAnalyticsData(data);
                 }
             } catch (error) {
-                console.error('Error fetching analytics:', error);
+                console.error('Error al obtener analíticas:', error);
                 toast.error('Error al cargar analíticas');
             } finally {
                 setLoading(false);
@@ -32,17 +32,18 @@ export default function AnalyticsPage() {
     }, []);
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-12 pb-20">
             <Breadcrumbs />
 
-            <div>
-                <h2 className="text-3xl font-bold text-white mb-2">Panel de Analíticas</h2>
-                <p className="text-platinum-dim">Métricas y análisis de la plataforma en tiempo real</p>
-            </div>
+            {/* Marketing ROI Panel - The new Star Component */}
+            <MarketingROIDashboard />
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <UsageChart data={analyticsData?.usage || null} />
-                <PerformanceMetrics />
+            <div className="pt-12 border-t border-white/5">
+                <h3 className="text-2xl font-black text-white mb-8 tracking-tighter italic">Analíticas de <span className="text-primary">Uso_</span></h3>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <UsageChart data={analyticsData?.usage || null} />
+                    <PerformanceMetrics />
+                </div>
             </div>
 
             <ExportReports />

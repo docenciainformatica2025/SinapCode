@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from "@/lib/auth-options";
 import { prisma } from "@/lib/prisma";
-import { Prisma } from '@prisma/client';
+// import { Prisma } from '@prisma/client';
 
 // SECURITY: Only ADMIN/SUPER_ADMIN can manage projectss
 const isAuthorized = async (session: any) => {
@@ -20,7 +20,7 @@ export async function GET(request: Request) {
         // Let's secure it as it returns draft items too.
         const session = await getServerSession(authOptions);
         if (!await isAuthorized(session)) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+            return NextResponse.json({ error: 'No autorizado' }, { status: 403 });
         }
 
         const projects = await prisma.cmsProject.findMany({
@@ -29,8 +29,8 @@ export async function GET(request: Request) {
 
         return NextResponse.json({ projects });
     } catch (error) {
-        console.error('Projects API Error:', error);
-        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+        console.error('Error en la API de proyectos (GET):', error);
+        return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 });
     }
 }
 
@@ -38,7 +38,7 @@ export async function POST(request: Request) {
     try {
         const session = await getServerSession(authOptions);
         if (!await isAuthorized(session)) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+            return NextResponse.json({ error: 'No autorizado' }, { status: 403 });
         }
 
         const body = await request.json();
@@ -66,7 +66,7 @@ export async function POST(request: Request) {
 
         return NextResponse.json(newProject);
     } catch (error) {
-        console.error('Create Project Error:', error);
-        return NextResponse.json({ error: 'Failed to create project' }, { status: 500 });
+        console.error('Error al crear proyecto (POST):', error);
+        return NextResponse.json({ error: 'Error al crear el proyecto' }, { status: 500 });
     }
 }

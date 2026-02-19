@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { toast } from 'sonner';
+import { ConsentCheckbox } from '@/components/legal/consent-checkbox';
 
 export default function ContactPage() {
     const [formData, setFormData] = useState({
@@ -12,9 +13,16 @@ export default function ContactPage() {
         message: '',
     });
     const [loading, setLoading] = useState(false);
+    const [privacyAccepted, setPrivacyAccepted] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (!privacyAccepted) {
+            toast.error('Debes aceptar la política de privacidad para continuar.');
+            return;
+        }
+
         setLoading(true);
 
         // Simulate API call
@@ -25,6 +33,7 @@ export default function ContactPage() {
         });
 
         setFormData({ name: '', email: '', subject: '', message: '' });
+        setPrivacyAccepted(false);
         setLoading(false);
     };
 
@@ -115,9 +124,19 @@ export default function ContactPage() {
                                 />
                             </div>
 
+                            {/* Habeas Data Checkbox */}
+                            <div className="bg-white/5 p-3 rounded-lg border border-white/10">
+                                <ConsentCheckbox
+                                    documentType="privacy"
+                                    documentVersion="2.1.1" // Align with privacy policy version
+                                    required
+                                    onChange={setPrivacyAccepted}
+                                />
+                            </div>
+
                             <button
                                 type="submit"
-                                disabled={loading}
+                                disabled={loading || !privacyAccepted}
                                 className="w-full bg-neural-blue text-white font-bold py-3 rounded-lg hover:bg-blue-600 transition shadow-neon-blue disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                             >
                                 {loading ? (
@@ -163,7 +182,7 @@ export default function ContactPage() {
                                     <div>
                                         <p className="text-sm font-semibold text-white">Twitter</p>
                                         <a href="https://twitter.com/sinapcode" target="_blank" rel="noopener noreferrer" className="text-[#B8BFC9] hover:text-white transition">
-                                            @sinapcode
+                                            @SINAPCODE
                                         </a>
                                     </div>
                                 </div>

@@ -16,7 +16,7 @@ export async function GET(request: Request) {
     try {
         const session = await getServerSession(authOptions);
         if (!await isAuthorized(session)) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+            return NextResponse.json({ error: 'No autorizado' }, { status: 403 });
         }
 
         const programs = await prisma.course.findMany({
@@ -30,8 +30,8 @@ export async function GET(request: Request) {
 
         return NextResponse.json({ programs });
     } catch (error) {
-        console.error('Programs API Error:', error);
-        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+        console.error('Error en la API de programas (GET):', error);
+        return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 });
     }
 }
 
@@ -39,7 +39,7 @@ export async function POST(request: Request) {
     try {
         const session = await getServerSession(authOptions);
         if (!await isAuthorized(session)) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+            return NextResponse.json({ error: 'No autorizado' }, { status: 403 });
         }
 
         const body = await request.json();
@@ -64,7 +64,7 @@ export async function POST(request: Request) {
 
         return NextResponse.json(newCourse);
     } catch (error) {
-        console.error('Create Course Error:', error);
-        return NextResponse.json({ error: 'Failed to create course' }, { status: 500 });
+        console.error('Error al crear curso (POST):', error);
+        return NextResponse.json({ error: 'Error al crear el curso' }, { status: 500 });
     }
 }

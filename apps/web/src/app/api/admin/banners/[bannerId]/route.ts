@@ -42,7 +42,7 @@ export async function PUT(
 
         return NextResponse.json(updatedBanner);
     } catch (error) {
-        console.error('Update Banner Error:', error);
+        console.error('Error al actualizar Banner:', error);
         return NextResponse.json({ error: 'Failed to update banner' }, { status: 500 });
     }
 }
@@ -63,7 +63,7 @@ export async function DELETE(
 
         return NextResponse.json({ success: true });
     } catch (error) {
-        console.error('Delete Banner Error:', error);
+        console.error('Error al eliminar Banner:', error);
         return NextResponse.json({ error: 'Failed to delete banner' }, { status: 500 });
     }
 }

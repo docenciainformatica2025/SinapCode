@@ -37,7 +37,7 @@ export class AuditLogger {
         };
 
         // En producción, esto iría a Firestore/Postgres
-        // console.log('🔒 [AUDIT LOG]', JSON.stringify(newEntry, null, 2));
+        // console.log('🔒 [REGISTRO DE AUDITORÍA]', JSON.stringify(newEntry, null, 2));
 
         // Guardamos en memoria para mostrar en la demo
         auditLogStore.unshift(newEntry);

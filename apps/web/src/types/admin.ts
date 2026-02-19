@@ -31,7 +31,7 @@ export type UserStatus = 'active' | 'suspended' | 'pending';
 export function normalizeUser(raw: any): UIUser {
     // Validate required fields
     if (!raw || typeof raw !== 'object') {
-        console.error('[normalizeUser] Invalid user data:', raw);
+        console.error('[normalizeUser] Datos de usuario inválidos:', raw);
         return {
             id: crypto.randomUUID(),
             name: "Usuario Inválido",

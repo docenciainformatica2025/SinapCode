@@ -17,7 +17,7 @@ export async function GET(request: Request) {
     try {
         const session = await getServerSession(authOptions);
         if (!await isAuthorized(session)) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+            return NextResponse.json({ error: 'No autorizado' }, { status: 403 });
         }
 
         const testimonials = await prisma.cmsTestimonial.findMany({
@@ -26,8 +26,8 @@ export async function GET(request: Request) {
 
         return NextResponse.json({ testimonials });
     } catch (error) {
-        console.error('Testimonials GET Error:', error);
-        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+        console.error('Error al obtener testimonios (GET):', error);
+        return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 });
     }
 }
 
@@ -35,7 +35,7 @@ export async function POST(request: Request) {
     try {
         const session = await getServerSession(authOptions);
         if (!await isAuthorized(session)) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+            return NextResponse.json({ error: 'No autorizado' }, { status: 403 });
         }
 
         const body = await request.json();
@@ -57,7 +57,7 @@ export async function POST(request: Request) {
 
         return NextResponse.json(newTestimonial);
     } catch (error) {
-        console.error('Testimonial POST Error:', error);
-        return NextResponse.json({ error: 'Failed to create testimonial' }, { status: 500 });
+        console.error('Error al crear testimonio (POST):', error);
+        return NextResponse.json({ error: 'Error al crear el testimonio' }, { status: 500 });
     }
 }

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SinapCODE AI Voice Mentor</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0d0df2",
+              "primary-light": "#4f4ffb", 
+              "background-light": "#f5f5f8",
+              "background-dark": "#101022",
+              "surface-dark": "#16162c",
+              "surface-glass": "rgba(22, 22, 44, 0.7)",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"],
+              "mono": ["JetBrains Mono", "monospace"],
+            },
+            borderRadius: {
+                "DEFAULT": "0.25rem", 
+                "lg": "0.5rem", 
+                "xl": "0.75rem", 
+                "2xl": "1rem",
+                "full": "9999px"
+            },
+            boxShadow: {
+                'glow': '0 0 20px -5px rgba(13, 13, 242, 0.5)',
+                'glow-sm': '0 0 10px -2px rgba(13, 13, 242, 0.4)',
+                'glow-strong': '0 0 40px -10px rgba(13, 13, 242, 0.6)',
+            },
+            animation: {
+                'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                'float': 'float 6s ease-in-out infinite',
+            },
+            keyframes: {
+                float: {
+                    '0%, 100%': { transform: 'translateY(0)' },
+                    '50%': { transform: 'translateY(-10px)' },
+                }
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        /* Custom scrollbar for dark mode tech feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #101022; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a2a45; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0d0df2; 
+        }
+
+        /* Glassmorphism utility */
+        .glass-panel {
+            background: rgba(22, 22, 44, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .code-syntax-keyword { color: #ff79c6; }
+        .code-syntax-func { color: #8be9fd; }
+        .code-syntax-string { color: #f1fa8c; }
+        .code-syntax-comment { color: #6272a4; }
+        .code-syntax-class { color: #bd93f9; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-100 font-display min-h-screen flex flex-col overflow-hidden selection:bg-primary selection:text-white">
+<!-- Navbar -->
+<nav class="h-16 border-b border-slate-200 dark:border-white/10 flex items-center justify-between px-6 bg-white/50 dark:bg-background-dark/80 backdrop-blur-md sticky top-0 z-50">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow-glow-sm">
+<span class="material-icons-round text-white text-lg">data_object</span>
+</div>
+<span class="font-bold text-lg tracking-tight">Sinap<span class="text-primary font-black">CODE</span></span>
+<span class="bg-primary/10 text-primary border border-primary/20 text-xs px-2 py-0.5 rounded ml-2 font-medium">Mentor Beta</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm font-mono bg-slate-100 dark:bg-white/5 px-3 py-1.5 rounded-lg border border-transparent dark:border-white/5">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+<span>Session Time: 24:12</span>
+</div>
+<div class="flex items-center gap-3 pl-6 border-l border-slate-200 dark:border-white/10">
+<div class="text-right hidden sm:block">
+<p class="text-sm font-semibold leading-tight">Alex Dev</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Senior Student</p>
+</div>
+<div class="w-9 h-9 rounded-full bg-gradient-to-tr from-primary to-purple-600 p-0.5 shadow-glow-sm">
+<img alt="User avatar" class="w-full h-full rounded-full object-cover border-2 border-background-dark" data-alt="Portrait of a young man smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA87ExlfoTzQfHoufoXR0qZVTpxEXy0uYAzdKFgnYFBO7h8UngCUX1MWLniek2uqXTPfwFIuAdZyVxeM9vhPun0J-PTPtRRZKJhskABSfMx54SYHEl5L4PZpo3TRxVfjhYpfwHVhn_GM-OLwouI_xlk0mPoYD00hlj_ehYxyeeoub9_BsXEmvYOp0odLjw0s_g_4q_6ZQNaB7LvOkuLbH46U4O5Z5d9RlN2rpfXg_ylxBVZdq58RK2q9sewEYAyCFaPPkdVA-6T3alO"/>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Grid -->
+<main class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 p-6 overflow-hidden relative">
+<!-- Ambient Background Glow -->
+<div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[128px] pointer-events-none -z-10"></div>
+<div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-[128px] pointer-events-none -z-10"></div>
+<!-- Left Column: Transcript & AI Core -->
+<div class="lg:col-span-4 flex flex-col gap-6 h-full overflow-hidden">
+<!-- AI Visualizer Card -->
+<div class="glass-panel rounded-2xl p-6 relative overflow-hidden group min-h-[240px] flex flex-col items-center justify-center shadow-glow-sm">
+<div class="absolute top-3 left-4 text-xs font-mono text-primary uppercase tracking-widest opacity-70">AI Core Active</div>
+<div class="absolute top-3 right-4">
+<span class="material-icons-round text-white/40 text-sm">wifi_tethering</span>
+</div>
+<!-- 3D Core Visual Representation -->
+<div class="relative w-32 h-32 flex items-center justify-center animate-float">
+<div class="absolute inset-0 bg-primary/30 rounded-full blur-xl animate-pulse-slow"></div>
+<div class="w-24 h-24 bg-gradient-to-br from-primary via-primary-light to-purple-600 rounded-full shadow-inner flex items-center justify-center relative z-10 border border-white/20">
+<div class="w-full h-full absolute rounded-full bg-[url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&amp;w=2564&amp;auto=format&amp;fit=crop')] opacity-40 mix-blend-overlay bg-cover" data-alt="Abstract digital mesh texture"></div>
+<!-- Inner glowing ring -->
+<div class="w-16 h-16 border-2 border-white/30 rounded-full animate-[spin_10s_linear_infinite]"></div>
+</div>
+<!-- Audio Waveforms simulating voice reaction -->
+<div class="absolute -inset-4 border border-primary/20 rounded-full animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
+</div>
+<div class="mt-6 text-center">
+<h3 class="text-white font-medium text-lg">Mentor is listening...</h3>
+<p class="text-slate-400 text-xs mt-1">Processing context: "Transformers Architecture"</p>
+</div>
+</div>
+<!-- Transcript Feed -->
+<div class="glass-panel rounded-2xl flex-1 flex flex-col overflow-hidden shadow-lg">
+<div class="p-4 border-b border-white/5 flex justify-between items-center bg-white/5">
+<h3 class="text-sm font-semibold text-slate-200">Session Transcript</h3>
+<button class="text-slate-400 hover:text-white transition-colors">
+<span class="material-icons-round text-sm">download</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto p-4 space-y-6">
+<!-- AI Message -->
+<div class="flex gap-3">
+<div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 mt-1 border border-primary/30">
+<span class="material-icons-round text-primary text-xs">smart_toy</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-xs font-bold text-primary">AI Mentor</span>
+<span class="text-[10px] text-slate-500">12:42 PM</span>
+</div>
+<p class="text-sm text-slate-300 leading-relaxed bg-white/5 p-3 rounded-lg rounded-tl-none border border-white/5">
+                                Welcome back, Alex. I see you're stuck on the Multi-Head Attention mechanism. Would you like to visualize the query, key, and value vectors?
+                            </p>
+</div>
+</div>
+<!-- User Message -->
+<div class="flex gap-3 flex-row-reverse">
+<div class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center flex-shrink-0 mt-1 border border-purple-500/30">
+<span class="material-icons-round text-purple-400 text-xs">person</span>
+</div>
+<div class="flex-1 text-right">
+<div class="flex items-center gap-2 mb-1 justify-end">
+<span class="text-[10px] text-slate-500">12:43 PM</span>
+<span class="text-xs font-bold text-slate-200">You</span>
+</div>
+<p class="text-sm text-slate-300 leading-relaxed bg-primary/10 p-3 rounded-lg rounded-tr-none border border-primary/20 inline-block text-left">
+                                Yes, specifically how the linear projections work before the attention score calculation. Can we sketch that out?
+                            </p>
+</div>
+</div>
+<!-- AI Message -->
+<div class="flex gap-3">
+<div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 mt-1 border border-primary/30">
+<span class="material-icons-round text-primary text-xs">smart_toy</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-xs font-bold text-primary">AI Mentor</span>
+<span class="text-[10px] text-slate-500">12:44 PM</span>
+</div>
+<p class="text-sm text-slate-300 leading-relaxed bg-white/5 p-3 rounded-lg rounded-tl-none border border-white/5">
+                                Absolutely. I've opened the shared workspace. Let's start by defining the <code class="bg-black/30 px-1 py-0.5 rounded text-primary-light font-mono text-xs">W_q</code>, <code class="bg-black/30 px-1 py-0.5 rounded text-primary-light font-mono text-xs">W_k</code>, and <code class="bg-black/30 px-1 py-0.5 rounded text-primary-light font-mono text-xs">W_v</code> matrices on the whiteboard.
+                            </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Shared Workspace -->
+<div class="lg:col-span-8 flex flex-col h-full overflow-hidden">
+<div class="glass-panel rounded-2xl flex-1 flex flex-col overflow-hidden shadow-glow-sm relative">
+<!-- Workspace Tabs -->
+<div class="flex items-center border-b border-white/5 bg-black/20 px-2 pt-2">
+<button class="px-4 py-2 bg-background-dark text-white text-xs font-medium rounded-t-lg border-t border-x border-white/10 flex items-center gap-2">
+<span class="material-icons-round text-emerald-400 text-sm">code</span>
+                        attention_layer.py
+                    </button>
+<button class="px-4 py-2 text-slate-400 hover:text-white text-xs font-medium rounded-t-lg flex items-center gap-2 hover:bg-white/5 transition-colors">
+<span class="material-icons-round text-primary text-sm">brush</span>
+                        Whiteboard
+                    </button>
+<button class="px-4 py-2 text-slate-400 hover:text-white text-xs font-medium rounded-t-lg flex items-center gap-2 hover:bg-white/5 transition-colors">
+<span class="material-icons-round text-yellow-400 text-sm">article</span>
+                        Documentation
+                    </button>
+<div class="ml-auto pr-2 flex gap-2">
+<span class="text-[10px] text-slate-500 uppercase font-bold tracking-wider self-center">Live Edit</span>
+<div class="w-2 h-2 rounded-full bg-red-500 self-center animate-pulse"></div>
+</div>
+</div>
+<!-- Editor Area -->
+<div class="flex-1 bg-surface-dark/90 backdrop-blur font-mono text-sm relative overflow-hidden flex">
+<!-- Line Numbers -->
+<div class="w-10 bg-black/20 text-slate-600 text-right pr-3 pt-4 select-none text-xs border-r border-white/5 leading-6">
+                        1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15
+                    </div>
+<!-- Code Content -->
+<div class="flex-1 p-4 overflow-auto leading-6 text-slate-300">
+<pre><code><span class="code-syntax-keyword">class</span> <span class="code-syntax-class">MultiHeadAttention</span>(nn.Module):
+    <span class="code-syntax-keyword">def</span> <span class="code-syntax-func">__init__</span>(self, d_model, num_heads):
+        <span class="code-syntax-func">super</span>().__init__()
+        <span class="code-syntax-keyword">assert</span> d_model % num_heads == 0
+        
+        self.d_k = d_model // num_heads
+        self.num_heads = num_heads
+        
+        <span class="code-syntax-comment"># Linear projections for Query, Key, Value</span>
+        <span class="bg-primary/20 border-b border-primary text-white -mx-1 px-1 relative inline-block">self.linear_q = nn.Linear(d_model, d_model) <span class="absolute right-0 -top-6 bg-primary text-[9px] px-1.5 py-0.5 rounded text-white font-sans shadow-lg">AI Highlighted</span></span>
+        self.linear_k = nn.Linear(d_model, d_model)
+        self.linear_v = nn.Linear(d_model, d_model)
+        
+        self.linear_out = nn.Linear(d_model, d_model)
+
+    <span class="code-syntax-keyword">def</span> <span class="code-syntax-func">scaled_dot_product_attention</span>(self, q, k, v, mask=None):
+        <span class="code-syntax-comment"># Compute attention scores</span>
+        scores = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(self.d_k)
+        
+        <span class="code-syntax-keyword">if</span> mask <span class="code-syntax-keyword">is not None</span>:
+            scores = scores.masked_fill(mask == 0, -1e9)
+            
+        attn = torch.softmax(scores, dim=-1)
+        output = torch.matmul(attn, v)
+        <span class="code-syntax-keyword">return</span> output, attn</code></pre>
+</div>
+<!-- AI Floating Cursor/Annotation -->
+<div class="absolute top-36 left-[30%] bg-primary/90 text-white text-[10px] px-2 py-1 rounded shadow-lg flex items-center gap-1 z-10">
+<span class="material-icons-round text-[10px]">edit</span>
+<span>AI Suggestion: Verify dimensionality here</span>
+<div class="absolute -bottom-1 left-4 w-2 h-2 bg-primary/90 transform rotate-45"></div>
+</div>
+</div>
+<!-- Floating Toolbar within Workspace -->
+<div class="absolute bottom-6 right-6 flex gap-2">
+<button class="bg-surface-glass backdrop-blur-md p-2 rounded-lg border border-white/10 hover:bg-white/10 text-slate-300 hover:text-white transition-all shadow-lg" title="Copy Code">
+<span class="material-icons-round">content_copy</span>
+</button>
+<button class="bg-primary text-white p-2 rounded-lg border border-primary hover:bg-primary-light transition-all shadow-glow flex items-center gap-2 px-4" title="Run Code">
+<span class="material-icons-round">play_arrow</span>
+<span class="text-sm font-medium">Run Snippet</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Control Bar -->
+<div class="h-20 border-t border-slate-200 dark:border-white/10 bg-white/80 dark:bg-background-dark/90 backdrop-blur-xl flex items-center justify-center relative z-50">
+<div class="container max-w-4xl mx-auto flex items-center justify-between px-6">
+<!-- Voice Tone Controls -->
+<div class="flex flex-col gap-1 w-48">
+<label class="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Voice Persona</label>
+<div class="relative group">
+<button class="w-full flex items-center justify-between bg-surface-dark border border-white/10 text-slate-200 text-sm px-3 py-1.5 rounded-lg hover:border-primary/50 transition-colors">
+<div class="flex items-center gap-2">
+<span class="material-icons-round text-emerald-400 text-sm">psychology</span>
+                            Tech Guru
+                        </div>
+<span class="material-icons-round text-slate-500 text-sm">expand_more</span>
+</button>
+<!-- Dropdown (Visual only) -->
+<div class="absolute bottom-full mb-2 left-0 w-full bg-surface-dark border border-white/10 rounded-lg shadow-xl overflow-hidden hidden group-hover:block p-1">
+<div class="px-3 py-2 text-sm text-slate-300 hover:bg-white/5 rounded cursor-pointer flex items-center gap-2">
+<span class="material-icons-round text-emerald-400 text-sm">psychology</span> Tech Guru
+                        </div>
+<div class="px-3 py-2 text-sm text-slate-300 hover:bg-white/5 rounded cursor-pointer flex items-center gap-2">
+<span class="material-icons-round text-blue-400 text-sm">emoji_people</span> Friendly
+                        </div>
+<div class="px-3 py-2 text-sm text-slate-300 hover:bg-white/5 rounded cursor-pointer flex items-center gap-2">
+<span class="material-icons-round text-purple-400 text-sm">business_center</span> Professional
+                        </div>
+</div>
+</div>
+</div>
+<!-- Central Media Controls -->
+<div class="flex items-center gap-4">
+<button class="w-12 h-12 rounded-full bg-surface-dark border border-white/10 text-slate-400 hover:text-white hover:bg-white/5 flex items-center justify-center transition-all" title="Toggle Camera">
+<span class="material-icons-round">videocam_off</span>
+</button>
+<button class="w-16 h-16 rounded-full bg-primary shadow-glow hover:bg-primary-light flex items-center justify-center text-white transition-all transform hover:scale-105 active:scale-95 relative" title="Mute/Unmute">
+<!-- Ripple effect ring -->
+<span class="absolute inset-0 rounded-full border border-white/30 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]"></span>
+<span class="material-icons-round text-3xl">mic</span>
+</button>
+<button class="w-12 h-12 rounded-full bg-surface-dark border border-white/10 text-red-400 hover:text-red-300 hover:bg-red-500/10 flex items-center justify-center transition-all" title="End Session">
+<span class="material-icons-round">call_end</span>
+</button>
+</div>
+<!-- Recording Controls -->
+<div class="flex flex-col gap-1 items-end w-48">
+<label class="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Session Recording</label>
+<button class="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 px-3 py-1.5 rounded-lg text-slate-300 transition-colors text-sm">
+<div class="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]"></div>
+<span>REC 04:12</span>
+</button>
+</div>
+</div>
+</div>
+</body></html>

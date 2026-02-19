@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     try {
         const session = await getServerSession(authOptions);
         if (!await isAuthorized(session)) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+            return NextResponse.json({ error: 'No autorizado' }, { status: 403 });
         }
 
         const body = await request.json();
@@ -25,7 +25,7 @@ export async function POST(request: Request) {
 
         if (type === 'pricing') {
             const count = await prisma.pricingPlan.count();
-            if (count > 0) return NextResponse.json({ message: 'Plans already exist', seeded: false });
+            if (count > 0) return NextResponse.json({ message: 'Los planes ya existen', seeded: false });
 
             await prisma.pricingPlan.createMany({
                 data: [
@@ -58,15 +58,15 @@ export async function POST(request: Request) {
                     }
                 ]
             });
-            return NextResponse.json({ message: 'Pricing plans seeded', seeded: true });
+            return NextResponse.json({ message: 'Planes de precios sembrados', seeded: true });
         }
 
         if (type === 'courses') {
             const count = await prisma.course.count();
-            if (count > 0) return NextResponse.json({ message: 'Courses already exist', seeded: false });
+            if (count > 0) return NextResponse.json({ message: 'Los cursos ya existen', seeded: false });
 
             const author = await prisma.user.findFirst({ where: { role: 'ADMIN' } }) || await prisma.user.findFirst();
-            if (!author) return NextResponse.json({ error: 'No admin user found' }, { status: 400 });
+            if (!author) return NextResponse.json({ error: 'No se encontró un usuario administrador' }, { status: 400 });
 
             await prisma.course.create({
                 data: {
@@ -87,15 +87,15 @@ export async function POST(request: Request) {
                     }
                 }
             });
-            return NextResponse.json({ message: 'Course seeded', seeded: true });
+            return NextResponse.json({ message: 'Curso sembrado', seeded: true });
         }
 
         if (type === 'blog') {
             const count = await prisma.cmsPost.count();
-            if (count > 0) return NextResponse.json({ message: 'Posts already exist', seeded: false });
+            if (count > 0) return NextResponse.json({ message: 'Las publicaciones ya existen', seeded: false });
 
             const author = await prisma.user.findFirst({ where: { role: 'ADMIN' } }) || await prisma.user.findFirst();
-            if (!author) return NextResponse.json({ error: 'No admin user found' }, { status: 400 });
+            if (!author) return NextResponse.json({ error: 'No se encontró un usuario administrador' }, { status: 400 });
 
             await prisma.cmsPost.createMany({
                 data: [
@@ -111,12 +111,12 @@ export async function POST(request: Request) {
                     }
                 ]
             });
-            return NextResponse.json({ message: 'Blog posts seeded', seeded: true });
+            return NextResponse.json({ message: 'Publicaciones del blog sembradas', seeded: true });
         }
 
         if (type === 'testimonials') {
             const count = await prisma.cmsTestimonial.count();
-            if (count > 0) return NextResponse.json({ message: 'Testimonials already exist', seeded: false });
+            if (count > 0) return NextResponse.json({ message: 'Los testimonios ya existen', seeded: false });
 
             await prisma.cmsTestimonial.createMany({
                 data: [
@@ -140,13 +140,13 @@ export async function POST(request: Request) {
                     }
                 ]
             });
-            return NextResponse.json({ message: 'Testimonials seeded', seeded: true });
+            return NextResponse.json({ message: 'Testimonios sembrados', seeded: true });
         }
 
-        return NextResponse.json({ error: 'Invalid type' }, { status: 400 });
+        return NextResponse.json({ error: 'Tipo inválido' }, { status: 400 });
 
     } catch (error) {
-        console.error('Seed Error:', error);
-        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+        console.error('Error en el sembrado (Seed):', error);
+        return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 });
     }
 }

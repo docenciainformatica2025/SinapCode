@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SinapCODE AI Post-Mortem Report</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Icons -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                        "surface-dark": "#1a2234",
+                        "surface-darker": "#151c2a",
+                        "success": "#10b981",
+                        "warning": "#f59e0b",
+                        "danger": "#ef4444",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                    boxShadow: {
+                        'glow': '0 0 15px -3px rgba(19, 91, 236, 0.3)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for code blocks */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #151c2a; 
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #2d3b55; 
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #3e4c6b; 
+        }
+        
+        .code-line {
+            counter-increment: line;
+        }
+        .code-line::before {
+            content: counter(line);
+            display: inline-block;
+            width: 2rem;
+            margin-right: 1rem;
+            text-align: right;
+            color: #6b7280;
+            user-select: none;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200 font-display antialiased min-h-screen flex flex-col">
+<!-- Navbar -->
+<header class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark flex items-center justify-between px-6 sticky top-0 z-50">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 text-primary font-bold text-xl tracking-tight">
+<span class="material-icons-round text-2xl">shield_moon</span>
+                SinapCODE
+            </div>
+<div class="h-6 w-px bg-slate-200 dark:bg-slate-700 mx-2"></div>
+<div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+<span class="font-mono bg-slate-100 dark:bg-surface-dark px-2 py-0.5 rounded text-xs border border-slate-200 dark:border-slate-700">INCIDENT-2023-X92</span>
+<span>Post-Mortem Analysis</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-success/10 border border-success/20 text-success text-xs font-semibold">
+<span class="w-2 h-2 rounded-full bg-success animate-pulse"></span>
+                THREAT NEUTRALIZED
+            </div>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 text-white text-sm font-medium rounded-lg transition-colors shadow-glow">
+<span class="material-icons-round text-base">download</span>
+                Export Report
+            </button>
+<div class="w-8 h-8 rounded-full bg-surface-dark border border-slate-700 flex items-center justify-center text-primary">
+<span class="material-icons-round text-lg">notifications</span>
+</div>
+<div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-purple-600 overflow-hidden border-2 border-background-dark">
+<img alt="User Avatar" class="w-full h-full object-cover" data-alt="User profile avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3dxAirpRt3xihU1K66415-R0nk66LLLa0zCAPN9DrUDTTqD5keX1bIpSG6OcuKg_Pqmdj7nImmYeGiuNhhhLdlNl7k0D1ve2FxoOTUF_Ce3iWXRFeWS0RVV53-7sbakb-HUm80jOqcyNyEjW8bwkAGhnqilA2Nhvnsk7VYkkhSR_Hjbv-vj7JnlaQiEVXOOxFTK8TCuP4wk_F3yUCgpAy-vtltCpBeZwZmzd30PAvrWYUTzwkmVqgWl8KaExHoUqWit2wW9CnsEk5"/>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 p-6 max-w-[1600px] mx-auto w-full grid grid-cols-12 gap-6">
+<!-- Left Column: Summary & Architecture (Span 4) -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-6">
+<!-- Executive Summary Card -->
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-slate-700/60 p-6 shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+<span class="material-icons-round text-primary">analytics</span>
+                            Executive Summary
+                        </h2>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Generated by SinapAI • <span class="font-mono">Oct 24, 14:05 UTC</span></p>
+</div>
+<span class="px-2 py-1 rounded bg-danger/10 text-danger border border-danger/20 text-xs font-bold uppercase tracking-wider">High Severity</span>
+</div>
+<div class="space-y-4">
+<div class="p-3 rounded-lg bg-background-light dark:bg-surface-darker border border-slate-200 dark:border-slate-700/50">
+<div class="text-xs font-mono text-slate-500 uppercase mb-1">Attack Vector</div>
+<div class="text-sm font-semibold text-slate-900 dark:text-white">Distributed Credential Stuffing (Brute Force)</div>
+</div>
+<div class="p-3 rounded-lg bg-background-light dark:bg-surface-darker border border-slate-200 dark:border-slate-700/50">
+<div class="text-xs font-mono text-slate-500 uppercase mb-1">Target Endpoint</div>
+<div class="text-sm font-mono text-primary">POST /api/v1/auth/login</div>
+</div>
+<div class="relative pl-4 border-l-2 border-primary/40">
+<p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+<span class="font-bold text-primary">AI Synopsis:</span> At 14:02:45, anomaly detection flagged a 4000% spike in authentication requests originating from 24 distinct subnets. Pattern matched <code class="bg-slate-200 dark:bg-slate-700 px-1 rounded text-xs">SIG-BF-992</code>. Automated defense engaged immediately, deploying dynamic rate-limiting patches and IP shunting. No data exfiltration occurred.
+                        </p>
+</div>
+</div>
+</div>
+<!-- Vulnerability Mapping (Visual) -->
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-slate-700/60 p-6 flex-1 flex flex-col shadow-sm">
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+<span class="material-icons-round text-primary">hub</span>
+                        Vulnerability Mapping
+                    </h2>
+<span class="text-xs text-slate-500 border border-slate-700 rounded px-2 py-0.5">Live View</span>
+</div>
+<div class="flex-1 relative bg-surface-darker rounded-lg border border-slate-700/50 overflow-hidden flex items-center justify-center min-h-[300px]" data-alt="Abstract network diagram showing nodes and connections" style="background-image: radial-gradient(#2d3b55 1px, transparent 1px); background-size: 20px 20px;">
+<!-- Diagram Nodes -->
+<div class="absolute inset-0 flex items-center justify-center">
+<!-- Connecting Lines (SVG) -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none z-0">
+<line stroke="#334155" stroke-width="2" x1="50%" x2="50%" y1="20%" y2="50%"></line>
+<line stroke="#334155" stroke-width="2" x1="50%" x2="25%" y1="50%" y2="80%"></line>
+<line class="animate-pulse" stroke="#ef4444" stroke-dasharray="5,5" stroke-width="2" x1="50%" x2="75%" y1="50%" y2="80%"></line>
+</svg>
+<!-- Load Balancer -->
+<div class="absolute top-[10%] left-1/2 -translate-x-1/2 z-10 flex flex-col items-center">
+<div class="w-12 h-12 bg-surface-dark border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 shadow-lg">
+<span class="material-icons-round">alt_route</span>
+</div>
+<span class="text-xs mt-2 text-slate-500 font-mono">LB-01</span>
+</div>
+<!-- API Gateway (Target) -->
+<div class="absolute top-[45%] left-1/2 -translate-x-1/2 z-10 flex flex-col items-center group cursor-pointer">
+<div class="w-16 h-16 bg-surface-dark border-2 border-danger rounded-xl flex items-center justify-center text-danger shadow-[0_0_15px_rgba(239,68,68,0.3)] relative">
+<span class="material-icons-round text-3xl">api</span>
+<div class="absolute -top-2 -right-2 w-5 h-5 bg-danger rounded-full flex items-center justify-center animate-bounce">
+<span class="material-icons-round text-white text-xs">priority_high</span>
+</div>
+</div>
+<span class="text-xs mt-2 text-danger font-bold font-mono bg-danger/10 px-2 py-0.5 rounded">API Gateway</span>
+<!-- Tooltip -->
+<div class="absolute left-full ml-4 top-1/2 -translate-y-1/2 w-48 bg-surface-darker border border-danger/30 p-3 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
+<p class="text-xs text-danger font-bold">Attack Focal Point</p>
+<p class="text-[10px] text-slate-400 mt-1">Failed rate-limit logic permitted high-velocity requests.</p>
+</div>
+</div>
+<!-- Database -->
+<div class="absolute bottom-[10%] left-[20%] -translate-x-1/2 z-10 flex flex-col items-center opacity-50">
+<div class="w-12 h-12 bg-surface-dark border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 shadow-lg">
+<span class="material-icons-round">storage</span>
+</div>
+<span class="text-xs mt-2 text-slate-500 font-mono">Postgres-Main</span>
+</div>
+<!-- Auth Service -->
+<div class="absolute bottom-[10%] right-[20%] translate-x-1/2 z-10 flex flex-col items-center">
+<div class="w-12 h-12 bg-surface-dark border border-success rounded-lg flex items-center justify-center text-success shadow-[0_0_10px_rgba(16,185,129,0.2)]">
+<span class="material-icons-round">verified_user</span>
+</div>
+<span class="text-xs mt-2 text-success font-mono">Auth-Svc</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Center/Right Column: Timeline & Auto-Patch (Span 8) -->
+<div class="col-span-12 lg:col-span-8 flex flex-col gap-6">
+<!-- Top Row of Center: Timeline & Score -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Timeline -->
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-slate-700/60 p-6 shadow-sm overflow-hidden flex flex-col h-80">
+<h2 class="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+<span class="material-icons-round text-primary">history</span>
+                        Event Timeline
+                    </h2>
+<div class="overflow-y-auto custom-scrollbar pr-2 relative">
+<!-- Vertical Line -->
+<div class="absolute left-[7px] top-2 bottom-0 w-px bg-slate-200 dark:bg-slate-700"></div>
+<!-- Event Items -->
+<div class="mb-6 relative pl-6">
+<div class="absolute left-0 top-1.5 w-3.5 h-3.5 rounded-full border-2 border-slate-400 bg-background-dark z-10"></div>
+<div class="flex justify-between items-start">
+<div>
+<p class="text-xs font-mono text-slate-500">14:02:45.392</p>
+<h4 class="text-sm font-semibold text-slate-300">Initial Traffic Spike</h4>
+</div>
+<span class="text-[10px] bg-slate-700 text-slate-300 px-1.5 py-0.5 rounded">INFO</span>
+</div>
+</div>
+<div class="mb-6 relative pl-6">
+<div class="absolute left-0 top-1.5 w-3.5 h-3.5 rounded-full border-2 border-warning bg-background-dark z-10"></div>
+<div class="flex justify-between items-start">
+<div>
+<p class="text-xs font-mono text-slate-500">14:02:45.412</p>
+<h4 class="text-sm font-semibold text-warning">Threshold Exceeded (50 req/sec)</h4>
+<p class="text-xs text-slate-500 mt-0.5">Logic rule "AUTH_LIMIT" triggered.</p>
+</div>
+<span class="text-[10px] bg-warning/20 text-warning px-1.5 py-0.5 rounded">WARN</span>
+</div>
+</div>
+<div class="mb-6 relative pl-6">
+<div class="absolute left-0 top-1.5 w-3.5 h-3.5 rounded-full border-2 border-primary bg-primary shadow-[0_0_10px_rgba(19,91,236,0.5)] z-10"></div>
+<div class="flex justify-between items-start">
+<div>
+<p class="text-xs font-mono text-slate-500">14:02:45.420</p>
+<h4 class="text-sm font-bold text-primary">SinapAI Auto-Patch Deployed</h4>
+<p class="text-xs text-slate-400 mt-0.5">Hot-fix applied to gateway middleware.</p>
+</div>
+<span class="text-[10px] bg-primary/20 text-primary border border-primary/30 px-1.5 py-0.5 rounded">ACTION</span>
+</div>
+</div>
+<div class="relative pl-6 opacity-60">
+<div class="absolute left-0 top-1.5 w-3.5 h-3.5 rounded-full border-2 border-success bg-background-dark z-10"></div>
+<div class="flex justify-between items-start">
+<div>
+<p class="text-xs font-mono text-slate-500">14:02:45.445</p>
+<h4 class="text-sm font-semibold text-success">Attack Mitigated</h4>
+<p class="text-xs text-slate-500 mt-0.5">Traffic normalized. 142 IPs banned.</p>
+</div>
+<span class="text-[10px] bg-success/10 text-success px-1.5 py-0.5 rounded">RESOLVED</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Security Score & Recovery Metrics -->
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-slate-700/60 p-6 shadow-sm flex flex-col h-80 relative overflow-hidden">
+<h2 class="text-lg font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2 z-10">
+<span class="material-icons-round text-primary">speed</span>
+                        Post-Incident Security Score
+                    </h2>
+<div class="flex-1 flex items-center justify-center gap-8 z-10">
+<!-- Radial Chart Representation -->
+<div class="relative w-40 h-40 flex items-center justify-center">
+<!-- Background Circle -->
+<svg class="w-full h-full transform -rotate-90">
+<circle cx="50%" cy="50%" fill="transparent" r="70" stroke="#1e293b" stroke-width="12"></circle>
+<!-- Progress Circle (78 to 94) -->
+<circle class="drop-shadow-[0_0_10px_rgba(19,91,236,0.4)]" cx="50%" cy="50%" fill="transparent" r="70" stroke="#135bec" stroke-dasharray="440" stroke-dashoffset="26" stroke-linecap="round" stroke-width="12"></circle>
+</svg>
+<div class="absolute flex flex-col items-center">
+<span class="text-4xl font-bold text-white font-mono">94</span>
+<span class="text-xs text-success font-medium flex items-center">
+<span class="material-icons-round text-sm">arrow_upward</span> +16%
+                                </span>
+</div>
+</div>
+<!-- Stats -->
+<div class="space-y-4">
+<div>
+<p class="text-xs text-slate-500 uppercase font-mono mb-1">Recovery Time</p>
+<p class="text-2xl font-bold text-white font-mono">53ms</p>
+</div>
+<div>
+<p class="text-xs text-slate-500 uppercase font-mono mb-1">Packets Dropped</p>
+<p class="text-xl font-semibold text-slate-300">14,203</p>
+</div>
+<div>
+<p class="text-xs text-slate-500 uppercase font-mono mb-1">System Health</p>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-success"></div>
+<span class="text-sm text-success font-medium">Optimal</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Background Pattern -->
+<div class="absolute right-0 bottom-0 opacity-5 pointer-events-none">
+<span class="material-icons-round text-[180px]">security</span>
+</div>
+</div>
+</div>
+<!-- Auto-Patch Log (Code Diff) -->
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-slate-700/60 overflow-hidden flex flex-col shadow-sm flex-1 min-h-[400px]">
+<div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-surface-darker">
+<div class="flex items-center gap-3">
+<span class="material-icons-round text-primary">auto_fix_high</span>
+<h2 class="text-lg font-bold text-slate-900 dark:text-white">Auto-Patch Log</h2>
+<span class="text-xs font-mono bg-primary/20 text-primary border border-primary/20 px-2 py-0.5 rounded">DIFF VIEW</span>
+</div>
+<div class="flex items-center gap-4 text-xs font-mono text-slate-500">
+<span class="flex items-center gap-1"><div class="w-3 h-3 bg-danger/20 border border-danger rounded"></div> Vulnerable</span>
+<span class="flex items-center gap-1"><div class="w-3 h-3 bg-success/20 border border-success rounded"></div> Patched</span>
+</div>
+</div>
+<div class="flex-1 grid grid-cols-2 font-mono text-xs md:text-sm overflow-hidden">
+<!-- Vulnerable Code (Left) -->
+<div class="bg-[#0d1117] text-slate-400 p-4 border-r border-slate-700 overflow-auto custom-scrollbar">
+<div class="mb-2 text-slate-500 select-none">// src/middleware/auth.js (Previous)</div>
+<div class="code-line">async function login(req, res) {</div>
+<div class="code-line">  const { user, pass } = req.body;</div>
+<div class="code-line"> </div>
+<div class="code-line bg-danger/10 border-l-2 border-danger pl-1 pr-2 -ml-4 w-[calc(100%+2rem)]">  // VULNERABILITY: No rate limiting</div>
+<div class="code-line bg-danger/10 border-l-2 border-danger pl-1 pr-2 -ml-4 w-[calc(100%+2rem)]">  const isValid = await checkCreds(user, pass);</div>
+<div class="code-line"> </div>
+<div class="code-line">  if (isValid) {</div>
+<div class="code-line">    return res.json({ token: generate(user) });</div>
+<div class="code-line">  }</div>
+<div class="code-line">  return res.status(401).send();</div>
+<div class="code-line">}</div>
+</div>
+<!-- Patched Code (Right) -->
+<div class="bg-[#0d1117] text-slate-300 p-4 overflow-auto custom-scrollbar relative">
+<!-- Glow effect for success -->
+<div class="absolute inset-0 bg-success/5 pointer-events-none"></div>
+<div class="mb-2 text-success select-none">// src/middleware/auth.js (Patched by AI)</div>
+<div class="code-line">async function login(req, res) {</div>
+<div class="code-line">  const { user, pass } = req.body;</div>
+<div class="code-line"> </div>
+<div class="code-line bg-success/10 border-l-2 border-success pl-1 pr-2 -ml-4 w-[calc(100%+2rem)]">  // PATCH: Added exponential backoff</div>
+<div class="code-line bg-success/10 border-l-2 border-success pl-1 pr-2 -ml-4 w-[calc(100%+2rem)]">  await rateLimiter.consume(req.ip);</div>
+<div class="code-line"> </div>
+<div class="code-line">  const isValid = await checkCreds(user, pass);</div>
+<div class="code-line"> </div>
+<div class="code-line">  if (isValid) {</div>
+<div class="code-line">    return res.json({ token: generate(user) });</div>
+<div class="code-line">  }</div>
+<div class="code-line">  return res.status(401).send();</div>
+<div class="code-line">}</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Status Bar -->
+<footer class="h-8 bg-surface-darker border-t border-slate-800 flex items-center justify-between px-6 text-[10px] md:text-xs text-slate-500 font-mono">
+<div class="flex items-center gap-4">
+<span>System Status: <span class="text-success">ONLINE</span></span>
+<span>Last Scan: <span class="text-white">Just now</span></span>
+</div>
+<div class="flex items-center gap-4">
+<span>SinapCODE Engine v4.2.0</span>
+<span class="flex items-center gap-1"><div class="w-1.5 h-1.5 bg-success rounded-full"></div> Connected to Sentinel Mainframe</span>
+</div>
+</footer>
+</body></html>

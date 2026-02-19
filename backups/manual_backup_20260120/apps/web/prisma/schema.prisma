@@ -1,0 +1,619 @@
+// This is your Prisma schema file
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ============================================
+// USUARIOS Y AUTENTICACIÓN
+// ============================================
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          Role      @default(STUDENT)
+  
+  // Security fields
+  mfaEnabled       Boolean   @default(false)
+  mfaSecret        String?
+  lastLoginAt      DateTime?
+  lastLoginIp      String?
+  failedLoginCount Int       @default(0)
+  lockedUntil      DateTime?
+  
+  // Age verification (COPPA compliance)
+  birthDate     DateTime?
+  isMinor       Boolean   @default(false)
+  guardianEmail String?
+  
+  // Soft delete (GDPR/Ley 1581 compliance)
+  deletedAt     DateTime?
+  deletedBy     String?   // userId del admin que eliminó
+  deletionReason String?  @db.Text
+  
+  // Suspension tracking (Legal compliance)
+  suspendedAt   DateTime?
+  suspendedBy   String?   // userId del admin que suspendió
+  suspensionReason String? @db.Text
+  
+  // Timestamps
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Relations
+  accounts      Account[]
+  sessions      Session[]
+  legalConsents LegalConsent[]
+  certificates  Certificate[]
+  auditLogs     AuditLog[]
+  dataRequests  DataSubjectRequest[]
+  projects      CmsProject[]
+  posts         CmsPost[]
+  courses       Course[]
+  
+  @@map("users")
+}
+
+model Certificate {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  type      String   @default("LEGAL")
+  code      String   @unique
+  status    String   @default("ACTIVE")
+  
+  issuedAt  DateTime @default(now())
+  expiresAt DateTime?
+  metadata  Json?
+  fileUrl   String?
+  
+  @@index([userId])
+  @@index([code])
+  @@map("certificates")
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String? @db.Text
+  access_token       String? @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String? @db.Text
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// ============================================
+// SISTEMA LEGAL Y CONSENTIMIENTO
+// ============================================
+
+model LegalConsent {
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Documento legal
+  documentType    DocumentType
+  documentVersion String
+  documentHash    String?
+
+  // Método de consentimiento
+  consentMethod ConsentMethod
+
+  // Evidencia (GDPR Art. 7)
+  ipAddress        String?
+  userAgent        String?
+  geolocation      Json?    // {latitude, longitude, accuracy}
+  screenResolution String?
+  language         String?
+  timezone         String?
+
+  // Metadata adicional
+  metadata Json?
+
+  // Timestamp
+  acceptedAt DateTime @default(now())
+
+  @@unique([userId, documentType, documentVersion])
+  @@index([userId])
+  @@index([documentType])
+  @@index([acceptedAt])
+  @@map("legal_consents")
+}
+
+model CookieConsent {
+  id            String   @id @default(cuid())
+  userId        String?
+  preferences   String   @db.Text // JSON string of cookie preferences
+  policyVersion String
+  ipAddress     String
+  userAgent     String   @db.Text
+  acceptedAt    DateTime @default(now())
+  createdAt     DateTime @default(now())
+
+  @@index([userId])
+  @@index([acceptedAt])
+  @@map("cookie_consents")
+}
+
+model LegalDocument {
+  id              String    @id @default(uuid())
+  documentType    DocumentType
+  version         String
+  content         String    @db.Text
+  contentHash     String    // SHA-256
+  
+  // Vigencia
+  effectiveDate   DateTime
+  deprecatedDate  DateTime?
+  
+  // Metadata
+  changesSummary  String?   @db.Text
+  metadata        Json?
+  
+  // Auditoría
+  createdBy       String?
+  createdAt       DateTime  @default(now())
+  
+  @@unique([documentType, version])
+  @@index([documentType])
+  @@index([effectiveDate])
+  @@map("legal_documents")
+}
+
+model LegalNotification {
+  id              String   @id @default(uuid())
+  userId          String
+  
+  // Tipo de notificación
+  notificationType NotificationType
+  documentVersion  String?
+  
+  // Entrega
+  deliveryMethod   DeliveryMethod
+  deliveryStatus   DeliveryStatus
+  sentAt           DateTime @default(now())
+  readAt           DateTime?
+  
+  // Evidencia
+  emailId          String?  // ID de SendGrid/SES
+  trackingData     Json?
+  
+  // Metadata
+  metadata         Json?
+  
+  @@index([userId])
+  @@index([notificationType])
+  @@index([sentAt])
+  @@map("legal_notifications")
+}
+
+model DataSubjectRequest {
+  id                String   @id @default(uuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Tipo de solicitud
+  requestType       RequestType
+  status            RequestStatus
+  
+  // Datos
+  requestData       Json?
+  responseData      Json?
+  
+  // Verificación
+  verificationMethod String?
+  
+  // Compliance
+  requestedAt       DateTime @default(now())
+  completedAt       DateTime?
+  responseDeadline  DateTime // 30 días GDPR
+  
+  // Metadata
+  metadata          Json?
+  
+  @@index([userId])
+  @@index([requestType])
+  @@index([status])
+  @@index([requestedAt])
+  @@map("data_subject_requests")
+}
+
+// ============================================
+// AUDITORÍA Y MÉTRICAS
+// ============================================
+
+model AuditLog {
+  id            String   @id @default(uuid())
+  userId        String?
+  user          User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  
+  // Evento
+  action        String?   // Legacy support ("user.create")
+  eventType     String?   // New structure
+  eventCategory EventCategory?
+  eventData     Json?
+  
+  // Contexto
+  entity        String?  // Legacy
+  entityId      String?  // Legacy
+  changes       Json?    // Legacy
+  result        String?  // Legacy
+  errorMsg      String?  // Legacy
+  
+  ipAddress     String?
+  userAgent     String?
+  sessionId     String?
+  
+  // Inmutabilidad (blockchain-style)
+  hash          String?
+  previousHash  String?
+  
+  // Metadata
+  metadata      Json?
+  
+  // Timestamp
+  createdAt     DateTime @default(now())
+  
+  @@index([userId])
+  @@index([eventType])
+  @@index([action])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+// ============================================
+// CMS SYSTEM (Big Tech Standard)
+// ============================================
+
+model CmsProject {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  content     String?  @db.Text
+  slug        String   @unique
+  tags        String[] // Array of strings (Postgres)
+  
+  // Media
+  thumbnail   String?
+  images      String[]
+  
+  // Links
+  repoUrl     String?
+  liveUrl     String?
+  
+  // Status
+  status      String   @default("DRAFT") // DRAFT, PUBLISHED, ARCHIVED
+  featured    Boolean  @default(false)
+  
+  // Metadata & Audit
+  views       Int      @default(0)
+  authorId    String?
+  author      User?    @relation(fields: [authorId], references: [id])
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  publishedAt DateTime?
+
+  @@index([status])
+  @@index([featured])
+  @@index([slug])
+  @@map("cms_projects")
+}
+
+model CmsPost {
+  id          String   @id @default(cuid())
+  title       String
+  excerpt     String   @db.Text
+  content     String   @db.Text
+  slug        String   @unique
+  category    String
+  tags        String[]
+  
+  // Media
+  coverImage  String?
+  
+  // Status
+  status      String   @default("DRAFT") // DRAFT, PUBLISHED
+  featured    Boolean  @default(false)
+  
+  // Metadata
+  views       Int      @default(0)
+  likes       Int      @default(0)
+  readingTime Int?     // minutes
+  
+  authorId    String?
+  author      User?    @relation(fields: [authorId], references: [id])
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  publishedAt DateTime?
+
+  @@index([status])
+  @@index([category])
+  @@index([slug])
+  @@map("cms_posts")
+}
+
+model CmsBanner {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  imageUrl    String
+  linkUrl     String?
+  
+  position    String   @default("HOME_HERO") // HOME_HERO, PROMO_BAR, etc.
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  
+  startDate   DateTime?
+  endDate     DateTime?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([isActive])
+  @@index([position])
+  @@map("cms_banners")
+}
+
+// ============================================
+// LMS SYSTEM
+// ============================================
+
+model Course {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  slug        String   @unique
+  price       Float    @default(0)
+  level       String   @default("beginner") // beginner, intermediate, advanced
+  
+  thumbnail   String?
+  
+  isPublished Boolean  @default(false)
+  
+  // Metadata
+  enrolledCount Int    @default(0)
+  rating        Float  @default(0)
+  
+  authorId    String?
+  author      User?    @relation(fields: [authorId], references: [id])
+  
+  modules     Module[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([isPublished])
+  @@index([slug])
+  @@map("courses")
+}
+
+model Module {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  order       Int      @default(0)
+  
+  courseId    String
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  
+  // Content (Lessons would be a sub-table, but let's keep it simple for now or JSON)
+  content     Json?    // Array of lessons { title, videoUrl, duration }
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([courseId])
+  @@map("modules")
+}
+
+// ============================================
+// ENTERPRISE CMS EXPANSION
+// ============================================
+
+model SiteConfig {
+  id          String   @id @default("global") // Singleton
+  siteName    String   @default("SinapCode")
+  description String?  @db.Text
+  
+  // Branding
+  logoUrl     String?
+  faviconUrl  String?
+  primaryColor String? @default("#0EA5E9") // Neural Blue
+  secondaryColor String? @default("#F59E0B") // Gold
+  
+  // Contact & Social
+  supportEmail String?
+  socialLinks  Json?   // { twitter: url, linkedin: url }
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("site_config")
+}
+
+model NavigationMenu {
+  id          String   @id @default(cuid())
+  location    String   @unique // "header", "footer_1", "footer_2"
+  items       Json     // Array of { label, href, children? }
+  
+  updatedAt   DateTime @updatedAt
+  
+  @@map("navigation_menus")
+}
+
+model PricingPlan {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  price       Float
+  currency    String   @default("USD") // or COP
+  interval    String   @default("MONTHLY") // MONTHLY, YEARLY, ONETIME
+  
+  features    Json     // Array of strings or objects
+  isPopular   Boolean  @default(false)
+  isActive    Boolean  @default(true)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([isActive])
+  @@map("pricing_plans")
+}
+
+model CmsTestimonial {
+  id          String   @id @default(cuid())
+  authorName  String
+  authorRole  String?  // e.g. "Senior Dev at Google"
+  authorImage String?
+  content     String   @db.Text
+  rating      Int      @default(5)
+  
+  company     String?
+  companyLogo String?
+  
+  status      String   @default("DRAFT") // DRAFT, PUBLISHED
+  featured    Boolean  @default(false)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([status])
+  @@index([featured])
+  @@map("cms_testimonials")
+}
+
+model SystemMetric {
+  id        String   @id @default(cuid())
+  metric    String   // "api.response_time", "db.connections", "memory.usage"
+  value     Float
+  unit      String   // "ms", "count", "%", "bytes"
+  tags      Json?    // {"endpoint": "/api/users", "method": "GET"}
+  timestamp DateTime @default(now())
+
+  @@index([metric])
+  @@index([timestamp])
+  @@map("system_metrics")
+}
+
+// ============================================
+// ENUMS
+// ============================================
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  MODERATOR
+  SUPPORT
+  TEACHER
+  STUDENT
+  USER
+  COMPANY
+}
+
+enum DocumentType {
+  TERMS
+  PRIVACY
+  COOKIES
+  COPPA
+}
+
+enum ConsentMethod {
+  CHECKBOX
+  BUTTON_CLICK
+  SCROLL_COMPLETE
+}
+
+enum NotificationType {
+  TERMS_UPDATE
+  PRIVACY_UPDATE
+  DATA_BREACH
+  ACCOUNT_DELETION
+}
+
+enum DeliveryMethod {
+  EMAIL
+  IN_APP
+  SMS
+}
+
+enum DeliveryStatus {
+  SENT
+  DELIVERED
+  READ
+  FAILED
+}
+
+enum RequestType {
+  ACCESS
+  RECTIFICATION
+  DELETION
+  PORTABILITY
+  OBJECTION
+}
+
+enum RequestStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  REJECTED
+}
+
+enum EventCategory {
+  LEGAL
+  SECURITY
+  DATA
+  TRANSACTION
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("newsletter_subscribers")
+}

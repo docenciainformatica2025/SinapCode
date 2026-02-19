@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Adaptive AI Skill Roadmap</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0d0df2",
+                        "primary-light": "#3d3df5",
+                        "primary-dark": "#0a0ab8",
+                        "background-light": "#f5f5f8",
+                        "background-dark": "#101022",
+                        "surface-dark": "#15152a",
+                        "surface-border": "#232342",
+                        "status-cyan": "#06b6d4",
+                        "status-yellow": "#eab308",
+                        "status-grey": "#475569",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #101022; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #232342; 
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0d0df2; 
+        }
+
+        /* Animated connection lines */
+        .path-flow {
+            stroke-dasharray: 10;
+            animation: dash 30s linear infinite;
+        }
+        
+        @keyframes dash {
+            to {
+                stroke-dashoffset: -1000;
+            }
+        }
+
+        .glow-cyan {
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+        }
+        .glow-yellow {
+            box-shadow: 0 0 15px rgba(234, 179, 8, 0.4);
+        }
+        .glow-primary {
+            box-shadow: 0 0 20px rgba(13, 13, 242, 0.3);
+        }
+
+        /* Radar Chart Simulation */
+        .radar-chart {
+            background: 
+                conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(13, 13, 242, 0.1) 60deg, transparent 60deg),
+                radial-gradient(circle at 50% 50%, transparent 60%, rgba(255,255,255,0.05) 61%, transparent 62%),
+                radial-gradient(circle at 50% 50%, transparent 40%, rgba(255,255,255,0.05) 41%, transparent 42%),
+                radial-gradient(circle at 50% 50%, transparent 20%, rgba(255,255,255,0.05) 21%, transparent 22%);
+            
+        }
+        .radar-polygon {
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-100 font-display min-h-screen flex flex-col overflow-hidden">
+<!-- Navbar -->
+<nav class="h-16 border-b border-gray-200 dark:border-surface-border bg-white dark:bg-surface-dark flex items-center justify-between px-6 z-20 shadow-sm relative">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded bg-primary flex items-center justify-center text-white font-bold">
+                    AI
+                </div>
+<span class="text-xl font-bold tracking-tight text-primary dark:text-white">Neural<span class="text-primary">Path</span></span>
+</div>
+<div class="hidden md:flex items-center gap-1 bg-gray-100 dark:bg-background-dark rounded-lg p-1">
+<button class="px-4 py-1.5 text-sm font-medium rounded text-white bg-primary shadow-sm">Roadmap</button>
+<button class="px-4 py-1.5 text-sm font-medium rounded text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">Modules</button>
+<button class="px-4 py-1.5 text-sm font-medium rounded text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">Labs</button>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 text-status-yellow bg-status-yellow/10 px-3 py-1 rounded-full border border-status-yellow/20">
+<span class="material-icons-round text-lg">local_fire_department</span>
+<span class="text-sm font-bold">12 Day Streak</span>
+</div>
+<div class="flex items-center gap-3 pl-6 border-l border-gray-200 dark:border-surface-border">
+<div class="text-right hidden sm:block">
+<p class="text-sm font-semibold">Alex Chen</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Level 4 Architect</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden ring-2 ring-primary/20">
+<img alt="User Avatar Profile" class="w-full h-full object-cover" data-alt="Portrait of a young asian man looking confident" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDZqT8lrNrTE7jBloBJ5mmuSLhei0Joei1siHWSNZJ7aAhAJ-Dm22kyTmM-89vrHo1lAzjIpWsGrKWVOOG2C-UsuwUYurE4-QLjR5_c3zreIbHE22YDS6PJf2uXRXoykqnHT4BACVREyfrFIwwzbH9N4oabSLMuF9huPezrY5FfM58njjF1SowTMwSqp7magS3oFuFU3nOvLszGnHzJOi1LmCy1TWxk-QzP9E0apkDzFNSsfZmBFADtb5X3rB1UPOboMTUO2MpJ8tw"/>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex flex-1 overflow-hidden relative">
+<!-- Left Sidebar: Map Controls / Legend (Floating over canvas in mobile, fixed in desktop) -->
+<div class="absolute bottom-6 left-6 z-10 flex flex-col gap-4">
+<div class="bg-white/90 dark:bg-surface-dark/90 backdrop-blur-md border border-gray-200 dark:border-surface-border p-4 rounded-xl shadow-lg w-48">
+<h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3">Node Status</h3>
+<div class="space-y-2">
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 rounded-full bg-status-cyan glow-cyan"></div>
+<span class="text-xs font-medium">Completed</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 rounded-full bg-status-yellow glow-yellow animate-pulse"></div>
+<span class="text-xs font-medium">In Progress</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 rounded-full bg-status-grey"></div>
+<span class="text-xs font-medium text-slate-500">Locked</span>
+</div>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="w-10 h-10 bg-white dark:bg-surface-dark border border-gray-200 dark:border-surface-border rounded-lg flex items-center justify-center hover:bg-slate-50 dark:hover:bg-surface-border transition-colors text-slate-600 dark:text-slate-300 shadow-lg">
+<span class="material-icons-round">add</span>
+</button>
+<button class="w-10 h-10 bg-white dark:bg-surface-dark border border-gray-200 dark:border-surface-border rounded-lg flex items-center justify-center hover:bg-slate-50 dark:hover:bg-surface-border transition-colors text-slate-600 dark:text-slate-300 shadow-lg">
+<span class="material-icons-round">remove</span>
+</button>
+<button class="w-10 h-10 bg-white dark:bg-surface-dark border border-gray-200 dark:border-surface-border rounded-lg flex items-center justify-center hover:bg-slate-50 dark:hover:bg-surface-border transition-colors text-slate-600 dark:text-slate-300 shadow-lg">
+<span class="material-icons-round">center_focus_strong</span>
+</button>
+</div>
+</div>
+<!-- Central Canvas: Skill Tree -->
+<main class="flex-1 bg-background-light dark:bg-background-dark relative overflow-hidden flex items-center justify-center cursor-grab active:cursor-grabbing">
+<!-- Background Grid Pattern -->
+<div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: radial-gradient(#475569 1px, transparent 1px); background-size: 32px 32px;"></div>
+<!-- SVG Connector Layer -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none z-0" style="min-width: 1000px; min-height: 800px;">
+<defs>
+<lineargradient id="grad-complete" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" style="stop-color:#06b6d4;stop-opacity:1"></stop>
+<stop offset="100%" style="stop-color:#06b6d4;stop-opacity:0.3"></stop>
+</lineargradient>
+<lineargradient id="grad-active" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" style="stop-color:#06b6d4;stop-opacity:1"></stop>
+<stop offset="100%" style="stop-color:#eab308;stop-opacity:1"></stop>
+</lineargradient>
+<filter height="140%" id="glow" width="140%" x="-20%" y="-20%">
+<fegaussianblur result="blur" stddeviation="3"></fegaussianblur>
+<fecomposite in="SourceGraphic" in2="blur" operator="over"></fecomposite>
+</filter>
+</defs>
+<!-- Path from Start to Machine Learning -->
+<path class="opacity-40" d="M 150 400 Q 250 400 320 320" fill="none" stroke="#06b6d4" stroke-width="2"></path>
+<path class="opacity-40" d="M 150 400 Q 250 400 320 480" fill="none" stroke="#06b6d4" stroke-width="2"></path>
+<!-- Path to Deep Learning -->
+<path d="M 360 320 L 550 320" fill="none" filter="url(#glow)" stroke="url(#grad-complete)" stroke-width="3"></path>
+<circle class="animate-ping" cx="455" cy="320" fill="#06b6d4" r="3" style="animation-duration: 3s;"></circle>
+<!-- Path to Optimization (Active) -->
+<path class="path-flow" d="M 590 320 Q 650 320 720 380" fill="none" stroke="url(#grad-active)" stroke-dasharray="8 4" stroke-width="3"></path>
+<!-- Path to Transformers (Locked) -->
+<path class="opacity-30" d="M 760 400 Q 820 400 880 340" fill="none" stroke="#475569" stroke-dasharray="4 4" stroke-width="2"></path>
+<!-- Path to LLMs (Locked) -->
+<path class="opacity-30" d="M 760 400 Q 820 400 880 460" fill="none" stroke="#475569" stroke-dasharray="4 4" stroke-width="2"></path>
+</svg>
+<!-- Nodes Container -->
+<div class="relative w-full h-full flex items-center justify-center z-10" style="min-width: 1000px; min-height: 800px; transform: scale(0.9);">
+<!-- Node 1: Foundations (Completed) -->
+<div class="absolute left-[100px] top-[380px] group">
+<div class="w-12 h-12 rounded-full border-2 border-status-cyan bg-surface-dark flex items-center justify-center shadow-[0_0_20px_rgba(6,182,212,0.2)] hover:scale-110 transition-transform cursor-pointer relative z-10">
+<span class="material-icons-round text-status-cyan text-xl">check</span>
+</div>
+<div class="absolute top-14 left-1/2 -translate-x-1/2 whitespace-nowrap text-center">
+<p class="text-xs font-bold text-status-cyan">Completed</p>
+<p class="text-sm font-semibold text-white">AI Foundations</p>
+</div>
+</div>
+<!-- Node 2: Computer Vision (Completed) -->
+<div class="absolute left-[320px] top-[280px] group">
+<div class="w-16 h-16 rounded-xl border-2 border-status-cyan bg-surface-dark flex items-center justify-center shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:scale-110 transition-transform cursor-pointer relative z-10">
+<span class="material-icons-round text-status-cyan text-3xl">visibility</span>
+</div>
+<div class="absolute top-20 left-1/2 -translate-x-1/2 whitespace-nowrap text-center">
+<p class="text-xs font-bold text-status-cyan">98% Score</p>
+<p class="text-sm font-semibold text-white">Computer Vision</p>
+</div>
+</div>
+<!-- Node 2b: Data Science (Completed) -->
+<div class="absolute left-[320px] top-[460px] group opacity-70 hover:opacity-100 transition-opacity">
+<div class="w-12 h-12 rounded-full border border-status-cyan/50 bg-surface-dark flex items-center justify-center relative z-10">
+<span class="material-icons-round text-status-cyan/70 text-xl">analytics</span>
+</div>
+<div class="absolute top-14 left-1/2 -translate-x-1/2 whitespace-nowrap text-center">
+<p class="text-sm font-medium text-slate-400">Data Science</p>
+</div>
+</div>
+<!-- Node 3: Deep Learning (Completed) -->
+<div class="absolute left-[550px] top-[280px] group">
+<div class="w-16 h-16 rounded-xl border-2 border-status-cyan bg-surface-dark flex items-center justify-center shadow-[0_0_30px_rgba(6,182,212,0.4)] hover:scale-110 transition-transform cursor-pointer relative z-10 glow-cyan">
+<span class="material-icons-round text-status-cyan text-3xl">psychology</span>
+</div>
+<div class="absolute top-20 left-1/2 -translate-x-1/2 whitespace-nowrap text-center">
+<p class="text-xs font-bold text-status-cyan">95% Score</p>
+<p class="text-sm font-semibold text-white">Neural Networks</p>
+</div>
+</div>
+<!-- Node 4: Active Node (Yellow) -->
+<div class="absolute left-[720px] top-[360px] group z-20">
+<div class="absolute -inset-4 bg-status-yellow/20 rounded-full blur-xl animate-pulse"></div>
+<div class="w-20 h-20 rounded-2xl border-2 border-status-yellow bg-surface-dark flex flex-col items-center justify-center shadow-[0_0_30px_rgba(234,179,8,0.5)] hover:scale-105 transition-transform cursor-pointer relative z-10 ring-4 ring-status-yellow/10">
+<span class="material-icons-round text-status-yellow text-3xl mb-1">speed</span>
+<div class="h-1 w-12 bg-gray-700 rounded-full overflow-hidden">
+<div class="h-full bg-status-yellow w-1/3"></div>
+</div>
+</div>
+<div class="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-status-yellow text-background-dark px-3 py-1 rounded-full text-xs font-bold shadow-lg animate-bounce">
+                        Current Goal
+                    </div>
+<div class="absolute top-24 left-1/2 -translate-x-1/2 whitespace-nowrap text-center">
+<p class="text-xs font-bold text-status-yellow">In Progress</p>
+<p class="text-base font-bold text-white">Python Optimization</p>
+</div>
+</div>
+<!-- Node 5: Locked (Grey) -->
+<div class="absolute left-[880px] top-[300px] group grayscale opacity-60">
+<div class="w-14 h-14 rounded-full border-2 border-dashed border-status-grey bg-surface-dark flex items-center justify-center relative z-10">
+<span class="material-icons-round text-status-grey text-2xl">lock</span>
+</div>
+<div class="absolute top-16 left-1/2 -translate-x-1/2 whitespace-nowrap text-center">
+<p class="text-sm font-medium text-slate-500">Transformers</p>
+</div>
+</div>
+<!-- Node 6: Locked (Grey) -->
+<div class="absolute left-[880px] top-[460px] group grayscale opacity-60">
+<div class="w-14 h-14 rounded-full border-2 border-dashed border-status-grey bg-surface-dark flex items-center justify-center relative z-10">
+<span class="material-icons-round text-status-grey text-2xl">lock</span>
+</div>
+<div class="absolute top-16 left-1/2 -translate-x-1/2 whitespace-nowrap text-center">
+<p class="text-sm font-medium text-slate-500">LLM Tuning</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Right Sidebar: Intelligence Panel -->
+<aside class="w-96 bg-white dark:bg-surface-dark border-l border-gray-200 dark:border-surface-border flex flex-col z-20 shadow-xl overflow-y-auto">
+<div class="p-6 border-b border-gray-200 dark:border-surface-border">
+<h2 class="text-lg font-bold text-slate-800 dark:text-white mb-1 flex items-center gap-2">
+<span class="material-icons-round text-primary">auto_awesome</span>
+                    AI Insight
+                </h2>
+<p class="text-sm text-slate-500 dark:text-slate-400">Analysis of your learning patterns</p>
+</div>
+<div class="flex-1 p-6 space-y-6">
+<!-- Recommendation Card -->
+<div class="bg-primary/5 dark:bg-primary/10 border border-primary/20 rounded-xl p-5 relative overflow-hidden group hover:border-primary/40 transition-colors">
+<div class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-primary/20 to-transparent rounded-bl-full -mr-4 -mt-4"></div>
+<div class="flex items-start gap-3 mb-3">
+<div class="p-2 bg-primary/20 rounded-lg text-primary dark:text-primary-light">
+<span class="material-icons-round text-xl">alt_route</span>
+</div>
+<div>
+<h3 class="text-sm font-bold text-slate-900 dark:text-white">Why this path?</h3>
+<p class="text-xs text-primary dark:text-primary-light font-medium">Adaptive adjustment</p>
+</div>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                        We noticed you aced the theory in <span class="font-semibold text-slate-900 dark:text-white">Neural Networks</span> but spent 2x average time on the labs. 
+                    </p>
+<div class="mt-3 p-3 bg-white dark:bg-background-dark rounded border border-gray-200 dark:border-surface-border">
+<p class="text-xs text-slate-500 dark:text-slate-400 mb-1">Recommendation:</p>
+<p class="text-sm font-medium text-slate-800 dark:text-slate-200">Inserted <span class="text-status-yellow">Python Optimization</span> module to boost implementation speed before tackling Transformers.</p>
+</div>
+</div>
+<!-- Skill Radar -->
+<div class="bg-gray-50 dark:bg-background-dark rounded-xl p-5 border border-gray-200 dark:border-surface-border">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-sm font-bold text-slate-900 dark:text-white">Skill Radar</h3>
+<span class="text-xs bg-slate-200 dark:bg-surface-border px-2 py-0.5 rounded text-slate-600 dark:text-slate-300">Live</span>
+</div>
+<div class="relative w-full aspect-square max-w-[240px] mx-auto radar-chart rounded-full border border-slate-200 dark:border-slate-700/50">
+<!-- Chart content simulation -->
+<div class="absolute inset-0 flex items-center justify-center">
+<!-- Radar Polygon Shape (CSS Clip path) -->
+<div class="w-2/3 h-2/3 bg-primary/30 dark:bg-primary/20 backdrop-blur-sm radar-polygon border border-primary/50 relative">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1 w-2 h-2 bg-primary rounded-full shadow-[0_0_10px_#0d0df2]"></div>
+<div class="absolute bottom-0 right-1/4 translate-y-1 w-2 h-2 bg-primary rounded-full shadow-[0_0_10px_#0d0df2]"></div>
+<div class="absolute top-1/4 left-0 -translate-x-1 w-2 h-2 bg-primary rounded-full shadow-[0_0_10px_#0d0df2]"></div>
+</div>
+</div>
+<!-- Labels -->
+<span class="absolute top-2 left-1/2 -translate-x-1/2 text-[10px] uppercase font-bold text-slate-400">Logic</span>
+<span class="absolute bottom-6 left-10 text-[10px] uppercase font-bold text-slate-400">Arch</span>
+<span class="absolute bottom-6 right-10 text-[10px] uppercase font-bold text-slate-400">Code</span>
+<span class="absolute top-1/4 right-2 text-[10px] uppercase font-bold text-slate-400">Math</span>
+<span class="absolute top-1/4 left-2 text-[10px] uppercase font-bold text-slate-400">Debug</span>
+</div>
+<div class="grid grid-cols-2 gap-2 mt-4">
+<div class="text-center p-2 bg-white dark:bg-surface-dark rounded border border-gray-100 dark:border-surface-border">
+<p class="text-xs text-slate-500">Logic</p>
+<p class="text-lg font-bold text-primary">92%</p>
+</div>
+<div class="text-center p-2 bg-white dark:bg-surface-dark rounded border border-gray-100 dark:border-surface-border">
+<p class="text-xs text-slate-500">Coding Speed</p>
+<p class="text-lg font-bold text-status-yellow">64%</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer CTA -->
+<div class="p-6 border-t border-gray-200 dark:border-surface-border bg-gray-50 dark:bg-background-dark/50">
+<button class="w-full bg-primary hover:bg-primary-dark text-white font-medium py-3 px-4 rounded-lg shadow-lg shadow-primary/25 flex items-center justify-center gap-2 transition-all hover:scale-[1.02]">
+<span class="material-icons-round">play_arrow</span>
+                    Resume: Optimization
+                </button>
+<p class="text-center text-xs text-slate-500 mt-3">Est. time remaining: 45m</p>
+</div>
+</aside>
+</div>
+</body></html>

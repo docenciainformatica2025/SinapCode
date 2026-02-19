@@ -21,6 +21,9 @@ interface AuthContextType {
     login: (email: string, password: string) => Promise<void>; // Deprecated: use signIn directly
     logout: () => void;
     register: (email: string, password: string, name: string) => Promise<void>;
+    simulateRole: (role: string) => Promise<void>;
+    exitSimulation: () => void;
+    isSimulating: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -39,8 +42,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
 
     const [user, setUser] = useState<User | null>(guestUser);
+    const [originalUser, setOriginalUser] = useState<User | null>(null);
 
     useEffect(() => {
+        // If simulating, do not overwrite user with session data
+        if (originalUser) return;
+
         if (status === 'authenticated' && session?.user) {
             // Map session user to app user
             // Note: In a real app we might fetch extra user details here
@@ -56,7 +63,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         } else if (status === 'unauthenticated') {
             setUser(guestUser);
         }
-    }, [session, status]);
+    }, [session, status, originalUser]);
 
     const isGuest = !user || user.tier === 'guest';
     const isFree = user?.tier === 'free';
@@ -76,8 +83,38 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         window.location.href = '/auth/register';
     };
 
+    // --- Role Simulation Logic ---
+    const simulateRole = async (targetRole: string) => {
+        if (!user) return;
+
+        // Store original admin user if not already stored
+        if (!originalUser) {
+            setOriginalUser(user);
+        }
+
+        // Create simulated user
+        const simulatedUser = { ...user, role: targetRole };
+
+        // Adjust tier based on role for simulation
+        if (targetRole === 'STUDENT') simulatedUser.tier = 'free';
+        if (targetRole === 'TEACHER') simulatedUser.tier = 'pro';
+        if (targetRole === 'COMPANY') simulatedUser.tier = 'pro';
+        if (targetRole === 'USER') simulatedUser.tier = 'free';
+
+        setUser(simulatedUser);
+    };
+
+    const exitSimulation = () => {
+        if (originalUser) {
+            setUser(originalUser);
+            setOriginalUser(null);
+        }
+    };
+
+    const isSimulating = !!originalUser;
+
     return (
-        <AuthContext.Provider value={{ user, isGuest, isFree, isPro, login, logout, register }}>
+        <AuthContext.Provider value={{ user, isGuest, isFree, isPro, login, logout, register, simulateRole, exitSimulation, isSimulating }}>
             {children}
         </AuthContext.Provider>
     );

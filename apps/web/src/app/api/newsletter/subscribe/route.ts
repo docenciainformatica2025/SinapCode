@@ -46,7 +46,7 @@ export async function POST(request: Request) {
         return NextResponse.json({ message: '¡Suscripción exitosa!' }, { status: 201 });
 
     } catch (error) {
-        console.error('Newsletter Subscription Error:', error);
+        console.error('Error en la suscripción al Newsletter:', error);
         return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 });
     }
 }

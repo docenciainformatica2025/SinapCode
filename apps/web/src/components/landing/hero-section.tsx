@@ -2,137 +2,139 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { HeroData } from '@/lib/landing-data';
 
-export function HeroSection() {
+export function HeroSection({ data }: { data: HeroData }) {
     return (
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-36 pb-20 md:pt-40 md:pb-24">
-            {/* Ambient Background Effects */}
-            <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[128px] animate-pulse-slow" />
-                <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-[128px] animate-pulse-slow delay-1000" />
-                {/* Subtle Gold Ambient Glow */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gold/5 rounded-full blur-[150px]" />
-            </div>
+        <section className="relative bg-bg flex flex-col items-center justify-center pt-32 pb-32 md:pb-40 px-4 overflow-hidden subpixel-text">
+            {/* Optimized High-Performance Ambient Background */}
+            <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[140px] -z-10 will-change-[filter,opacity] opacity-40" />
+            <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-[120px] -z-10 will-change-[filter,opacity] opacity-30" />
 
-            <div className="container-page relative z-10 grid gap-12 md:grid-cols-2 items-center">
+            <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] opacity-10 pointer-events-none" />
+
+            <div className="container-page relative z-10 grid gap-16 md:grid-cols-2 items-center">
                 {/* Text Content */}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: "circOut" }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
                     className="space-y-8 text-center md:text-left"
                 >
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.2 }}
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-4k backdrop-blur-2xl"
+                    >
+                        <span className="text-[10px] font-black uppercase tracking-[0.4em] text-platinum italic">
+                            {data.subtitle}
+                        </span>
+                    </motion.div>
 
-
-                    <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-white">
-                        Aprende tecnología <br className="hidden lg:block" />
-                        aplicada <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">con IA real</span>
+                    <h1 className="text-[clamp(1.8rem,6vw,3.5rem)] font-black text-white mb-6 leading-[1.05] tracking-tighter italic uppercase text-glow">
+                        {data.title}
                     </h1>
 
-                    <p className="text-lg sm:text-xl text-muted max-w-xl mx-auto md:mx-0 leading-relaxed">
-                        Cursos prácticos, proyectos reales y formación diseñada para el mundo profesional moderno.
-                        <span className="block mt-2 text-gold-light/80 font-medium">
-                            Tu tutor personal de IA te guía paso a paso.
-                        </span>
+                    <p className="max-w-xl mx-auto md:mx-0 text-lg md:text-xl text-platinum-dim mb-10 leading-relaxed font-bold opacity-70">
+                        {data.description}
                     </p>
 
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                    <div className="flex flex-col sm:flex-row gap-6 justify-center md:justify-start">
                         <Link
-                            href="/auth/register"
-                            className="btn-primary text-lg shadow-[0_0_20px_rgba(34,211,238,0.3)] hover:shadow-[0_0_30px_rgba(34,211,238,0.5)]"
+                            href={data.primaryCtaLink}
+                            className="w-full sm:w-auto px-12 py-6 bg-white text-black rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-[0_20px_40px_rgba(255,255,255,0.1)] hover:shadow-white/20 transition-all duration-500 hover:-translate-y-1 block text-center active:scale-95 border border-white/20"
                         >
-                            Comenzar ahora
+                            {data.primaryCtaText}
                         </Link>
-
                         <Link
-                            href="#cursos"
-                            className="btn-secondary text-lg hover:border-gold/30 hover:text-gold transition-colors"
+                            href={data.secondaryCtaLink}
+                            className="w-full sm:w-auto px-12 py-6 glass-4k border border-white/10 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] hover:bg-white/10 transition-all duration-500 block text-center italic hover:scale-[1.02]"
                         >
-                            Explorar Cursos
+                            {data.secondaryCtaText}
                         </Link>
                     </div>
 
-                    {/* Trust Indicators */}
-                    <div className="pt-8 flex flex-wrap gap-6 justify-center md:justify-start text-sm text-muted">
-                        <div className="flex items-center gap-2">
-                            <svg className="w-5 h-5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                            <span>Certificados Blockchain</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <svg className="w-5 h-5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                            <span>100% A tu ritmo</span>
-                        </div>
+                    <div className="flex flex-wrap items-center justify-center md:justify-start gap-8 opacity-40 grayscale hover:opacity-100 transition-all duration-700 mt-16 group">
+                        <span className="text-platinum font-black tracking-[0.3em] text-[10px] italic uppercase">VALIDADO POR BUILDERS EN</span>
+                        {['Google', 'Vercel', 'Meta', 'Microsoft'].map((company) => (
+                            <span key={company} className="text-white font-black text-2xl tracking-tighter italic group-hover:text-primary transition-colors cursor-default">{company}</span>
+                        ))}
                     </div>
                 </motion.div>
 
-                {/* Visual/Code Block */}
+                {/* Visual/Code Block - GPU Accelerated */}
                 <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 1, delay: 0.2 }}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
                     className="relative hidden md:block"
                 >
-                    <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-purple-500/20 blur-3xl rounded-full" />
+                    <div className="absolute inset-0 bg-gradient-to-tr from-primary/30 to-secondary/30 blur-[100px] rounded-full opacity-40 animate-pulse" />
 
-                    <div className="relative rounded-2xl bg-[#0F1117] border border-white/10 shadow-2xl overflow-hidden group hover:border-gold/20 transition-colors duration-500">
+                    <div className="relative rounded-[2.5rem] bg-black/80 border border-white/5 shadow-2xl overflow-hidden group hover:border-primary/40 transition-all duration-700 will-change-transform">
                         {/* Fake Browser Header */}
-                        <div className="flex items-center gap-2 px-4 py-3 border-b border-white/5 bg-white/5">
-                            <div className="flex gap-1.5">
-                                <div className="w-3 h-3 rounded-full bg-red-500/50" />
-                                <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
-                                <div className="w-3 h-3 rounded-full bg-green-500/50" />
+                        <div className="flex items-center gap-2 px-6 py-4 border-b border-white/5 bg-white/5 backdrop-blur-xl">
+                            <div className="flex gap-2">
+                                <div className="w-3 h-3 rounded-full bg-red-500/40 group-hover:bg-red-500/90 transition-colors" />
+                                <div className="w-3 h-3 rounded-full bg-yellow-500/40 group-hover:bg-yellow-500/90 transition-colors" />
+                                <div className="w-3 h-3 rounded-full bg-green-500/40 group-hover:bg-green-500/90 transition-colors" />
                             </div>
-                            <div className="ml-4 px-3 py-1 rounded bg-black/20 text-xs text-muted font-mono">
-                                ai-tutor.py
+                            <div className="ml-6 px-4 py-1 rounded-lg bg-black/60 text-[10px] text-gray-400 font-mono tracking-widest uppercase">
+                                node::nexus_protocol.ts
                             </div>
                         </div>
 
-                        {/* Code Content */}
-                        <div className="p-6 font-mono text-sm leading-relaxed text-gray-300">
+                        {/* Code Content with 4K Sharpness */}
+                        <div className="p-10 font-mono text-[13px] leading-relaxed text-gray-400 subpixel-text">
                             <div className="flex">
-                                <span className="text-gray-600 select-none mr-4">1</span>
-                                <span className="text-purple-400">class</span> <span className="text-yellow-200 ml-2">FutureDev</span>:
+                                <span className="text-gray-700 select-none mr-6">01</span>
+                                <span className="text-primary font-bold">import</span> &#123; <span className="text-blue-400">Builder</span> &#125; <span className="text-primary font-bold">from</span> <span className="text-emerald-400">"@sinap/core"</span>;
                             </div>
                             <div className="flex">
-                                <span className="text-gray-600 select-none mr-4">2</span>
-                                <span className="ml-4 text-purple-400">def</span> <span className="text-blue-400 ml-2">__init__</span>(self):
+                                <span className="text-gray-700 select-none mr-6">02</span>
+                                <span className="text-purple-400">interface</span> <span className="text-yellow-200">EvolutionPath</span> &#123;
                             </div>
                             <div className="flex">
-                                <span className="text-gray-600 select-none mr-4">3</span>
-                                <span className="ml-8 text-cyan-400">self</span>.skills = [<span className="text-green-400">'AI'</span>, <span className="text-green-400">'Web3'</span>, <span className="text-green-400">'Security'</span>]
+                                <span className="text-gray-700 select-none mr-6">03</span>
+                                <span className="ml-6 text-platinum-dim">mastery</span>: <span className="text-orange-400">"Guaranteed"</span>;
                             </div>
                             <div className="flex">
-                                <span className="text-gray-600 select-none mr-4">4</span>
-                                <span className="ml-8 text-cyan-400">self</span>.status = <span className="text-green-400">'Ready for Impact'</span>
+                                <span className="text-gray-700 select-none mr-6">04</span>
+                                <span className="ml-6 text-platinum-dim">stack</span>: [<span className="text-emerald-400">"IA"</span>, <span className="text-emerald-400">"Web3"</span>, <span className="text-emerald-400">"4K_UX"</span>];
                             </div>
                             <div className="flex">
-                                <span className="text-gray-600 select-none mr-4">5</span>
+                                <span className="text-gray-700 select-none mr-6">05</span>
+                                &#125;
+                            </div>
+                            <div className="flex mt-4 bg-primary/5 -mx-10 px-10 border-l-2 border-primary py-2 backdrop-blur-sm">
+                                <span className="text-gray-700 select-none mr-6">06</span>
+                                <span className="text-white opacity-90 italic">// Protocolo Nexus: Optimización en curso...</span>
+                            </div>
+                            <div className="flex mt-4">
+                                <span className="text-gray-700 select-none mr-6">07</span>
+                                <span className="text-purple-400">const</span> <span className="text-blue-400">builder</span> = <span className="text-purple-400">new</span> <span className="text-yellow-200">Builder</span>();
                             </div>
                             <div className="flex">
-                                <span className="text-gray-600 select-none mr-4">6</span>
-                                <span className="ml-4 text-purple-400">def</span> <span className="text-blue-400 ml-2">learn_with_sinapcode</span>(self):
-                            </div>
-                            <div className="flex bg-gold/10 -mx-6 px-6 border-l-2 border-gold">
-                                <span className="text-gray-600 select-none mr-4">7</span>
-                                <span className="ml-8 text-muted">// Optimizing learning path...</span>
-                            </div>
-                            <div className="flex">
-                                <span className="text-gray-600 select-none mr-4">8</span>
-                                <span className="ml-8 text-purple-400">return</span> <span className="text-gold font-bold">Success.GUARANTEED</span>
+                                <span className="text-gray-700 select-none mr-6">08</span>
+                                <span className="text-blue-400">builder</span>.<span className="text-blue-200">initialize</span>(<span className="text-primary font-bold">PRO_MASTERY</span>);
                             </div>
                         </div>
                     </div>
                 </motion.div>
             </div>
 
-            {/* Scroll Indicator */}
+            {/* Scroll Indicator 4K */}
             <motion.div
-                className="absolute bottom-8 left-1/2 -translate-x-1/2"
-                animate={{ y: [0, 10, 0] }}
-                transition={{ repeat: Infinity, duration: 2 }}
+                className="absolute bottom-12 left-1/2 -translate-x-1/2 opacity-20 hover:opacity-100 transition-opacity"
+                animate={{ y: [0, 8, 0] }}
+                transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
             >
-                <div className="w-5 h-8 border-2 border-muted/30 rounded-full flex justify-center pt-2">
-                    <div className="w-1 h-1.5 bg-muted/50 rounded-full" />
+                <div className="w-6 h-10 border border-white/10 rounded-full flex justify-center pt-2 backdrop-blur-sm">
+                    <div className="w-1 h-2 bg-primary rounded-full animate-pulse" />
                 </div>
             </motion.div>
         </section>

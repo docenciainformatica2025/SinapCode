@@ -41,7 +41,7 @@ export async function PUT(request: Request, { params }: { params: { testimonialI
 
         return NextResponse.json(updatedTestimonial);
     } catch (error) {
-        console.error('Testimonial PUT Error:', error);
+        console.error('Error en Testimonial (PUT):', error);
         return NextResponse.json({ error: 'Failed to update testimonial' }, { status: 500 });
     }
 }
@@ -60,7 +60,7 @@ export async function DELETE(request: Request, { params }: { params: { testimoni
 
         return NextResponse.json({ success: true });
     } catch (error) {
-        console.error('Testimonial DELETE Error:', error);
+        console.error('Error en Testimonial (DELETE):', error);
         return NextResponse.json({ error: 'Failed to delete testimonial' }, { status: 500 });
     }
 }

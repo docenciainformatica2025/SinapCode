@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { GlobalNavbar } from '@/components/global-navbar';
 
 import { type Metadata } from 'next';
 
@@ -95,7 +94,6 @@ export default function EnterprisePage() {
 
     return (
         <div className="min-h-screen bg-deep-space selection:bg-gold/30 selection:text-white">
-            <GlobalNavbar />
 
             {/* Hero */}
             <div className="relative overflow-hidden pt-20">

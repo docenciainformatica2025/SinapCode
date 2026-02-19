@@ -4,7 +4,7 @@
 
 @layer base {
     body {
-        @apply bg-bg text-text font-sans antialiased;
+        @apply bg-bg text-text font-sans antialiased selection:bg-primary/30 selection:text-white;
     }
 }
 
@@ -23,47 +23,63 @@
 }
 
 @layer utilities {
-    .glass-panel {
-        @apply bg-white/5 backdrop-blur-lg border border-white/10;
+    .glass-4k {
+        @apply bg-black/40 backdrop-blur-[20px] border border-white/5;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
     }
 
-    .shadow-neon-blue {
-        box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+    .text-glow {
+        text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
     }
 
-    .shadow-neon-purple {
-        box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+    .border-glow-primary {
+        @apply border border-primary/20;
+        box-shadow: inset 0 0 20px rgba(25, 127, 230, 0.05), 0 0 15px rgba(25, 127, 230, 0.1);
+    }
+
+    .mask-edge-fade {
+        mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+    }
+
+    .subpixel-text {
+        -webkit-font-smoothing: subpixel-antialiased;
+        -moz-osx-font-smoothing: auto;
+    }
+
+    .section-spacing {
+        content-visibility: auto;
+        contain-intrinsic-size: 1px 1000px;
+    }
+
+    .glass-panel-nexus {
+        @apply backdrop-blur-xl bg-white/5 border border-white/5 rounded-[2.5rem] shadow-2xl;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.02);
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+        @apply bg-transparent;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        @apply bg-white/10 rounded-full hover:bg-white/20 transition-colors;
+    }
+
+    .shadow-glow {
+        box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
     }
 }
 
-/* Accessibility: Focus indicators */
-*:focus-visible {
-    outline: 2px solid #3b82f6;
-    outline-offset: 2px;
+/* Optimize 4K visuals */
+.sharp-vignette {
+    background: radial-gradient(circle, transparent 20%, black 150%);
+    pointer-events: none;
 }
 
-/* Smooth scrolling */
-html {
-    scroll-behavior: smooth;
-}
-
-/* Reduced motion for accessibility */
-@media (prefers-reduced-motion: reduce) {
-
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-}
-
-/* 
-   WORLD CLASS UX: Invisible reCAPTCHA 
-   Hides the floating badge. Legal text is already present in forms.
-   Google TOS compliant strategy.
-*/
 .grecaptcha-badge {
     visibility: hidden;
     opacity: 0;

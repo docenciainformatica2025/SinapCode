@@ -1,4 +1,5 @@
 import React from 'react';
+import { siteConfig } from '@/lib/site-config';
 
 type JsonLdProps = {
     type: 'Course' | 'Organization' | 'Person' | 'Article' | 'WebSite' | 'EducationalOrganization' | 'DigitalDocument';
@@ -27,11 +28,11 @@ export function WebSiteSchema() {
             type="WebSite"
             data={{
                 name: "SinapCode",
-                url: "https://sinapcode.com",
+                url: siteConfig.url,
                 description: "Plataforma educativa con tutor de IA personal. Aprende Python, JavaScript, Hacking Ético y más. 100% gratis.",
                 potentialAction: {
                     '@type': "SearchAction",
-                    target: "https://sinapcode.com/courses?q={search_term_string}",
+                    target: `${siteConfig.url}/courses?q={search_term_string}`,
                     "query-input": "required name=search_term_string"
                 }
             }}
@@ -47,8 +48,8 @@ export function GlobalOrganizationSchema() {
             data={{
                 name: "SinapCode",
                 alternateName: "SinapCode - Aprende a Programar con IA",
-                url: "https://sinapcode.com",
-                logo: "https://sinapcode.com/logo.png",
+                url: siteConfig.url,
+                logo: `${siteConfig.url}/logo.png`,
                 description: "Plataforma educativa revolucionaria que combina programación de alta calidad con inteligencia artificial. Cursos 100% gratuitos con certificados verificados en blockchain.",
                 sameAs: [
                     "https://twitter.com/sinapcode",
@@ -84,7 +85,7 @@ export function CourseSchema({ course }: { course: any }) {
                 provider: {
                     '@type': "EducationalOrganization",
                     name: "SinapCode",
-                    url: "https://sinapcode.com"
+                    url: siteConfig.url
                 },
                 offers: {
                     '@type': "Offer",

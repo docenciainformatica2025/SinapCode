@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SinapCODE Cyber Defense &amp; Health Shield</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                        "cyber-green": "#00ff9d",
+                        "cyber-red": "#ff0055",
+                        "cyber-panel": "#1a222c",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for the "hacker" feel */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #101922;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f2937;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #374151;
+        }
+        
+        /* Grid background pattern */
+        .grid-bg {
+            background-image: 
+                linear-gradient(rgba(19, 127, 236, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(19, 127, 236, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .animate-pulse-slow {
+            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-300 h-screen overflow-hidden flex flex-col grid-bg selection:bg-primary selection:text-white">
+<!-- Top Navigation -->
+<header class="h-16 border-b border-white/10 bg-background-dark/80 backdrop-blur-md flex items-center justify-between px-6 z-50 shrink-0">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="material-icons text-primary animate-pulse-slow">shield</span>
+<h1 class="text-xl font-bold text-white tracking-widest">SINAP<span class="text-primary">CODE</span></h1>
+</div>
+<div class="h-6 w-px bg-white/10 mx-2"></div>
+<div class="flex items-center gap-2 px-3 py-1 rounded bg-cyber-green/10 border border-cyber-green/20">
+<div class="w-2 h-2 rounded-full bg-cyber-green animate-pulse"></div>
+<span class="text-xs font-medium text-cyber-green uppercase tracking-wider">System Secure</span>
+</div>
+<span class="text-xs text-slate-500 font-mono mt-0.5">V.4.2.1-STABLE</span>
+</div>
+<div class="flex items-center gap-6">
+<!-- Ticker -->
+<div class="hidden lg:flex items-center gap-4 overflow-hidden max-w-md mask-linear-gradient">
+<div class="flex gap-8 text-xs font-mono text-slate-500 whitespace-nowrap animate-[marquee_20s_linear_infinite]">
+<span>&gt; SCAN_ID: 9942_COMPLETE</span>
+<span>&gt; FIREWALL_UP: 99.9%</span>
+<span>&gt; NODE_HK_2: LATENCY_LOW</span>
+<span>&gt; ENCRYPTION_KEYS: ROTATED</span>
+<span>&gt; AI_MODEL: TRAINING_PAUSED</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 text-slate-400 hover:text-white hover:bg-white/5 rounded-full transition-colors relative">
+<span class="material-icons text-xl">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-cyber-red rounded-full border border-background-dark"></span>
+</button>
+<button class="p-2 text-slate-400 hover:text-white hover:bg-white/5 rounded-full transition-colors">
+<span class="material-icons text-xl">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-primary/20 border border-primary/50 flex items-center justify-center text-primary font-bold text-sm">
+                    AO
+                </div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 flex overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="w-16 border-r border-white/10 flex flex-col items-center py-6 gap-6 bg-background-dark/50 shrink-0">
+<nav class="flex flex-col gap-4 w-full px-2">
+<button class="p-3 rounded-lg bg-primary/20 text-primary border border-primary/30 flex justify-center group relative">
+<span class="material-icons">dashboard</span>
+<div class="absolute left-14 bg-gray-800 text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap border border-white/10">Overview</div>
+</button>
+<button class="p-3 rounded-lg text-slate-500 hover:text-white hover:bg-white/5 transition-colors flex justify-center group relative">
+<span class="material-icons">language</span>
+<div class="absolute left-14 bg-gray-800 text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap border border-white/10">Network Map</div>
+</button>
+<button class="p-3 rounded-lg text-slate-500 hover:text-white hover:bg-white/5 transition-colors flex justify-center group relative">
+<span class="material-icons">bug_report</span>
+<div class="absolute left-14 bg-gray-800 text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap border border-white/10">Threats</div>
+</button>
+<button class="p-3 rounded-lg text-slate-500 hover:text-white hover:bg-white/5 transition-colors flex justify-center group relative">
+<span class="material-icons">memory</span>
+<div class="absolute left-14 bg-gray-800 text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap border border-white/10">AI Nodes</div>
+</button>
+<div class="h-px w-full bg-white/10 my-2"></div>
+<button class="p-3 rounded-lg text-cyber-red/80 hover:text-cyber-red hover:bg-cyber-red/10 transition-colors flex justify-center group relative">
+<span class="material-icons">lock</span>
+<div class="absolute left-14 bg-gray-800 text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap border border-white/10">Lockdown</div>
+</button>
+</nav>
+</aside>
+<!-- Dashboard Grid -->
+<div class="flex-1 p-6 overflow-y-auto">
+<div class="max-w-7xl mx-auto space-y-6">
+<!-- KPI Row -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- KPI 1: Threat Level -->
+<div class="bg-cyber-panel border border-white/5 rounded-xl p-5 relative overflow-hidden group hover:border-primary/30 transition-colors">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-icons text-6xl text-primary">security</span>
+</div>
+<h3 class="text-xs uppercase tracking-widest text-slate-500 font-bold mb-1">Active Threat Level</h3>
+<div class="flex items-end gap-3 mt-2">
+<span class="text-3xl font-bold text-white">LOW</span>
+<span class="text-xs text-cyber-green mb-1.5 flex items-center gap-1">
+<span class="material-icons text-[14px]">arrow_downward</span> 12%
+                            </span>
+</div>
+<div class="w-full bg-white/5 h-1.5 rounded-full mt-4 overflow-hidden">
+<div class="bg-gradient-to-r from-primary to-cyber-green h-full w-[15%] rounded-full"></div>
+</div>
+<div class="mt-2 text-[10px] text-slate-500 font-mono">LAST SCAN: 2m AGO</div>
+</div>
+<!-- KPI 2: Firewall -->
+<div class="bg-cyber-panel border border-white/5 rounded-xl p-5 relative overflow-hidden group hover:border-primary/30 transition-colors">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-icons text-6xl text-primary">dns</span>
+</div>
+<h3 class="text-xs uppercase tracking-widest text-slate-500 font-bold mb-1">Firewall Status</h3>
+<div class="flex items-end gap-3 mt-2">
+<span class="text-3xl font-bold text-white">ACTIVE</span>
+<span class="text-xs text-cyber-green mb-1.5 px-1.5 py-0.5 rounded bg-cyber-green/10 border border-cyber-green/20">
+                                99.9% UPTIME
+                            </span>
+</div>
+<div class="flex gap-1 mt-4">
+<div class="h-1.5 flex-1 bg-cyber-green rounded-full opacity-80"></div>
+<div class="h-1.5 flex-1 bg-cyber-green rounded-full opacity-60"></div>
+<div class="h-1.5 flex-1 bg-cyber-green rounded-full opacity-40"></div>
+<div class="h-1.5 flex-1 bg-cyber-green rounded-full opacity-20"></div>
+</div>
+<div class="mt-2 text-[10px] text-slate-500 font-mono">1.2M PACKETS/SEC</div>
+</div>
+<!-- KPI 3: DDOS Protection -->
+<div class="bg-cyber-panel border border-white/5 rounded-xl p-5 relative overflow-hidden group hover:border-primary/30 transition-colors">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-icons text-6xl text-primary">gpp_good</span>
+</div>
+<h3 class="text-xs uppercase tracking-widest text-slate-500 font-bold mb-1">DDOS Protection</h3>
+<div class="flex items-end gap-3 mt-2">
+<span class="text-3xl font-bold text-white">0.4 <span class="text-lg text-slate-400">TB/s</span></span>
+</div>
+<div class="h-8 mt-2 flex items-end gap-0.5">
+<div class="w-1 bg-primary/20 h-[30%]"></div>
+<div class="w-1 bg-primary/30 h-[50%]"></div>
+<div class="w-1 bg-primary/40 h-[40%]"></div>
+<div class="w-1 bg-primary/60 h-[70%]"></div>
+<div class="w-1 bg-primary/80 h-[45%]"></div>
+<div class="w-1 bg-primary h-[80%]"></div>
+<div class="w-1 bg-primary/80 h-[55%]"></div>
+<div class="w-1 bg-primary/60 h-[35%]"></div>
+<div class="w-1 bg-primary/40 h-[20%]"></div>
+<div class="w-1 bg-primary/40 h-[25%]"></div>
+</div>
+<div class="mt-2 text-[10px] text-slate-500 font-mono">MITIGATED VOLUME</div>
+</div>
+<!-- KPI 4: Encryption Health -->
+<div class="bg-cyber-panel border border-white/5 rounded-xl p-5 relative overflow-hidden group hover:border-primary/30 transition-colors">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-icons text-6xl text-primary">vpn_key</span>
+</div>
+<h3 class="text-xs uppercase tracking-widest text-slate-500 font-bold mb-1">Encryption Health</h3>
+<div class="flex items-end gap-3 mt-2">
+<span class="text-3xl font-bold text-white">100%</span>
+<span class="text-xs text-primary mb-1.5">AES-256</span>
+</div>
+<div class="mt-4 flex items-center justify-between text-[10px] text-slate-400 font-mono border-t border-white/5 pt-2">
+<span>KEYS: OK</span>
+<span>CERTS: VALID</span>
+<span>SALT: REFRESHED</span>
+</div>
+</div>
+</div>
+<!-- Main Visualization Area -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[500px]">
+<!-- Globe / Map Section -->
+<div class="lg:col-span-2 bg-cyber-panel border border-white/5 rounded-xl relative overflow-hidden flex flex-col">
+<div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&amp;w=2072&amp;auto=format&amp;fit=crop')] bg-cover bg-center opacity-30 mix-blend-screen" data-alt="Abstract 3D wireframe globe illustrating digital network connections over a dark background" data-location="Global Network Map" style=""></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent"></div>
+<!-- Overlay UI for Map -->
+<div class="relative z-10 p-6 flex justify-between items-start">
+<div>
+<h2 class="text-lg font-bold text-white flex items-center gap-2">
+<span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+                                    Global Traffic Vectors
+                                </h2>
+<p class="text-xs text-slate-400 mt-1">Real-time attack surface monitoring</p>
+</div>
+<div class="flex gap-2">
+<button class="bg-background-dark/50 backdrop-blur border border-white/10 text-xs px-3 py-1.5 rounded text-slate-300 hover:text-white hover:border-primary/50 transition-colors">2D View</button>
+<button class="bg-primary/20 backdrop-blur border border-primary/50 text-xs px-3 py-1.5 rounded text-primary hover:bg-primary/30 transition-colors">3D Globe</button>
+</div>
+</div>
+<!-- Abstract Visualization Elements (Simulating the 3D Globe interactions) -->
+<div class="relative flex-1 w-full h-full flex items-center justify-center">
+<!-- Central Node -->
+<div class="w-64 h-64 border border-primary/20 rounded-full flex items-center justify-center animate-[spin_20s_linear_infinite]">
+<div class="w-48 h-48 border border-primary/40 rounded-full border-dashed"></div>
+</div>
+<!-- Attack Vector Lines (Simulated) -->
+<div class="absolute top-1/2 left-1/2 w-full h-full -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 800 400">
+<path class="animate-pulse" d="M100,200 Q400,100 700,200" fill="none" stroke="#137fec" stroke-opacity="0.3" stroke-width="1"></path>
+<path d="M50,150 Q400,350 750,50" fill="none" stroke="#137fec" stroke-opacity="0.1" stroke-width="1"></path>
+<path d="M150,300 Q400,50 650,300" fill="none" stroke="#ff0055" stroke-dasharray="5,5" stroke-opacity="0.6" stroke-width="1.5"></path>
+<circle class="animate-ping" cx="650" cy="300" fill="#ff0055" r="4"></circle>
+</svg>
+</div>
+<!-- Location Pin Tooltip -->
+<div class="absolute top-[65%] right-[20%] bg-background-dark/90 backdrop-blur border-l-2 border-cyber-red px-3 py-2 rounded shadow-xl">
+<div class="text-[10px] text-slate-400 uppercase">Alert Source</div>
+<div class="text-sm font-bold text-white">East Asia Node</div>
+<div class="text-[10px] text-cyber-red mt-1">MALWARE SIGNATURE DETECTED</div>
+</div>
+</div>
+<div class="relative z-10 p-4 border-t border-white/5 bg-background-dark/50 backdrop-blur-sm flex gap-6 text-xs font-mono text-slate-400">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span> Safe Traffic
+                             </div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-cyber-red animate-pulse"></span> Blocked Threats
+                            </div>
+<div class="flex-1 text-right">
+                                 Lat: 35.6762° N | Lon: 139.6503° E
+                             </div>
+</div>
+</div>
+<!-- AI Intrusion Detection Panel -->
+<div class="bg-cyber-panel border border-white/5 rounded-xl flex flex-col h-full overflow-hidden">
+<div class="p-5 border-b border-white/5 bg-white/[0.02]">
+<div class="flex items-center justify-between mb-1">
+<h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+<span class="material-icons text-primary text-sm">psychology</span>
+                                    AI Intrusion Log
+                                </h3>
+<span class="text-[10px] bg-primary/20 text-primary px-2 py-0.5 rounded border border-primary/30">LIVE</span>
+</div>
+<p class="text-xs text-slate-500">Heuristic anomaly detection engine</p>
+</div>
+<div class="flex-1 overflow-y-auto p-2 space-y-2">
+<!-- Alert Item: High -->
+<div class="group p-3 rounded hover:bg-white/5 border border-transparent hover:border-white/10 transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-1">
+<span class="text-xs font-mono text-slate-400">10:42:05 UTC</span>
+<span class="text-[10px] font-bold text-cyber-red border border-cyber-red/30 bg-cyber-red/10 px-1.5 py-0.5 rounded">HIGH SEVERITY</span>
+</div>
+<h4 class="text-sm text-slate-200 font-medium group-hover:text-primary transition-colors">Unusual Login Pattern</h4>
+<div class="text-xs text-slate-500 mt-1 flex items-center gap-1">
+<span class="material-icons text-[12px]">location_on</span> Lagos, NG • IP: 192.168.X.X
+                                </div>
+<div class="mt-3 flex gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+<button class="flex-1 bg-cyber-red/20 hover:bg-cyber-red/30 text-cyber-red border border-cyber-red/50 text-[10px] py-1.5 rounded font-bold uppercase tracking-wider transition-colors">Investigate</button>
+<button class="flex-1 bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 text-[10px] py-1.5 rounded font-bold uppercase tracking-wider transition-colors">Ignore</button>
+</div>
+</div>
+<!-- Alert Item: Blocked -->
+<div class="group p-3 rounded hover:bg-white/5 border border-transparent hover:border-white/10 transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-1">
+<span class="text-xs font-mono text-slate-400">10:40:12 UTC</span>
+<span class="text-[10px] font-bold text-cyber-green border border-cyber-green/30 bg-cyber-green/10 px-1.5 py-0.5 rounded">BLOCKED</span>
+</div>
+<h4 class="text-sm text-slate-200 font-medium group-hover:text-primary transition-colors">SQL Injection Attempt</h4>
+<div class="text-xs text-slate-500 mt-1">
+                                    Vector: Web Form /contact • Payload: ' OR 1=1
+                                </div>
+<div class="mt-3 flex gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+<button class="flex-1 bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 text-[10px] py-1.5 rounded font-bold uppercase tracking-wider transition-colors">View Details</button>
+</div>
+</div>
+<!-- Alert Item: Medium -->
+<div class="group p-3 rounded hover:bg-white/5 border border-transparent hover:border-white/10 transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-1">
+<span class="text-xs font-mono text-slate-400">10:35:55 UTC</span>
+<span class="text-[10px] font-bold text-orange-400 border border-orange-400/30 bg-orange-400/10 px-1.5 py-0.5 rounded">MEDIUM</span>
+</div>
+<h4 class="text-sm text-slate-200 font-medium group-hover:text-primary transition-colors">Privilege Escalation Heuristic</h4>
+<div class="text-xs text-slate-500 mt-1">
+                                    User: admin_temp • Action: sudo config_write
+                                </div>
+<div class="mt-3 flex gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+<button class="flex-1 bg-primary/20 hover:bg-primary/30 text-primary border border-primary/50 text-[10px] py-1.5 rounded font-bold uppercase tracking-wider transition-colors">Review</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Detailed Logs Table Section -->
+<div class="bg-cyber-panel border border-white/5 rounded-xl overflow-hidden">
+<div class="p-5 border-b border-white/5 flex items-center justify-between">
+<h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+<span class="material-icons text-slate-500 text-sm">table_chart</span>
+                             System Event Log
+                         </h3>
+<div class="flex gap-2">
+<input class="bg-background-dark text-xs text-slate-300 px-3 py-1.5 rounded border border-white/10 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/50 placeholder-slate-600" placeholder="Search logs..." type="text"/>
+<button class="flex items-center gap-1 text-xs text-slate-400 hover:text-white px-3 py-1.5 rounded border border-white/10 hover:bg-white/5">
+<span class="material-icons text-sm">filter_list</span> Filter
+                             </button>
+<button class="flex items-center gap-1 text-xs text-primary hover:text-white px-3 py-1.5 rounded border border-primary/20 bg-primary/10 hover:bg-primary transition-colors">
+<span class="material-icons text-sm">download</span> Export
+                            </button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="text-xs text-slate-500 font-mono border-b border-white/5 bg-white/[0.01]">
+<th class="p-4 font-normal">TIMESTAMP</th>
+<th class="p-4 font-normal">SEVERITY</th>
+<th class="p-4 font-normal">SOURCE</th>
+<th class="p-4 font-normal">EVENT TYPE</th>
+<th class="p-4 font-normal">STATUS</th>
+<th class="p-4 font-normal text-right">ACTION</th>
+</tr>
+</thead>
+<tbody class="text-sm text-slate-300 divide-y divide-white/5">
+<tr class="hover:bg-white/[0.02] group transition-colors">
+<td class="p-4 font-mono text-xs text-slate-400">2023-10-27 14:22:01</td>
+<td class="p-4"><span class="w-2 h-2 rounded-full bg-cyber-green inline-block mr-2"></span>Info</td>
+<td class="p-4">Firewall-01</td>
+<td class="p-4">Routine Packet Inspection</td>
+<td class="p-4 text-slate-500">Completed</td>
+<td class="p-4 text-right"><span class="material-icons text-slate-600 group-hover:text-primary cursor-pointer text-sm">more_horiz</span></td>
+</tr>
+<tr class="hover:bg-white/[0.02] group transition-colors">
+<td class="p-4 font-mono text-xs text-slate-400">2023-10-27 14:21:58</td>
+<td class="p-4"><span class="w-2 h-2 rounded-full bg-cyber-red inline-block mr-2 animate-pulse"></span>Critical</td>
+<td class="p-4 text-white font-medium">Auth-Server-03</td>
+<td class="p-4">Brute Force Detected</td>
+<td class="p-4 text-cyber-red font-medium">Active</td>
+<td class="p-4 text-right"><button class="text-xs text-primary underline decoration-primary/50 hover:text-white">Isolate</button></td>
+</tr>
+<tr class="hover:bg-white/[0.02] group transition-colors">
+<td class="p-4 font-mono text-xs text-slate-400">2023-10-27 14:20:15</td>
+<td class="p-4"><span class="w-2 h-2 rounded-full bg-orange-400 inline-block mr-2"></span>Warning</td>
+<td class="p-4">User: dev_ops_lead</td>
+<td class="p-4">Config Change (No Ticket)</td>
+<td class="p-4 text-orange-400">Pending Review</td>
+<td class="p-4 text-right"><span class="material-icons text-slate-600 group-hover:text-primary cursor-pointer text-sm">more_horiz</span></td>
+</tr>
+<tr class="hover:bg-white/[0.02] group transition-colors">
+<td class="p-4 font-mono text-xs text-slate-400">2023-10-27 14:18:42</td>
+<td class="p-4"><span class="w-2 h-2 rounded-full bg-cyber-green inline-block mr-2"></span>Info</td>
+<td class="p-4">Load-Balancer</td>
+<td class="p-4">Traffic Spike Mitigated</td>
+<td class="p-4 text-slate-500">Auto-Resolved</td>
+<td class="p-4 text-right"><span class="material-icons text-slate-600 group-hover:text-primary cursor-pointer text-sm">more_horiz</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-3 border-t border-white/5 bg-white/[0.01] flex justify-between items-center text-xs text-slate-500">
+<span>Showing 4 of 1,203 events</span>
+<div class="flex gap-2">
+<button class="hover:text-white disabled:opacity-50" disabled="">Previous</button>
+<span class="text-slate-700">|</span>
+<button class="hover:text-white">Next</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="mt-8 border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-slate-600 gap-4">
+<div>
+                    © 2023 SinapCODE Security Systems. All rights reserved.
+                </div>
+<div class="flex gap-6">
+<a class="hover:text-primary transition-colors" href="#">Privacy Protocol</a>
+<a class="hover:text-primary transition-colors" href="#">System Status</a>
+<a class="hover:text-primary transition-colors" href="#">Support</a>
+</div>
+<div class="font-mono text-[10px]">
+                    Latency: <span class="text-cyber-green">14ms</span> | Node: <span class="text-white">US-EAST-1</span>
+</div>
+</footer>
+</div>
+</main>
+</body></html>

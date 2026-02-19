@@ -48,7 +48,7 @@ export default function SettingsPage() {
                     if (sysInfo) setSystemInfo(sysInfo);
                 }
             } catch (error) {
-                console.error('Error loading settings:', error);
+                console.error('Error al cargar la configuración:', error);
                 toast.error('Error al cargar la configuración');
             } finally {
                 setLoading(false);
@@ -74,7 +74,7 @@ export default function SettingsPage() {
                 toast.error('Error al guardar: ' + (error.message || 'Error desconocido'));
             }
         } catch (error) {
-            console.error('Error saving settings:', error);
+            console.error('Error al guardar la configuración:', error);
             toast.error('Error de conexión al guardar');
         } finally {
             setSaving(false);

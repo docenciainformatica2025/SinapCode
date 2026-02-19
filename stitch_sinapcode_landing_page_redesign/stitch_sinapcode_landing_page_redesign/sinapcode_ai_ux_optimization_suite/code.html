@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SinapCODE AI UX Optimization Suite</title>
+<!-- Google Fonts: Space Grotesk -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Icons -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#7f0df2",
+                        "primary-dark": "#5e08b5",
+                        "primary-light": "#9e4af5",
+                        "secondary": "#0dcfec", // Cyan for accents
+                        "background-light": "#f7f5f8",
+                        "background-dark": "#191022",
+                        "surface-dark": "#231630",
+                        "surface-light": "#ffffff",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom Scrollbar for sleek look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #191022; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4a2c66; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #7f0df2; 
+        }
+        
+        /* Grid Background Pattern */
+        .bg-grid-pattern {
+            background-image: linear-gradient(rgba(127, 13, 242, 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(127, 13, 242, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-gray-200 font-display min-h-screen flex flex-col antialiased bg-grid-pattern selection:bg-primary selection:text-white">
+<!-- Top Navigation -->
+<header class="border-b border-gray-200 dark:border-primary/20 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md sticky top-0 z-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between h-16 items-center">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold">
+<span class="material-icons-round text-lg">hub</span>
+</div>
+<span class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Sinap<span class="text-primary">CODE</span></span>
+</div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-primary font-medium border-b-2 border-primary px-1 py-1" href="#">Dashboard</a>
+<a class="text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors px-1 py-1" href="#">Recordings</a>
+<a class="text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors px-1 py-1" href="#">Heatmaps</a>
+<a class="text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors px-1 py-1" href="#">Settings</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="relative p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-primary/20 transition-colors">
+<span class="material-icons-round">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-secondary"></span>
+</button>
+<div class="h-8 w-8 rounded-full bg-gradient-to-tr from-gray-700 to-gray-600 border border-gray-500 overflow-hidden cursor-pointer" title="User Profile">
+<img alt="Executive user profile avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoNAy8cOorKVQLA9o2bXFeW8T2Q37CpzoNJGw43iolNH01sf6ElB5kw5MSraw-60Q8ttY0CwxhEqaeVyupV0ww0gBvJWvsXavFCkHEqNokN1HRYGOLP4Otq4AWm5wNDQrw6QQoWrbjyaUSwyZ_CAVBwQJV7JQFWiO_YE3GuLzuYf_dajVsU4CNmiwjlubjBs-8uYUN7vgXVWua-Hb8lCkD9AP0Hihd6orRmTZ2pJRsG-HkV2f-4ILFWY5JOql6mhMkNgliM9PxA-K1"/>
+</div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-grow p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded text-xs font-medium bg-secondary/10 text-secondary border border-secondary/20">LIVE ANALYSIS</span>
+<span class="text-gray-500 dark:text-gray-400 text-sm">Last updated: 2 mins ago</span>
+</div>
+<h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white leading-tight">
+                    UX Optimization Report
+                </h1>
+<p class="text-gray-600 dark:text-gray-400 mt-1 max-w-xl">
+                    AI-driven insights for Oct 24, 2023. Identifying friction in the checkout flow.
+                </p>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-4 py-2 rounded-lg border border-gray-300 dark:border-primary/30 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-primary/10 transition-colors text-sm font-medium flex items-center gap-2">
+<span class="material-icons-round text-base">file_download</span> Export
+                </button>
+<button class="px-4 py-2 rounded-lg bg-primary hover:bg-primary-dark text-white shadow-lg shadow-primary/30 transition-all text-sm font-medium flex items-center gap-2">
+<span class="material-icons-round text-base">autorenew</span> Regenerate Report
+                </button>
+</div>
+</div>
+<!-- 1. AI Diagnosis Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+<!-- Card 1 -->
+<div class="bg-white dark:bg-surface-dark rounded-xl p-5 border border-gray-200 dark:border-primary/20 shadow-sm relative overflow-hidden group hover:border-primary/50 transition-colors">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-icons-round text-6xl text-red-500">warning</span>
+</div>
+<div class="flex items-start justify-between mb-4">
+<div class="p-2 bg-red-500/10 rounded-lg text-red-500">
+<span class="material-icons-round">shopping_cart_checkout</span>
+</div>
+<span class="px-2 py-1 rounded text-xs font-bold bg-red-500/10 text-red-500 uppercase tracking-wider">Critical</span>
+</div>
+<h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">High Drop-off in Checkout</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mb-3">68% of users abandon cart at step 2.</p>
+<div class="flex items-center gap-2 text-red-500 text-sm font-medium">
+<span class="material-icons-round text-base">trending_down</span>
+                    -12% Conversion
+                </div>
+</div>
+<!-- Card 2 -->
+<div class="bg-white dark:bg-surface-dark rounded-xl p-5 border border-gray-200 dark:border-primary/20 shadow-sm relative overflow-hidden group hover:border-primary/50 transition-colors">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-icons-round text-6xl text-orange-500">schedule</span>
+</div>
+<div class="flex items-start justify-between mb-4">
+<div class="p-2 bg-orange-500/10 rounded-lg text-orange-500">
+<span class="material-icons-round">psychology</span>
+</div>
+<span class="px-2 py-1 rounded text-xs font-bold bg-orange-500/10 text-orange-500 uppercase tracking-wider">Warning</span>
+</div>
+<h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">Low Engagement in AI Tutor</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mb-3">Avg session time under 45s.</p>
+<div class="flex items-center gap-2 text-orange-500 text-sm font-medium">
+<span class="material-icons-round text-base">priority_high</span>
+                    Needs Attention
+                </div>
+</div>
+<!-- Card 3 -->
+<div class="bg-white dark:bg-surface-dark rounded-xl p-5 border border-gray-200 dark:border-primary/20 shadow-sm relative overflow-hidden group hover:border-primary/50 transition-colors">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-icons-round text-6xl text-blue-500">touch_app</span>
+</div>
+<div class="flex items-start justify-between mb-4">
+<div class="p-2 bg-blue-500/10 rounded-lg text-blue-500">
+<span class="material-icons-round">mouse</span>
+</div>
+<span class="px-2 py-1 rounded text-xs font-bold bg-blue-500/10 text-blue-500 uppercase tracking-wider">Info</span>
+</div>
+<h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">Mobile Navigation Friction</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mb-3">Menu click rage detected on iOS.</p>
+<div class="flex items-center gap-2 text-blue-500 text-sm font-medium">
+<span class="material-icons-round text-base">smartphone</span>
+                    Device Specific
+                </div>
+</div>
+</div>
+<!-- Main Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- 2. Visual Optimization Suggestions (Spans 2 columns) -->
+<div class="lg:col-span-2 bg-white dark:bg-surface-dark rounded-2xl border border-gray-200 dark:border-primary/20 shadow-lg overflow-hidden flex flex-col">
+<div class="p-6 border-b border-gray-200 dark:border-primary/20 flex justify-between items-center">
+<div>
+<h2 class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+<span class="material-icons-round text-primary">visibility</span> Visual Optimization
+                        </h2>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">AI suggests prominent CTA placement and color contrast.</p>
+</div>
+<div class="flex bg-gray-100 dark:bg-background-dark rounded-lg p-1">
+<button class="px-3 py-1 rounded-md bg-white dark:bg-primary text-primary dark:text-white shadow-sm text-sm font-medium">Desktop</button>
+<button class="px-3 py-1 rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white text-sm font-medium">Mobile</button>
+</div>
+</div>
+<div class="flex-grow p-6 bg-gray-50 dark:bg-background-dark/50 relative">
+<!-- Comparison Container -->
+<div class="flex flex-col md:flex-row gap-6 h-full">
+<!-- Current Version -->
+<div class="flex-1 flex flex-col">
+<div class="mb-2 flex justify-between items-center">
+<span class="text-xs font-bold uppercase tracking-wider text-gray-500">Current (Control)</span>
+<span class="text-xs text-red-500 font-medium">3.2% CTR</span>
+</div>
+<div class="flex-1 bg-white dark:bg-[#2A2036] rounded-xl border border-dashed border-gray-300 dark:border-gray-600 p-6 flex flex-col justify-center items-center gap-4 relative overflow-hidden group">
+<div class="absolute inset-0 bg-gray-900/5 dark:bg-black/20 pointer-events-none"></div>
+<!-- Mockup Content -->
+<div class="w-full max-w-xs space-y-4 opacity-60 grayscale transition-all group-hover:grayscale-0 group-hover:opacity-100">
+<div class="h-4 w-3/4 bg-gray-200 dark:bg-gray-600 rounded"></div>
+<div class="h-4 w-1/2 bg-gray-200 dark:bg-gray-600 rounded"></div>
+<div class="h-10 w-full border border-gray-300 dark:border-gray-500 rounded flex items-center justify-center text-gray-500 dark:text-gray-400 font-medium text-sm">
+                                        Sign Up Now
+                                    </div>
+</div>
+<div class="absolute bottom-4 left-0 right-0 text-center text-xs text-gray-400">Hover to preview</div>
+</div>
+</div>
+<!-- Divider with icon -->
+<div class="hidden md:flex flex-col justify-center items-center text-gray-300 dark:text-gray-600">
+<div class="h-full w-px bg-current"></div>
+<div class="p-2 rounded-full border border-current bg-white dark:bg-background-dark z-10 my-2">
+<span class="material-icons-round text-sm">arrow_forward</span>
+</div>
+<div class="h-full w-px bg-current"></div>
+</div>
+<!-- Proposed Version -->
+<div class="flex-1 flex flex-col">
+<div class="mb-2 flex justify-between items-center">
+<span class="text-xs font-bold uppercase tracking-wider text-primary">AI Proposed (Variant B)</span>
+<span class="text-xs text-secondary font-medium">+15% Predicted CTR</span>
+</div>
+<div class="flex-1 bg-white dark:bg-[#2A2036] rounded-xl border-2 border-primary/50 shadow-[0_0_20px_rgba(127,13,242,0.15)] p-6 flex flex-col justify-center items-center gap-4 relative overflow-hidden">
+<!-- Glowing effect behind button -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-primary/20 blur-3xl rounded-full pointer-events-none"></div>
+<!-- Mockup Content -->
+<div class="w-full max-w-xs space-y-4">
+<div class="h-4 w-3/4 bg-gray-200 dark:bg-gray-600 rounded"></div>
+<div class="h-4 w-1/2 bg-gray-200 dark:bg-gray-600 rounded"></div>
+<button class="w-full h-10 bg-primary hover:bg-primary-dark text-white rounded shadow-lg shadow-primary/40 font-medium text-sm transition-transform hover:scale-105 active:scale-95">
+                                        Get Started Free
+                                    </button>
+</div>
+<!-- Tooltip pointing to change -->
+<div class="absolute bottom-8 right-8 bg-surface-dark border border-secondary/30 text-white text-xs px-3 py-2 rounded-lg shadow-lg flex items-center gap-2 animate-bounce">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+                                    Copy changed to "Get Started Free"
+                                </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column -->
+<div class="space-y-6">
+<!-- 3. Impact Prediction -->
+<div class="bg-white dark:bg-surface-dark rounded-2xl border border-gray-200 dark:border-primary/20 p-6 shadow-md">
+<h3 class="text-sm font-bold uppercase tracking-wider text-gray-500 mb-4">Impact Prediction</h3>
+<div class="relative flex items-center justify-center py-4">
+<!-- Simple CSS Gauge -->
+<div class="w-40 h-20 bg-gray-200 dark:bg-gray-800 rounded-t-full overflow-hidden relative">
+<div class="absolute bottom-0 left-0 w-full h-full bg-gradient-to-r from-primary to-secondary origin-bottom transform rotate-[45deg] transition-transform duration-1000 ease-out" style="transform: rotate(135deg);"></div>
+</div>
+<div class="absolute bottom-4 flex flex-col items-center">
+<span class="text-4xl font-bold text-gray-900 dark:text-white">+18%</span>
+<span class="text-xs text-gray-500 dark:text-gray-400">Enrollment Rate</span>
+</div>
+</div>
+<div class="mt-2 space-y-2">
+<div class="flex justify-between text-sm">
+<span class="text-gray-500">Confidence Score</span>
+<span class="font-medium text-secondary">94% (High)</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-gray-500">Est. Revenue Lift</span>
+<span class="font-medium text-white">$12.4k / mo</span>
+</div>
+</div>
+</div>
+<!-- 4. Auto-Apply Button -->
+<div class="bg-gradient-to-br from-primary/10 to-surface-dark rounded-2xl border border-primary/30 p-6 shadow-md relative overflow-hidden">
+<div class="absolute top-0 right-0 w-20 h-20 bg-primary/20 blur-2xl rounded-full pointer-events-none"></div>
+<h3 class="text-lg font-bold text-white mb-2">Deploy Experiment</h3>
+<p class="text-sm text-gray-400 mb-6">Instantly create an A/B test with these changes on 10% of traffic.</p>
+<div class="flex items-center justify-between bg-background-dark/50 p-3 rounded-lg border border-primary/20 mb-4">
+<span class="text-sm font-medium text-gray-300">Auto-Apply to Live</span>
+<!-- Toggle Switch -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-gray-700 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+<button class="w-full py-2.5 bg-primary hover:bg-primary-dark text-white rounded-lg font-medium shadow-lg transition-colors flex justify-center items-center gap-2">
+<span class="material-icons-round text-sm">rocket_launch</span>
+                        Launch Test Now
+                    </button>
+</div>
+<!-- 5. Qualitative Insight -->
+<div class="bg-white dark:bg-surface-dark rounded-2xl border border-gray-200 dark:border-primary/20 p-6 shadow-md">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-sm font-bold uppercase tracking-wider text-gray-500">User Sentiment</h3>
+<span class="text-xs px-2 py-1 rounded bg-red-500/10 text-red-400 font-medium">Frustrated</span>
+</div>
+<div class="space-y-4">
+<div class="flex gap-3">
+<div class="w-8 h-8 rounded-full bg-gray-700 flex-shrink-0 overflow-hidden">
+<img alt="User avatar" class="w-full h-full object-cover" data-alt="User avatar male" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxwVIJR82Q21KUw6dLx_p9_V6tA6guWtcyB6V9Ntl-vf5UH0G4ggpvi6shkYeBOs8YucOk7JHEmEEYD5YQAk-HJcDeT_Nwhds_jeT3WHkhQd9kcg4kg7HTUcdHX6thF6bf7kVdpccwUCr_pGQ0atMZ7C9l0UX7QzjW4B9U1sNFzEYD03lJhIo79R2VIF40UwsT0cEKD9OWMWa9QZ54eEPq4hQLRyJgCmiVm6n0QCiOH9VES2RD7rfSweBfno5B77kFRx0TWyru3OQd"/>
+</div>
+<div class="bg-gray-100 dark:bg-background-dark p-3 rounded-lg rounded-tl-none text-sm text-gray-600 dark:text-gray-300 relative">
+<span class="material-icons-round absolute -top-2 -right-2 text-primary/20 text-4xl rotate-180">format_quote</span>
+                                "I couldn't find where to pay. The button just blended into the background."
+                            </div>
+</div>
+<div class="flex gap-3">
+<div class="w-8 h-8 rounded-full bg-gray-700 flex-shrink-0 overflow-hidden">
+<img alt="User avatar" class="w-full h-full object-cover" data-alt="User avatar female" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSp8CQz87qgrvM32Wz9AwT2e0LHKrnjs1mxCVDrnX9K1a32pgaIU5ds1yzzi5MAZPOflRhFYr2TKhcqoxsq-YBPqbAq4aiR4u--xP38br4Y6HPmkg0GkLl0J_DPBEEIK4yNWBKk5vBk48Vneqt0nvsNASXbGNX4DTzm5Qn2RwtUv6aYMhgqUwNrR4Q-e6_Rss-lnbUCc_ADnjupPvMtGsbCAzR3fwP3v4_5ZseMNmTxb1SmnaxCiGf5rXztY0G9sacovtylIJE2ROy"/>
+</div>
+<div class="bg-gray-100 dark:bg-background-dark p-3 rounded-lg rounded-tl-none text-sm text-gray-600 dark:text-gray-300 relative">
+                                "The form is too long. Why do you need my phone number?"
+                            </div>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between text-xs text-gray-500">
+<span>Based on 45 recordings</span>
+<a class="text-primary hover:underline" href="#">View All</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Additional Data Strip -->
+<div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-surface-dark/50 border border-white/5 rounded-lg p-4 flex items-center gap-3">
+<div class="p-2 bg-purple-500/20 rounded-md text-purple-400">
+<span class="material-icons-round">analytics</span>
+</div>
+<div>
+<p class="text-xs text-gray-400">Analyzed Sessions</p>
+<p class="text-lg font-bold text-white">12,405</p>
+</div>
+</div>
+<div class="bg-surface-dark/50 border border-white/5 rounded-lg p-4 flex items-center gap-3">
+<div class="p-2 bg-cyan-500/20 rounded-md text-cyan-400">
+<span class="material-icons-round">timer</span>
+</div>
+<div>
+<p class="text-xs text-gray-400">Processing Time</p>
+<p class="text-lg font-bold text-white">1.2s</p>
+</div>
+</div>
+<div class="bg-surface-dark/50 border border-white/5 rounded-lg p-4 flex items-center gap-3">
+<div class="p-2 bg-pink-500/20 rounded-md text-pink-400">
+<span class="material-icons-round">bug_report</span>
+</div>
+<div>
+<p class="text-xs text-gray-400">Issues Found</p>
+<p class="text-lg font-bold text-white">7</p>
+</div>
+</div>
+<div class="bg-surface-dark/50 border border-white/5 rounded-lg p-4 flex items-center gap-3">
+<div class="p-2 bg-green-500/20 rounded-md text-green-400">
+<span class="material-icons-round">savings</span>
+</div>
+<div>
+<p class="text-xs text-gray-400">Potential Savings</p>
+<p class="text-lg font-bold text-white">$450</p>
+</div>
+</div>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SinapCODE Instant Rollback System</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f27f0d",
+                        "primary-dark": "#c2660a",
+                        "primary-light": "#fbd0a0",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#221910",
+                        "surface-dark": "#2d241b",
+                        "surface-darker": "#1a120c",
+                        "neutral-800": "#3d3228",
+                        "neutral-700": "#52453a",
+                        "neutral-600": "#6b5c50",
+                        "neutral-500": "#857567",
+                        "neutral-400": "#a09082",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer utilities {
+            .bg-dots {
+                background-image: radial-gradient(rgba(242, 127, 13, 0.15) 1px, transparent 1px);
+                background-size: 20px 20px;
+            }
+            .animate-pulse-slow {
+                animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            }
+        }
+        
+        /* Custom range input styling for the timeline */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: #f27f0d;
+            cursor: pointer;
+            margin-top: -10px;
+            box-shadow: 0 0 10px rgba(242, 127, 13, 0.5);
+            border: 2px solid #221910;
+        }
+        
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #52453a;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-neutral-800 dark:text-gray-100 min-h-screen flex flex-col overflow-hidden">
+<!-- Top Status Bar: High Stakes Alert -->
+<header class="w-full bg-surface-darker border-b border-primary/30 py-3 px-6 flex justify-between items-center z-50 sticky top-0 shadow-lg shadow-black/40">
+<div class="flex items-center gap-4">
+<div class="flex items-center justify-center w-8 h-8 rounded bg-primary/20 text-primary animate-pulse">
+<span class="material-icons">warning</span>
+</div>
+<div>
+<h1 class="text-sm font-bold text-primary tracking-widest uppercase">Critical Failure Detected</h1>
+<p class="text-xs text-neutral-400">Impact: API Gateway, User Auth • Severity: High</p>
+</div>
+</div>
+<div class="flex items-center gap-8">
+<div class="text-right hidden md:block">
+<p class="text-xs text-neutral-500 uppercase tracking-wide">Time Since Failure</p>
+<p class="text-xl font-mono text-white">00:04:32</p>
+</div>
+<div class="h-8 w-px bg-neutral-700 mx-2"></div>
+<div class="flex items-center gap-2">
+<span class="relative flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+</span>
+<span class="text-sm font-medium text-red-400">System Unstable</span>
+</div>
+</div>
+</header>
+<!-- Main Content Area: 2-Column Layout -->
+<main class="flex-1 flex flex-col lg:flex-row relative">
+<!-- Background Pattern -->
+<div class="absolute inset-0 bg-dots opacity-20 pointer-events-none z-0"></div>
+<!-- Left Column: Diagnostic & Timeline (Workflow) -->
+<div class="w-full lg:w-2/3 p-6 lg:p-10 z-10 overflow-y-auto">
+<!-- Step 1: AI Diagnosis -->
+<section class="mb-10 animate-fade-in-up">
+<div class="flex items-center gap-3 mb-4">
+<div class="h-6 w-6 rounded-full bg-primary/20 flex items-center justify-center border border-primary/40 text-primary text-xs font-bold">1</div>
+<h2 class="text-lg font-bold text-white uppercase tracking-wide">Fault Diagnosis</h2>
+<span class="px-2 py-0.5 rounded text-[10px] bg-surface-dark border border-neutral-700 text-neutral-400">AI Analysis Complete</span>
+</div>
+<div class="bg-surface-dark border-l-4 border-primary rounded-r-lg p-6 shadow-xl relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-icons text-6xl text-primary">psychology</span>
+</div>
+<div class="grid md:grid-cols-2 gap-6 relative z-10">
+<div>
+<h3 class="text-neutral-400 text-xs uppercase mb-1">Root Cause</h3>
+<p class="text-xl text-white font-medium mb-4">Memory Leak in Auth Service <span class="text-primary">v4.2.1</span></p>
+<h3 class="text-neutral-400 text-xs uppercase mb-1">Trigger Event</h3>
+<div class="flex items-center gap-2 font-mono text-sm text-red-400 bg-red-900/10 px-3 py-2 rounded border border-red-900/30 w-fit">
+<span class="material-icons text-sm">commit</span>
+<span>hash: 8f32a7b</span>
+</div>
+</div>
+<div class="bg-surface-darker rounded p-4 font-mono text-xs text-neutral-400 border border-neutral-700">
+<div class="flex justify-between items-center mb-2 border-b border-neutral-700 pb-2">
+<span>LOG_TAIL_ERROR</span>
+<span class="text-primary">LIVE</span>
+</div>
+<p class="mb-1"><span class="text-neutral-600">10:42:01</span> [FATAL] Heap out of memory</p>
+<p class="mb-1"><span class="text-neutral-600">10:42:02</span> [ERROR] Connection reset by peer</p>
+<p class="mb-1"><span class="text-neutral-600">10:42:02</span> [WARN] Retrying connection (1/5)...</p>
+<p class="text-red-400"><span class="text-neutral-600">10:42:05</span> [CRITICAL] Service Health Check Failed</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Step 2: Version Timeline -->
+<section class="mb-10">
+<div class="flex items-center gap-3 mb-6">
+<div class="h-6 w-6 rounded-full bg-neutral-700 flex items-center justify-center border border-neutral-600 text-neutral-300 text-xs font-bold">2</div>
+<h2 class="text-lg font-bold text-white uppercase tracking-wide">Select Stable Snapshot</h2>
+</div>
+<div class="bg-surface-dark border border-neutral-700 rounded-lg p-8 shadow-xl">
+<!-- Timeline visualization -->
+<div class="relative w-full h-24 flex items-end mb-6 select-none">
+<!-- Connecting Line -->
+<div class="absolute bottom-3 left-0 right-0 h-1 bg-neutral-700 rounded w-full"></div>
+<!-- Markers -->
+<div class="absolute bottom-3 left-[10%] w-3 h-3 bg-green-500 rounded-full transform translate-y-1/2 shadow-[0_0_10px_rgba(34,197,94,0.5)] cursor-pointer hover:scale-125 transition-transform group">
+<div class="absolute bottom-6 left-1/2 -translate-x-1/2 bg-surface-darker border border-green-500/30 p-2 rounded w-32 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none text-center">
+<p class="text-green-400 text-xs font-bold">v4.1.9 (Stable)</p>
+<p class="text-[10px] text-neutral-500">09:00 AM</p>
+</div>
+</div>
+<div class="absolute bottom-3 left-[40%] w-3 h-3 bg-green-500 rounded-full transform translate-y-1/2 shadow-[0_0_10px_rgba(34,197,94,0.5)] cursor-pointer hover:scale-125 transition-transform group">
+<div class="absolute bottom-6 left-1/2 -translate-x-1/2 bg-surface-darker border border-green-500/30 p-2 rounded w-32 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none text-center">
+<p class="text-green-400 text-xs font-bold">v4.2.0 (Stable)</p>
+<p class="text-[10px] text-neutral-500">10:00 AM</p>
+</div>
+</div>
+<!-- Selected Marker (Current selection on slider) -->
+<div class="absolute bottom-3 left-[75%] w-4 h-4 bg-primary border-2 border-surface-dark rounded-full transform translate-y-1/2 shadow-[0_0_15px_rgba(242,127,13,0.8)] z-10">
+<div class="absolute bottom-8 left-1/2 -translate-x-1/2 bg-primary/10 border border-primary p-3 rounded w-48 text-center backdrop-blur-sm">
+<p class="text-primary text-xs font-bold uppercase mb-1">Selected Snapshot</p>
+<p class="text-white text-sm">v4.2.0-hotfix</p>
+<p class="text-[10px] text-neutral-400 mt-1">10:30 AM • DB Integrity: 100%</p>
+</div>
+<!-- Connecting line to active state -->
+<div class="absolute h-6 w-px bg-primary bottom-4 left-1/2 -translate-x-1/2"></div>
+</div>
+<!-- Failed Marker -->
+<div class="absolute bottom-3 left-[95%] w-3 h-3 bg-red-500 rounded-full transform translate-y-1/2 shadow-[0_0_10px_rgba(239,68,68,0.5)] cursor-not-allowed group">
+<div class="absolute bottom-6 right-0 bg-surface-darker border border-red-500/30 p-2 rounded w-32 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none text-right">
+<p class="text-red-400 text-xs font-bold">Current (Failed)</p>
+<p class="text-[10px] text-neutral-500">10:42 AM</p>
+</div>
+</div>
+</div>
+<!-- Slider Control -->
+<div class="relative pt-4">
+<input class="w-full h-2 bg-neutral-700 rounded-lg appearance-none cursor-pointer accent-primary" max="100" min="0" type="range" value="75"/>
+<div class="flex justify-between text-[10px] text-neutral-500 font-mono mt-2 uppercase">
+<span>09:00 AM</span>
+<span>10:45 AM (Now)</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Step 3: Execution Panel -->
+<section>
+<div class="flex items-center gap-3 mb-4">
+<div class="h-6 w-6 rounded-full bg-neutral-700 flex items-center justify-center border border-neutral-600 text-neutral-300 text-xs font-bold">3</div>
+<h2 class="text-lg font-bold text-white uppercase tracking-wide">Execute Rollback</h2>
+</div>
+<div class="bg-surface-dark border border-neutral-700 p-6 rounded-lg flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+<div class="flex-1">
+<h4 class="text-white font-medium mb-1">Ready to Restore</h4>
+<p class="text-sm text-neutral-400">Targeting <span class="text-primary">Snapshot #2291</span>. This will revert Database, Blog, and Academy to the state at 10:30 AM.</p>
+<div class="mt-2 flex gap-2">
+<span class="text-[10px] bg-neutral-800 text-neutral-400 px-2 py-1 rounded border border-neutral-700">Database: Safe</span>
+<span class="text-[10px] bg-neutral-800 text-neutral-400 px-2 py-1 rounded border border-neutral-700">Cache: Flush</span>
+</div>
+</div>
+<button class="group relative overflow-hidden bg-primary hover:bg-primary-dark transition-all duration-300 text-white font-bold py-4 px-8 rounded shadow-[0_0_20px_rgba(242,127,13,0.3)] hover:shadow-[0_0_30px_rgba(242,127,13,0.5)] flex items-center gap-3 w-full md:w-auto justify-center active:scale-95">
+<span class="material-icons animate-pulse">history</span>
+<span class="tracking-widest uppercase text-sm">Initiate Rollback</span>
+<!-- Caution Striping Effect -->
+<div class="absolute bottom-0 left-0 right-0 h-1 bg-[repeating-linear-gradient(45deg,transparent,transparent_5px,#000_5px,#000_10px)] opacity-30"></div>
+</button>
+</div>
+</section>
+</div>
+<!-- Right Column: Live Status & Global Map -->
+<div class="w-full lg:w-1/3 bg-surface-dark border-l border-neutral-700 z-20 flex flex-col">
+<div class="p-6 border-b border-neutral-700">
+<h3 class="text-xs uppercase text-neutral-400 font-bold mb-4 tracking-wider">Global Service Impact</h3>
+<!-- Map Placeholder with Radial Progress -->
+<div class="relative w-full aspect-square bg-surface-darker rounded-lg border border-neutral-700 overflow-hidden mb-6 flex items-center justify-center">
+<img alt="Dark abstract globe network background representing global connectivity" class="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-luminosity" data-alt="Dark abstract globe network background representing global connectivity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZHtL6He30iULgm_bvIbabAVGnpgc2FXdNfAl0y7BCWt3jmDN0y2j0pBwKz3rDXDGaoKqcqEt-VjM_t0Dv9kIlP6YXeG8Eq1Eh7Zvp8kCSSeeubY-0jrbG8cTdiG0qDia9dz0sROeWowXFPy9iAXZcKDniz2W_nQpuS1V2Y_Qfrv_RtjXsKAe9onch2ptozuf6Bc5EeNF0fXovBeX5SmAVyh83nKZZsfQJnVka5LeKYjLDBV52DcPXrHrQvI59QUBw4f51XrbzQ5gr"/>
+<!-- Radar Sweep Effect -->
+<div class="absolute inset-0 bg-[conic-gradient(from_0deg,transparent_0_300deg,rgba(242,127,13,0.2)_360deg)] animate-[spin_4s_linear_infinite] rounded-full scale-150"></div>
+<!-- Center Progress Circle -->
+<div class="relative z-10 w-48 h-48 rounded-full border-4 border-neutral-700 flex flex-col items-center justify-center bg-surface-dark/90 backdrop-blur-sm shadow-2xl">
+<svg class="absolute inset-0 w-full h-full -rotate-90" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="none" r="46" stroke="#3d3228" stroke-width="8"></circle>
+<circle class="transition-all duration-1000 ease-out" cx="50" cy="50" fill="none" r="46" stroke="#f27f0d" stroke-dasharray="290" stroke-dashoffset="180" stroke-width="8"></circle>
+</svg>
+<div class="text-center z-10">
+<p class="text-3xl font-bold text-white">38%</p>
+<p class="text-[10px] uppercase text-primary tracking-widest mt-1">Restoring</p>
+</div>
+</div>
+<!-- Region Dots -->
+<div class="absolute top-[30%] left-[20%] w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)]" title="US West"></div>
+<div class="absolute top-[35%] right-[30%] w-2 h-2 bg-primary rounded-full animate-ping" title="EU Central"></div>
+<div class="absolute bottom-[30%] right-[20%] w-2 h-2 bg-neutral-600 rounded-full" title="APAC"></div>
+</div>
+<!-- Region List -->
+<div class="space-y-3">
+<div class="flex items-center justify-between p-3 rounded bg-surface-darker border border-neutral-700 border-l-4 border-l-green-500">
+<div class="flex items-center gap-3">
+<span class="material-icons text-green-500 text-sm">check_circle</span>
+<div>
+<p class="text-sm text-white font-medium">US-East (N. Virginia)</p>
+<p class="text-[10px] text-neutral-500">Services Online</p>
+</div>
+</div>
+<span class="text-xs text-green-500 font-mono">100%</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded bg-surface-darker border border-neutral-700 border-l-4 border-l-primary relative overflow-hidden">
+<!-- Progress background for this item -->
+<div class="absolute left-0 top-0 bottom-0 bg-primary/10 w-[45%] z-0"></div>
+<div class="flex items-center gap-3 relative z-10">
+<span class="material-icons text-primary text-sm animate-spin">sync</span>
+<div>
+<p class="text-sm text-white font-medium">EU-West (Ireland)</p>
+<p class="text-[10px] text-neutral-400">Rolling back DB...</p>
+</div>
+</div>
+<span class="text-xs text-primary font-mono relative z-10">45%</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded bg-surface-darker border border-neutral-700 border-l-4 border-l-neutral-600">
+<div class="flex items-center gap-3">
+<span class="material-icons text-neutral-500 text-sm">schedule</span>
+<div>
+<p class="text-sm text-neutral-400 font-medium">AP-Southeast (Sydney)</p>
+<p class="text-[10px] text-neutral-600">Queued</p>
+</div>
+</div>
+<span class="text-xs text-neutral-500 font-mono">0%</span>
+</div>
+</div>
+</div>
+<!-- Terminal / Log Output -->
+<div class="flex-1 bg-black p-4 font-mono text-xs overflow-y-auto custom-scrollbar">
+<div class="flex items-center justify-between mb-2 text-neutral-500 border-b border-neutral-800 pb-2">
+<span>SYSTEM_LOG</span>
+<span class="text-[10px] border border-neutral-700 px-1 rounded">TAIL -F</span>
+</div>
+<div class="space-y-1 text-neutral-400">
+<p><span class="text-neutral-600">10:45:01</span> Initiating rollback procedure ID #9921</p>
+<p><span class="text-neutral-600">10:45:02</span> &gt; Locking write access to DB_MAIN...</p>
+<p class="text-green-500"><span class="text-neutral-600">10:45:03</span> &gt; Write lock acquired successfully.</p>
+<p><span class="text-neutral-600">10:45:03</span> Loading snapshot v4.2.0-hotfix...</p>
+<p><span class="text-neutral-600">10:45:05</span> Verifying integrity checksums...</p>
+<p class="text-primary"><span class="text-neutral-600">10:45:08</span> ! Warning: Large transaction log detected</p>
+<p><span class="text-neutral-600">10:45:09</span> Replaying transactions from WAL...</p>
+<p><span class="text-neutral-600">10:45:12</span> [EU-WEST] Pods restarting...</p>
+<p class="animate-pulse text-white">_</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Status -->
+<footer class="bg-surface-darker border-t border-neutral-700 py-2 px-6 flex justify-between items-center text-[10px] text-neutral-500 z-50">
+<div class="flex items-center gap-4">
+<span>SinapCODE v2.4.1</span>
+<span class="h-3 w-px bg-neutral-700"></span>
+<span>Secure Connection: TLS 1.3</span>
+</div>
+<div>
+            Authorized User: <span class="text-neutral-300">Admin_01</span>
+</div>
+</footer>
+</body></html>

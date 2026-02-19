@@ -43,7 +43,7 @@ export function RoleSelector({ selectedRole, onSelect }: RoleSelectorProps) {
                         className={`
                             relative flex flex-col items-center p-4 rounded-xl border transition-all duration-200 text-center group
                             ${isSelected
-                                ? 'bg-neural-blue/20 border-neural-blue shadow-neon-blue'
+                                ? 'bg-primary/20 border-primary shadow-lg shadow-primary/20'
                                 : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'
                             }
                         `}
@@ -51,7 +51,7 @@ export function RoleSelector({ selectedRole, onSelect }: RoleSelectorProps) {
                     >
                         <div className={`
                             p-2 rounded-full mb-2 transition-colors
-                            ${isSelected ? 'bg-neural-blue text-white' : 'bg-white/10 text-gray-400 group-hover:text-white'}
+                            ${isSelected ? 'bg-primary text-white' : 'bg-white/10 text-gray-400 group-hover:text-white'}
                         `}>
                             <Icon className="w-5 h-5" />
                         </div>

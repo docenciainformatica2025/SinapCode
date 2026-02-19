@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 import { AdminHeader } from '@/components/admin/header';
 import { EditUserModal } from '@/components/admin/modals/edit-user-modal';
 import { DeleteUserModal } from '@/components/admin/modals/delete-user-modal';
+import { formatDateTime } from '@/lib/utils';
 
 // 🧱 PASO 1 — DEFINIR UN MODELO ÚNICO DE USUARIO
 export interface UIUser {
@@ -22,7 +23,7 @@ export interface UIUser {
 function normalizeUser(raw: any): UIUser {
     // Validate required fields
     if (!raw || typeof raw !== 'object') {
-        console.error('[normalizeUser] Invalid user data:', raw);
+        console.error('[normalizeUser] Datos de usuario inválidos:', raw);
         return {
             id: crypto.randomUUID(),
             name: "Usuario Inválido",
@@ -92,7 +93,7 @@ export default function UsersPage() {
                 toast.error(data.error || 'Error al cargar usuarios');
             }
         } catch (error) {
-            console.error('❌ Error fetching users:', error);
+            console.error('❌ Error al obtener usuarios:', error);
             toast.error('Error al cargar usuarios');
         } finally {
             setLoading(false);
@@ -116,7 +117,7 @@ export default function UsersPage() {
                 toast.error(data.error || `Error al ${action} usuario`);
             }
         } catch (error) {
-            console.error(`Error ${action} user:`, error);
+            console.error(`Error al ${action} usuario:`, error);
             toast.error(`Error al ${action} usuario`);
         }
     };
@@ -220,7 +221,7 @@ export default function UsersPage() {
                                             <span className="capitalize">{user.status}</span>
                                         </div>
                                         <div>
-                                            {user.lastLogin || 'Nunca'}
+                                            {user.lastLogin ? formatDateTime(user.lastLogin) : 'Nunca'}
                                         </div>
                                     </div>
 
@@ -308,7 +309,7 @@ export default function UsersPage() {
                                                         {user.status}
                                                     </span>
                                                 </td>
-                                                <td className="p-4 text-platinum-dim text-sm">{user.lastLogin || 'Nunca'}</td>
+                                                <td className="p-4 text-platinum-dim text-sm">{user.lastLogin ? formatDateTime(user.lastLogin) : 'Nunca'}</td>
                                                 <td className="p-4">
                                                     <div className="flex gap-2">
                                                         <button

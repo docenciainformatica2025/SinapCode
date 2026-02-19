@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SinapCODE - Builder's Vault</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0df2f2",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#102222",
+                        "accent-gold": "#FFD700",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                    boxShadow: {
+                        'neon': '0 0 10px rgba(13, 242, 242, 0.5), 0 0 20px rgba(13, 242, 242, 0.3)',
+                        'gold-glow': '0 0 15px rgba(255, 215, 0, 0.4)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(16, 34, 34, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(13, 242, 242, 0.15);
+        }
+        .progress-segment {
+            background: repeating-linear-gradient(
+                45deg,
+                #0df2f2,
+                #0df2f2 10px,
+                #0acaca 10px,
+                #0acaca 20px
+            );
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-100 font-display min-h-screen flex overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="w-20 lg:w-64 border-r border-primary/20 bg-background-dark/95 flex flex-col justify-between hidden md:flex shrink-0">
+<div class="p-6">
+<div class="flex items-center gap-3 mb-12">
+<div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-background-dark font-bold text-xl shadow-neon">
+                    S
+                </div>
+<span class="text-xl font-bold tracking-tight hidden lg:block text-white">Sinap<span class="text-primary">CODE</span></span>
+</div>
+<nav class="space-y-4">
+<a class="flex items-center gap-4 px-4 py-3 text-slate-400 hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group" href="#">
+<span class="material-icons group-hover:drop-shadow-[0_0_5px_rgba(13,242,242,0.8)]">dashboard</span>
+<span class="hidden lg:block font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-slate-400 hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group" href="#">
+<span class="material-icons group-hover:drop-shadow-[0_0_5px_rgba(13,242,242,0.8)]">school</span>
+<span class="hidden lg:block font-medium">Courses</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-slate-400 hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group" href="#">
+<span class="material-icons group-hover:drop-shadow-[0_0_5px_rgba(13,242,242,0.8)]">code</span>
+<span class="hidden lg:block font-medium">IDE</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 bg-primary/20 text-primary border border-primary/30 rounded-lg shadow-neon" href="#">
+<span class="material-icons">diamond</span>
+<span class="hidden lg:block font-bold">The Vault</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-slate-400 hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group" href="#">
+<span class="material-icons group-hover:drop-shadow-[0_0_5px_rgba(13,242,242,0.8)]">forum</span>
+<span class="hidden lg:block font-medium">Community</span>
+</a>
+</nav>
+</div>
+<div class="p-6 border-t border-primary/20">
+<button class="flex items-center gap-3 w-full p-2 hover:bg-primary/5 rounded-lg transition-colors">
+<img alt="User Avatar" class="w-10 h-10 rounded-full border-2 border-primary" data-alt="User profile avatar image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_lHoDDG4KXaYw59PAGahzM_Mni8QzJJgF0noXTzLJhRgAQ16oYWNeykkW-7IZcUm9dRXefc72nDacAYOUnliDW9Cw6KKOuLT3ZMKdLb5i4M34couN2fV7ig_GjyQ1xisYlBLbmO10LhgIqKulOE5xOGnJ6q35KoPA9mGUhLvxU6-8FuTMHofko2qsp1nPAApv9fbDmiFEbAmugXoUBtsKr_TuLO9ZnNIE8WokEKQSp4_Ob87aPWvG1PGvWjRzdLuX3WxxVFSj4zBJ"/>
+<div class="text-left hidden lg:block">
+<p class="text-sm font-bold text-white">Alex Mercer</p>
+<p class="text-xs text-primary">Lead Architect</p>
+</div>
+</button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-screen overflow-y-auto relative z-10">
+<!-- Header Mobile -->
+<header class="md:hidden flex items-center justify-between p-4 border-b border-primary/20 bg-background-dark sticky top-0 z-50">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded bg-primary flex items-center justify-center text-background-dark font-bold">S</div>
+<span class="font-bold">SinapCODE</span>
+</div>
+<button class="text-white"><span class="material-icons">menu</span></button>
+</header>
+<div class="p-6 lg:p-10 max-w-7xl mx-auto w-full">
+<!-- Page Title Area -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4">
+<div>
+<h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">Builder's Vault <span class="text-primary animate-pulse">_</span></h1>
+<p class="text-slate-400 max-w-lg">Redeem your hard-earned CODE Tokens for exclusive gear, cloud credits, and career-advancing opportunities.</p>
+</div>
+<div class="flex gap-3">
+<button class="bg-background-dark border border-primary/30 hover:border-primary text-white px-5 py-2.5 rounded-lg flex items-center gap-2 transition-all">
+<span class="material-icons text-sm">history</span> History
+                    </button>
+<button class="bg-primary hover:bg-primary/90 text-background-dark font-bold px-5 py-2.5 rounded-lg flex items-center gap-2 shadow-neon transition-all">
+<span class="material-icons text-sm">add_circle_outline</span> Earn Tokens
+                    </button>
+</div>
+</div>
+<!-- Dashboard Stats Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+<!-- Balance Card -->
+<div class="glass-panel p-6 rounded-xl relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl -mr-16 -mt-16 transition-all group-hover:bg-primary/20"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="text-slate-400 font-medium text-sm uppercase tracking-wider">Token Balance</div>
+<span class="material-icons text-accent-gold drop-shadow-[0_0_5px_rgba(255,215,0,0.6)]">monetization_on</span>
+</div>
+<div class="flex items-baseline gap-2 mb-2">
+<span class="text-5xl font-bold text-white tracking-tighter">2,450</span>
+<span class="text-primary font-bold">CT</span>
+</div>
+<p class="text-sm text-green-400 flex items-center gap-1">
+<span class="material-icons text-xs">arrow_upward</span> 120 this week
+                    </p>
+</div>
+<!-- Rank Card -->
+<div class="glass-panel p-6 rounded-xl relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-32 h-32 bg-accent-gold/10 rounded-full blur-3xl -mr-16 -mt-16 transition-all group-hover:bg-accent-gold/20"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="text-slate-400 font-medium text-sm uppercase tracking-wider">Current Rank</div>
+<span class="material-icons text-primary">verified_user</span>
+</div>
+<div class="flex items-center gap-3 mb-3">
+<div class="w-12 h-12 rounded-lg bg-gradient-to-br from-background-dark to-primary/30 border border-primary flex items-center justify-center text-primary shadow-neon">
+<span class="material-icons">architecture</span>
+</div>
+<div>
+<span class="text-2xl font-bold text-white block leading-none">Lead Architect</span>
+<span class="text-xs text-slate-400">Level 14</span>
+</div>
+</div>
+<!-- XP Bar -->
+<div class="w-full h-3 bg-background-dark rounded-full overflow-hidden border border-white/5 relative">
+<div class="h-full bg-primary w-[75%] shadow-[0_0_10px_#0df2f2] relative">
+<div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMSIvPgo8L3N2Zz4=')] opacity-30"></div>
+</div>
+</div>
+<div class="flex justify-between mt-2 text-xs">
+<span class="text-primary">3,750 XP</span>
+<span class="text-slate-500">5,000 XP (Next: Systems Director)</span>
+</div>
+</div>
+<!-- Achievements Card -->
+<div class="glass-panel p-6 rounded-xl relative overflow-hidden flex flex-col justify-between">
+<div class="flex justify-between items-start mb-2">
+<div class="text-slate-400 font-medium text-sm uppercase tracking-wider">Recent Activity</div>
+<span class="material-icons text-slate-500">history</span>
+</div>
+<div class="space-y-3">
+<div class="flex items-center justify-between text-sm group cursor-pointer">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-green-400"></div>
+<span class="text-slate-300 group-hover:text-white transition-colors">Shared "Neural Net Opt."</span>
+</div>
+<span class="text-primary font-bold">+50 CT</span>
+</div>
+<div class="flex items-center justify-between text-sm group cursor-pointer">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-accent-gold"></div>
+<span class="text-slate-300 group-hover:text-white transition-colors">Code Review Assist</span>
+</div>
+<span class="text-primary font-bold">+20 CT</span>
+</div>
+<div class="flex items-center justify-between text-sm group cursor-pointer">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-blue-400"></div>
+<span class="text-slate-300 group-hover:text-white transition-colors">Daily Streak (7)</span>
+</div>
+<span class="text-primary font-bold">+10 CT</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Filter Tabs -->
+<div class="flex items-center gap-4 mb-8 overflow-x-auto pb-2 border-b border-primary/20">
+<button class="text-primary border-b-2 border-primary pb-2 font-bold whitespace-nowrap px-2">All Rewards</button>
+<button class="text-slate-400 hover:text-white pb-2 font-medium whitespace-nowrap px-2 transition-colors">Career Boosts</button>
+<button class="text-slate-400 hover:text-white pb-2 font-medium whitespace-nowrap px-2 transition-colors">Infrastructure</button>
+<button class="text-slate-400 hover:text-white pb-2 font-medium whitespace-nowrap px-2 transition-colors">Merchandise</button>
+<button class="text-slate-400 hover:text-white pb-2 font-medium whitespace-nowrap px-2 transition-colors">Digital Assets</button>
+</div>
+<!-- The Vault Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Reward Card 1: Mentorship -->
+<div class="glass-panel rounded-xl overflow-hidden group hover:border-primary/50 transition-all duration-300 hover:shadow-neon flex flex-col">
+<div class="h-40 bg-gradient-to-b from-slate-800 to-transparent relative p-4 flex items-center justify-center">
+<img alt="Team meeting discussion" class="absolute inset-0 w-full h-full object-cover opacity-50 mix-blend-overlay" data-alt="Abstract business meeting overlay image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbJjyQT9QB-qgXBK3g_XG3jlyqlaD4EwCfYFfy89FLg29zzTwLi89frN4iQLjdlIksg6qMEhYq2Pkcxa-mvS8sQMg0XpM1Hjr2ia_CWcqbLmyfbjN3GcEyONvRnWGvNF6vjICd6iuMibBM23kRhRa8wkr8lSCDF21d1eokUZYf8TU5L7Uwtg7xhiYpr_FRLADLz9viygZnH1kB88NVdaVBeGaZrLRs_VJiipxSFyqyteLooSn-hVaY-8us5br6z5I8iRwunBcDmnqT"/>
+<div class="w-16 h-16 rounded-full bg-background-dark/80 backdrop-blur border border-primary/40 flex items-center justify-center z-10 group-hover:scale-110 transition-transform">
+<span class="material-icons text-3xl text-primary">person_outline</span>
+</div>
+</div>
+<div class="p-5 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-purple-500/20 text-purple-300 border border-purple-500/30">Career</span>
+</div>
+<h3 class="text-lg font-bold text-white mb-2 group-hover:text-primary transition-colors">1-on-1 Mentorship</h3>
+<p class="text-sm text-slate-400 mb-6 flex-1">45-minute session with a Senior AI Engineer. Code review or career advice.</p>
+<div class="flex items-center justify-between mt-auto">
+<span class="text-slate-500 font-bold text-lg group-hover:text-red-400 transition-colors">5,000 CT</span>
+<button class="bg-slate-700/50 text-slate-400 cursor-not-allowed px-4 py-2 rounded-lg text-sm font-bold border border-transparent">
+                                Locked
+                            </button>
+</div>
+<!-- Progress bar to unlock -->
+<div class="w-full bg-slate-700 h-1 mt-3 rounded-full overflow-hidden">
+<div class="bg-red-500 h-full w-[49%]"></div>
+</div>
+<p class="text-[10px] text-red-400 mt-1 text-right">Need 2,550 more CT</p>
+</div>
+</div>
+<!-- Reward Card 2: Cloud Credits -->
+<div class="glass-panel rounded-xl overflow-hidden group hover:border-primary/50 transition-all duration-300 hover:shadow-neon flex flex-col border-t-2 border-t-primary">
+<div class="h-40 bg-gradient-to-b from-slate-800 to-transparent relative p-4 flex items-center justify-center">
+<img alt="Digital network visualization" class="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-luminosity" data-alt="Abstract technology network background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiy5PLthw0uLyK-UlI9ssuRbu9TYUfm4Wa4f1iFHdMXpJIAXvPR07w3Puh9YbPiQebjc9P1-YTjjuMO0zBEhJm5wIOVjVANTo5hdHGaXEZTrSJx6KvovvuukzIJuwXrawIcImGXxGqdkkH2OmIaUc_VG3sv0SXoreYdiDMAKv4NWcN5zPjjWKLRvLQv6G4KpUkWjzcWgHDVZBAL00mehVTEg1AC0iVLfnAgPINszI56SwCX5YUdMH6ky81rdSMbnb8fl02depRyg5j"/>
+<div class="w-16 h-16 rounded-full bg-background-dark/80 backdrop-blur border border-primary/40 flex items-center justify-center z-10 group-hover:scale-110 transition-transform">
+<span class="material-icons text-3xl text-primary">cloud_queue</span>
+</div>
+</div>
+<div class="p-5 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-blue-500/20 text-blue-300 border border-blue-500/30">Infrastructure</span>
+</div>
+<h3 class="text-lg font-bold text-white mb-2 group-hover:text-primary transition-colors">AWS Cloud Credits</h3>
+<p class="text-sm text-slate-400 mb-6 flex-1">$50 in credits to deploy your ML models or host your portfolio.</p>
+<div class="flex items-center justify-between mt-auto">
+<span class="text-accent-gold font-bold text-lg drop-shadow-[0_0_8px_rgba(255,215,0,0.4)]">1,500 CT</span>
+<button class="bg-primary hover:bg-primary/80 text-background-dark px-4 py-2 rounded-lg text-sm font-bold shadow-neon transition-all hover:-translate-y-0.5">
+                                Unlock
+                            </button>
+</div>
+</div>
+</div>
+<!-- Reward Card 3: Premium Course -->
+<div class="glass-panel rounded-xl overflow-hidden group hover:border-primary/50 transition-all duration-300 hover:shadow-neon flex flex-col border-t-2 border-t-primary">
+<div class="h-40 bg-gradient-to-b from-slate-800 to-transparent relative p-4 flex items-center justify-center">
+<img alt="Computer screen with code" class="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-overlay" data-alt="Code on screen abstract background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCigOxtRFdJHGf0bLI9uq_FBhepD3RzAlQjw8JnFxmwStMHjEiEOLw04uxuup1u4jRnryWxdQuTckfT3FGSakLb0x3sa7A5ooMZsKwPEbPg-oonXUc4-zc4248LFrXDdYM19uV4b06icc7BTJsMois_-MOkGSOl1w2Lz7LoyzIqbRdFy_0e1Aii1FHoFqacph6XHqzICCWxOvl5QwLUmxHFRoWDMo1RQ_HHJoMNlJHdSkFx5-vW6Y01LsTNBbEC-60JOW3MQvWPeU92"/>
+<div class="w-16 h-16 rounded-full bg-background-dark/80 backdrop-blur border border-primary/40 flex items-center justify-center z-10 group-hover:scale-110 transition-transform">
+<span class="material-icons text-3xl text-primary">auto_stories</span>
+</div>
+<div class="absolute top-3 right-3 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-lg animate-pulse">HOT</div>
+</div>
+<div class="p-5 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-green-500/20 text-green-300 border border-green-500/30">Education</span>
+</div>
+<h3 class="text-lg font-bold text-white mb-2 group-hover:text-primary transition-colors">NLP Masterclass</h3>
+<p class="text-sm text-slate-400 mb-6 flex-1">Unlock the premium module on Natural Language Processing &amp; Transformers.</p>
+<div class="flex items-center justify-between mt-auto">
+<span class="text-accent-gold font-bold text-lg drop-shadow-[0_0_8px_rgba(255,215,0,0.4)]">2,000 CT</span>
+<button class="bg-primary hover:bg-primary/80 text-background-dark px-4 py-2 rounded-lg text-sm font-bold shadow-neon transition-all hover:-translate-y-0.5">
+                                Unlock
+                            </button>
+</div>
+</div>
+</div>
+<!-- Reward Card 4: Exclusive Merch -->
+<div class="glass-panel rounded-xl overflow-hidden group hover:border-primary/50 transition-all duration-300 hover:shadow-neon flex flex-col">
+<div class="h-40 bg-gradient-to-b from-slate-800 to-transparent relative p-4 flex items-center justify-center">
+<img alt="Black hoodie texture" class="absolute inset-0 w-full h-full object-cover opacity-50 mix-blend-overlay" data-alt="Clothing fabric texture background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3fECRenvdpN_t9bAHEKN7TqyQ83W8w_yjMFDgEVXbjgphODaVnX14P_NPvXyOr4yeafF9_hkCUUrm9mbqyvSYNEnR9SMew6WivcxBCoQvf35HgTLVjtFcHZktseZ3wZuUScefIyiLCz4hsNWQBtHWvWA03gP0X2WMXSbXVNgp0VxIUPAS6xyIzUiitjML5oP8BDameNLB-DFzP85c4k9XzahfpMWiJ_MdentYHGQTb_lLkEXmhp3u5TutQS0L3n1FfFVA7aQuaZUI"/>
+<div class="w-16 h-16 rounded-full bg-background-dark/80 backdrop-blur border border-primary/40 flex items-center justify-center z-10 group-hover:scale-110 transition-transform">
+<span class="material-icons text-3xl text-primary">checkroom</span>
+</div>
+</div>
+<div class="p-5 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-pink-500/20 text-pink-300 border border-pink-500/30">Merch</span>
+</div>
+<h3 class="text-lg font-bold text-white mb-2 group-hover:text-primary transition-colors">SinapCODE Hoodie</h3>
+<p class="text-sm text-slate-400 mb-6 flex-1">Limited edition 'Blackout' developer hoodie. Embroidered logo.</p>
+<div class="flex items-center justify-between mt-auto">
+<span class="text-slate-500 font-bold text-lg group-hover:text-red-400 transition-colors">3,000 CT</span>
+<button class="bg-slate-700/50 text-slate-400 cursor-not-allowed px-4 py-2 rounded-lg text-sm font-bold border border-transparent">
+                                Locked
+                            </button>
+</div>
+<!-- Progress bar to unlock -->
+<div class="w-full bg-slate-700 h-1 mt-3 rounded-full overflow-hidden">
+<div class="bg-red-500 h-full w-[81%]"></div>
+</div>
+<p class="text-[10px] text-red-400 mt-1 text-right">Need 550 more CT</p>
+</div>
+</div>
+</div>
+<!-- Bottom Section - Leaderboard Teaser -->
+<div class="mt-12 glass-panel p-8 rounded-xl border border-primary/20">
+<div class="flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-4">
+<div class="bg-primary/20 p-3 rounded-full border border-primary/50">
+<span class="material-icons text-primary">emoji_events</span>
+</div>
+<div>
+<h3 class="text-xl font-bold text-white">Top Contributors this Month</h3>
+<p class="text-slate-400">See who is leading the charge in open source contributions.</p>
+</div>
+</div>
+<div class="flex -space-x-4">
+<img alt="User 1" class="w-10 h-10 rounded-full border-2 border-background-dark" data-alt="User avatar 1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFXpEtpTiLlsVLLzLKoQG5vx42gttui-_xQFY1QzyAGE-r9brMPGAKXs_-t8ka_1HOupFd4vX-jpZZJNHkG2mh57FYfzDzJop6At65gFq0BpPMpq8KdO8lCr18eHJ__U5NrYLJ7jgstNy1foBQJPxtiaEoSz0dHcOIRQA2oC1030oSQcKeVCRFAYIzV5liNGhb_STaJLaN-apdkxoTyoHrKx6b0Mvi_-6bP6QgAXQ1lAtWnnXR51TiKJBtaEBIkkxiPvk2O54JLXoq"/>
+<img alt="User 2" class="w-10 h-10 rounded-full border-2 border-background-dark" data-alt="User avatar 2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuPeoY0gf4Jq7h2j2uDlQkN_vuZhDqxnIYUPY8T5Wvu2ZtMA4WGKyKyrTFu0Fd9Kk-PnE2kp-IfME6A0tqCU4sXMt8qB5PTep16xrzwuvhl8nXnMtyFQxltS4DGQ8ygA9zsdXe29zY4SODSWps7CEGCtDq1HrQwEEOcBspUn-DGO19aUzmA3rgF2aZPyAtjAFk1rIidyU2n5teDf2gdHpqIVe7ISGmTj62dgHsFIoJiwnMWVAPJnd5uexF4VY92CUa0-v14cTKHlgt"/>
+<img alt="User 3" class="w-10 h-10 rounded-full border-2 border-background-dark" data-alt="User avatar 3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD47Iien_IsqOcP6fTSQFxYirgpNpKwqbwKKPGmjNI1I9Hy-yibkeRIgAzvOp-PFtduyDrOkw0uCsZtN06hmSA-LzJopz1ZsahRrJmbBM5w6tvOrHLH3hqLsiPJ3GGiBPHJdNBGdP62rLvGnLoXJxFm5ZLsULutR_mgujPAoNxEkNUzKAsAZKNFt94eVcCyLV6AMsY356MfKRo3c6RIPoX4--WWPvak2SUzY8nVtRLF7q_4Qb-UkfVFlsTW0-AEv0tL2K8EcMrpFOUV"/>
+<div class="w-10 h-10 rounded-full border-2 border-background-dark bg-slate-700 flex items-center justify-center text-xs text-white font-bold">+12</div>
+</div>
+<button class="text-primary hover:text-white font-bold text-sm flex items-center gap-2 group transition-colors">
+                        View Leaderboard <span class="material-icons text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>

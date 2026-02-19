@@ -54,7 +54,7 @@ export function AgeVerificationField({ onAgeVerified }: AgeVerificationFieldProp
         <div className="space-y-4">
             {/* Custom Birth Date Selectors */}
             <div>
-                <label className="block text-xs font-semibold text-platinum uppercase tracking-wider mb-2">
+                <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">
                     Fecha de Nacimiento
                 </label>
                 <div className="grid grid-cols-3 gap-2">
@@ -114,7 +114,7 @@ export function AgeVerificationField({ onAgeVerified }: AgeVerificationFieldProp
                         </div>
                     </div>
 
-                    <label className="block text-xs font-semibold text-amber-300 uppercase tracking-wider mb-2">
+                    <label className="block text-[10px] font-black text-amber-500 uppercase tracking-widest mb-2">
                         Correo del Tutor Legal
                     </label>
                     <input
@@ -123,7 +123,7 @@ export function AgeVerificationField({ onAgeVerified }: AgeVerificationFieldProp
                         onChange={(e) => setGuardianEmail(e.target.value)}
                         placeholder="tutor@email.com"
                         required
-                        className="w-full bg-black/50 border border-amber-500/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition"
+                        className="w-full bg-white/5 border border-amber-500/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-amber-400 transition font-bold"
                     />
                     <p className="text-xs text-amber-200 mt-2">
                         Enviaremos un enlace de autorización a este correo

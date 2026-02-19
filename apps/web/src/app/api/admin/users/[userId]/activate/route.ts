@@ -84,7 +84,7 @@ export async function POST(
         });
 
     } catch (error: any) {
-        console.error('Error activating user:', error);
+        console.error('Error al activar usuario:', error);
         return NextResponse.json({ error: 'Error al activar usuario' }, { status: 500 });
     }
 }

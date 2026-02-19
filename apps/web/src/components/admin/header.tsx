@@ -11,7 +11,7 @@ interface AdminHeaderProps {
 
 export function AdminHeader({ title, description, action }: AdminHeaderProps) {
     return (
-        <div className="sticky top-0 z-10 border-b border-white/5 bg-deep-space/95 backdrop-blur-sm">
+        <div className="sticky -top-8 -mx-8 -mt-8 pt-8 mb-8 z-30 border-b border-white/5 bg-[#0F1117]/95 backdrop-blur-md transition-all duration-200">
             <div className="flex h-16 items-center px-8 justify-between">
                 {/* Title */}
                 <div>

@@ -71,7 +71,7 @@ export async function POST(request: Request) {
             throw error;
         }
 
-        console.error('Error recording consent:', error);
+        console.error('Error al registrar consentimiento:', error);
 
         // Manejar duplicados (usuario ya aceptó)
         if (error.code === 'P2002') {

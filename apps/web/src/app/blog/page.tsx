@@ -4,20 +4,15 @@ import { BlogFeed } from '@/components/blog/blog-feed';
 import { NewsletterForm } from '@/components/blog/newsletter-form';
 import { LatestInsights } from '@/components/blog/latest-insights';
 import { Metadata } from 'next';
-import { GlobalNavbar } from '@/components/global-navbar';
+import { getServerSession } from 'next-auth';
+import { authOptions } from "@/lib/auth";
 
 export const metadata: Metadata = {
-    title: 'Blog de SinapCode | Artículos y Guías Tech',
-    description: 'Recursos, tutoriales y noticias sobre programación, IA, y desarrollo profesional.',
+    title: 'Nexus Insights | Blog de Ingeniería SinapCode',
+    description: 'Protocolos de conocimiento y análisis de vanguardia sobre IA, Computación Cuántica y Desarrollo de élite.',
 };
 
-// Force dynamic to ensure new posts appear
 export const dynamic = 'force-dynamic';
-
-import { getServerSession } from 'next-auth';
-import { authOptions } from "@/lib/auth-options";
-
-// ... (Metadata stays same)
 
 async function getPosts(showDrafts: boolean = false) {
     try {
@@ -36,7 +31,7 @@ async function getPosts(showDrafts: boolean = false) {
         });
         return posts;
     } catch (error) {
-        console.error("Failed to fetch blog posts:", error);
+        console.error("Fallo al obtener publicaciones del blog:", error);
         return [];
     }
 }
@@ -46,10 +41,8 @@ export default async function BlogPage() {
     const userRole = (session?.user as { role?: string })?.role;
     const isAdmin = userRole === 'ADMIN' || userRole === 'SUPER_ADMIN';
 
-    // 1. Fetch Posts (Show drafts only for admins)
     const posts = await getPosts(isAdmin);
 
-    // 2. Format for Client Component
     const formattedPosts = posts.map((post: any) => ({
         id: post.id,
         title: post.title,
@@ -59,46 +52,51 @@ export default async function BlogPage() {
         category: post.category || 'General',
         author: { name: post.author?.name || 'SinapCode Team' },
         createdAt: post.createdAt ? post.createdAt.toISOString() : new Date().toISOString(),
-        readTime: '5 min' // Placeholder
+        readTime: '5 min'
     }));
 
     return (
-        <div className="min-h-screen bg-deep-space">
-            <GlobalNavbar />
+        <div className="min-h-screen bg-black subpixel-text">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-24 sm:py-32">
+                {/* Header 4K */}
+                <div className="mb-24 text-center">
+                    <motion_div_placeholder className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-4k mb-8">
+                        <span className="text-[10px] font-black uppercase tracking-[0.4em] text-platinum italic">Protocolos de Conocimiento</span>
+                    </motion_div_placeholder>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-24">
-                {/* Header */}
-                <div className="mb-12 text-center pt-8">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface border border-gold/20 text-xs font-mono text-gold mb-4 animate-in fade-in zoom-in duration-500">
-                        SINAPCODE INSIGHTS
-                    </div>
-                    <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6 tracking-tight">
-                        Blog & <span className="text-transparent bg-clip-text bg-gradient-to-r from-neural-blue to-purple-500">Recursos</span>
+                    <h1 className="text-5xl md:text-7xl font-black text-white mb-8 tracking-tighter italic uppercase text-glow">
+                        Nexus <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-indigo-400">Insights</span>
                     </h1>
-                    <p className="text-lg text-[#B8BFC9] max-w-2xl mx-auto">
-                        Domina las últimas tecnologías. Guías profundas, tutoriales y análisis de mercado para desarrolladores que quieren ir más allá.
+
+                    <p className="text-xl text-platinum-dim max-w-2xl mx-auto font-medium leading-relaxed opacity-80">
+                        Investigación de frontera y documentación técnica para ingenieros que diseñan el mañana.
                     </p>
                 </div>
 
-                {/* Latest Insights (New) */}
-                <LatestInsights />
+                {/* Latest Insights Section */}
+                <div className="mb-24 section-spacing">
+                    <LatestInsights />
+                </div>
 
-                {/* Main Content (Feed + Filters) */}
-                <div className="mt-12">
+                {/* Main Content Feed */}
+                <div className="section-spacing">
+                    <h2 className="text-2xl font-black uppercase tracking-[0.3em] text-white/40 mb-12 italic">Archivo de Despliegues</h2>
                     <BlogFeed initialPosts={formattedPosts} />
                 </div>
 
-                {/* Newsletter Section */}
-                <NewsletterForm />
+                {/* Newsletter Premium */}
+                <div className="mt-32 section-spacing">
+                    <NewsletterForm />
+                </div>
 
-                {/* Coming Soon Notice (Only if no posts and no error) */}
+                {/* Empty State */}
                 {formattedPosts.length === 0 && (
-                    <div className="mt-12 text-center animate-in fade-in slide-in-from-bottom-4">
-                        <div className="inline-block glass-panel px-8 py-6 rounded-2xl border border-white/5 bg-white/5 backdrop-blur-md">
-                            <h3 className="text-xl font-bold text-white mb-2">🚀 Próximamente</h3>
-                            <p className="text-platinum-dim mb-4">Estamos preparando contenido de clase mundial para ti.</p>
-                            <Link href="/" className="text-neural-blue hover:text-white transition font-medium">
-                                Volver al Inicio
+                    <div className="mt-24 text-center">
+                        <div className="inline-block glass-4k px-12 py-10 rounded-3xl border border-white/5">
+                            <h3 className="text-2xl font-black text-white mb-4 italic tracking-tighter uppercase">Sin Despliegues Recientes</h3>
+                            <p className="text-platinum-dim mb-8 font-medium">NEXUS está sintetizando nuevos protocolos en este momento.</p>
+                            <Link href="/" className="px-8 py-4 bg-white text-black rounded-xl font-black uppercase text-xs tracking-widest hover:bg-primary hover:text-white transition-all">
+                                Retornar al Núcleo
                             </Link>
                         </div>
                     </div>
@@ -106,4 +104,9 @@ export default async function BlogPage() {
             </div>
         </div>
     );
+}
+
+// Minimal placeholder for motion.div since I'm in a Server Component context
+function motion_div_placeholder({ children, className }: any) {
+    return <div className={className}>{children}</div>;
 }

@@ -57,23 +57,25 @@ export function AITutorWithGate({ courseId }: AITutorWithGateProps) {
     };
 
     return (
-        <div className="glass-panel p-6 rounded-2xl border border-white/10">
+        <div className="bg-white/5 backdrop-blur-md p-6 rounded-2xl border border-white/10 shadow-sm relative overflow-hidden">
+            {/* Subtle Gradient Accent */}
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-blue-400 opacity-50" />
             <div className="flex items-center justify-between mb-4">
                 <h3 className="text-xl font-bold text-white flex items-center gap-2">
                     <span>🤖</span>
                     Tutor Socrático IA
                 </h3>
                 {isGuest && (
-                    <div className="text-xs px-3 py-1 bg-amber-500/20 text-amber-400 rounded-full font-bold">
+                    <div className="text-[10px] px-2 py-0.5 bg-primary/10 text-primary rounded-full font-black uppercase tracking-widest border border-primary/20">
                         {questionsLeft} preguntas restantes
                     </div>
                 )}
             </div>
 
             {/* Chat Messages */}
-            <div className="h-64 overflow-y-auto mb-4 space-y-3">
+            <div className="h-64 overflow-y-auto mb-4 space-y-3 pr-2 scrollbar-thin scrollbar-thumb-white/10">
                 {messages.length === 0 && (
-                    <div className="text-center text-platinum-dim text-sm py-8">
+                    <div className="text-center text-gray-400 text-sm py-8 font-bold italic">
                         Haz tu primera pregunta. El tutor te guiará con el método Socrático.
                     </div>
                 )}
@@ -83,9 +85,9 @@ export function AITutorWithGate({ courseId }: AITutorWithGateProps) {
                         className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                     >
                         <div
-                            className={`max-w-[80%] px-4 py-2 rounded-2xl ${msg.role === 'user'
-                                ? 'bg-neural-blue text-white'
-                                : 'bg-white/10 text-white'
+                            className={`max-w-[80%] px-4 py-2 rounded-2xl text-sm font-bold ${msg.role === 'user'
+                                ? 'bg-primary text-white border border-primary'
+                                : 'bg-white/10 text-white border border-white/10'
                                 }`}
                         >
                             {msg.text}
@@ -102,13 +104,13 @@ export function AITutorWithGate({ courseId }: AITutorWithGateProps) {
                     onChange={(e) => setInput(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && handleSend()}
                     placeholder="Escribe tu pregunta..."
-                    className="flex-1 bg-black/50 border border-white/20 rounded-lg px-4 py-2 text-white focus:border-neural-blue outline-none transition"
+                    className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:border-primary outline-none transition font-bold placeholder:text-gray-500"
                     disabled={isGuest && questionsAsked >= MAX_QUESTIONS_GUEST}
                 />
                 <button
                     onClick={handleSend}
                     disabled={!input.trim() || (isGuest && questionsAsked >= MAX_QUESTIONS_GUEST)}
-                    className="px-6 py-2 bg-neural-blue text-white rounded-lg font-bold hover:bg-blue-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-6 py-2 bg-primary text-white rounded-lg font-black hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-widest text-xs"
                 >
                     Enviar
                 </button>

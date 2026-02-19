@@ -16,7 +16,7 @@ export async function GET() {
 
         return NextResponse.json({ menus: formattedMenus });
     } catch (error) {
-        console.error('Public Navigation Error:', error);
+        console.error('Error en Navegación Pública:', error);
         return NextResponse.json({ menus: { header: [], footer: [] } }, { status: 500 });
     }
 }

@@ -66,7 +66,7 @@ export function EditUserModal({ user, isOpen, onClose, onSuccess }: EditUserModa
                 toast.error(data.error || 'Error al actualizar usuario');
             }
         } catch (error) {
-            console.error('Error updating user:', error);
+            console.error('Error al actualizar usuario:', error);
             toast.error('Error al actualizar usuario');
         } finally {
             setIsSaving(false);

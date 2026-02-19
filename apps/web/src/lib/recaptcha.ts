@@ -6,18 +6,18 @@ const BYPASS_RECAPTCHA = process.env.BYPASS_RECAPTCHA === 'true';
 export async function verifyRecaptcha(token: string) {
     // TEMPORARY: Bypass for testing if environment variable is set
     if (BYPASS_RECAPTCHA) {
-        console.warn('[ReCAPTCHA] ⚠️ BYPASS MODE ENABLED - Skipping validation');
-        console.warn('[ReCAPTCHA] This should ONLY be used for testing');
+        console.warn('[ReCAPTCHA] ⚠️ MODO DE BYPASS ACTIVADO - Saltando validación');
+        console.warn('[ReCAPTCHA] Esto SOLO debe usarse para pruebas');
         return { success: true, score: 1.0, bypassed: true };
     }
 
     if (!token) {
-        console.error('[ReCAPTCHA] No token provided');
+        console.error('[ReCAPTCHA] No se proporcionó ningún token');
         return { success: false, message: 'Token de seguridad faltante' };
     }
 
     if (!RECAPTCHA_SECRET_KEY) {
-        console.error('[ReCAPTCHA] Secret key not configured');
+        console.error('[ReCAPTCHA] La clave secreta no está configurada');
         return { success: false, message: 'Configuración de seguridad incompleta' };
     }
 
@@ -33,7 +33,7 @@ export async function verifyRecaptcha(token: string) {
         });
 
         if (!response.ok) {
-            console.error('[ReCAPTCHA] HTTP error:', response.status, response.statusText);
+            console.error('[ReCAPTCHA] Error HTTP:', response.status, response.statusText);
             return { success: false, message: 'Error al verificar seguridad' };
         }
 
@@ -49,7 +49,7 @@ export async function verifyRecaptcha(token: string) {
             if (data.score !== undefined) {
 
                 if (data.score < 0.3) {
-                    console.warn('[ReCAPTCHA] Low score detected:', data.score);
+                    console.warn('[ReCAPTCHA] Puntuación baja detectada:', data.score);
                     return {
                         success: false,
                         message: 'Validación de seguridad fallida. Por favor, intenta de nuevo.',
@@ -64,8 +64,8 @@ export async function verifyRecaptcha(token: string) {
             return { success: true, score: data.score };
         } else {
             // Validation failed
-            console.error('[ReCAPTCHA] ❌ Validation failed');
-            console.error('[ReCAPTCHA] Error codes:', data['error-codes']);
+            console.error('[ReCAPTCHA] ❌ La validación falló');
+            console.error('[ReCAPTCHA] Códigos de error:', data['error-codes']);
 
             return {
                 success: false,
@@ -74,7 +74,7 @@ export async function verifyRecaptcha(token: string) {
             };
         }
     } catch (error) {
-        console.error('[ReCAPTCHA] Exception during verification:', error);
+        console.error('[ReCAPTCHA] Excepción durante la verificación:', error);
         return { success: false, message: 'Error al verificar seguridad' };
     }
 }

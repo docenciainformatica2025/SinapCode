@@ -1,5 +1,12 @@
 import { prisma } from './prisma';
-import { EventCategory } from '@prisma/client';
+// import { EventCategory } from '@prisma/client';
+type EventCategory = 'LEGAL' | 'SECURITY' | 'DATA' | 'TRANSACTION';
+const EventCategory = {
+    LEGAL: 'LEGAL' as const,
+    SECURITY: 'SECURITY' as const,
+    DATA: 'DATA' as const,
+    TRANSACTION: 'TRANSACTION' as const,
+};
 
 interface AuditLogParams {
     userId?: string;
@@ -38,7 +45,7 @@ export async function createAuditLog({
             },
         });
     } catch (error) {
-        console.error('❌ Error creating audit log:', error);
+        console.error('❌ Error al crear el registro de auditoría:', error);
         // No lanzar error - los audit logs no deben bloquear operaciones
     }
 }

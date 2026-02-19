@@ -48,7 +48,7 @@ export async function GET(
         return NextResponse.json(user);
 
     } catch (error: any) {
-        console.error('Error fetching user:', error);
+        console.error('Error al obtener usuario:', error);
         return NextResponse.json({ error: 'Error al obtener usuario' }, { status: 500 });
     }
 }
@@ -186,7 +186,7 @@ export async function PUT(
                 });
             }
         } catch (logError) {
-            console.error('Audit Log failed but user updated:', logError);
+            console.error('Fallo en el registro de auditoría pero el usuario fue actualizado:', logError);
             // No retornamos error, la acción principal tuvo éxito
         }
 
@@ -196,7 +196,7 @@ export async function PUT(
         });
 
     } catch (error: any) {
-        console.error('CRITICAL Error updating user:', error);
+        console.error('Error CRÍTICO al actualizar usuario:', error);
 
         if (error.code === 'P2002') {
             return NextResponse.json({ error: 'El email ya está en uso' }, { status: 400 });
@@ -305,7 +305,7 @@ export async function DELETE(
         });
 
     } catch (error: any) {
-        console.error('Error deleting user:', error);
+        console.error('Error al eliminar usuario:', error);
         return NextResponse.json({ error: 'Error al eliminar usuario' }, { status: 500 });
     }
 }

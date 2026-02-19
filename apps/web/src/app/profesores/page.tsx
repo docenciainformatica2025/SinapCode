@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { GlobalNavbar } from '@/components/global-navbar';
 
 export const dynamic = 'force-dynamic';
 export default function TeachersPage() {
@@ -69,7 +68,6 @@ export default function TeachersPage() {
 
     return (
         <div className="min-h-screen bg-deep-space">
-            <GlobalNavbar />
 
             {/* Hero */}
             <div className="relative overflow-hidden">

@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 export function PricingSection() {
     const plans = [
         {
-            name: 'Free',
+            name: 'Gratis',
             price: '$0',
             period: 'para siempre',
             description: 'Perfecto para empezar',
@@ -40,8 +40,8 @@ export function PricingSection() {
             popular: true,
         },
         {
-            name: 'Enterprise',
-            price: 'Custom',
+            name: 'Empresa',
+            price: 'A medida',
             period: '',
             description: 'Para empresas y escuelas',
             features: [
@@ -60,71 +60,65 @@ export function PricingSection() {
     ];
 
     return (
-        <section id="pricing" className="py-20 bg-white/[0.02]">
-            <div className="max-w-7xl mx-auto px-6">
-                <div className="text-center mb-12">
-                    <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
-                        Precios Transparentes
+        <section id="pricing" className="py-24 bg-bg relative overflow-hidden">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div className="text-center mb-20">
+                    <h2 className="text-4xl md:text-6xl font-black text-white mb-6">
+                        Elige tu <span className="text-primary">Plan de Poder</span>
                     </h2>
-                    <p className="text-xl text-platinum-dim max-w-2xl mx-auto">
-                        Sin costos ocultos. Cancela cuando quieras. Garantía de 30 días.
+                    <p className="max-w-2xl mx-auto text-xl text-platinum-dim">
+                        Sin contratos ocultos. Cancela cuando quieras. Acelera tu carrera hoy.
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
                     {plans.map((plan, i) => (
-                        <motion.div
+                        <div
                             key={i}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: i * 0.1 }}
-                            className={`glass-panel p-8 rounded-2xl border ${plan.popular
-                                ? 'border-gold shadow-[0_0_30px_rgba(212,175,55,0.3)] scale-105'
-                                : 'border-white/10'
-                                } relative`}
+                            className={`relative rounded-2xl p-8 border transition-all duration-300 ${plan.popular
+                                ? 'bg-white border-primary shadow-xl hover:-translate-y-2 scale-105 z-10'
+                                : 'bg-gray-50 border-gray-200 hover:-translate-y-1 hover:shadow-lg'
+                                }`}
                         >
                             {plan.popular && (
-                                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-gold to-amber-500 text-deep-space text-sm font-bold rounded-full shadow-[0_0_20px_rgba(212,175,55,0.5)]">
+                                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-primary to-secondary text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg">
                                     MÁS POPULAR
                                 </div>
                             )}
 
-                            <div className="text-center mb-8">
-                                <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
-                                <p className="text-sm text-platinum-dim mb-4">{plan.description}</p>
-                                <div className="flex items-baseline justify-center gap-1">
-                                    <span className="text-5xl font-bold text-white">{plan.price}</span>
-                                    <span className="text-platinum-dim">{plan.period}</span>
+                            <div className="mb-8">
+                                <h3 className={`text-xl font-bold mb-2 ${plan.popular ? 'text-gray-900' : 'text-gray-900'}`}>{plan.name}</h3>
+                                <div className="flex items-baseline gap-1">
+                                    <span className={`text-4xl font-bold ${plan.popular ? 'text-primary' : 'text-gray-900'}`}>
+                                        {plan.price}
+                                    </span>
+                                    {plan.period && <span className="text-gray-500 text-sm">{plan.period}</span>}
                                 </div>
+                                <p className="text-gray-500 text-sm mt-4 min-h-[40px]">{plan.description}</p>
                             </div>
 
                             <ul className="space-y-4 mb-8">
                                 {plan.features.map((feature, j) => (
-                                    <li key={j} className="flex items-start gap-3">
-                                        <span className="text-gold mt-1">✓</span>
-                                        <span className="text-platinum-dim">{feature}</span>
+                                    <li key={j} className="flex items-start gap-3 text-sm text-gray-600">
+                                        <svg className={`w-5 h-5 flex-shrink-0 ${plan.popular ? 'text-primary' : 'text-gray-400'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                        </svg>
+                                        <span>{feature}</span>
                                     </li>
                                 ))}
                             </ul>
 
                             <Link
                                 href={plan.href}
-                                className={`block w-full py-4 rounded-xl font-bold text-center transition ${plan.popular
-                                    ? 'bg-gradient-to-r from-gold to-amber-500 text-deep-space hover:from-amber-500 hover:to-gold shadow-[0_0_20px_rgba(212,175,55,0.4)]'
-                                    : 'bg-white/10 text-white hover:bg-white/20 border border-white/20'
+                                className={`block w-full py-4 rounded-xl font-bold text-center transition-all ${plan.popular
+                                    ? 'bg-primary text-white hover:bg-primary/90 shadow-lg hover:shadow-xl'
+                                    : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300'
                                     }`}
                             >
                                 {plan.cta}
                             </Link>
-                        </motion.div>
+                        </div>
                     ))}
-                </div>
-
-                <div className="text-center mt-12 text-sm text-platinum-dim">
-                    <p>
-                        💳 Aceptamos todas las tarjetas · 🔒 Pago seguro con Stripe · 🌍 Facturación global
-                    </p>
                 </div>
             </div>
         </section>

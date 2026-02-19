@@ -4,7 +4,13 @@
 // Este archivo proporciona logging seguro sin exponer datos sensibles
 
 import { headers } from 'next/headers';
-import { EventCategory } from '@prisma/client';
+// import { EventCategory } from '@prisma/client';
+enum EventCategory {
+    LEGAL = 'LEGAL',
+    SECURITY = 'SECURITY',
+    DATA = 'DATA',
+    TRANSACTION = 'TRANSACTION'
+}
 
 type LogLevel = 'info' | 'warn' | 'error' | 'security';
 
@@ -77,49 +83,78 @@ class SecureLogger {
             if (logEntry.message.includes('ADMIN_ACTION')) eventCategory = EventCategory.DATA;
             if (logEntry.message.includes('LEGAL')) eventCategory = EventCategory.LEGAL;
 
-            await prisma.auditLog.create({
-                data: {
-                    userId: logEntry.userId || null,
-                    action: logEntry.action || logEntry.event || 'unknown',
-                    entity: 'SYSTEM', // Prevent P2011: Mandatory field in legacy schema
-                    eventType: logEntry.level.toUpperCase(),
-                    eventCategory: eventCategory,
-                    eventData: logEntry,
-                    ipAddress: logEntry.ip,
-                    userAgent: logEntry.userAgent,
-                    metadata: {
-                        level: logEntry.level,
-                        message: logEntry.message,
-                        timestamp: logEntry.timestamp
-                    }
+            const baseData = {
+                action: logEntry.action || logEntry.event || 'unknown',
+                entity: 'SYSTEM',
+                entityId: logEntry.entityId || 'SYSTEM',
+                result: logEntry.result || 'SUCCESS',
+                eventType: logEntry.level.toUpperCase(),
+                eventCategory: eventCategory,
+                eventData: logEntry,
+                ipAddress: logEntry.ip || 'unknown',
+                userAgent: logEntry.userAgent || 'unknown',
+                metadata: {
+                    level: logEntry.level,
+                    message: logEntry.message,
+                    timestamp: logEntry.timestamp
                 }
-            });
+            };
+
+            try {
+                await prisma.auditLog.create({
+                    data: {
+                        ...baseData,
+                        userId: logEntry.userId || null,
+                    }
+                });
+            } catch (error: any) {
+                // WORLD CLASS ERROR HANDLING: 
+                // Si falla por Foreign Key (P2003 - usuario no existe en DB), 
+                // reintentamos guardando como anónimo.
+                if (error.code === 'P2003') {
+                    console.warn(`⚠️ [SECURE LOGGER] P2003: Usuario ${logEntry.userId} no existe. Guardando log como anónimo.`);
+                    await prisma.auditLog.create({
+                        data: {
+                            ...baseData,
+                            userId: null,
+                            metadata: {
+                                ...baseData.metadata,
+                                originalUserId: logEntry.userId,
+                                warning: 'P2003_FOREIGN_KEY_VIOLATION'
+                            }
+                        }
+                    });
+                } else {
+                    throw error; // Re-lanzar para el bloque catch externo
+                }
+            }
         } catch (error: any) {
-            console.error('⚠️ [SECURE LOGGER] Failed to save to DB:', {
+            console.error('⚠️ [SECURE LOGGER] Error al guardar en la DB:', {
                 message: error.message,
                 code: error.code
             });
 
-            // FALLBACK: Intentar guardar sin campos complejos
+            // FALLBACK: Intentar guardar sin campos complejos y sin userId
             try {
                 const { prisma } = await import("@/lib/prisma");
                 await prisma.auditLog.create({
                     data: {
                         action: 'LOG_FALLBACK',
-                        entity: 'SYSTEM', // Prevent P2011
+                        entity: 'SYSTEM',
+                        entityId: 'SYSTEM',
+                        result: 'ERROR_LOG_FALLBACK',
                         eventType: 'ERROR',
-                        // Usamos un valor seguro para el enum en fallback si es necesario, 
-                        // o lo omitimos si es opcional. Supongamos que es opcional o SECURITY por defecto.
                         eventCategory: EventCategory.SECURITY,
+                        ipAddress: '0.0.0.0',
+                        userAgent: 'fallback-logger',
                         metadata: {
                             originalError: error.message,
-                            originalData: JSON.stringify(logEntry)
+                            originalCode: error.code
                         }
                     }
                 });
-                // Fallback log saved.
             } catch (fallbackError) {
-                console.error('❌ [SECURE LOGGER] Fallback completely failed.');
+                console.error('❌ [SECURE LOGGER] El fallback falló completamente.');
             }
         }
     }

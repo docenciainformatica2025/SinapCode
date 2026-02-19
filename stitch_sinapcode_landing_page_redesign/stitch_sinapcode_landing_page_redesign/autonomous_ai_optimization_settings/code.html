@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Autonomous AI Optimization Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#258cf4",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101922",
+                        "accent-orange": "#f48c25", // Adding orange accent based on request
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for audit log */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(37, 140, 244, 0.05);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(37, 140, 244, 0.2);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(37, 140, 244, 0.4);
+        }
+        
+        /* Toggle Switch Styling */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #258cf4;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #258cf4;
+        }
+        
+        /* Range Slider Styling */
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #258cf4;
+            cursor: pointer;
+            margin-top: -6px;
+            box-shadow: 0 0 10px rgba(37, 140, 244, 0.5);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #1e293b;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200 font-display min-h-screen flex flex-col md:flex-row overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="w-full md:w-64 flex-shrink-0 bg-white dark:bg-[#151f2b] border-r border-slate-200 dark:border-slate-800 flex flex-col z-20">
+<div class="h-16 flex items-center px-6 border-b border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-2 text-primary font-bold text-xl tracking-tighter">
+<span class="material-icons-outlined text-2xl">hub</span>
+<span>SinapCODE</span>
+</div>
+</div>
+<nav class="flex-1 overflow-y-auto py-6 px-3 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-lg transition-colors" href="#">
+<span class="material-icons-outlined text-xl">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-lg transition-colors" href="#">
+<span class="material-icons-outlined text-xl">analytics</span>
+<span>Performance</span>
+</a>
+<div class="pt-4 pb-2 px-3 text-xs font-bold text-slate-400 uppercase tracking-wider">Configuration</div>
+<a class="flex items-center gap-3 px-3 py-2.5 bg-primary/10 text-primary rounded-lg font-medium" href="#">
+<span class="material-icons-outlined text-xl">settings_suggest</span>
+<span>Auto-Optimization</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-lg transition-colors" href="#">
+<span class="material-icons-outlined text-xl">security</span>
+<span>Guardrails</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-lg transition-colors" href="#">
+<span class="material-icons-outlined text-xl">webhook</span>
+<span>Integrations</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3">
+<img alt="Admin Profile" class="w-10 h-10 rounded-full border-2 border-slate-200 dark:border-slate-700" data-alt="Admin user avatar placeholder" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzX00N_WIT6QvRM36JfZTsHLurVMLhPE38dLH-NAqTywHBICx3kiidxEbwtOy5NIRPXTWeuV7zaTg5Ewbs46OCh5_LYWNx6_CaTLBU16jmH7TDmGiAeygbCXQVycBGDEwjF3G2m94FP9RsEX5BiYCdO_xvyRhbAkAZ-fb22UcZzZnQtmIAiEn1d2JRVzz5G9t_wFkF1Q3EeA9VWJp9DnVE71INFmhzhfn87ERvNKjrnXvc0wU1eJa6o6_TmKkJ0IO9K3XDYNo2jnaS"/>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-medium truncate text-slate-900 dark:text-white">Admin User</p>
+<p class="text-xs truncate text-slate-500">sysadmin@sinap.ai</p>
+</div>
+<button class="text-slate-400 hover:text-white"><span class="material-icons-outlined">logout</span></button>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+<!-- Top Bar -->
+<header class="h-16 flex items-center justify-between px-6 bg-white dark:bg-[#151f2b]/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 z-10">
+<h1 class="text-lg font-semibold flex items-center gap-2">
+<span class="text-slate-400">Settings /</span>
+<span class="text-slate-900 dark:text-white">Autonomous Protocol</span>
+</h1>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 rounded-full">
+<div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+<span class="text-xs font-medium text-green-500 uppercase tracking-wide">System Active</span>
+</div>
+<button class="flex items-center justify-center w-8 h-8 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors relative">
+<span class="material-icons-outlined text-slate-500">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-accent-orange rounded-full border border-white dark:border-[#151f2b]"></span>
+</button>
+</div>
+</header>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto custom-scrollbar p-6">
+<div class="max-w-7xl mx-auto space-y-6">
+<!-- Main Controls Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Left Column: Settings -->
+<div class="lg:col-span-7 space-y-6">
+<!-- Automation Levels -->
+<div class="bg-white dark:bg-[#151f2b] rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+<span class="material-icons-outlined text-primary">auto_fix_high</span>
+                                        Automation Scope
+                                    </h2>
+<p class="text-sm text-slate-500 mt-1">Define boundaries for autonomous interventions.</p>
+</div>
+<button class="text-xs text-primary hover:text-primary/80 font-medium uppercase tracking-wider">Reset Defaults</button>
+</div>
+<div class="space-y-4">
+<!-- Setting Item: UI -->
+<div class="group flex items-center justify-between p-4 rounded-lg border border-slate-100 dark:border-slate-800 hover:border-primary/30 dark:hover:border-primary/30 bg-slate-50 dark:bg-slate-900/50 transition-all">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-500">
+<span class="material-icons-outlined">web</span>
+</div>
+<div>
+<h3 class="font-medium text-slate-900 dark:text-white">UI Adjustments</h3>
+<p class="text-xs text-slate-500">Layout shifts, color tweaks, spacing.</p>
+</div>
+</div>
+<label class="flex items-center cursor-pointer relative" for="toggle-ui">
+<input checked="" class="sr-only peer" id="toggle-ui" type="checkbox"/>
+<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Setting Item: Copy -->
+<div class="group flex items-center justify-between p-4 rounded-lg border border-slate-100 dark:border-slate-800 hover:border-primary/30 dark:hover:border-primary/30 bg-slate-50 dark:bg-slate-900/50 transition-all">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-500">
+<span class="material-icons-outlined">edit_note</span>
+</div>
+<div>
+<h3 class="font-medium text-slate-900 dark:text-white">Copywriting (Text)</h3>
+<p class="text-xs text-slate-500">Headlines, CTA text, micro-copy.</p>
+</div>
+</div>
+<label class="flex items-center cursor-pointer relative" for="toggle-copy">
+<input checked="" class="sr-only peer" id="toggle-copy" type="checkbox"/>
+<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Setting Item: Navigation -->
+<div class="group flex items-center justify-between p-4 rounded-lg border border-slate-100 dark:border-slate-800 hover:border-primary/30 dark:hover:border-primary/30 bg-slate-50 dark:bg-slate-900/50 transition-all">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-accent-orange/10 flex items-center justify-center text-accent-orange">
+<span class="material-icons-outlined">alt_route</span>
+</div>
+<div>
+<h3 class="font-medium text-slate-900 dark:text-white">Navigation Flow</h3>
+<p class="text-xs text-slate-500">Menu ordering, path optimization.</p>
+</div>
+</div>
+<label class="flex items-center cursor-pointer relative" for="toggle-nav">
+<input class="sr-only peer" id="toggle-nav" type="checkbox"/>
+<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
+<!-- Safety Guardrails -->
+<div class="bg-white dark:bg-[#151f2b] rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+<h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-6">
+<span class="material-icons-outlined text-accent-orange">gpp_good</span>
+                                Safety Guardrails
+                            </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Maximum Changes Frequency</label>
+<div class="relative">
+<select class="block w-full pl-3 pr-10 py-2.5 text-base border-gray-300 dark:border-slate-700 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-lg bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white">
+<option>Conservative (1/day)</option>
+<option selected="">Moderate (4/day)</option>
+<option>Aggressive (12/day)</option>
+<option>Unlimited (Not Recommended)</option>
+</select>
+</div>
+<p class="mt-2 text-xs text-slate-500">Limits the velocity of deployments to prevent user confusion.</p>
+</div>
+<div>
+<div class="flex justify-between items-center mb-2">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Min. Success Threshold</label>
+<span class="text-primary font-bold text-sm">&gt; 5.0%</span>
+</div>
+<input class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer dark:bg-slate-700" max="20" min="1" step="0.5" type="range" value="5"/>
+<div class="flex justify-between text-xs text-slate-500 mt-2">
+<span>1% (More Changes)</span>
+<span>20% (High Confidence)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Notifications -->
+<div class="bg-white dark:bg-[#151f2b] rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+<h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-6">
+<span class="material-icons-outlined text-primary">notifications_active</span>
+                                Alert System
+                            </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="flex items-center justify-between p-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50">
+<div class="flex items-center gap-3">
+<!-- Slack SVG Icon -->
+<div class="w-8 h-8 flex items-center justify-center bg-white dark:bg-slate-800 rounded shadow-sm p-1.5">
+<svg class="w-full h-full" viewbox="0 0 122.8 122.8" xmlns="http://www.w3.org/2000/svg"><path d="M25.8 77.6c0 7.1-5.8 12.9-12.9 12.9S0 84.7 0 77.6s5.8-12.9 12.9-12.9h12.9v12.9zm6.5 0c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9v32.3c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V77.6z" fill="#e01e5a"></path><path d="M45.2 25.8c-7.1 0-12.9-5.8-12.9-12.9S38.1 0 45.2 0s12.9 5.8 12.9 12.9v12.9H45.2zm0 6.5c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H12.9C5.8 58.1 0 52.3 0 45.2s5.8-12.9 12.9-12.9h32.3z" fill="#36c5f0"></path><path d="M97 45.2c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9-5.8 12.9-12.9 12.9H97V45.2zm-6.5 0c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V12.9C64.7 5.8 70.5 0 77.6 0s12.9 5.8 12.9 12.9v32.3z" fill="#2eb67d"></path><path d="M77.6 97c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9-12.9-5.8-12.9-12.9V97h12.9zm0-6.5c-7.1 0-12.9-5.8-12.9-12.9s5.8-12.9 12.9-12.9h32.3c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H77.6z" fill="#ecb22e"></path></svg>
+</div>
+<span class="font-medium text-sm">Slack</span>
+</div>
+<label class="inline-flex relative items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/50 dark:peer-focus:ring-primary/80 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50">
+<div class="flex items-center gap-3">
+<!-- Telegram SVG Icon -->
+<div class="w-8 h-8 flex items-center justify-center bg-blue-500 rounded shadow-sm p-1.5">
+<svg class="w-full h-full fill-white" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 11.944 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"></path></svg>
+</div>
+<span class="font-medium text-sm">Telegram</span>
+</div>
+<label class="inline-flex relative items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/50 dark:peer-focus:ring-primary/80 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
+<!-- Action Bar -->
+<div class="flex items-center justify-between pt-4">
+<button class="px-5 py-2.5 rounded-lg border border-red-500/30 text-red-500 hover:bg-red-500/10 font-medium text-sm flex items-center gap-2 transition-colors">
+<span class="material-icons-outlined">power_settings_new</span>
+                                Emergency Stop
+                            </button>
+<button class="px-8 py-2.5 bg-primary hover:bg-primary/90 text-white rounded-lg font-bold shadow-lg shadow-primary/30 flex items-center gap-2 transition-all">
+<span class="material-icons-outlined">save</span>
+                                Save Configuration
+                            </button>
+</div>
+</div>
+<!-- Right Column: Audit Log -->
+<div class="lg:col-span-5 flex flex-col h-full">
+<div class="bg-white dark:bg-[#151f2b] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col h-full overflow-hidden">
+<div class="p-5 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/30 flex justify-between items-center">
+<h2 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+<span class="material-icons-outlined text-primary text-xl">history</span>
+                                    Autonomous Audit Log
+                                </h2>
+<span class="px-2 py-0.5 bg-green-500/10 text-green-500 text-xs font-mono rounded">LIVE</span>
+</div>
+<div class="flex-1 overflow-y-auto p-0 custom-scrollbar">
+<div class="relative">
+<!-- Vertical Line -->
+<div class="absolute left-8 top-0 bottom-0 w-px bg-slate-200 dark:bg-slate-800 z-0"></div>
+<!-- Audit Items List -->
+<div class="divide-y divide-slate-100 dark:divide-slate-800/50">
+<!-- Item 1: High Priority -->
+<div class="relative pl-16 pr-5 py-5 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
+<div class="absolute left-[26px] top-6 w-3 h-3 rounded-full bg-accent-orange ring-4 ring-white dark:ring-[#151f2b] z-10"></div>
+<div class="flex justify-between items-start mb-1">
+<span class="text-xs font-mono text-slate-400">10:42 AM</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-accent-orange/10 text-accent-orange">UI Structure</span>
+</div>
+<h4 class="text-sm font-semibold text-slate-900 dark:text-white mb-1">Checkout Button Variant B</h4>
+<p class="text-xs text-slate-500 mb-3 leading-relaxed">
+                                                Detected 40% bounce rate on step 2. Deployed higher contrast button style (Primary Blue) to improve visibility.
+                                            </p>
+<div class="flex items-center gap-3 text-xs">
+<span class="flex items-center gap-1 text-green-500 font-medium">
+<span class="material-icons-outlined text-[14px]">trending_up</span>
+                                                    +4.2% Conv.
+                                                </span>
+<span class="text-slate-400">|</span>
+<span class="text-slate-400 font-mono">ID: #AUTO-921</span>
+</div>
+</div>
+<!-- Item 2: Medium Priority -->
+<div class="relative pl-16 pr-5 py-5 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
+<div class="absolute left-[26px] top-6 w-3 h-3 rounded-full bg-primary ring-4 ring-white dark:ring-[#151f2b] z-10"></div>
+<div class="flex justify-between items-start mb-1">
+<span class="text-xs font-mono text-slate-400">09:15 AM</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-primary/10 text-primary">Copywriting</span>
+</div>
+<h4 class="text-sm font-semibold text-slate-900 dark:text-white mb-1">Hero Headline Optimization</h4>
+<p class="text-xs text-slate-500 mb-3 leading-relaxed">
+                                                Semantic analysis suggested clearer value proposition. Changed "Best Tools" to "Enterprise-Grade Solutions".
+                                            </p>
+<div class="flex items-center gap-3 text-xs">
+<span class="flex items-center gap-1 text-slate-400">
+<span class="material-icons-outlined text-[14px]">hourglass_empty</span>
+                                                    Gathering Data...
+                                                </span>
+<span class="text-slate-400">|</span>
+<span class="text-slate-400 font-mono">ID: #AUTO-854</span>
+</div>
+</div>
+<!-- Item 3: Low Priority -->
+<div class="relative pl-16 pr-5 py-5 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
+<div class="absolute left-[26px] top-6 w-3 h-3 rounded-full bg-slate-300 dark:bg-slate-600 ring-4 ring-white dark:ring-[#151f2b] z-10"></div>
+<div class="flex justify-between items-start mb-1">
+<span class="text-xs font-mono text-slate-400">Yesterday</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-slate-100 dark:bg-slate-800 text-slate-500">Navigation</span>
+</div>
+<h4 class="text-sm font-semibold text-slate-900 dark:text-white mb-1">Menu Order Adjustment</h4>
+<p class="text-xs text-slate-500 mb-3 leading-relaxed">
+                                                Moved "Pricing" link to position 2 based on heat-map click density analysis.
+                                            </p>
+<div class="flex items-center gap-3 text-xs">
+<span class="flex items-center gap-1 text-green-500 font-medium">
+<span class="material-icons-outlined text-[14px]">trending_up</span>
+                                                    +1.8% CTR
+                                                </span>
+<span class="text-slate-400">|</span>
+<span class="text-slate-400 font-mono">ID: #AUTO-772</span>
+</div>
+</div>
+<!-- Item 4: Low Priority -->
+<div class="relative pl-16 pr-5 py-5 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
+<div class="absolute left-[26px] top-6 w-3 h-3 rounded-full bg-slate-300 dark:bg-slate-600 ring-4 ring-white dark:ring-[#151f2b] z-10"></div>
+<div class="flex justify-between items-start mb-1">
+<span class="text-xs font-mono text-slate-400">Yesterday</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-slate-100 dark:bg-slate-800 text-slate-500">System</span>
+</div>
+<h4 class="text-sm font-semibold text-slate-900 dark:text-white mb-1">Routine Cache Purge</h4>
+<p class="text-xs text-slate-500 mb-3 leading-relaxed">
+                                                Optimized asset delivery by purging stale cache nodes in EU-West region.
+                                            </p>
+<div class="flex items-center gap-3 text-xs">
+<span class="flex items-center gap-1 text-slate-400">
+<span class="material-icons-outlined text-[14px]">check_circle</span>
+                                                    Completed
+                                                </span>
+<span class="text-slate-400">|</span>
+<span class="text-slate-400 font-mono">ID: #SYS-102</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/30">
+<button class="w-full py-2 border border-slate-300 dark:border-slate-700 rounded-lg text-sm text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800 transition-colors">
+                                    View Full History
+                                </button>
+</div>
+</div>
+<!-- Mini Stat Card (Visual Filler) -->
+<div class="mt-6 grid grid-cols-2 gap-4">
+<div class="bg-gradient-to-br from-primary/20 to-primary/5 rounded-xl border border-primary/20 p-4">
+<div class="text-xs text-primary font-medium uppercase mb-1">Total Optimizations</div>
+<div class="text-2xl font-bold text-slate-900 dark:text-white">1,284</div>
+<div class="text-xs text-slate-500 mt-1">Since system inception</div>
+</div>
+<div class="bg-white dark:bg-[#151f2b] rounded-xl border border-slate-200 dark:border-slate-800 p-4">
+<div class="text-xs text-slate-500 font-medium uppercase mb-1">Avg. Impact</div>
+<div class="text-2xl font-bold text-green-500">+8.4%</div>
+<div class="text-xs text-slate-500 mt-1">Conversion lift</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

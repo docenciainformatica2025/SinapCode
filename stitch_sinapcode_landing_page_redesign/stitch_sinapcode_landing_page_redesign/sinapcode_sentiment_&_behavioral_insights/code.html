@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SinapCODE - Sentiment &amp; Behavioral Insights</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Icons -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+            extend: {
+                colors: {
+                    "primary": "#0df2f2",
+                    "background-light": "#f5f8f8",
+                    "background-dark": "#102222",
+                    "surface-dark": "#162e2e",
+                    "surface-darker": "#0d1c1c",
+                },
+                fontFamily: {
+                    "display": ["Space Grotesk", "sans-serif"]
+                },
+                borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+            },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #102222; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e3a3a; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2d5555; 
+        }
+        
+        .gauge-mask {
+            mask-image: linear-gradient(to bottom, transparent, black);
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black);
+        }
+        
+        .glass-panel {
+            background: rgba(22, 46, 46, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(13, 242, 242, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200 font-display min-h-screen flex flex-col antialiased selection:bg-primary selection:text-background-dark">
+<!-- Navbar -->
+<nav class="sticky top-0 z-50 glass-panel border-b border-primary/10">
+<div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<!-- Logo -->
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary flex items-center justify-center text-background-dark font-bold text-xl">
+                        S
+                    </div>
+<span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Sinap<span class="text-primary">CODE</span> <span class="text-sm font-light text-slate-400 opacity-60 ml-2 border-l border-slate-600 pl-2">Intelligence Admin</span></span>
+</div>
+<!-- Navigation Links -->
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-primary hover:text-primary transition-colors text-sm font-medium" href="#">Dashboard</a>
+<a class="text-slate-400 hover:text-white transition-colors text-sm font-medium" href="#">Pipeline</a>
+<a class="text-slate-400 hover:text-white transition-colors text-sm font-medium" href="#">Courses</a>
+<a class="text-slate-400 hover:text-white transition-colors text-sm font-medium" href="#">Settings</a>
+</div>
+<!-- User Profile -->
+<div class="flex items-center gap-4">
+<button class="text-slate-400 hover:text-primary transition-colors relative">
+<span class="material-icons-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden border border-primary/30">
+<img alt="Admin Profile" class="h-full w-full object-cover" data-alt="Close up portrait of a man looking professional" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9CshHPqYNQPhiSgoJo-ZOIcY0Lofu_5-RcL-H6G7LSvlWjWPU7D2a-Rl5J3mATqUPgKcQQlQO12wUZH_VFdKhlgMysmKop5bwTEusMPtm3FACMhLMoWPDQ0BTGvrhmFueMybpUC4Q1blADaEZJZOLmHpDY_VSLPVKnjyiQ1hwSPH4idjWJB96jvFfd057rGdDYBKrl_NkbWLwdVvG-NXFkr7b5-LHKlOmPNHJ8qPo4LA3ru0mzrBhP2BncNY6HbBMtOwNBHvWo9ba"/>
+</div>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow p-4 sm:p-6 lg:p-8 max-w-[1920px] mx-auto w-full space-y-8">
+<!-- Top Stats Row -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Stat 1 -->
+<div class="bg-surface-dark border border-primary/10 rounded-xl p-5 relative overflow-hidden group hover:border-primary/30 transition-all">
+<div class="absolute right-0 top-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+<span class="material-icons-outlined text-6xl text-primary">groups</span>
+</div>
+<h3 class="text-slate-400 text-xs uppercase tracking-wider font-semibold mb-1">Active Leads</h3>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-bold text-white">1,284</span>
+<span class="text-green-400 text-sm font-medium flex items-center">
+<span class="material-icons-outlined text-sm">trending_up</span> +12%
+                    </span>
+</div>
+</div>
+<!-- Stat 2 -->
+<div class="bg-surface-dark border border-primary/10 rounded-xl p-5 relative overflow-hidden group hover:border-primary/30 transition-all">
+<div class="absolute right-0 top-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+<span class="material-icons-outlined text-6xl text-primary">psychology</span>
+</div>
+<h3 class="text-slate-400 text-xs uppercase tracking-wider font-semibold mb-1">Avg. Sentiment Score</h3>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-bold text-primary">72<span class="text-lg opacity-60">/100</span></span>
+<span class="text-slate-400 text-sm font-medium">Stable</span>
+</div>
+</div>
+<!-- Stat 3 -->
+<div class="bg-surface-dark border border-primary/10 rounded-xl p-5 relative overflow-hidden group hover:border-primary/30 transition-all">
+<div class="absolute right-0 top-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+<span class="material-icons-outlined text-6xl text-primary">shopping_cart</span>
+</div>
+<h3 class="text-slate-400 text-xs uppercase tracking-wider font-semibold mb-1">Propensity &gt; 80%</h3>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-bold text-white">43</span>
+<span class="text-sm text-primary/80 font-medium">High Potential</span>
+</div>
+</div>
+<!-- Stat 4 -->
+<div class="bg-surface-dark border border-primary/10 rounded-xl p-5 relative overflow-hidden group hover:border-primary/30 transition-all">
+<div class="absolute right-0 top-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+<span class="material-icons-outlined text-6xl text-primary">campaign</span>
+</div>
+<h3 class="text-slate-400 text-xs uppercase tracking-wider font-semibold mb-1">Pending Actions</h3>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-bold text-yellow-400">18</span>
+<span class="text-sm text-slate-400 font-medium">Needs Attention</span>
+</div>
+</div>
+</div>
+<!-- Filters & Search -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-surface-darker p-4 rounded-xl border border-white/5">
+<div class="flex flex-wrap gap-2">
+<div class="relative">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-icons-outlined text-slate-500 text-lg">search</span>
+</span>
+<input class="bg-surface-dark text-sm rounded-lg pl-10 pr-4 py-2 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary placeholder-slate-500 w-full md:w-64" placeholder="Search student name or email..." type="text"/>
+</div>
+<select class="bg-surface-dark text-sm rounded-lg border border-white/10 px-4 py-2 focus:border-primary focus:ring-1 focus:ring-primary text-slate-300">
+<option>All Sentiments</option>
+<option>Positive</option>
+<option>Hesitant</option>
+<option>Negative</option>
+</select>
+<select class="bg-surface-dark text-sm rounded-lg border border-white/10 px-4 py-2 focus:border-primary focus:ring-1 focus:ring-primary text-slate-300">
+<option>Propensity: High to Low</option>
+<option>Propensity: Low to High</option>
+<option>Recent Activity</option>
+</select>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 rounded-lg text-sm transition-colors">
+<span class="material-icons-outlined text-base">file_download</span> Export Report
+                 </button>
+</div>
+</div>
+<!-- Main Dashboard List -->
+<div class="space-y-4">
+<!-- Card 1: High Propensity, Hesitant -->
+<div class="bg-surface-dark border border-primary/20 rounded-xl overflow-hidden hover:shadow-[0_0_20px_rgba(13,242,242,0.05)] transition-all duration-300">
+<div class="flex flex-col lg:flex-row">
+<!-- Left: User Profile & Metrics -->
+<div class="lg:w-1/3 p-6 border-b lg:border-b-0 lg:border-r border-white/5 flex flex-col justify-between relative bg-gradient-to-br from-primary/5 to-transparent">
+<div class="absolute top-4 right-4 text-xs font-mono text-primary/40">ID: #89201</div>
+<div class="flex items-center gap-4 mb-6">
+<div class="h-14 w-14 rounded-xl bg-slate-800 border border-white/10 overflow-hidden relative">
+<img alt="Portrait of a woman smiling slightly" class="object-cover w-full h-full" data-alt="Professional woman in business attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfpfGSoP6g4zvJUVuDH6S3oa2p7XwGtOmJwT1d8BB6EjI9oIeos5fyYyK2fMO7005HXJWmYHmxWyWuUm9qBHxuTc-6xb8fSg85C6mK1DNXRuDpmkZlJc_f-2IiiyqWZb0PCZn1Mj2Y533u6Q_Z5WXzzR7q16DRwK-v9sYUX6ZQA2d-oAPfB0yTJr2tt0E66McEi-hA2a7fGXZdvYHNgJ3TgZXQU2IPdR59fAfqqat6ayg-Wu9iRYHxi3_mSF9_AGq1ZScvjnfMqoWM"/>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-surface-dark"></div>
+</div>
+<div>
+<h2 class="text-xl font-bold text-white">Sarah Jenkins</h2>
+<p class="text-sm text-slate-400">sarah.j@techfirm.co</p>
+<p class="text-xs text-primary mt-1 flex items-center gap-1">
+<span class="material-icons-outlined text-[10px]">history</span> Last active: 2 mins ago
+                                </p>
+</div>
+</div>
+<div class="flex items-center justify-around gap-4 mb-2">
+<!-- Propensity Gauge -->
+<div class="text-center relative">
+<svg class="w-24 h-24 transform -rotate-90">
+<circle class="text-slate-800" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-primary" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" stroke-dasharray="251.2" stroke-dashoffset="45" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center">
+<span class="text-2xl font-bold text-white">82%</span>
+</div>
+<p class="text-xs text-slate-400 mt-2 font-medium uppercase tracking-wide">Propensity</p>
+</div>
+<!-- Sentiment Gauge -->
+<div class="text-center relative">
+<svg class="w-24 h-24 transform -rotate-90">
+<circle class="text-slate-800" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-yellow-500" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" stroke-dasharray="251.2" stroke-dashoffset="100" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center">
+<span class="material-icons-outlined text-3xl text-yellow-500">sentiment_neutral</span>
+</div>
+<p class="text-xs text-slate-400 mt-2 font-medium uppercase tracking-wide">Sentiment</p>
+</div>
+</div>
+</div>
+<!-- Middle: AI Insights & Behaviors -->
+<div class="lg:w-1/3 p-6 border-b lg:border-b-0 lg:border-r border-white/5">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-icons-outlined text-primary text-lg">auto_awesome</span>
+<h4 class="text-sm font-semibold text-white uppercase tracking-wider">AI Behavioral Analysis</h4>
+</div>
+<div class="bg-surface-darker/50 rounded-lg p-4 border border-white/5 mb-4">
+<p class="text-sm text-slate-300 leading-relaxed">
+                                User showed high interest in <span class="text-primary font-medium">career growth</span> but concerned about <span class="text-yellow-400 font-medium">pricing</span>. Revisited the "Python for Data Science" checkout page 3 times without converting.
+                            </p>
+</div>
+<div class="mb-4">
+<h5 class="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-2">Interaction Keywords</h5>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded border border-white/10">#Automation</span>
+<span class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded border border-white/10">#Career</span>
+<span class="px-2 py-1 bg-slate-800 text-yellow-400/80 text-xs rounded border border-yellow-400/20">#CostConcern</span>
+<span class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded border border-white/10">#Python</span>
+</div>
+</div>
+<div>
+<h5 class="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-1">Engagement Trend</h5>
+<!-- Fake Sparkline -->
+<div class="h-8 w-full flex items-end gap-1 opacity-70">
+<div class="w-1 bg-primary/30 h-[30%]"></div>
+<div class="w-1 bg-primary/30 h-[40%]"></div>
+<div class="w-1 bg-primary/30 h-[20%]"></div>
+<div class="w-1 bg-primary/50 h-[60%]"></div>
+<div class="w-1 bg-primary/50 h-[80%]"></div>
+<div class="w-1 bg-primary h-[90%]"></div>
+<div class="w-1 bg-primary h-[100%]"></div>
+</div>
+</div>
+</div>
+<!-- Right: Recommendation Engine -->
+<div class="lg:w-1/3 p-6 flex flex-col justify-center bg-surface-darker/30 relative overflow-hidden">
+<!-- Decorative glow -->
+<div class="absolute -right-10 -top-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+<h4 class="text-sm font-semibold text-primary mb-3 flex items-center gap-2">
+<span class="material-icons-outlined text-base">lightbulb</span> Recommendation Engine
+                        </h4>
+<div class="bg-gradient-to-r from-primary/10 to-transparent border-l-4 border-primary p-4 rounded-r-lg mb-6">
+<strong class="block text-white text-sm mb-1">Offer 15% Early Bird Discount</strong>
+<p class="text-xs text-slate-400">This matches her interest in cost reduction while capitalizing on her recent high engagement.</p>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<button class="col-span-2 py-2 px-4 bg-primary text-background-dark font-bold text-sm rounded hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
+<span class="material-icons-outlined text-lg">send</span>
+                                Send Offer Now
+                            </button>
+<button class="py-2 px-4 bg-slate-800 text-white text-sm rounded border border-white/10 hover:bg-slate-700 transition-colors flex items-center justify-center gap-2">
+<span class="material-icons-outlined text-lg">chat</span>
+                                View Logs
+                            </button>
+<button class="py-2 px-4 bg-slate-800 text-white text-sm rounded border border-white/10 hover:bg-slate-700 transition-colors flex items-center justify-center gap-2">
+<span class="material-icons-outlined text-lg">calendar_today</span>
+                                Schedule
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2: Low Propensity, Negative Sentiment -->
+<div class="bg-surface-dark border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition-all duration-300">
+<div class="flex flex-col lg:flex-row">
+<!-- Left: User Profile & Metrics -->
+<div class="lg:w-1/3 p-6 border-b lg:border-b-0 lg:border-r border-white/5 flex flex-col justify-between relative">
+<div class="absolute top-4 right-4 text-xs font-mono text-slate-600">ID: #89202</div>
+<div class="flex items-center gap-4 mb-6">
+<div class="h-14 w-14 rounded-xl bg-slate-800 border border-white/10 overflow-hidden relative">
+<img alt="Man with serious expression" class="object-cover w-full h-full" data-alt="Portrait of a serious man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxdgMICS_hN2KYh9AonYPvz1XP6E7i3HG9xP9zzS-pXE1x7Aykzt6TLHkwtUUCM0KZKH_ROvi6CyokrqPS0-F1evJosp-dlyiRwNv2JnP0SaBC9c0QAqXBb4sCDJTRXwNPAd3dGyGaKstPysJCQRkBvoyXHWzGA5CBAjMR9YT-8UAqb8bAZslz7jjkwCGzUCQvmqKMhgWRmHEAeSTIRgSfyLXvsidihsjKFp7JXVYDbNfGubTYX5_BJBTP7y_e-AnMMRCc7VBbUlsO"/>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-slate-500 rounded-full border-2 border-surface-dark"></div>
+</div>
+<div>
+<h2 class="text-xl font-bold text-slate-300">Marcus Chen</h2>
+<p class="text-sm text-slate-500">m.chen@uni.edu</p>
+<p class="text-xs text-slate-500 mt-1 flex items-center gap-1">
+<span class="material-icons-outlined text-[10px]">history</span> Last active: 2 days ago
+                                </p>
+</div>
+</div>
+<div class="flex items-center justify-around gap-4 mb-2">
+<!-- Propensity Gauge -->
+<div class="text-center relative">
+<svg class="w-24 h-24 transform -rotate-90">
+<circle class="text-slate-800" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-red-500" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" stroke-dasharray="251.2" stroke-dashoffset="180" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center">
+<span class="text-2xl font-bold text-slate-300">28%</span>
+</div>
+<p class="text-xs text-slate-500 mt-2 font-medium uppercase tracking-wide">Propensity</p>
+</div>
+<!-- Sentiment Gauge -->
+<div class="text-center relative">
+<svg class="w-24 h-24 transform -rotate-90">
+<circle class="text-slate-800" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-red-500" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" stroke-dasharray="251.2" stroke-dashoffset="160" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center">
+<span class="material-icons-outlined text-3xl text-red-500">sentiment_dissatisfied</span>
+</div>
+<p class="text-xs text-slate-500 mt-2 font-medium uppercase tracking-wide">Sentiment</p>
+</div>
+</div>
+</div>
+<!-- Middle: AI Insights & Behaviors -->
+<div class="lg:w-1/3 p-6 border-b lg:border-b-0 lg:border-r border-white/5 opacity-80">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-icons-outlined text-slate-500 text-lg">auto_awesome</span>
+<h4 class="text-sm font-semibold text-slate-400 uppercase tracking-wider">AI Behavioral Analysis</h4>
+</div>
+<div class="bg-surface-darker/50 rounded-lg p-4 border border-white/5 mb-4">
+<p class="text-sm text-slate-400 leading-relaxed">
+                                User abandoned the onboarding tutorial. Detected frustration with <span class="text-red-400 font-medium">UI complexity</span>. Support ticket #492 remains unresolved.
+                            </p>
+</div>
+<div class="mb-4">
+<h5 class="text-xs text-slate-600 uppercase tracking-wider font-semibold mb-2">Interaction Keywords</h5>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-slate-800 text-red-400/80 text-xs rounded border border-red-400/20">#BugReport</span>
+<span class="px-2 py-1 bg-slate-800 text-slate-400 text-xs rounded border border-white/10">#UX</span>
+<span class="px-2 py-1 bg-slate-800 text-slate-400 text-xs rounded border border-white/10">#Login</span>
+</div>
+</div>
+<div>
+<h5 class="text-xs text-slate-600 uppercase tracking-wider font-semibold mb-1">Engagement Trend</h5>
+<!-- Fake Sparkline -->
+<div class="h-8 w-full flex items-end gap-1 opacity-40">
+<div class="w-1 bg-white h-[80%]"></div>
+<div class="w-1 bg-white h-[60%]"></div>
+<div class="w-1 bg-white h-[20%]"></div>
+<div class="w-1 bg-white h-[10%]"></div>
+<div class="w-1 bg-white h-[15%]"></div>
+<div class="w-1 bg-white h-[5%]"></div>
+<div class="w-1 bg-white h-[5%]"></div>
+</div>
+</div>
+</div>
+<!-- Right: Recommendation Engine -->
+<div class="lg:w-1/3 p-6 flex flex-col justify-center bg-surface-darker/30 relative">
+<h4 class="text-sm font-semibold text-slate-400 mb-3 flex items-center gap-2">
+<span class="material-icons-outlined text-base">lightbulb</span> Recommendation Engine
+                        </h4>
+<div class="bg-white/5 border-l-4 border-slate-500 p-4 rounded-r-lg mb-6">
+<strong class="block text-slate-200 text-sm mb-1">Prioritize Support Ticket</strong>
+<p class="text-xs text-slate-500">Do not sell. Resolve technical issues first to restore trust.</p>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<button class="col-span-2 py-2 px-4 bg-slate-700 text-white font-medium text-sm rounded hover:bg-slate-600 transition-colors flex items-center justify-center gap-2">
+<span class="material-icons-outlined text-lg">support_agent</span>
+                                Escalation Email
+                            </button>
+<button class="py-2 px-4 bg-transparent text-slate-400 text-sm rounded border border-slate-700 hover:bg-slate-800 transition-colors flex items-center justify-center gap-2">
+<span class="material-icons-outlined text-lg">visibility</span>
+                                Ticket
+                            </button>
+<button class="py-2 px-4 bg-transparent text-slate-400 text-sm rounded border border-slate-700 hover:bg-slate-800 transition-colors flex items-center justify-center gap-2">
+<span class="material-icons-outlined text-lg">more_horiz</span>
+                                More
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 3: Very High Propensity, Positive -->
+<div class="bg-surface-dark border border-white/5 rounded-xl overflow-hidden hover:border-primary/20 transition-all duration-300">
+<div class="flex flex-col lg:flex-row">
+<!-- Left: User Profile & Metrics -->
+<div class="lg:w-1/3 p-6 border-b lg:border-b-0 lg:border-r border-white/5 flex flex-col justify-between relative">
+<div class="absolute top-4 right-4 text-xs font-mono text-primary/40">ID: #89205</div>
+<div class="flex items-center gap-4 mb-6">
+<div class="h-14 w-14 rounded-xl bg-slate-800 border border-white/10 overflow-hidden relative">
+<img alt="Young woman smiling brightly" class="object-cover w-full h-full" data-alt="Portrait of a young happy woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATmsmiB56I7oijoRVyva2O1ZyXhAuE3iG2Qzv1c72cxCeFpwPEB2hV7b8dWaAnVXk6ksfBJEUmB0RYosOtAYagXXOfyh-13ogo16z1DfOhFnfyaIkGWDM8OdSJ-r-3MyfPXrpVc5T8hByljtqqzKfA-yhH4ailBbUIKDUNHh1jMBrsDHtolZwP37j3pWLw7efVRwwuYXM50659VqiQ-YQlTEuizmMzMKDMU_ap3wqvXVFczZ2p1N2jTUZ0cAHm8cQA_6-cyG2rgU3i"/>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-surface-dark"></div>
+</div>
+<div>
+<h2 class="text-xl font-bold text-white">Elena Rodriguez</h2>
+<p class="text-sm text-slate-400">elena.r@design.io</p>
+<p class="text-xs text-green-400 mt-1 flex items-center gap-1">
+<span class="material-icons-outlined text-[10px]">flash_on</span> Currently Online
+                                </p>
+</div>
+</div>
+<div class="flex items-center justify-around gap-4 mb-2">
+<!-- Propensity Gauge -->
+<div class="text-center relative">
+<svg class="w-24 h-24 transform -rotate-90">
+<circle class="text-slate-800" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-primary" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" stroke-dasharray="251.2" stroke-dashoffset="10" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center">
+<span class="text-2xl font-bold text-white">96%</span>
+</div>
+<p class="text-xs text-slate-400 mt-2 font-medium uppercase tracking-wide">Propensity</p>
+</div>
+<!-- Sentiment Gauge -->
+<div class="text-center relative">
+<svg class="w-24 h-24 transform -rotate-90">
+<circle class="text-slate-800" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-green-500" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" stroke-dasharray="251.2" stroke-dashoffset="20" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center">
+<span class="material-icons-outlined text-3xl text-green-500">sentiment_satisfied_alt</span>
+</div>
+<p class="text-xs text-slate-400 mt-2 font-medium uppercase tracking-wide">Sentiment</p>
+</div>
+</div>
+</div>
+<!-- Middle: AI Insights & Behaviors -->
+<div class="lg:w-1/3 p-6 border-b lg:border-b-0 lg:border-r border-white/5">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-icons-outlined text-primary text-lg">auto_awesome</span>
+<h4 class="text-sm font-semibold text-white uppercase tracking-wider">AI Behavioral Analysis</h4>
+</div>
+<div class="bg-surface-darker/50 rounded-lg p-4 border border-white/5 mb-4">
+<p class="text-sm text-slate-300 leading-relaxed">
+                                Highly engaged. Completed "Intro to AI" in record time. Posted 5 positive comments in community forum. Likely advocate.
+                            </p>
+</div>
+<div class="mb-4">
+<h5 class="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-2">Interaction Keywords</h5>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-slate-800 text-green-400/80 text-xs rounded border border-green-400/20">#Advocate</span>
+<span class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded border border-white/10">#Community</span>
+<span class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded border border-white/10">#FastLearner</span>
+</div>
+</div>
+<div>
+<h5 class="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-1">Engagement Trend</h5>
+<!-- Fake Sparkline -->
+<div class="h-8 w-full flex items-end gap-1 opacity-90">
+<div class="w-1 bg-primary h-[40%]"></div>
+<div class="w-1 bg-primary h-[50%]"></div>
+<div class="w-1 bg-primary h-[70%]"></div>
+<div class="w-1 bg-primary h-[80%]"></div>
+<div class="w-1 bg-primary h-[90%]"></div>
+<div class="w-1 bg-primary h-[95%]"></div>
+<div class="w-1 bg-primary h-[100%]"></div>
+</div>
+</div>
+</div>
+<!-- Right: Recommendation Engine -->
+<div class="lg:w-1/3 p-6 flex flex-col justify-center bg-surface-darker/30 relative">
+<h4 class="text-sm font-semibold text-primary mb-3 flex items-center gap-2">
+<span class="material-icons-outlined text-base">lightbulb</span> Recommendation Engine
+                        </h4>
+<div class="bg-gradient-to-r from-primary/10 to-transparent border-l-4 border-primary p-4 rounded-r-lg mb-6">
+<strong class="block text-white text-sm mb-1">Upsell: Advanced AI Certification</strong>
+<p class="text-xs text-slate-400">User is ready for advanced material. Suggest the "Mastery Bundle".</p>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<button class="col-span-2 py-2 px-4 bg-primary text-background-dark font-bold text-sm rounded hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
+<span class="material-icons-outlined text-lg">star</span>
+                                Suggest Mastery Bundle
+                            </button>
+<button class="py-2 px-4 bg-slate-800 text-white text-sm rounded border border-white/10 hover:bg-slate-700 transition-colors flex items-center justify-center gap-2">
+<span class="material-icons-outlined text-lg">chat</span>
+                                Chat
+                            </button>
+<button class="py-2 px-4 bg-slate-800 text-white text-sm rounded border border-white/10 hover:bg-slate-700 transition-colors flex items-center justify-center gap-2">
+<span class="material-icons-outlined text-lg">person_add</span>
+                                Assign Mentor
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="flex items-center justify-between pt-4 border-t border-white/5">
+<span class="text-sm text-slate-500">Showing 1 to 3 of 1,284 entries</span>
+<div class="flex gap-2">
+<button class="px-4 py-2 text-sm text-slate-400 hover:text-white bg-surface-dark rounded hover:bg-surface-darker transition-colors border border-white/5">Previous</button>
+<button class="px-4 py-2 text-sm text-background-dark font-bold bg-primary rounded hover:bg-primary/90 transition-colors">1</button>
+<button class="px-4 py-2 text-sm text-slate-400 hover:text-white bg-surface-dark rounded hover:bg-surface-darker transition-colors border border-white/5">2</button>
+<button class="px-4 py-2 text-sm text-slate-400 hover:text-white bg-surface-dark rounded hover:bg-surface-darker transition-colors border border-white/5">3</button>
+<span class="px-2 py-2 text-slate-600">...</span>
+<button class="px-4 py-2 text-sm text-slate-400 hover:text-white bg-surface-dark rounded hover:bg-surface-darker transition-colors border border-white/5">Next</button>
+</div>
+</div>
+</main>
+</body></html>

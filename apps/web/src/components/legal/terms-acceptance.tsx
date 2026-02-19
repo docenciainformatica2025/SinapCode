@@ -36,7 +36,7 @@ export default function TermsAcceptance({
 
             onAccept();
         } catch (error) {
-            console.error('Error accepting terms:', error);
+            console.error('Error al aceptar los términos:', error);
             alert('Error al registrar la aceptación. Por favor, intenta de nuevo.');
         }
     };

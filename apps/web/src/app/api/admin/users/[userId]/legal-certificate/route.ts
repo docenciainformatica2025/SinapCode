@@ -256,7 +256,7 @@ export async function GET(
         });
 
     } catch (error: any) {
-        console.error('Error generating legal certificate:', error);
+        console.error('Error al generar el certificado legal:', error);
         return NextResponse.json({
             error: 'Error interno al generar certificado',
             details: error.message,

@@ -21,6 +21,7 @@ export async function GET() {
                 name: true,
                 email: true,
                 image: true,
+                bio: true,
                 role: true,
                 createdAt: true,
                 updatedAt: true,
@@ -37,7 +38,7 @@ export async function GET() {
         return NextResponse.json(user);
 
     } catch (error: any) {
-        console.error('Error fetching profile:', error);
+        console.error('Error al obtener perfil:', error);
         return NextResponse.json(
             { error: 'Error al obtener perfil' },
             { status: 500 }
@@ -57,7 +58,7 @@ export async function PUT(request: Request) {
         }
 
         const body = await request.json();
-        const { name } = body;
+        const { name, bio } = body;
 
         // Validar datos
         if (!name || name.trim().length < 2) {
@@ -72,6 +73,7 @@ export async function PUT(request: Request) {
             where: { email: session.user.email },
             data: {
                 name: name.trim(),
+                bio: bio?.trim(),
                 updatedAt: new Date(),
             },
             select: {
@@ -79,6 +81,7 @@ export async function PUT(request: Request) {
                 name: true,
                 email: true,
                 image: true,
+                bio: true,
                 role: true,
                 updatedAt: true,
             }
@@ -90,7 +93,7 @@ export async function PUT(request: Request) {
         });
 
     } catch (error: any) {
-        console.error('Error updating profile:', error);
+        console.error('Error al actualizar perfil:', error);
         return NextResponse.json(
             { error: 'Error al actualizar perfil' },
             { status: 500 }

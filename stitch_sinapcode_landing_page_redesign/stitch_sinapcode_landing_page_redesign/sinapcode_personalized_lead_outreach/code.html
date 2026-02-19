@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SinapCODE Personalized Lead Outreach</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0df2f2",
+                        "primary-dark": "#0bcaca",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#102222",
+                        "surface-dark": "#162e2e",
+                        "surface-darker": "#0d1a1a",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for simulated views */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(13, 242, 242, 0.05);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(13, 242, 242, 0.2);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(13, 242, 242, 0.4);
+        }
+        
+        .glass-panel {
+            background: rgba(22, 46, 46, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(13, 242, 242, 0.1);
+        }
+
+        .chat-bubble-tail::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -10px;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #1f3b3b 0%, #1f3b3b 50%, transparent 50%, transparent 100%);
+            clip-path: polygon(100% 0, 0 0, 100% 100%);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-100 min-h-screen flex flex-col selection:bg-primary selection:text-background-dark">
+<!-- Top Navigation / Header -->
+<header class="sticky top-0 z-50 glass-panel border-b border-white/5 dark:border-primary/10">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-20">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded bg-primary flex items-center justify-center text-background-dark font-bold text-xl">S</div>
+<span class="text-xl font-bold tracking-tight">SinapCODE</span>
+</div>
+<div class="hidden md:flex items-center text-sm text-gray-500 dark:text-gray-400 gap-2 border-l border-gray-700 pl-4 ml-4">
+<span>Leads</span>
+<span class="material-icons text-base">chevron_right</span>
+<span>Alex Sterling</span>
+<span class="material-icons text-base">chevron_right</span>
+<span class="text-primary font-medium">Outreach Generation</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-primary transition-colors hover:bg-white/5">
+<span class="material-icons text-sm">autorenew</span>
+                        Regenerate AI
+                    </button>
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-bold bg-primary text-background-dark hover:bg-primary-dark transition-all shadow-[0_0_15px_rgba(13,242,242,0.3)]">
+<span class="material-icons text-sm">send</span>
+                        Approve &amp; Send
+                    </button>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-grow p-6 lg:p-8 max-w-[1600px] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: WhatsApp Preview (Mobile Simulation) -->
+<div class="lg:col-span-4 flex flex-col">
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-lg font-semibold flex items-center gap-2">
+<span class="material-icons text-primary">chat_bubble</span>
+                    WhatsApp Preview
+                </h2>
+<span class="text-xs px-2 py-1 rounded bg-green-500/10 text-green-400 border border-green-500/20">Ready</span>
+</div>
+<!-- Phone Frame -->
+<div class="flex-grow relative mx-auto w-full max-w-sm border-[6px] border-surface-darker bg-surface-darker rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col h-[700px]">
+<!-- Status Bar -->
+<div class="bg-surface-dark px-6 py-3 flex justify-between items-center text-[10px] text-gray-400 font-medium z-10">
+<span>9:41</span>
+<div class="flex gap-1.5">
+<span class="material-icons text-[12px]">signal_cellular_alt</span>
+<span class="material-icons text-[12px]">wifi</span>
+<span class="material-icons text-[12px]">battery_full</span>
+</div>
+</div>
+<!-- App Header -->
+<div class="bg-surface-dark px-4 py-3 flex items-center gap-3 border-b border-white/5 z-10 shadow-sm">
+<span class="material-icons text-primary cursor-pointer">arrow_back</span>
+<div class="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-blue-600 p-[2px]">
+<img alt="AI Avatar portrait" class="w-full h-full rounded-full object-cover bg-surface-darker" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXZlHhNp8mfhVEzBAyv3izlg1yA8c2rFAHrAmEzToibHjLETv78X-hNYlALxDJzJcA-jqE1AFpgH4T7ly4kXB0Rn33FRRHd8F83_CqbjsiHKIJE5m5EebGUSTdQmJ8xIhnBZrXmoTYgApDwruasNO_YCoJ03v9nfdWDb15up1qs8scEHTDdDE7YAymwIoJnSEyhQnfWThYadp3REfJVIW5xJxSFtGVhST06q1_Tv0U1n4O9CffcCLoCzRercUn86OW5KYudP5JpcRQ"/>
+</div>
+<div class="flex-grow">
+<h3 class="text-sm font-bold text-white leading-tight">SinapCODE Assistant</h3>
+<p class="text-[10px] text-primary">Business Account</p>
+</div>
+<span class="material-icons text-gray-400">videocam</span>
+<span class="material-icons text-gray-400 ml-2">call</span>
+</div>
+<!-- Chat Area -->
+<div class="flex-grow bg-[#0d1515] bg-[url('https://www.transparenttextures.com/patterns/dark-matter.png')] p-4 overflow-y-auto custom-scrollbar relative">
+<!-- Date Separator -->
+<div class="flex justify-center mb-6">
+<span class="text-[10px] bg-surface-darker/50 text-gray-400 px-3 py-1 rounded-full border border-white/5">Today</span>
+</div>
+<!-- Message Bubble -->
+<div class="flex flex-col gap-2 max-w-[90%] mb-4">
+<div class="bg-[#1f3b3b] p-3 rounded-tr-xl rounded-br-xl rounded-bl-xl text-sm leading-relaxed text-gray-200 shadow-md relative chat-bubble-tail">
+<p class="mb-2">Hey <span class="text-primary font-medium bg-primary/10 px-1 rounded">Alex</span>! 👋</p>
+<p>The future doesn't wait. We've analyzed your GitHub activity and built a custom AI learning path just for you.</p>
+<div class="flex justify-end mt-1">
+<span class="text-[10px] text-gray-400/80">09:42 AM</span>
+</div>
+</div>
+</div>
+<!-- Rich Media Card (Video Thumbnail) -->
+<div class="flex flex-col gap-1 max-w-[85%] mb-4">
+<div class="rounded-xl overflow-hidden border border-white/10 bg-surface-dark group cursor-pointer relative">
+<div class="relative h-32 w-full">
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/20 transition-all z-10">
+<div class="w-10 h-10 rounded-full bg-black/60 backdrop-blur-sm flex items-center justify-center border border-white/20">
+<span class="material-icons text-white text-xl ml-1">play_arrow</span>
+</div>
+</div>
+<img class="w-full h-full object-cover" data-alt="Futuristic AI dashboard interface with glowing nodes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbuiU2Idcau3AxplMOCzkCt8xH3-r3NRpBQZ_QlLOUugzJPnXp_Re4QlIg7TQmxfgzmz8FsSIE-arD0aglXmL7yNfkRZ1B7MMpoN7AKPoNwjFC7NMMDAp_kNtIoCW1mXL8tlw82pjUwVcaCQVMg4M761w9RZDMlVL3WLH9ZoLeD9cVnRwCEov2Tnl3AAMaKTMqBvK8AhCrmm-YR318zuqvw2rTG_7f1Q8oFn4n_lqeiLstG-2ewgy7f0M16f9S6e5wklQlLmi8crmW"/>
+</div>
+<div class="p-3">
+<h4 class="text-xs font-bold text-white mb-1">Your AI Roadmap Preview</h4>
+<p class="text-[10px] text-gray-400">2 min video • Personalized for you</p>
+</div>
+</div>
+</div>
+<!-- CTA Button Message -->
+<div class="flex flex-col gap-2 max-w-[90%]">
+<div class="bg-[#1f3b3b] p-1.5 rounded-xl shadow-md">
+<button class="w-full bg-transparent hover:bg-white/5 border border-primary/30 text-primary font-medium py-2 rounded-lg text-sm flex items-center justify-center gap-2 transition-colors">
+<span class="material-icons text-base">map</span>
+                                View Personalized Roadmap
+                            </button>
+</div>
+<div class="flex justify-end pr-1">
+<span class="text-[10px] text-gray-400/80 flex items-center gap-1">09:43 AM <span class="material-icons text-[10px] text-primary">done_all</span></span>
+</div>
+</div>
+</div>
+<!-- Input Area -->
+<div class="bg-surface-dark px-3 py-3 border-t border-white/5 flex items-center gap-3">
+<span class="material-icons text-gray-400">add</span>
+<div class="flex-grow bg-surface-darker rounded-full h-9 flex items-center px-4">
+<span class="text-gray-500 text-sm">Message...</span>
+</div>
+<span class="material-icons text-gray-400">camera_alt</span>
+<span class="material-icons text-gray-400">mic</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Email Preview (Desktop Simulation) -->
+<div class="lg:col-span-8 flex flex-col h-full">
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-lg font-semibold flex items-center gap-2">
+<span class="material-icons text-primary">email</span>
+                    Email Campaign Design
+                </h2>
+<div class="flex gap-3">
+<button class="text-xs text-gray-400 hover:text-white flex items-center gap-1">
+<span class="material-icons text-sm">devices</span> Responsive Check
+                    </button>
+<span class="text-xs px-2 py-1 rounded bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">Draft Mode</span>
+</div>
+</div>
+<!-- Email Client Frame -->
+<div class="flex-grow bg-white dark:bg-[#0c0c0c] rounded-xl border border-gray-200 dark:border-white/10 shadow-xl overflow-hidden flex flex-col">
+<!-- Email Header Metadata -->
+<div class="bg-gray-50 dark:bg-[#151515] border-b border-gray-200 dark:border-white/5 p-6">
+<div class="flex flex-col gap-3">
+<div class="flex items-baseline gap-3">
+<span class="text-xs font-bold text-gray-400 uppercase tracking-wider w-16">Subject:</span>
+<h1 class="text-lg font-bold text-gray-900 dark:text-white">Your seat at the AI revolution is ready, <span class="text-primary bg-primary/10 px-1 rounded">Alex</span>.</h1>
+</div>
+<div class="flex items-center gap-3 text-sm">
+<span class="text-xs font-bold text-gray-400 uppercase tracking-wider w-16">From:</span>
+<div class="flex items-center gap-2">
+<span class="font-medium text-gray-900 dark:text-gray-200">SinapCODE Team</span>
+<span class="text-gray-500 text-xs">&lt;welcome@sinapcode.ai&gt;</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Email Body (Content) -->
+<div class="flex-grow overflow-y-auto custom-scrollbar bg-white dark:bg-[#121212] p-8 md:p-12 flex justify-center">
+<div class="w-full max-w-2xl">
+<!-- Logo in Email -->
+<div class="mb-10 text-center">
+<div class="inline-flex items-center gap-2 border-b border-primary/20 pb-4 px-8">
+<div class="w-6 h-6 rounded bg-primary flex items-center justify-center text-background-dark font-bold text-xs">S</div>
+<span class="font-bold text-lg tracking-tight text-gray-900 dark:text-white">SinapCODE</span>
+</div>
+</div>
+<!-- Video Placeholder -->
+<div class="relative rounded-2xl overflow-hidden aspect-video bg-surface-dark mb-10 group cursor-pointer shadow-2xl border border-white/5">
+<img class="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity" data-alt="Abstract blue digital network background representing connectivity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCN8ID_1m2o4e4A297gK_sTtcsO8U9eM6TA6MXdbRUZUW_Jt4iPepVp8ogC2xpi2hOvqmNnzFUt5oAPY_WV1Am4GKYSgl8goNih_2skkn8x2NFmo48XWo1he2oSqONtlrw_1P1lwFtkMVsGoIZa8GU_cSGFKWGBBtmuoF1JZVqfwg0RQpFzB4zvb-3s7pQyYvcim5KJ6phcmm03t5RDrHPLG3SafXxh7jnEymK4sAk92O0-FsniCf1_Rrh8QwPfLb96lL-EfM9AnhE"/>
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 bg-gradient-to-t from-black/80 to-transparent">
+<div class="w-16 h-16 rounded-full bg-primary/90 text-background-dark flex items-center justify-center mb-4 shadow-[0_0_20px_rgba(13,242,242,0.5)] transform group-hover:scale-110 transition-transform">
+<span class="material-icons text-4xl ml-1">play_arrow</span>
+</div>
+<h3 class="text-xl font-bold text-white mb-1">Welcome to SinapCODE</h3>
+<p class="text-sm text-gray-300">Watch your personalized intro (0:45)</p>
+</div>
+</div>
+<!-- Main Copy -->
+<div class="prose prose-invert max-w-none">
+<h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Unlock your potential with AI.</h2>
+<p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-8">
+                                Hello <span class="text-primary">Alex</span>, we noticed your interest in neural networks. The industry is moving fast, but with SinapCODE, you move faster. We've curated a specialized curriculum designed to bridge the gap between theory and deployment.
+                            </p>
+<!-- Benefits Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+<div class="bg-gray-50 dark:bg-surface-dark p-5 rounded-lg border border-gray-100 dark:border-white/5">
+<span class="material-icons text-primary mb-3 text-3xl">psychology</span>
+<h4 class="font-bold text-gray-900 dark:text-white mb-2 text-sm">Master Generative Models</h4>
+<p class="text-xs text-gray-500 dark:text-gray-400">Deep dive into LLMs and diffusion models with hands-on labs.</p>
+</div>
+<div class="bg-gray-50 dark:bg-surface-dark p-5 rounded-lg border border-gray-100 dark:border-white/5">
+<span class="material-icons text-primary mb-3 text-3xl">layers</span>
+<h4 class="font-bold text-gray-900 dark:text-white mb-2 text-sm">Build Real Portfolio</h4>
+<p class="text-xs text-gray-500 dark:text-gray-400">Deploy 5 production-ready AI apps before you graduate.</p>
+</div>
+<div class="bg-gray-50 dark:bg-surface-dark p-5 rounded-lg border border-gray-100 dark:border-white/5">
+<span class="material-icons text-primary mb-3 text-3xl">groups</span>
+<h4 class="font-bold text-gray-900 dark:text-white mb-2 text-sm">Network with Leaders</h4>
+<p class="text-xs text-gray-500 dark:text-gray-400">Direct mentorship from engineers at top tech firms.</p>
+</div>
+</div>
+<!-- CTA Section -->
+<div class="text-center py-6 border-t border-b border-gray-100 dark:border-white/10 mb-8">
+<button class="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-background-dark bg-primary rounded-lg hover:bg-primary-dark transition-all transform hover:-translate-y-1 shadow-[0_4px_14px_rgba(13,242,242,0.4)]">
+                                    Enroll Now
+                                    <span class="material-icons ml-2">arrow_forward</span>
+</button>
+<p class="mt-4 text-xs text-gray-500 dark:text-gray-400">Limited spots available for the upcoming cohort.</p>
+</div>
+<!-- Footer -->
+<div class="text-center text-xs text-gray-400 dark:text-gray-500">
+<p class="mb-2">© 2023 SinapCODE Inc. 123 Innovation Dr, Tech City.</p>
+<div class="flex justify-center gap-4">
+<a class="hover:text-primary" href="#">Unsubscribe</a>
+<a class="hover:text-primary" href="#">Privacy Policy</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

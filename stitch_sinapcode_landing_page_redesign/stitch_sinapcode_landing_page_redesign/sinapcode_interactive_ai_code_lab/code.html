@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SinapCODE Interactive AI Code Lab</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Icons -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0d0df2",
+                        "background-light": "#f5f5f8",
+                        "background-dark": "#101022",
+                        "code-bg": "#1e1e2e",
+                        "terminal-bg": "#0c0c1b",
+                        "border-dark": "#2d2d45"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer utilities {
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+            .scrollbar-thin::-webkit-scrollbar {
+                width: 6px;
+                height: 6px;
+            }
+            .scrollbar-thin::-webkit-scrollbar-track {
+                @apply bg-transparent;
+            }
+            .scrollbar-thin::-webkit-scrollbar-thumb {
+                @apply bg-white/10 rounded-full hover:bg-white/20;
+            }
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200 font-display h-screen flex flex-col overflow-hidden">
+<!-- Navbar -->
+<nav class="h-16 border-b border-gray-200 dark:border-border-dark flex items-center justify-between px-6 bg-background-light dark:bg-background-dark z-20">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-lg">S</div>
+<span class="font-bold text-lg tracking-tight">Sinap<span class="text-primary dark:text-blue-400">CODE</span></span>
+</div>
+<div class="h-6 w-px bg-gray-300 dark:bg-gray-700 mx-2"></div>
+<div class="flex flex-col">
+<span class="text-xs text-gray-500 dark:text-gray-400 font-medium">Lesson 4.2</span>
+<span class="text-sm font-semibold text-gray-900 dark:text-white">Neural Network Basics: Activation Functions</span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3">
+<span class="text-xs font-medium text-gray-500 dark:text-gray-400">Progress</span>
+<div class="w-32 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[65%] rounded-full"></div>
+</div>
+<span class="text-xs font-bold text-primary dark:text-blue-400">65%</span>
+</div>
+<div class="flex items-center gap-3 pl-4 border-l border-gray-200 dark:border-gray-700">
+<div class="relative">
+<img alt="User Profile Avatar" class="w-9 h-9 rounded-full border-2 border-primary/20" data-alt="User avatar showing a young professional" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNJ7kEwwpcS4xPu8fusyEITH_7c1wB66Raxe6gooEaGNBuoA7RsqFsJMPyRqNYyUrLwCpnH8iAr0GbRSTcmbP1eBY8Bs2FbCPxFuB2XpWksPLtXui8kwA4NnkMs3EW53tcPzb37TOE-NbM3YYUnrotNl_0ZXtkEMEQVj28Lux0Waqgy8n2Djwk0ZgKpMUUgcQdfhZexIhPj5zyFdItdNSVU_6LDLBZTt-XDQjwYp7mZr2cQUHKhF3TBrDhOJv4JLWjmNRCr--iYEcS"/>
+<div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-background-light dark:border-background-dark rounded-full"></div>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Area (Split Screen) -->
+<main class="flex-1 flex overflow-hidden">
+<!-- Left Panel: Instructions -->
+<aside class="w-[400px] lg:w-[450px] xl:w-[500px] flex-shrink-0 flex flex-col border-r border-gray-200 dark:border-border-dark bg-background-light dark:bg-background-dark relative z-10">
+<!-- Tabs -->
+<div class="flex border-b border-gray-200 dark:border-border-dark px-4 pt-4 gap-6">
+<button class="pb-3 border-b-2 border-primary text-primary dark:text-blue-400 font-medium text-sm">Instructions</button>
+<button class="pb-3 border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 font-medium text-sm transition-colors">Documentation</button>
+<button class="pb-3 border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 font-medium text-sm transition-colors">Community</button>
+</div>
+<!-- Content Scroll Area -->
+<div class="flex-1 overflow-y-auto p-6 scrollbar-thin">
+<h1 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Implement ReLU</h1>
+<div class="prose dark:prose-invert prose-sm max-w-none">
+<p class="text-gray-600 dark:text-gray-300 mb-4">
+                        In this exercise, we will implement the <strong>Rectified Linear Unit (ReLU)</strong> activation function. ReLU is defined mathematically as:
+                    </p>
+<div class="bg-gray-200 dark:bg-gray-800/50 p-3 rounded-lg border border-gray-300 dark:border-gray-700 mb-6 font-mono text-center text-sm">
+                        f(x) = max(0, x)
+                    </div>
+<h3 class="text-lg font-semibold mb-2 text-gray-800 dark:text-gray-100">Task Overview</h3>
+<ul class="list-disc pl-5 space-y-2 mb-6 text-gray-600 dark:text-gray-300 marker:text-primary">
+<li>Import the necessary NumPy library.</li>
+<li>Define a function named <code>relu</code> that takes an input array <code>x</code>.</li>
+<li>Return the element-wise maximum of 0 and x.</li>
+</ul>
+<div class="bg-blue-50 dark:bg-primary/10 border-l-4 border-primary p-4 mb-6 rounded-r-lg">
+<div class="flex gap-3">
+<span class="material-icons-round text-primary dark:text-blue-400">lightbulb</span>
+<div>
+<h4 class="font-bold text-primary dark:text-blue-400 text-sm mb-1">Hint</h4>
+<p class="text-xs text-gray-600 dark:text-gray-300">
+                                    NumPy has a built-in function <code>np.maximum()</code> that is very efficient for this operation.
+                                </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Step Checklist -->
+<div class="mt-8">
+<h3 class="text-sm uppercase tracking-wider text-gray-500 dark:text-gray-400 font-semibold mb-3">Progress</h3>
+<div class="space-y-3">
+<div class="flex items-start gap-3 p-3 bg-white dark:bg-gray-800/40 rounded-lg border border-gray-200 dark:border-gray-700">
+<div class="mt-0.5 text-green-500"><span class="material-icons-round text-sm">check_circle</span></div>
+<div class="text-sm text-gray-500 dark:text-gray-400 line-through">Initialize environment</div>
+</div>
+<div class="flex items-start gap-3 p-3 bg-white dark:bg-gray-800/40 rounded-lg border border-primary/50 shadow-sm shadow-primary/10">
+<div class="mt-0.5 w-4 h-4 rounded-full border-2 border-primary"></div>
+<div class="text-sm font-medium text-gray-900 dark:text-gray-100">Define ReLU function</div>
+</div>
+<div class="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-800/20 rounded-lg border border-transparent opacity-60">
+<div class="mt-0.5 w-4 h-4 rounded-full border-2 border-gray-400"></div>
+<div class="text-sm text-gray-500 dark:text-gray-400">Validate with test cases</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Help -->
+<div class="p-4 border-t border-gray-200 dark:border-border-dark bg-gray-50 dark:bg-gray-900/50">
+<button class="w-full py-2.5 px-4 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-primary dark:hover:border-primary/50 text-gray-700 dark:text-gray-300 text-sm font-medium transition-all flex items-center justify-center gap-2 group">
+<span class="material-icons-round text-gray-400 group-hover:text-primary transition-colors">bug_report</span>
+                    Report an issue with this lesson
+                </button>
+</div>
+</aside>
+<!-- Right Panel: Code & Terminal -->
+<div class="flex-1 flex flex-col min-w-0 bg-code-bg relative">
+<!-- Editor Header / Toolbar -->
+<div class="h-12 bg-code-bg border-b border-border-dark flex items-center justify-between px-4">
+<!-- File Tabs -->
+<div class="flex items-center h-full">
+<div class="h-full flex items-center px-4 bg-background-dark/50 border-t-2 border-primary text-gray-200 text-sm font-medium font-mono border-r border-border-dark cursor-default">
+<span class="material-icons-round text-base mr-2 text-yellow-400">description</span>
+                        activation.py
+                    </div>
+<div class="h-full flex items-center px-4 text-gray-500 hover:bg-white/5 text-sm font-medium font-mono border-r border-border-dark cursor-pointer transition-colors">
+<span class="material-icons-round text-base mr-2 text-blue-400">description</span>
+                        tests.py
+                    </div>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-3">
+<button class="text-gray-400 hover:text-white transition-colors p-1.5 rounded-md hover:bg-white/10" title="Reset Code">
+<span class="material-icons-round text-xl">restart_alt</span>
+</button>
+<button class="flex items-center gap-2 bg-primary hover:bg-blue-700 text-white px-4 py-1.5 rounded-md text-sm font-medium transition-colors shadow-lg shadow-primary/20">
+<span class="material-icons-round text-sm">play_arrow</span>
+                        Run Code
+                    </button>
+<button class="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 py-1.5 rounded-md text-sm font-medium transition-colors border border-white/5">
+                        Submit
+                    </button>
+</div>
+</div>
+<!-- Code Editor Area -->
+<div class="flex-1 relative font-mono text-sm overflow-hidden flex">
+<!-- Line Numbers -->
+<div class="w-12 bg-code-bg border-r border-white/5 flex flex-col items-end pr-3 pt-4 text-gray-600 select-none">
+<div>1</div>
+<div>2</div>
+<div>3</div>
+<div>4</div>
+<div>5</div>
+<div>6</div>
+<div>7</div>
+<div>8</div>
+<div>9</div>
+<div>10</div>
+<div>11</div>
+<div>12</div>
+<div>13</div>
+<div>14</div>
+</div>
+<!-- Code Content -->
+<div class="flex-1 p-4 pt-4 overflow-auto scrollbar-thin">
+<pre class="text-gray-300"><span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
+
+<span class="text-gray-500"># TODO: Implement activation function</span>
+<span class="text-purple-400">def</span> <span class="text-blue-400">relu</span>(x):
+    <span class="text-green-400">"""
+    Compute the ReLU of x
+
+    Arguments:
+    x -- A scalar or numpy array of any size.
+
+    Return:
+    s -- x if x &gt; 0, else 0
+    """</span>
+    
+    <span class="text-gray-500"># Your code here</span>
+    s = <span class="text-yellow-300">np</span>.max(0, x) <span class="text-red-400 border-b border-red-500 decoration-wavy underline decoration-red-500 cursor-help" title="Did you mean np.maximum?">ERROR</span>
+    
+    <span class="text-purple-400">return</span> s
+
+<span class="text-gray-500"># Test the function</span>
+x = <span class="text-yellow-300">np</span>.<span class="text-blue-400">array</span>([<span class="text-orange-400">1</span>, <span class="text-orange-400">-2</span>, <span class="text-orange-400">3</span>, <span class="text-orange-400">-5</span>])
+<span class="text-purple-400">print</span>(<span class="text-green-400">"relu(x) = "</span> + <span class="text-yellow-300">str</span>(<span class="text-blue-400">relu</span>(x)))</pre>
+</div>
+<!-- AI Chat Overlay (Simulated as "Active" state after error) -->
+<div class="absolute right-6 top-16 w-80 bg-background-dark/95 backdrop-blur-md border border-primary/40 rounded-xl shadow-2xl overflow-hidden flex flex-col animate-fade-in z-30">
+<div class="bg-primary/10 p-3 border-b border-primary/20 flex justify-between items-center">
+<div class="flex items-center gap-2">
+<span class="material-icons-round text-primary text-sm">auto_awesome</span>
+<span class="text-sm font-semibold text-white">AI Debugger</span>
+</div>
+<button class="text-gray-400 hover:text-white"><span class="material-icons-round text-sm">close</span></button>
+</div>
+<div class="p-4 space-y-3 max-h-64 overflow-y-auto scrollbar-thin">
+<div class="flex gap-3">
+<div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+<span class="material-icons-round text-primary text-xs">smart_toy</span>
+</div>
+<div class="bg-white/5 rounded-lg rounded-tl-none p-3 text-xs text-gray-200 leading-relaxed border border-white/5">
+<p>It looks like you're trying to use <code class="text-red-300">np.max</code> which computes the maximum of an array, but for element-wise comparison in ReLU, you should probably use <code class="text-green-300">np.maximum</code>.</p>
+<div class="mt-2 flex gap-2">
+<button class="bg-primary/20 hover:bg-primary/30 text-primary border border-primary/30 rounded px-2 py-1 text-[10px] transition-colors">Fix Code</button>
+<button class="bg-white/5 hover:bg-white/10 text-gray-400 border border-white/5 rounded px-2 py-1 text-[10px] transition-colors">Explain Why</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Resize Handle -->
+<div class="h-1 bg-code-bg hover:bg-primary cursor-row-resize flex items-center justify-center transition-colors group">
+<div class="w-8 h-1 bg-gray-700 group-hover:bg-primary rounded-full"></div>
+</div>
+<!-- Terminal -->
+<div class="h-[30%] bg-terminal-bg flex flex-col">
+<div class="flex items-center justify-between px-4 py-2 bg-white/5 border-t border-b border-white/5">
+<span class="text-xs uppercase tracking-wider font-semibold text-gray-400">Terminal</span>
+<div class="flex gap-2">
+<button class="text-gray-500 hover:text-gray-300"><span class="material-icons-round text-sm">delete_outline</span></button>
+<button class="text-gray-500 hover:text-gray-300"><span class="material-icons-round text-sm">expand_less</span></button>
+</div>
+</div>
+<div class="flex-1 p-4 font-mono text-xs overflow-auto scrollbar-thin">
+<div class="text-gray-400 mb-1">user@sinapcode:~/workspace$ <span class="text-gray-200">python3 activation.py</span></div>
+<div class="text-red-400 mb-2">
+                        Traceback (most recent call last):<br/>
+                          File "activation.py", line 14, in &lt;module&gt;<br/>
+                            print("relu(x) = " + str(relu(x)))<br/>
+                          File "activation.py", line 10, in relu<br/>
+                            s = np.max(0, x)<br/>
+<span class="font-bold">TypeError:</span> &gt;= not supported between instances of 'int' and 'list'
+                    </div>
+<div class="text-gray-500 animate-pulse">_</div>
+</div>
+</div>
+<!-- Floating AI Trigger (Visible when overlay is closed, hidden here because overlay is open for demo) -->
+<!-- 
+            <button class="absolute bottom-8 right-8 w-14 h-14 bg-primary hover:bg-blue-600 rounded-full shadow-lg shadow-primary/40 flex items-center justify-center text-white transition-transform hover:scale-110 z-20 group">
+                <span class="material-icons-round text-2xl group-hover:animate-spin">auto_awesome</span>
+            </button> 
+            -->
+</div>
+</main>
+</body></html>

@@ -219,7 +219,7 @@ export async function GET(
         });
 
     } catch (error: any) {
-        console.error('Error generating invoice:', error);
+        console.error('Error al generar factura:', error);
         return NextResponse.json({ error: 'Error interno' }, { status: 500 });
     }
 }

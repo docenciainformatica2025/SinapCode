@@ -61,7 +61,7 @@ export class ConsentTracker {
 
 
         } catch (error) {
-            console.error('❌ Error recording consent:', error);
+            console.error('❌ Error al registrar consentimiento:', error);
             // No lanzar error para no bloquear el flujo del usuario
             // Pero guardar en localStorage como fallback
             this.saveLocalConsent({
@@ -150,7 +150,7 @@ export class ConsentTracker {
 
             localStorage.setItem('legal_consents', JSON.stringify(recentConsents));
         } catch (error) {
-            console.error('Failed to save consent to localStorage:', error);
+            console.error('Fallo al guardar consentimiento en localStorage:', error);
         }
     }
 

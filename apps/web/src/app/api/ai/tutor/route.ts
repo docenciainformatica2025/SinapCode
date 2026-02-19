@@ -1,70 +1,115 @@
 import { NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from "@/lib/auth-options";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export async function POST(request: Request) {
     try {
-        const { message } = await request.json();
+        const session = await getServerSession(authOptions);
+        if (!session) {
+            return NextResponse.json({ text: "Debes iniciar sesión para hablar con el tutor." }, { status: 401 });
+        }
+
+        const { message, history, context } = await request.json();
+        const apiKey = process.env.GOOGLE_API_KEY;
+
+        // --- PERSONALIDAD NEXUS FLOW: MENTORÍA DINÁMICA ---
+        const systemPrompt = `
+        Eres NEXUS, el mentor experto de 'SinapCode'. Tu objetivo es guiar al estudiante de forma fluida y empática.
+        
+        CONTEXTO ACTUAL:
+        ${context ? `- Estás en el curso: ${context.course || 'Desconocido'}
+        - Lección actual: ${context.lesson || 'General'}
+        - Progreso del estudiante: ${context.progress || 'Iniciando'}` : '- Contexto General de SinapCode'}
+        
+        REGLAS DE INTERACCIÓN (NEXUS FLOW):
+        1. RECONOCIMIENTO: Siempre valida lo que el usuario dice. No respondas con preguntas genéricas si el usuario te dio una respuesta específica.
+        2. FLUIDEZ: Si el usuario responde correctamente, felicítalo y propón el siguiente paso. No lo bloquees con más preguntas sobre lo mismo.
+        3. GUÍA, NO INTERROGATORIO: Usa un tono de mentor senior. Eres un colega que acompaña, no un sistema que examina.
+        4. DETECCIÓN DE FRUSTRACIÓN: Si notas que el usuario se repite o está confundido, sé más directo. Provee Pistas Técnicas claras o explica el concepto de forma breve.
+        5. MANTÉN EL PRESTIGIO: Tu lenguaje es técnico, premium y visionario ("Arquitectura", "Optimización", "Escalabilidad"), pero accesible.
+        
+        METODOLOGÍA:
+        - Si el usuario pregunta "Cómo se hace...", no le des el código, pero explícale la ESTRATEGIA técnica.
+        - Si el usuario responde a una de tus preguntas, profundiza en su respuesta antes de lanzar el siguiente desafío.
+        `;
+
+        // 1. Integración con Gemini
+        if (apiKey) {
+            try {
+                const genAI = new GoogleGenerativeAI(apiKey);
+                const model = genAI.getGenerativeModel({
+                    model: "gemini-1.5-pro",
+                    systemInstruction: systemPrompt
+                });
+
+                const chatHistory = (history || []).map((msg: any) => ({
+                    role: msg.role === 'assistant' ? 'model' : 'user',
+                    parts: [{ text: msg.content }]
+                }));
+
+                const chat = model.startChat({ history: chatHistory });
+                const result = await chat.sendMessage(message);
+                const response = await result.response;
+                const text = response.text();
+
+                if (text) return NextResponse.json({ text });
+            } catch (apiError) {
+                console.error("Gemini Error:", apiError);
+            }
+        }
+
+        // 2. Motor de Fallback NEXUS FLOW (Mejorado)
         const lowerMsg = message.toLowerCase();
+        let nexusResponse = "";
 
-        // 1. Check for real OpenAI Key (Template for future)
-        if (process.env.OPENAI_API_KEY) {
-            // Implementation for real AI would go here
-            // const response = await fetch('https://api.openai.com/v1/chat/completions', ...)
-        }
+        // Lógica de detección de frustración simple en fallback
+        const isStuck = history && history.length > 4 && history.slice(-2).every((m: any) => m.role === 'user' && m.content.length < 15);
 
-        // 2. Local Socratic Engine (Fallback / Logic)
-        let response = "";
+        const responses = {
+            greetings: [
+                `Sincronización establecida. Veo que estás avanzando en ${context?.course || 'tu formación'}. ¿Qué desafío técnico vamos a resolver hoy?`,
+                `Es un gusto verte de nuevo en NEXUS. Analizando tu progreso en ${context?.lesson || 'la sesión'}... ¿En qué punto necesitas mi perspectiva hoy?`
+            ],
+            stuck: [
+                "Entiendo que este punto es complejo. Vamos a simplificar: la clave está en cómo fluyen los datos en esta sección. ¿Quieres que veamos un ejemplo conceptual?",
+                "Parece que el nodo está bloqueado. No te preocupes, es parte del proceso. Refactoricemos tu idea: ¿qué es lo primero que quieres que suceda en el sistema?"
+            ],
+            positive: [
+                "Excelente análisis. Ese es el camino hacia una arquitectura robusta. Teniendo eso claro, ¿cómo escalarías esta solución?",
+                "Ese nodo de pensamiento es muy sólido. Has captado la esencia. ¿Te gustaría aplicar esto al laboratorio de ahora?"
+            ],
+            howTo: [
+                `La estrategia para implementar eso en ${context?.lesson || 'este contexto'} implica separar la lógica de negocio de la infraestructura. ¿Cómo visualizas ese límite en tu código?`,
+                "Para lograr ese resultado, primero debemos definir el contrato de datos. ¿Qué parámetros de entrada consideras críticos?"
+            ],
+            default: [
+                "Tu perspectiva es valiosa. Para profundizar: ¿cómo crees que este cambio afectaría el rendimiento general de la arquitectura?",
+                "Análisis procesado. Has identificado un punto clave. Siguiendo ese hilo, ¿qué pasaría si las condiciones de entrada cambiaran?"
+            ]
+        };
 
-        // Greeting
-        if (lowerMsg.match(/^(hola|buenos|hi|hello)/)) {
-            const greetings = [
-                "¡Hola! Estoy listo para ayudarte a pensar. ¿En qué desafío estás trabajando hoy?",
-                "Saludos. Recuerda, la respuesta está en tu razonamiento. ¿Por dónde empezamos?",
-                "Hola. Antes de darte código, cuéntame qué has intentado."
-            ];
-            response = greetings[Math.floor(Math.random() * greetings.length)];
-        }
-        // Errors / Bugs
-        else if (lowerMsg.includes('error') || lowerMsg.includes('fallo') || lowerMsg.includes('bug')) {
-            const errorResponses = [
-                "Los errores son pistas. ¿Qué dice exactamente el mensaje de error y en qué línea ocurre?",
-                "Interesante. Si tuvieras que explicarle el error a un pato de goma, ¿qué le dirías?",
-                "A veces los errores son de sintaxis, otras de lógica. ¿Has verificado los tipos de datos que estás pasando?"
-            ];
-            response = errorResponses[Math.floor(Math.random() * errorResponses.length)];
-        }
-        // Concepts
-        else if (lowerMsg.includes('python') || lowerMsg.includes('react') || lowerMsg.includes('código')) {
-            const conceptResponses = [
-                "Ah, interesante elección de tecnología. ¿Cómo explicarías el flujo de tu código paso a paso?",
-                "¿Has consultado la documentación oficial sobre esa función específica?",
-                "Imagina que tu código funciona. ¿Qué debería pasar con esa variable en el siguiente paso?"
-            ];
-            response = conceptResponses[Math.floor(Math.random() * conceptResponses.length)];
-        }
-        // Specific "How to"
-        else if (lowerMsg.includes('como') || lowerMsg.includes('hago') || lowerMsg.includes('how')) {
-            response = "Esa es la pregunta correcta. Divide el problema en partes más pequeñas. ¿Cuál es el primer paso lógico?";
-        }
-        // Default Socratic fallback
-        else {
-            const generic = [
-                "🤔 Interesante planteamiento. ¿Qué pasaría si intentas imprimir los valores intermedios?",
-                "No estoy seguro de entender el contexto completo. ¿Podrías reformular tu hipótesis?",
-                "Excelente punto. ¿Has considerado algún caso borde (edge case) que podría estar afectando?",
-                "Recuerda que mi objetivo es guiarte. ¿Qué has intentado hasta ahora exactamente?",
-                "¿Y si el problema no está en el código, sino en los datos de entrada?"
-            ];
-            response = generic[Math.floor(Math.random() * generic.length)];
+        const getRandom = (arr: string[]) => arr[Math.floor(Math.random() * arr.length)];
+
+        if (isStuck) {
+            nexusResponse = getRandom(responses.stuck);
+        } else if (lowerMsg.match(/^(hola|buenos|hi|hello)/)) {
+            nexusResponse = getRandom(responses.greetings);
+        } else if (lowerMsg.includes('gracias') || lowerMsg.includes('entendido') || lowerMsg.includes('bien') || lowerMsg.includes('vale')) {
+            nexusResponse = getRandom(responses.positive);
+        } else if (lowerMsg.includes('como') || lowerMsg.includes('hago') || lowerMsg.includes('ayuda') || lowerMsg.includes('implementar')) {
+            nexusResponse = getRandom(responses.howTo);
+        } else {
+            nexusResponse = getRandom(responses.default);
         }
 
-        // Simulate "Thinking" delay
-        await new Promise(resolve => setTimeout(resolve, 800));
-
-        return NextResponse.json({ text: response });
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        return NextResponse.json({ text: nexusResponse });
 
     } catch (error) {
+        console.error("Nexus API Error:", error);
         return NextResponse.json({
-            text: "Mi red neuronal está en mantenimiento. Intenta reformular tu pregunta."
+            text: "Interrupción de enlace. Mis sistemas de razonamiento están recalibrando. Intenta una consulta más atómica."
         }, { status: 500 });
     }
 }

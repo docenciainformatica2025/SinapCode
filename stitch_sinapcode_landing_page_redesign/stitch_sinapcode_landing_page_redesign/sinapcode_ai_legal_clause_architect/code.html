@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SinapCODE AI Legal Clause Architect</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Icons -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "primary-hover": "#0e4ac4",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                        "surface-dark": "#161e2e",
+                        "surface-darker": "#0b1019",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for dark mode tech feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #101622; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+        
+        /* Blinking cursor for AI typing effect */
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 1s step-start infinite;
+            color: #135bec;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display h-screen flex flex-col overflow-hidden text-slate-800 dark:text-slate-100 antialiased selection:bg-primary/30 selection:text-white">
+<!-- Header / Navigation -->
+<header class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-surface-dark flex items-center justify-between px-6 shrink-0 z-20">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-blue-400 flex items-center justify-center text-white shadow-lg shadow-primary/20">
+<span class="material-icons text-lg">gavel</span>
+</div>
+<span class="font-bold text-lg tracking-tight">SinapCODE</span>
+</div>
+<div class="h-6 w-px bg-slate-200 dark:bg-slate-700"></div>
+<nav class="flex items-center text-sm text-slate-500 dark:text-slate-400 font-medium">
+<span class="hover:text-primary cursor-pointer transition-colors">Compliance</span>
+<span class="material-icons text-base mx-2">chevron_right</span>
+<span class="hover:text-primary cursor-pointer transition-colors">EU AI Act</span>
+<span class="material-icons text-base mx-2">chevron_right</span>
+<span class="text-slate-800 dark:text-white">Clause Architect</span>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="relative p-2 text-slate-400 hover:text-white transition-colors">
+<span class="material-icons">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-red-500 border border-surface-dark"></span>
+</button>
+<div class="flex items-center gap-3 pl-4 border-l border-slate-200 dark:border-slate-800">
+<div class="text-right hidden sm:block">
+<p class="text-xs font-semibold">Sarah Jenkins</p>
+<p class="text-[10px] text-slate-400 uppercase tracking-wider">Chief Legal Officer</p>
+</div>
+<img alt="User Profile" class="w-9 h-9 rounded-lg object-cover ring-2 ring-slate-800" data-alt="Professional woman portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPJ2Ryn87TEcLEZZuKtB9IyqGxk4yvGJAsA0i07OmhyzB16QydvXc7bjA5g1HHMcpts_1CUgayNTAuRJeHP294A4uHounf9CNQpe2UgrmjWaycmml2du0ZSQscKGkG4ZdLr4TsuKZU9CXxX0TsqpNEu-L3cXWSY0e-ljOZ3W-q1tRdrnjKw5PYd6cbZ-j0yUlgBujcNpQ_kigVV5Bc5CdaCHeb-fZxnwblo_pAA-I7WnAHmPBHudvaSbW2hfAk5oVlbZhPqq65O4LQ"/>
+</div>
+</div>
+</header>
+<!-- Main Workspace -->
+<main class="flex-1 flex overflow-hidden">
+<!-- LEFT PANE: Context & Alert -->
+<section class="w-5/12 min-w-[450px] border-r border-slate-200 dark:border-slate-800 flex flex-col bg-white dark:bg-background-dark/50 relative">
+<!-- Background pattern decoration -->
+<div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: radial-gradient(#3b82f6 1px, transparent 1px); background-size: 24px 24px;"></div>
+<div class="p-6 overflow-y-auto custom-scrollbar flex-1 relative z-10">
+<!-- Alert Banner -->
+<div class="rounded-xl bg-red-500/10 border border-red-500/20 p-5 mb-8 backdrop-blur-sm">
+<div class="flex items-start gap-4">
+<div class="p-2 bg-red-500/20 rounded-lg text-red-500 shrink-0">
+<span class="material-icons">warning_amber</span>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">High Priority</span>
+<span class="text-slate-400 text-xs">Received 12 mins ago</span>
+</div>
+<h2 class="text-lg font-bold text-white mb-2">EU AI Act: Article 50 Update</h2>
+<p class="text-sm text-slate-300 leading-relaxed">
+                                New transparency obligations for general-purpose AI models have been ratified. Providers must ensure that AI output is marked in a machine-readable format and detectable as artificially generated.
+                            </p>
+</div>
+</div>
+</div>
+<!-- Source Document -->
+<div class="mb-6">
+<div class="flex items-center justify-between mb-3">
+<h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+<span class="material-icons text-sm">description</span>
+                            Regulatory Source
+                        </h3>
+<button class="text-xs text-primary hover:text-primary-hover font-medium flex items-center gap-1">
+                            View Full Text <span class="material-icons text-sm">open_in_new</span>
+</button>
+</div>
+<div class="bg-slate-50 dark:bg-surface-dark border border-slate-200 dark:border-slate-800 rounded-xl p-5 font-mono text-sm leading-relaxed text-slate-600 dark:text-slate-400 shadow-inner">
+<p class="mb-4">
+<span class="text-slate-500 select-none">3.1  </span> Providers of AI systems shall ensure that AI systems intended to interact with natural persons are designed and developed in such a way that natural persons are informed that they are interacting with an AI system...
+                        </p>
+<p class="p-3 bg-primary/10 border-l-2 border-primary text-slate-200 rounded-r my-4">
+<span class="text-primary font-bold block text-xs mb-1">CRITICAL CLAUSE</span>
+                            "Users must be informed in a clear and distinguishable manner at the time of first interaction."
+                        </p>
+<p>
+<span class="text-slate-500 select-none">3.2  </span> This obligation shall not apply to AI systems authorised by law to detect, prevent, investigate and prosecute criminal offences...
+                        </p>
+</div>
+</div>
+<!-- Impact Analysis -->
+<div>
+<h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+<span class="material-icons text-sm">analytics</span>
+                        Ecosystem Impact
+                    </h3>
+<div class="grid grid-cols-2 gap-3">
+<div class="bg-surface-dark border border-slate-800 rounded-lg p-3">
+<div class="text-slate-400 text-xs mb-1">Affected Modules</div>
+<div class="font-semibold text-white">Chatbot Interface</div>
+</div>
+<div class="bg-surface-dark border border-slate-800 rounded-lg p-3">
+<div class="text-slate-400 text-xs mb-1">Compliance Deadline</div>
+<div class="font-semibold text-orange-400">48 Hours</div>
+</div>
+<div class="bg-surface-dark border border-slate-800 rounded-lg p-3 col-span-2">
+<div class="text-slate-400 text-xs mb-1">Required Action</div>
+<div class="font-semibold text-white flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                                Update Terms of Service &amp; User Disclosure
+                            </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- RIGHT PANE: Action & Generator -->
+<section class="flex-1 bg-surface-darker flex flex-col relative">
+<!-- Toolbar -->
+<div class="h-16 border-b border-slate-800 flex items-center justify-between px-6 bg-surface-dark/50 backdrop-blur-md sticky top-0 z-10">
+<div class="flex items-center gap-4">
+<span class="text-sm font-semibold text-slate-400">Generator Settings:</span>
+<!-- Tone Selector -->
+<div class="bg-background-dark p-1 rounded-lg border border-slate-800 flex gap-1">
+<button class="px-3 py-1.5 rounded text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition-all">Formal</button>
+<button class="px-3 py-1.5 rounded text-xs font-medium bg-primary text-white shadow-sm shadow-primary/30">Protectionist</button>
+<button class="px-3 py-1.5 rounded text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition-all">User-Friendly</button>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors tooltip" title="History">
+<span class="material-icons text-xl">history</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-primary transition-colors tooltip" title="Templates">
+<span class="material-icons text-xl">folder_open</span>
+</button>
+</div>
+</div>
+<!-- Editor Area -->
+<div class="flex-1 p-8 overflow-y-auto">
+<div class="max-w-3xl mx-auto">
+<!-- AI Status Indicator -->
+<div class="flex items-center gap-2 mb-4">
+<div class="flex gap-1 h-3">
+<span class="w-1 bg-primary/40 animate-[pulse_1s_ease-in-out_infinite]"></span>
+<span class="w-1 bg-primary/70 animate-[pulse_1s_ease-in-out_0.2s_infinite]"></span>
+<span class="w-1 bg-primary animate-[pulse_1s_ease-in-out_0.4s_infinite]"></span>
+</div>
+<span class="text-xs font-medium text-primary uppercase tracking-wide">SinapAI Generating Clause v2.1...</span>
+</div>
+<!-- Main Text Editor -->
+<div class="bg-background-light dark:bg-background-dark rounded-xl border border-slate-200 dark:border-slate-700 shadow-2xl overflow-hidden min-h-[400px] flex flex-col">
+<div class="bg-slate-100 dark:bg-[#131b29] px-4 py-2 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+<span class="text-xs font-mono text-slate-500">Draft: TERMS_UPDATE_2023_10_EU.md</span>
+<div class="flex gap-2">
+<span class="w-3 h-3 rounded-full bg-red-500/20 border border-red-500/50"></span>
+<span class="w-3 h-3 rounded-full bg-yellow-500/20 border border-yellow-500/50"></span>
+<span class="w-3 h-3 rounded-full bg-green-500/20 border border-green-500/50"></span>
+</div>
+</div>
+<div class="p-8 font-serif text-lg leading-loose text-slate-800 dark:text-slate-200 outline-none flex-1">
+<h2 class="font-display font-bold text-xl mb-6 text-slate-900 dark:text-white">4.2 Artificial Intelligence Transparency Disclosure</h2>
+<p class="mb-4 text-slate-600 dark:text-slate-300">
+                                The User acknowledges and agrees that certain interactions within the Platform, specifically including but not limited to the "SinapAssistant" chatbot and automated document review features, are facilitated by Generative Artificial Intelligence systems.
+                            </p>
+<p class="bg-primary/10 -mx-2 px-2 py-1 rounded border-l-2 border-primary text-slate-800 dark:text-white typing-cursor">
+                                In compliance with Article 50 of the EU AI Act, the Company hereby discloses that all output generated during these interactions is synthetic in nature. The User should not rely solely on such output for critical legal decisions without human verification. By continuing to use these features, the User consents to...
+                            </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer: Risk & Actions -->
+<div class="h-24 bg-surface-dark border-t border-slate-800 p-4 flex items-center justify-between gap-6">
+<!-- Risk Assessment -->
+<div class="flex items-center gap-6 flex-1">
+<div class="relative w-14 h-14 flex items-center justify-center">
+<!-- SVG Circle Gauge -->
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 36 36">
+<path class="text-slate-800" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
+<path class="text-green-500" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="85, 100" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+<span class="absolute text-xs font-bold text-white">A</span>
+</div>
+<div>
+<div class="text-xs text-slate-400 uppercase tracking-wider mb-1">Compliance Score</div>
+<div class="flex items-baseline gap-2">
+<span class="text-xl font-bold text-white">92/100</span>
+<span class="text-xs font-medium text-green-400">Low Risk</span>
+</div>
+<div class="text-[10px] text-slate-500 mt-0.5">Verified against EU Database v4.2</div>
+</div>
+<div class="h-8 w-px bg-slate-700 mx-2"></div>
+<div class="flex gap-2">
+<div class="px-3 py-1 rounded bg-slate-800 border border-slate-700 text-xs text-slate-400 flex flex-col items-center justify-center">
+<span class="font-bold text-white">0</span>
+<span class="text-[9px]">Ambiguities</span>
+</div>
+<div class="px-3 py-1 rounded bg-slate-800 border border-slate-700 text-xs text-slate-400 flex flex-col items-center justify-center">
+<span class="font-bold text-white">100%</span>
+<span class="text-[9px]">Readability</span>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-3">
+<button class="px-5 py-2.5 rounded-lg border border-slate-600 text-slate-300 font-medium text-sm hover:bg-slate-800 hover:text-white hover:border-slate-500 transition-all flex items-center gap-2">
+<span class="material-icons text-sm">refresh</span>
+                        Regenerate
+                    </button>
+<button class="px-6 py-2.5 rounded-lg bg-primary hover:bg-primary-hover text-white font-semibold text-sm shadow-lg shadow-primary/25 transition-all flex items-center gap-2 group">
+<span class="material-icons text-sm group-hover:animate-bounce">cloud_upload</span>
+                        Apply &amp; Sync
+                    </button>
+</div>
+</div>
+</section>
+</main>
+</body></html>

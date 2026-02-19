@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { getLegalDocument } from '@/lib/markdown';
 
+import { siteConfig } from '@/lib/site-config';
 import { LegalDocumentSchema } from '@/components/seo/legal-document-schema';
 
 export default function TermsPage() {
@@ -14,7 +15,7 @@ export default function TermsPage() {
                 title={frontmatter.title || "Términos de Servicio"}
                 version={frontmatter.version || "1.0.0"}
                 datePublished={frontmatter.date || "2026-01-01"}
-                url="https://sinapcode.com/legal/terms"
+                url={`${siteConfig.url}/legal/terms`}
             />
 
             {/* Background Effects */}

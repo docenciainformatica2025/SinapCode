@@ -1,78 +1,58 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { ProcessStep } from '@/lib/landing-data';
 
-export function HowItWorksSection() {
-    const steps = [
-        {
-            number: '01',
-            title: 'Elige tu Ruta',
-            description: 'Selecciona entre Python, JavaScript, Hacking Ético y más. Nuestro test de nivel te ubica perfectamente.',
-            icon: '🎯',
-            color: 'from-blue-500 to-cyan-500',
-        },
-        {
-            number: '02',
-            title: 'Aprende con IA',
-            description: 'Tu tutor Socrático te hace preguntas para que descubras las respuestas. No te da la solución, te enseña a pensar.',
-            icon: '🤖',
-            color: 'from-purple-500 to-pink-500',
-        },
-        {
-            number: '03',
-            title: 'Obtén tu Certificado',
-            description: 'Certificados verificados con blockchain. Compártelos en LinkedIn y destaca en el mercado laboral.',
-            icon: '🏆',
-            color: 'from-amber-500 to-orange-500',
-        },
-    ];
+export function HowItWorksSection({ steps }: { steps: ProcessStep[] }) {
 
     return (
-        <section id="como-funciona" className="py-20 relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-neural-blue/5 to-transparent" />
-
-            <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <section id="como-funciona" className="py-20 md:py-28 bg-black relative overflow-hidden">
+            <div className="max-w-7xl mx-auto px-6 sm:px-12 relative z-10">
                 <div className="text-center mb-16">
-                    <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
-                        ¿Cómo Funciona?
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 0.6, y: 0 }}
+                        className="text-[10px] font-black uppercase tracking-[0.4em] text-platinum mb-4 italic"
+                    >
+                        El Método SINAPCODE
+                    </motion.div>
+                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-8 italic tracking-tighter leading-tight">
+                        DE LA IDEA AL <span className="text-primary italic">DESPLIEGUE</span>
                     </h2>
-                    <p className="text-xl text-platinum-dim max-w-2xl mx-auto">
-                        Tres pasos simples para convertirte en desarrollador profesional
+                    <p className="max-w-2xl mx-auto text-xl text-platinum-dim font-medium leading-relaxed">
+                        Un sistema equilibrado para que tu <span className="text-white">evolución</span> sea lineal, fluida y medible. Sin distracciones.
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
+                    {/* Connecting Line (Desktop) with Animation */}
+                    <div className="hidden md:block absolute top-16 left-0 w-full h-px -z-10 overflow-hidden">
+                        <motion.div
+                            className="w-full h-full bg-gradient-to-r from-transparent via-primary to-transparent opacity-20"
+                            animate={{ x: ['-100%', '100%'] }}
+                            transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
+                        />
+                    </div>
+
                     {steps.map((step, i) => (
                         <motion.div
                             key={i}
-                            initial={{ opacity: 0, y: 40 }}
+                            initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ delay: i * 0.2 }}
-                            className="relative"
+                            transition={{ delay: i * 0.2, duration: 0.8 }}
+                            className="bg-white/5 border border-white/5 p-10 rounded-[3rem] text-center group hover:border-primary/30 transition-all duration-700 backdrop-blur-3xl shadow-2xl relative overflow-hidden"
                         >
-                            {/* Connecting Line */}
-                            {i < steps.length - 1 && (
-                                <div className="hidden md:block absolute top-20 left-full w-full h-0.5 bg-gradient-to-r from-white/20 to-transparent" />
-                            )}
+                            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
-                            <div className="glass-panel p-8 rounded-2xl border border-white/10 hover:border-neural-blue/50 transition-all group">
-                                {/* Number Badge */}
-                                <div className={`inline-block px-4 py-2 rounded-full bg-gradient-to-r ${step.color} text-white font-bold text-sm mb-6`}>
-                                    PASO {step.number}
-                                </div>
-
-                                {/* Icon */}
-                                <div className="text-6xl mb-6">{step.icon}</div>
-
-                                {/* Content */}
-                                <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-neural-blue transition">
-                                    {step.title}
-                                </h3>
-                                <p className="text-platinum-dim leading-relaxed">
-                                    {step.description}
-                                </p>
+                            <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${step.color} shadow-2xl shadow-primary/20 flex items-center justify-center text-4xl mb-8 mx-auto group-hover:scale-110 group-hover:-rotate-3 transition-all duration-700 relative z-10`}>
+                                {step.icon}
                             </div>
+                            <span className="text-primary font-black tracking-[0.3em] text-[10px] uppercase mb-4 block relative z-10 italic">FASE {step.number}</span>
+                            <h3 className="text-2xl font-black text-white mb-6 italic tracking-tight relative z-10">{step.title}</h3>
+                            <p className="text-platinum-dim leading-relaxed font-bold text-sm relative z-10 opacity-70 group-hover:opacity-100 transition-opacity">
+                                {step.description}
+                            </p>
                         </motion.div>
                     ))}
                 </div>

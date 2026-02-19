@@ -1,5 +1,5 @@
 # Manual de Marca: SinapCode Enterprise
-**Versión:** 1.0 (2026)
+**Versión:** 1.1 (Febrero 2026)
 **Concepto:** Neuro-tecnología Educativa de Alto Valor
 **Filosofía:** "Metallic RGB Psychology"
 
@@ -45,3 +45,8 @@ Nos alejamos de lo "plano". Usamos luz y materiales.
 ## 5. Tipografía
 *   **Headings:** `Satoshi` o `Inter Tight` (Variable, Geometric).
 *   **Code/Mono:** `JetBrains Mono` (Ligatures enabled).
+
+## 6. Seguridad & Integridad (Cyber-Standard)
+*   **Protección de Rutas:** Todas las rutas académicas (`/dashboard`, `/courses`, etc.) deben estar bajo el middleware de autenticación (AuthGated).
+*   **Asistentes AI:** El componente `AIConcierge` y similares deben renderizarse condicionalmente solo para usuarios autenticados para evitar fugas de información interna en la landing o login.
+*   **Integridad de Iconos:** Uso estandarizado de `lucide-react`. No se permiten iconos rotos o importaciones faltantes en producción.

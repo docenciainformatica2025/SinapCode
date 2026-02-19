@@ -14,15 +14,27 @@ export async function GET() {
             );
         }
 
-        // Obtener datos del usuario
+        // Obtener datos del usuario con sus relaciones
         const user = await prisma.user.findUnique({
             where: { email: session.user.email },
-            select: {
-                id: true,
-                name: true,
-                email: true,
-                role: true,
-                createdAt: true,
+            include: {
+                courses: {
+                    select: {
+                        id: true,
+                        title: true,
+                        slug: true,
+                        level: true,
+                        thumbnail: true,
+                    },
+                    take: 5
+                },
+                certificates: true,
+                _count: {
+                    select: {
+                        courses: true,
+                        certificates: true,
+                    }
+                }
             }
         });
 
@@ -33,8 +45,20 @@ export async function GET() {
             );
         }
 
-        // Por ahora, datos de ejemplo para cursos
-        // TODO: Crear modelo de Cursos y Progreso en Prisma
+        // Obtener actividad reciente de los logs de auditoría
+        const recentActivity = await prisma.auditLog.findMany({
+            where: { userId: user.id },
+            orderBy: { createdAt: 'desc' },
+            take: 10,
+            select: {
+                id: true,
+                eventType: true,
+                createdAt: true,
+                metadata: true,
+            }
+        });
+
+        // Dashboard data con integración real
         const dashboardData = {
             user: {
                 name: user.name,
@@ -43,13 +67,25 @@ export async function GET() {
                 memberSince: user.createdAt,
             },
             stats: {
-                totalXP: 0,
-                activeCourses: 0,
-                certificates: 0,
-                streakDays: 0,
+                totalXP: 0, // TODO: Implementar lógica de gamificación en el modelo
+                activeCourses: user._count.courses,
+                certificates: user._count.certificates,
+                streakDays: 5, // Mock por ahora hasta tener modelo de racha o lógica de login
             },
-            coursesInProgress: [],
-            recentActivity: [],
+            coursesInProgress: user.courses.map(course => ({
+                id: course.id,
+                title: course.title,
+                slug: course.slug,
+                level: course.level,
+                image: course.thumbnail || '',
+                progress: 0, // TODO: Implementar modelo UserProgress
+            })),
+            recentActivity: recentActivity.map(log => ({
+                id: log.id,
+                type: log.eventType,
+                date: log.createdAt,
+                details: (log.metadata as any)?.description || 'Actividad registrada',
+            })),
         };
 
         return NextResponse.json(dashboardData);
@@ -61,7 +97,7 @@ export async function GET() {
             throw error;
         }
 
-        console.error('Error fetching dashboard data:', error);
+        console.error('Error al obtener datos del dashboard:', error);
         return NextResponse.json(
             { error: 'Error al obtener datos' },
             { status: 500 }

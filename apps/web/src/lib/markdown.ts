@@ -31,10 +31,10 @@ export function getLegalDocument(filename: string): LegalDocument {
             content
         };
     } catch (error) {
-        console.error(`Error reading markdown file at ${filePath}:`, error);
+        console.error(`Error al leer el archivo markdown en ${filePath}:`, error);
         return {
-            frontmatter: { title: 'Error loading document', version: '0.0.0' },
-            content: '# Error\nCould not load the document. Please contact support.'
+            frontmatter: { title: 'Error cargando el documento', version: '0.0.0' },
+            content: '# Error\nNo se pudo cargar el documento. Por favor, contacta a soporte.'
         };
     }
 }

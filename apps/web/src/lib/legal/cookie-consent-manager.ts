@@ -91,7 +91,7 @@ class CookieConsentManager {
                 })
             });
         } catch (error) {
-            console.error('Failed to record cookie consent:', error);
+            console.error('Fallo al registrar consentimiento de cookies:', error);
         }
     }
 

@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { getLegalDocument } from '@/lib/markdown';
 
+import { siteConfig } from '@/lib/site-config';
 import { LegalDocumentSchema } from '@/components/seo/legal-document-schema';
 
 export default function CookiesPage() {
@@ -15,7 +16,7 @@ export default function CookiesPage() {
                 title={frontmatter.title || "Política de Cookies"}
                 version={frontmatter.version || "1.0.0"}
                 datePublished={frontmatter.date || "2026-01-01"}
-                url="https://sinapcode.com/legal/cookies"
+                url={`${siteConfig.url}/legal/cookies`}
             />
 
             {/* Background Effects */}

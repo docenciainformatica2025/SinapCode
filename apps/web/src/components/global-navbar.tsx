@@ -50,9 +50,9 @@ export function GlobalNavbar() {
     const isGuest = !session;
     const navClasses = isGuest
         ? (scrolled
-            ? 'bg-bg/80 backdrop-blur-md border-b border-gold/10 shadow-lg'
+            ? 'bg-bg/90 backdrop-blur-md border-b border-white/10 shadow-sm'
             : 'bg-transparent border-b border-transparent')
-        : 'bg-deep-space/95 backdrop-blur-md border-b border-white/10';
+        : 'bg-bg/95 backdrop-blur-md border-b border-white/10 shadow-sm';
 
     return (
         <nav className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 px-4 sm:px-6 py-3 ${navClasses}`}>
@@ -72,22 +72,25 @@ export function GlobalNavbar() {
                     </Link>
 
                     {/* Desktop Links - Role Based */}
-                    <div className="hidden md:flex gap-6 text-sm font-medium text-platinum-dim">
+                    <div className="hidden md:flex gap-6 text-sm font-bold text-gray-500">
                         {session ? (
                             // Logged in users
                             isAdmin ? (
                                 // Admin navigation
                                 <>
-                                    <Link href="/admin" className="hover:text-white transition">📊 Admin</Link>
-                                    <Link href="/admin/users" className="hover:text-white transition">👥 Usuarios</Link>
-                                    <Link href="/admin/audit" className="hover:text-white transition">📈 Auditoría</Link>
+                                    <Link href="/admin" className="hover:text-primary transition">📊 Admin</Link>
+                                    <Link href="/admin/users" className="hover:text-primary transition">👥 Usuarios</Link>
+                                    <Link href="/admin/audit" className="hover:text-primary transition">📈 Auditoría</Link>
                                 </>
                             ) : (
                                 // Student/Teacher navigation
                                 <>
-                                    <Link href="/dashboard" className="hover:text-white transition">📚 Mi Dashboard</Link>
-                                    <Link href="/courses" className="hover:text-white transition">🎓 Cursos</Link>
-                                    <Link href="/profile" className="hover:text-white transition">👤 Mi Perfil</Link>
+                                    <Link href="/dashboard" className="hover:text-primary transition">🏠 Inicio</Link>
+                                    <Link href="/courses" className="hover:text-primary transition">🎓 Cursos</Link>
+                                    <Link href="/library" className="hover:text-primary transition">📖 Biblioteca</Link>
+                                    <Link href="/mentor" className="hover:text-primary transition">💬 Mentor</Link>
+                                    <Link href="/evolution" className="hover:text-primary transition">📈 Evolución</Link>
+                                    <Link href="/profile" className="hover:text-primary transition">👤 Perfil</Link>
                                 </>
                             )
                         ) : (
@@ -141,7 +144,7 @@ export function GlobalNavbar() {
 
                             <Link href="/profile" className="hidden sm:block" aria-label="Ver perfil">
                                 <div
-                                    className="w-8 h-8 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 border border-white/20 cursor-pointer hover:scale-105 transition"
+                                    className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 border border-white/20 cursor-pointer hover:scale-105 transition shadow-sm"
                                     role="img"
                                     aria-label="Foto de perfil"
                                 />
@@ -150,10 +153,10 @@ export function GlobalNavbar() {
                     ) : (
                         <>
                             {/* Guest State - Matches Landing Style */}
-                            <Link href="/auth/login" className="hidden sm:block text-sm font-medium text-muted hover:text-white transition">
+                            <Link href="/auth/login" className="hidden sm:block text-sm font-bold text-gray-400 hover:text-white transition">
                                 Ingresar
                             </Link>
-                            <Link href="/auth/register" className="hidden sm:block btn-primary text-sm shadow-[0_0_15px_rgba(34,211,238,0.3)] hover:shadow-[0_0_25px_rgba(34,211,238,0.5)] transition-all duration-300 border border-transparent hover:border-gold/30 hover:-translate-y-0.5">
+                            <Link href="/auth/register" className="hidden sm:block bg-primary px-4 py-2 rounded-lg text-white text-sm font-bold shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all duration-300 border border-transparent hover:-translate-y-0.5">
                                 Empieza Gratis
                             </Link>
                         </>
@@ -173,24 +176,24 @@ export function GlobalNavbar() {
 
             {/* Mobile Menu Dropdown */}
             {isMobileMenuOpen && (
-                <div className="md:hidden pt-4 pb-2 space-y-3 border-t border-white/10 mt-3 animate-in fade-in slide-in-from-top-2">
+                <div className="md:hidden pt-4 pb-2 space-y-3 border-t border-white/10 mt-3 animate-in fade-in slide-in-from-top-2 bg-bg">
                     <Link
                         href="/courses"
-                        className="block px-4 py-2 text-platinum-dim hover:text-white hover:bg-white/5 rounded-lg transition"
+                        className="block px-4 py-2 text-gray-400 font-medium hover:text-primary hover:bg-white/5 rounded-lg transition"
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
                         Cursos
                     </Link>
                     <Link
                         href="/profesores"
-                        className="block px-4 py-2 text-platinum-dim hover:text-white hover:bg-white/5 rounded-lg transition"
+                        className="block px-4 py-2 text-gray-400 font-medium hover:text-primary hover:bg-white/5 rounded-lg transition"
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
                         Profesores
                     </Link>
                     <Link
                         href="/empresas"
-                        className="block px-4 py-2 text-platinum-dim hover:text-white hover:bg-white/5 rounded-lg transition"
+                        className="block px-4 py-2 text-gray-400 font-medium hover:text-primary hover:bg-white/5 rounded-lg transition"
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
                         Empresas
@@ -200,24 +203,24 @@ export function GlobalNavbar() {
                         {session ? (
                             <Link
                                 href="/profile"
-                                className="block px-4 py-2 text-platinum-dim hover:text-white hover:bg-white/5 rounded-lg transition flex items-center gap-2"
+                                className="block px-4 py-2 text-gray-400 font-medium hover:text-primary hover:bg-white/5 rounded-lg transition flex items-center gap-2"
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
-                                <div className="w-6 h-6 rounded-full bg-gradient-to-r from-pink-500 to-rose-500"></div>
+                                <div className="w-6 h-6 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500"></div>
                                 Mi Perfil
                             </Link>
                         ) : (
                             <div className="space-y-2 px-4">
                                 <Link
                                     href="/auth/login"
-                                    className="block w-full py-2 text-center border border-white/20 rounded-lg text-white hover:bg-white/5 transition"
+                                    className="block w-full py-2 text-center border border-white/10 rounded-lg text-gray-300 font-bold hover:bg-white/5 transition"
                                     onClick={() => setIsMobileMenuOpen(false)}
                                 >
                                     Iniciar Sesión
                                 </Link>
                                 <Link
                                     href="/auth/register"
-                                    className="block w-full py-2 text-center bg-neural-blue text-white rounded-lg font-bold hover:bg-blue-600 transition"
+                                    className="block w-full py-2 text-center bg-primary text-white rounded-lg font-bold hover:bg-primary/90 transition shadow-lg shadow-primary/10"
                                     onClick={() => setIsMobileMenuOpen(false)}
                                 >
                                     Registrarse

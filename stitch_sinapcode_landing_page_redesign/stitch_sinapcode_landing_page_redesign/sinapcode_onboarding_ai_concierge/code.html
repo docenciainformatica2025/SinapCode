@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SinapCODE Onboarding AI Concierge</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Icons -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0df2f2",
+                        "primary-dark": "#0bcbcb",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#081111", /* Slightly deeper dark for contrast */
+                        "surface-dark": "#102222",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem", 
+                        "2xl": "2rem",
+                        "full": "9999px"
+                    },
+                    boxShadow: {
+                        "glow": "0 0 20px rgba(13, 242, 242, 0.35)",
+                        "glass": "0 8px 32px 0 rgba(0, 0, 0, 0.37)"
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for chat area */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        /* Glassmorphism utility */
+        .glass-panel {
+            background: rgba(16, 34, 34, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(13, 242, 242, 0.1);
+        }
+
+        /* Typing animation dots */
+        .typing-dot {
+            animation: typing 1.4s infinite ease-in-out both;
+        }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        /* Background blur effect */
+        .bg-blur-layer {
+            backdrop-filter: blur(4px);
+            background-color: rgba(8, 17, 17, 0.75);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-800 dark:text-white h-screen w-full overflow-hidden relative">
+<!-- BACKGROUND PAGE (Simulated Landing Page) -->
+<!-- This section represents the main site behind the modal/chat -->
+<div class="absolute inset-0 z-0 overflow-hidden flex flex-col">
+<!-- Navigation Bar Placeholder -->
+<nav class="w-full h-20 border-b border-primary/10 flex items-center justify-between px-8 bg-surface-dark/50">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-background-dark font-bold text-xl">S</div>
+<span class="text-xl font-bold tracking-widest text-white">SINAP<span class="text-primary">CODE</span></span>
+</div>
+<div class="flex gap-8 text-sm text-slate-300">
+<span class="hover:text-primary cursor-pointer">Cursos</span>
+<span class="hover:text-primary cursor-pointer">Bootcamps</span>
+<span class="hover:text-primary cursor-pointer">Empresas</span>
+<span class="hover:text-primary cursor-pointer">Mentores</span>
+</div>
+<button class="px-6 py-2 border border-primary text-primary rounded-full hover:bg-primary hover:text-background-dark transition-colors text-sm font-semibold">
+                Acceso Estudiantes
+            </button>
+</nav>
+<!-- Hero Section Content (Blurred Background) -->
+<main class="flex-1 w-full grid grid-cols-12 gap-8 px-8 py-12 relative">
+<!-- Decorative Gradients -->
+<div class="absolute top-20 left-20 w-96 h-96 bg-primary/10 rounded-full blur-[100px] pointer-events-none"></div>
+<div class="absolute bottom-20 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+<!-- Left Content -->
+<div class="col-span-7 flex flex-col justify-center gap-6 pl-12 z-10">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 w-fit">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-xs text-primary font-medium tracking-wide">NUEVO BOOTCAMP IA 2024</span>
+</div>
+<h1 class="text-6xl font-bold leading-tight">
+                    Domina el código.<br/>
+<span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">Controla el futuro.</span>
+</h1>
+<p class="text-slate-400 text-lg max-w-xl">
+                    Formación de élite para desarrolladores que buscan liderar la revolución tecnológica. Python, Machine Learning y Arquitectura Cloud.
+                </p>
+<div class="flex gap-4 mt-4 opacity-50">
+<!-- Simulating background buttons -->
+<div class="h-12 w-40 bg-slate-700 rounded-lg"></div>
+<div class="h-12 w-40 border border-slate-700 rounded-lg"></div>
+</div>
+</div>
+<!-- Right Content (Code Snippet Visual) -->
+<div class="col-span-5 flex items-center justify-center z-10 opacity-60">
+<div class="w-full max-w-md bg-surface-dark border border-slate-700 rounded-xl p-6 shadow-2xl relative overflow-hidden">
+<div class="flex gap-2 mb-4">
+<div class="w-3 h-3 rounded-full bg-red-500"></div>
+<div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+<div class="w-3 h-3 rounded-full bg-green-500"></div>
+</div>
+<div class="space-y-2 font-mono text-xs">
+<div class="text-slate-500">// Initialize Neural Network</div>
+<div class="flex gap-2"><span class="text-primary">import</span> <span class="text-white">tensorflow</span> <span class="text-primary">as</span> <span class="text-white">tf</span></div>
+<div class="flex gap-2"><span class="text-primary">model</span> = <span class="text-white">tf.keras.Sequential([</span></div>
+<div class="pl-4 text-slate-400">tf.keras.layers.Dense(128, activation='relu'),</div>
+<div class="pl-4 text-slate-400">tf.keras.layers.Dropout(0.2),</div>
+<div class="text-white">])</div>
+</div>
+<!-- Decorative overlay for the image -->
+<div class="absolute -right-10 -bottom-10 w-32 h-32 bg-primary/20 blur-2xl rounded-full"></div>
+</div>
+</div>
+</main>
+</div>
+<!-- OVERLAY & CHAT WIDGET -->
+<div class="absolute inset-0 z-50 flex items-center justify-center md:justify-end md:pr-16 lg:pr-24 bg-blur-layer transition-all duration-500">
+<!-- Glassmorphism Chat Container -->
+<div class="glass-panel w-full max-w-[420px] h-[85vh] md:h-[750px] md:max-h-[85vh] rounded-2xl shadow-glass flex flex-col relative overflow-hidden ring-1 ring-white/10 animate-[fadeInUp_0.6s_ease-out]">
+<!-- Header -->
+<div class="p-5 border-b border-primary/10 flex items-center justify-between bg-gradient-to-r from-surface-dark/80 to-transparent">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="w-12 h-12 rounded-full p-[2px] bg-gradient-to-tr from-primary to-blue-500">
+<img alt="Professional AI avatar woman" class="w-full h-full rounded-full object-cover border-2 border-surface-dark" data-alt="Close up of professional woman smiling looking at camera" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaWWbjcX7p7pw4jHbymQiRSD0yL_jF0F6zK3jDhMT_RfOcG52qb3af7nlo35feKyj66wiBL0nlM8O9aouLqWL7E0tmyGxpRy3c1L80rv_PZAIWr9qgVhGPzKKTnZMv8ZysaB27jgYaLNAOfJp6GC6QMwO5BXqoqR5gmjH2vGuDXUrTEtAABIsGWPo931IT0Y_h-fQ6fpzBeRoGi4A1IseihyLFil1A5EKo-7HzRghFVB2ZiguzT7Bkx7ESMlWhW7kPy5DBO3mg_JR5"/>
+</div>
+<span class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 border-2 border-surface-dark rounded-full animate-pulse shadow-[0_0_8px_rgba(74,222,128,0.8)]"></span>
+</div>
+<div>
+<h2 class="text-white font-bold text-lg tracking-tight">Sarah AI</h2>
+<p class="text-primary/80 text-xs font-medium uppercase tracking-wider">Tu Concierge IA</p>
+</div>
+</div>
+<button class="text-slate-400 hover:text-white transition-colors">
+<span class="material-icons">close</span>
+</button>
+</div>
+<!-- Chat Area -->
+<div class="flex-1 overflow-y-auto p-5 space-y-6 scrollbar-hide flex flex-col">
+<!-- Date divider -->
+<div class="flex justify-center">
+<span class="text-[10px] text-slate-500 font-medium uppercase tracking-widest bg-black/20 px-3 py-1 rounded-full">Hoy</span>
+</div>
+<!-- Bot Message 1 -->
+<div class="flex gap-3 max-w-[90%]">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-surface-dark border border-primary/20 flex items-center justify-center text-primary overflow-hidden">
+<img alt="Avatar mini" class="w-full h-full object-cover opacity-80" data-alt="Small avatar of professional woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQtSzAWVFK4Ra2HQqO9dYWfPr4DM26e4l-aLrHxciqDbax2l4nJHFtRqVA9VF7oy2YdT7VbS8X9hslzNQqfnilXUs_cmCwSND0Uq9Dvweat_aHPpD5e6rvaZ-BrsVTMYVPooSHSB-9Lrxm3ylx9HD_4E6KG3FQyJAcrUIRGYumg_TD_SA5uEzeqy5ffvETkseyd_aqjvv9vRd7m2ess6Ph5SwXgOMTal2do3xoD5L28LOnwpuMoidjpC17MRZCbrSbJIhElU5TOJNk"/>
+</div>
+<div class="space-y-1">
+<div class="bg-surface-dark/90 border border-white/5 p-4 rounded-2xl rounded-tl-none text-sm text-slate-200 shadow-sm leading-relaxed">
+<p>¡Hola! 👋 Soy Sarah, tu guía en <strong>SinapCODE</strong>.</p>
+<p class="mt-2">¿Buscas dar el salto definitivo en IA o prefieres explorar nuestros proyectos primero?</p>
+</div>
+<span class="text-[10px] text-slate-500 pl-2">10:42 AM</span>
+</div>
+</div>
+<!-- Quick Replies (Chips) -->
+<div class="pl-11 flex flex-wrap gap-2">
+<button class="px-4 py-2 bg-primary/10 hover:bg-primary hover:text-background-dark border border-primary/30 rounded-lg text-primary text-xs font-medium transition-all duration-200 shadow-glow hover:shadow-lg text-left">
+                        Cuéntame de los cursos
+                    </button>
+<button class="px-4 py-2 bg-background-dark hover:bg-slate-700 border border-white/10 rounded-lg text-slate-300 text-xs font-medium transition-colors text-left">
+                        ¿Cómo funciona la IA?
+                    </button>
+<button class="px-4 py-2 bg-background-dark hover:bg-slate-700 border border-white/10 rounded-lg text-slate-300 text-xs font-medium transition-colors text-left">
+                        Quiero inscribirme
+                    </button>
+</div>
+<!-- User Reply Simulation -->
+<div class="flex gap-3 max-w-[90%] self-end flex-row-reverse">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center text-background-dark font-bold text-xs">
+                        YO
+                    </div>
+<div class="space-y-1 text-right">
+<div class="bg-primary text-background-dark p-4 rounded-2xl rounded-tr-none text-sm font-medium shadow-glow">
+<p>Me interesan los cursos, ¿tienen algo sobre Machine Learning?</p>
+</div>
+<span class="text-[10px] text-slate-500 pr-2">10:43 AM</span>
+</div>
+</div>
+<!-- Bot Message 2 (Lead Capture) -->
+<div class="flex gap-3 max-w-[90%]">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-surface-dark border border-primary/20 flex items-center justify-center text-primary overflow-hidden">
+<img alt="Avatar mini" class="w-full h-full object-cover opacity-80" data-alt="Small avatar of professional woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_ABem0irF00fckGtLlJltXC_kCxhoo4ZYWKFo-Wgk0ccLlHJtLJIAbK9CAv_S9QYqCkJHbJmAL2hCf3zw5EvinCIrDLKX-WJJj-BH81RaLWz8FsUFLJiQdRfIaATJHMTVHfYCa-Ci47GZ84htXLF_ird28wEuBuh0dOYC5hLHPn8I4GwqmvhJy7GCHnlrWwxNYQQYW-DcJoBuVWIfICWVUfdhRaKg-HGbXVL2xBWrq6isd9sH7y81cTqCB33AwslbNwpqHVx19zen"/>
+</div>
+<div class="space-y-1">
+<div class="bg-surface-dark/90 border border-white/5 p-4 rounded-2xl rounded-tl-none text-sm text-slate-200 shadow-sm leading-relaxed">
+<p>¡Absolutamente! Nuestro Master en ML es el mejor valorado del mercado. 🚀</p>
+<p class="mt-2">Para enviarte el folleto con el temario completo y los precios, ¿me podrías decir tu nombre?</p>
+</div>
+<span class="text-[10px] text-slate-500 pl-2">10:43 AM</span>
+</div>
+</div>
+<!-- Typing Indicator -->
+<div class="flex gap-3 max-w-[90%]">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-transparent"></div> <!-- Spacer -->
+<div class="bg-surface-dark/50 p-3 rounded-2xl rounded-tl-none w-fit flex gap-1 items-center h-10">
+<div class="w-1.5 h-1.5 bg-primary/50 rounded-full typing-dot"></div>
+<div class="w-1.5 h-1.5 bg-primary/50 rounded-full typing-dot"></div>
+<div class="w-1.5 h-1.5 bg-primary/50 rounded-full typing-dot"></div>
+</div>
+</div>
+</div>
+<!-- Lead Capture Input Area -->
+<div class="p-5 bg-background-dark/80 backdrop-blur-md border-t border-primary/10">
+<!-- Channel Selector (Subtle) -->
+<div class="flex items-center justify-between mb-4 px-1">
+<span class="text-xs text-slate-400 font-medium">Recibir info por:</span>
+<div class="flex gap-3">
+<button class="w-8 h-8 rounded-full bg-slate-800 hover:bg-primary/20 hover:text-primary flex items-center justify-center text-slate-400 transition-all group" title="Email">
+<span class="material-icons text-[18px] group-hover:drop-shadow-[0_0_5px_rgba(13,242,242,0.8)]">email</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-slate-800 hover:bg-[#25D366]/20 hover:text-[#25D366] flex items-center justify-center text-slate-400 transition-all group" title="WhatsApp">
+<!-- Simple circle representation for WhatsApp/Social since using Material Icons -->
+<span class="material-icons text-[18px] group-hover:drop-shadow-[0_0_5px_rgba(37,211,102,0.8)]">chat</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-slate-800 hover:bg-[#0088cc]/20 hover:text-[#0088cc] flex items-center justify-center text-slate-400 transition-all group" title="Telegram">
+<span class="material-icons text-[18px] group-hover:drop-shadow-[0_0_5px_rgba(0,136,204,0.8)]">send</span>
+</button>
+</div>
+</div>
+<!-- Input Field -->
+<div class="relative group">
+<input class="w-full bg-surface-dark border border-slate-700 text-white text-sm rounded-xl px-4 py-3.5 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-slate-500 pr-12" placeholder="Escribe tu nombre..." type="text"/>
+<button class="absolute right-2 top-1.5 p-2 text-primary hover:text-white hover:bg-primary rounded-lg transition-colors">
+<span class="material-icons text-xl">arrow_upward</span>
+</button>
+</div>
+<div class="mt-2 text-center">
+<p class="text-[10px] text-slate-500">
+                        Al continuar, aceptas nuestra <a class="text-primary/60 hover:text-primary underline" href="#">política de privacidad</a>.
+                    </p>
+</div>
+</div>
+<!-- Decorative Elements inside card -->
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-[80px] pointer-events-none -z-10"></div>
+</div>
+</div>
+</body></html>

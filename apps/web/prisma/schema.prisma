@@ -23,6 +23,7 @@ model User {
   image         String?
   password      String?
   role          Role      @default(STUDENT)
+// bio           String?   @db.Text
   
   // Security fields
   mfaEnabled       Boolean   @default(false)
@@ -409,44 +410,44 @@ model Course {
   price       Float    @default(0)
   level       String   @default("beginner") // beginner, intermediate, advanced
   
-  thumbnail   String?
+  thumbnail   String?  @map("thumbnail_url")
   
-  isPublished Boolean  @default(false)
+  isPublished Boolean  @default(false) @map("is_published")
   
   // Metadata
-  enrolledCount Int    @default(0)
+  enrolledCount Int    @default(0) @map("enrolled_count")
   rating        Float  @default(0)
   
-  authorId    String?
+  authorId    String?  @map("instructor_id")
   author      User?    @relation(fields: [authorId], references: [id])
   
   modules     Module[]
   
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
   
   @@index([isPublished])
   @@index([slug])
-  @@map("courses")
+  @@map("programs")
 }
 
 model Module {
   id          String   @id @default(cuid())
   title       String
   description String?
-  order       Int      @default(0)
+  order       Int      @default(0) @map("order_index")
   
-  courseId    String
+  courseId    String   @map("program_id")
   course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
   
   // Content (Lessons would be a sub-table, but let's keep it simple for now or JSON)
   content     Json?    // Array of lessons { title, videoUrl, duration }
   
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
   
   @@index([courseId])
-  @@map("modules")
+  @@map("program_modules")
 }
 
 // ============================================

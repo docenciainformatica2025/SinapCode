@@ -55,7 +55,7 @@ export function LandingNavbar() {
 
     const [navLinks, setNavLinks] = useState<any[]>([
         { label: 'Cursos', href: '#cursos' },
-        { label: 'Metodología', href: '#como-funciona' },
+        { label: 'Metodología', href: '/methodology' },
         { label: 'Proyectos', href: '#proyectos' },
         { label: 'Blog', href: '/blog' },
     ]);
@@ -72,7 +72,18 @@ export function LandingNavbar() {
             .then(res => res.json())
             .then(data => {
                 if (data.menus?.header && data.menus.header.length > 0) {
-                    setNavLinks(data.menus.header);
+                    // 1. Create a copy and REMOVE any existing 'Metodología' link (to avoid duplicates or bad hrefs)
+                    const headerLinks = data.menus.header.filter((l: any) => l.label !== 'Metodología');
+
+                    // 2. Force Insert the correct link
+                    const insertIdx = headerLinks.findIndex((l: any) => l.label.toLowerCase().includes('cursos'));
+                    if (insertIdx !== -1) {
+                        headerLinks.splice(insertIdx + 1, 0, { label: 'Metodología', href: '/methodology' });
+                    } else {
+                        headerLinks.push({ label: 'Metodología', href: '/methodology' });
+                    }
+
+                    setNavLinks(headerLinks);
                 }
             })
             .catch(() => { });
@@ -87,7 +98,7 @@ export function LandingNavbar() {
             <motion.nav
                 suppressHydrationWarning
                 className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-                    ? 'bg-bg/80 backdrop-blur-md border-b border-gold/10 shadow-lg'
+                    ? 'bg-bg/80 backdrop-blur-md border-b border-white/10'
                     : 'bg-transparent border-b border-transparent'
                     }`}
                 initial={{ y: -100 }}
@@ -95,21 +106,20 @@ export function LandingNavbar() {
                 transition={{ duration: 0.5 }}
             >
                 <div className="container-page h-16 sm:h-20 flex items-center justify-between">
-                    {/* Logo */}
+                    {/* Logo sin puntos decorativos */}
                     <Link href="/" className="flex items-center gap-2 group">
                         {siteConfig?.logoUrl ? (
-                            <img src={siteConfig.logoUrl} alt={siteDisplayName} className="h-8 w-auto object-contain" />
+                            <img src={siteConfig.logoUrl} alt={siteDisplayName} className="h-6 w-auto object-contain" />
                         ) : (
-                            <span className="text-xl sm:text-2xl font-bold tracking-tight text-white group-hover:text-primary transition-colors">
-                                {siteDisplayName.split('Code')[0]}<span className="text-primary">{siteDisplayName.includes('Code') ? 'CODE' : ''}</span>
+                            <span className="text-xl font-black tracking-tighter text-white group-hover:text-primary transition-colors flex items-center gap-2">
+                                <div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(25,127,230,0.8)]" />
+                                SINAP<span className="text-primary group-hover:text-blue-400 transition-colors uppercase">CODE</span>
                             </span>
                         )}
-                        {/* Subtle Gold Dot */}
-                        <div className="w-1.5 h-1.5 rounded-full bg-gold shadow-[0_0_8px_rgba(212,175,55,0.8)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     </Link>
 
                     {/* Desktop Navigation Links */}
-                    <div className="hidden md:flex items-center gap-8 text-sm font-medium">
+                    <div className="hidden md:flex items-center gap-8 text-sm font-bold text-platinum-dim">
                         {navLinks.map((link) => {
                             const isActive = activeSection === link.href || (link.href === '/blog' && typeof window !== 'undefined' && window.location.pathname === '/blog');
 
@@ -117,10 +127,10 @@ export function LandingNavbar() {
                                 <a
                                     key={link.href}
                                     href={link.href}
-                                    className={`transition-colors relative group ${isActive ? 'text-white' : 'text-muted hover:text-gold-light'}`}
+                                    className={`transition-colors relative group ${isActive ? 'text-primary font-semibold' : 'text-platinum-dim hover:text-white'}`}
                                 >
                                     {link.label}
-                                    <span className={`absolute -bottom-1 left-0 h-0.5 bg-gold transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`} />
+                                    <span className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`} />
                                 </a>
                             );
                         })}
@@ -130,13 +140,13 @@ export function LandingNavbar() {
                     <div className="flex items-center gap-4">
                         <Link
                             href="/auth/login"
-                            className="hidden sm:block text-sm font-medium text-muted hover:text-white transition"
+                            className="hidden sm:block text-sm font-bold text-platinum-dim hover:text-white transition"
                         >
                             Ingresar
                         </Link>
                         <Link
                             href="/auth/register"
-                            className="btn-primary text-sm shadow-[0_0_15px_rgba(34,211,238,0.3)] hover:shadow-[0_0_25px_rgba(34,211,238,0.5)] transition-all duration-300 border border-transparent hover:border-gold/30 hover:-translate-y-0.5"
+                            className="btn-primary text-sm shadow-md hover:shadow-lg transition-all duration-300 border border-transparent hover:-translate-y-0.5"
                         >
                             Empieza Gratis
                         </Link>
@@ -168,12 +178,12 @@ export function LandingNavbar() {
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: '100%' }}
                         transition={{ type: 'tween', duration: 0.3 }}
-                        className="fixed inset-y-0 right-0 w-64 bg-surface/95 backdrop-blur-xl border-l border-gold/10 z-50 md:hidden shadow-2xl"
+                        className="fixed inset-y-0 right-0 w-64 bg-bg/95 backdrop-blur-xl border-l border-white/10 z-50 md:hidden shadow-2xl"
                     >
                         <div className="p-6 space-y-6">
                             <div className="flex justify-between items-center mb-8">
                                 <span className="font-bold text-white">Menu</span>
-                                <button onClick={() => setMobileMenuOpen(false)} className="text-muted">✕</button>
+                                <button onClick={() => setMobileMenuOpen(false)} className="text-gray-400">✕</button>
                             </div>
 
                             <div className="space-y-4">
@@ -182,24 +192,24 @@ export function LandingNavbar() {
                                         key={link.href}
                                         href={link.href}
                                         onClick={() => setMobileMenuOpen(false)}
-                                        className="block text-lg font-medium text-muted hover:text-gold transition-colors"
+                                        className="block text-lg font-bold text-platinum hover:text-primary transition-colors"
                                     >
                                         {link.label}
                                     </a>
                                 ))}
                             </div>
 
-                            <div className="pt-8 border-t border-white/5 space-y-4">
+                            <div className="pt-8 border-t border-gray-100 space-y-4">
                                 <Link
                                     href="/auth/login"
-                                    className="block w-full py-3 text-center text-muted border border-white/10 rounded-xl hover:bg-white/5 transition"
+                                    className="block w-full py-3 text-center text-gray-700 border border-gray-200 rounded-xl hover:bg-gray-50 transition"
                                     onClick={() => setMobileMenuOpen(false)}
                                 >
                                     Ingresar
                                 </Link>
                                 <Link
                                     href="/auth/register"
-                                    className="block w-full py-3 text-center bg-primary text-bg font-bold rounded-xl hover:opacity-90 transition"
+                                    className="block w-full py-3 text-center bg-primary text-white font-bold rounded-xl hover:opacity-90 transition"
                                     onClick={() => setMobileMenuOpen(false)}
                                 >
                                     Empieza Gratis

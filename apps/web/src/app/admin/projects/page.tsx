@@ -36,7 +36,7 @@ export default function ProjectsPage() {
                 setProjects(data.projects);
             }
         } catch (error) {
-            console.error('Error fetching projects:', error);
+            console.error('Error al obtener proyectos:', error);
             toast.error('Error cargando proyectos');
         } finally {
             setIsLoading(false);

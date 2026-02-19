@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SinapCODE Builders Community Hub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0df2f2",
+                        "primary-dark": "#0bcbcb",
+                        "secondary": "#8b5cf6", 
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#102222",
+                        "surface-dark": "#162e2e",
+                        "glass-border": "rgba(13, 242, 242, 0.15)",
+                        "glass-bg": "rgba(16, 34, 34, 0.7)",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                    boxShadow: {
+                        "neon": "0 0 10px rgba(13, 242, 242, 0.3), 0 0 20px rgba(13, 242, 242, 0.1)",
+                        "neon-hover": "0 0 15px rgba(13, 242, 242, 0.5), 0 0 30px rgba(13, 242, 242, 0.2)",
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        /* Glassmorphism Utilities */
+        .glass-panel {
+            background: rgba(22, 46, 46, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(13, 242, 242, 0.1);
+        }
+        
+        .glass-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #102222; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a4545; 
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0df2f2; 
+        }
+
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(to right, #0df2f2, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-800 dark:text-slate-200 min-h-screen selection:bg-primary selection:text-background-dark overflow-hidden flex flex-col">
+<!-- Top Navigation (Mobile/Tablet only usually, but good for structure) -->
+<!-- Not strictly requested but good for context if sticky sidebar scrolls. We'll stick to the layout requested. -->
+<div class="flex h-screen w-full max-w-[1920px] mx-auto overflow-hidden">
+<!-- LEFT SIDEBAR -->
+<aside class="hidden lg:flex flex-col w-72 h-full glass-panel border-r border-glass-border p-6 justify-between shrink-0 z-20">
+<div>
+<!-- Logo -->
+<div class="flex items-center gap-3 mb-10 px-2">
+<div class="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-neon">
+<span class="material-icons-round text-background-dark text-2xl">code</span>
+</div>
+<div>
+<h1 class="text-xl font-bold tracking-tight text-white">Sinap<span class="text-primary">CODE</span></h1>
+<p class="text-xs text-slate-400 font-medium tracking-widest uppercase">Builders Hub</p>
+</div>
+</div>
+<!-- Navigation -->
+<nav class="space-y-2">
+<a class="flex items-center gap-4 px-4 py-3 rounded-xl bg-primary/10 border border-primary/20 text-primary font-medium transition-all shadow-neon group" href="#">
+<span class="material-icons-round text-xl group-hover:scale-110 transition-transform">dashboard</span>
+                        Global Feed
+                    </a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/5 text-slate-400 hover:text-white transition-all group" href="#">
+<span class="material-icons-round text-xl group-hover:text-secondary transition-colors">rocket_launch</span>
+                        Project Hub
+                    </a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/5 text-slate-400 hover:text-white transition-all group" href="#">
+<span class="material-icons-round text-xl group-hover:text-secondary transition-colors">diversity_3</span>
+                        Find a Partner
+                    </a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/5 text-slate-400 hover:text-white transition-all group" href="#">
+<span class="material-icons-round text-xl group-hover:text-secondary transition-colors">groups</span>
+                        Specialized Squads
+                    </a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/5 text-slate-400 hover:text-white transition-all group mt-8" href="#">
+<span class="material-icons-round text-xl group-hover:text-secondary transition-colors">school</span>
+                        My Learning Path
+                    </a>
+</nav>
+</div>
+<!-- User Mini Profile -->
+<div class="glass-card p-4 rounded-xl flex items-center gap-3 cursor-pointer hover:border-primary/30 transition-colors">
+<div class="relative">
+<img class="w-10 h-10 rounded-full object-cover border border-white/10" data-alt="User avatar of a young professional" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLma4Tw2O2EQ_N1LGDtawpBkYQ2MXKovzlg0pBiIC4vkm3a6EtQJ-ewigkhqR7eEzwuZlUruuobp4Qb0E-9Xx4o4AyUa6BmDWqrVmuozFwhhBeIfhv-Gy21kHdnoj2oILdGxMxqaYv_IBM9gXY75_IghTXT-M3p5aDhR-cKLVwxPPGc9N4x3YmtNnJMtUa7olugyPbklg7nMNnfpXf0qrVp1sO99rofeBok-KPY1bcy3PplDFt7zjecXTcAKnxapmJY0oqpvGJKC1l"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-background-dark rounded-full"></span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-bold text-white truncate">Alex Chen</p>
+<p class="text-xs text-primary truncate">Level 4 Architect</p>
+</div>
+<button class="text-slate-400 hover:text-white">
+<span class="material-icons-round text-xl">settings</span>
+</button>
+</div>
+</aside>
+<!-- CENTER FEED -->
+<main class="flex-1 h-full overflow-y-auto relative scroll-smooth p-0 lg:p-8">
+<!-- Mobile Header (Visible only on small screens) -->
+<div class="lg:hidden flex items-center justify-between p-4 glass-panel sticky top-0 z-30 mb-4">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded bg-primary flex items-center justify-center">
+<span class="material-icons-round text-background-dark">code</span>
+</div>
+<span class="font-bold text-white">SinapCODE</span>
+</div>
+<button class="text-white"><span class="material-icons-round">menu</span></button>
+</div>
+<div class="max-w-3xl mx-auto space-y-6 pb-20">
+<!-- Create Post Widget -->
+<div class="glass-panel p-6 rounded-2xl border border-white/5 shadow-lg backdrop-blur-md">
+<div class="flex gap-4 mb-4">
+<img class="w-12 h-12 rounded-full object-cover border-2 border-primary/20" data-alt="Current user avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuABa3rTLhuPp89dElUYd43z_83lXLCvc20L3JMVVTTk9GQ355LmY4qQRTHowaiDzz8eikvSK-G_jnMPM4yzBaqjYZo-qe7JNSPwkVwgvt4F1h7-LhWa96L7HdbfG9q9wBiBsO-xFsWXlAV4kmJauBCIp6W68mPL--I_UpXM0KHkcMxcHSPwFHVE3jDJW-Ewr_H_L-dMb0AAXvWhLylESDRqQRmr89ll-5NZonvID87rjL-Mb2FouNWilB_Na0yTM67nYT4icXT-ph_g"/>
+<div class="flex-1">
+<textarea class="w-full bg-black/20 text-white placeholder-slate-500 border border-white/10 rounded-xl p-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none h-24 font-display" placeholder="Share your latest build, code snippet, or ask for feedback..."></textarea>
+</div>
+</div>
+<div class="flex justify-between items-center pl-16">
+<div class="flex gap-2">
+<button class="p-2 rounded-lg hover:bg-white/5 text-primary/80 hover:text-primary transition-colors tooltip" title="Add Code">
+<span class="material-icons-round">code</span>
+</button>
+<button class="p-2 rounded-lg hover:bg-white/5 text-secondary/80 hover:text-secondary transition-colors" title="Add Image">
+<span class="material-icons-round">image</span>
+</button>
+<button class="p-2 rounded-lg hover:bg-white/5 text-pink-400/80 hover:text-pink-400 transition-colors" title="Add Link">
+<span class="material-icons-round">link</span>
+</button>
+</div>
+<button class="bg-primary hover:bg-primary-dark text-background-dark font-bold py-2 px-6 rounded-lg transition-all shadow-neon hover:shadow-neon-hover flex items-center gap-2">
+<span>Deploy Post</span>
+<span class="material-icons-round text-sm">send</span>
+</button>
+</div>
+</div>
+<!-- Feed Divider -->
+<div class="flex items-center justify-between text-xs text-slate-500 uppercase tracking-widest font-bold px-2">
+<span>Community Builds</span>
+<div class="flex items-center gap-2">
+<button class="text-primary">Newest</button>
+<span>|</span>
+<button class="hover:text-white">Top Rated</button>
+</div>
+</div>
+<!-- Post Card 1: Project Showcase with Code -->
+<article class="glass-panel rounded-2xl overflow-hidden border border-white/5 hover:border-primary/30 transition-all duration-300 group">
+<div class="p-6">
+<!-- Header -->
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-full object-cover ring-2 ring-secondary/50" data-alt="Sarah J. avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDejUY-v3-5ZM4bSu-DyF2LZs-NBRfcvImrDCjEjPs5fSwCeNVsJSFSpUy2W7se6XsqjL8F9o1HxTgqULcaDRo12Wd79-Ay6eIpSB3089Qz-L8YNzJOZS1WtKfBCPWBzeVrAReqDTkV2f3Ws9IrbLBGPFD62aqT87OIQsc5yRzydapSUiyam-F27AnNK68G_W0bWsvLluVHDNXQchywKCzvBwsuG1BFaDauWv8Iz3Tx2Kbem0nBgSzbL7idezxSuwkFl5ybm5dROVO7"/>
+<div>
+<h3 class="font-bold text-white group-hover:text-primary transition-colors">Sarah Jenkins</h3>
+<p class="text-xs text-slate-400">@sarahcodes • 2h ago</p>
+</div>
+</div>
+<button class="text-slate-500 hover:text-white"><span class="material-icons-round">more_horiz</span></button>
+</div>
+<!-- Content -->
+<div class="mb-4">
+<p class="text-slate-300 mb-3 leading-relaxed">
+                                Just deployed my first <span class="text-primary font-medium">#RAG</span> pipeline using LangChain! The retrieval accuracy improved by 40% after tweaking the chunk size. Check out the implementation below. 👇
+                            </p>
+<!-- Code Snippet Mockup -->
+<div class="bg-[#1e1e1e] rounded-xl p-4 border border-white/5 font-mono text-sm overflow-x-auto my-4 shadow-inner">
+<div class="flex gap-1.5 mb-3">
+<div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+<div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+<div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+</div>
+<code class="text-gray-300">
+<span class="text-secondary">from</span> langchain.chains <span class="text-secondary">import</span> RetrievalQA<br/>
+<span class="text-secondary">from</span> langchain.llms <span class="text-secondary">import</span> OpenAI<br/><br/>
+<span class="text-gray-500"># Initialize the chain</span><br/>
+                                    qa_chain = RetrievalQA.from_chain_type(<br/>
+                                      llm=OpenAI(),<br/>
+                                      chain_type=<span class="text-primary">"stuff"</span>,<br/>
+                                      retriever=vectorstore.as_retriever()<br/>
+                                    )
+                                </code>
+</div>
+<!-- Tags -->
+<div class="flex flex-wrap gap-2 mt-4">
+<span class="px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold">#LangChain</span>
+<span class="px-3 py-1 rounded-full bg-secondary/10 border border-secondary/20 text-secondary text-xs font-bold">#Python</span>
+<span class="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-slate-400 text-xs font-bold">#AI</span>
+</div>
+</div>
+<!-- Action Bar -->
+<div class="flex items-center justify-between pt-4 border-t border-white/5">
+<div class="flex items-center gap-6">
+<button class="flex items-center gap-2 text-slate-400 hover:text-primary transition-colors group/btn">
+<span class="p-1.5 rounded-full bg-white/5 group-hover/btn:bg-primary/20 transition-colors">
+<span class="material-icons-round text-lg group-hover/btn:text-primary">bolt</span>
+</span>
+<span class="text-sm font-bold">248</span>
+</button>
+<button class="flex items-center gap-2 text-slate-400 hover:text-white transition-colors group/btn">
+<span class="p-1.5 rounded-full bg-white/5 group-hover/btn:bg-white/10 transition-colors">
+<span class="material-icons-round text-lg">chat_bubble_outline</span>
+</span>
+<span class="text-sm font-bold">12</span>
+</button>
+<button class="flex items-center gap-2 text-slate-400 hover:text-secondary transition-colors group/btn">
+<span class="p-1.5 rounded-full bg-white/5 group-hover/btn:bg-secondary/20 transition-colors">
+<span class="material-icons-outlined text-lg group-hover/btn:text-secondary">call_split</span>
+</span>
+<span class="text-sm font-bold">Fork</span>
+</button>
+</div>
+<button class="text-slate-500 hover:text-white"><span class="material-icons-round">share</span></button>
+</div>
+</div>
+</article>
+<!-- Post Card 2: Visual Project -->
+<article class="glass-panel rounded-2xl overflow-hidden border border-white/5 hover:border-primary/30 transition-all duration-300">
+<div class="p-6">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-full object-cover ring-2 ring-primary/50" data-alt="Marcus D. avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmfOOhFiYlN3H84SagNfVMcUshQgQcnDDjh3UaTAMaN9plvKdVjm_fp2mX5s6KmGS2nCmokVgkgvqnhqU0pNp9hqWWtoNNXXxjfkUa-0DHUodgbIV9R2V7U-kVpx7mruxu0OcexjgCByIepI_jCq-unTtFFjOMOCWYR3pIiP4SQTLjv9nbMMLGYV0CXU3Kc7B2Yuf2CzF-tgxl4Yesqn7eeqyMwHLjSB5d703CB8Q4NRCX0G41cadjKQXrOkGHQodVMX4ffaL9_UgM"/>
+<div>
+<h3 class="font-bold text-white">Marcus Davila</h3>
+<p class="text-xs text-slate-400">@marcus_ai • 5h ago</p>
+</div>
+</div>
+</div>
+<div class="mb-4">
+<p class="text-slate-300 mb-3">
+                                Working on a Computer Vision model for real-time drone navigation. The obstacle avoidance is finally getting reliable! 🚁 Looking for collaborators for the UI part.
+                            </p>
+<!-- Media Content -->
+<div class="relative w-full h-64 rounded-xl overflow-hidden border border-white/10 group cursor-pointer">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Abstract visualization of drone computer vision view showing landscape grid" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1cFM1n_SUckP-b67xWhJRlRporm7HCiZizyyqDgEFblaDl1LcsjhTK9lPebpcWWnCadK5TJH65NBf7Dhkb8VcSbJLcYlPhXT7rNgFYR1HsfUVv0htEwmStFwehjS1_9nSmKfosXzo4qtE_D4s3cL_ZtWI0BmqXl2fZ6Hy_6o2H19fakrslW0yMEk38WfM3cxktSQgQS6J8pDi3m1TAnIT-Tiqx3t90mPbhN0VYDLKFJC-VoGJnEfvAN9fhXlHxxdiRz-RrbdUipfL"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/80 to-transparent flex items-end p-4">
+<span class="px-2 py-1 bg-red-500/80 text-white text-xs font-bold rounded flex items-center gap-1 backdrop-blur-sm">
+<span class="material-icons-round text-xs animate-pulse">circle</span> LIVE DEMO
+                                    </span>
+</div>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 backdrop-blur-[2px]">
+<button class="bg-white text-black rounded-full p-3 transform scale-90 group-hover:scale-100 transition-transform">
+<span class="material-icons-round text-2xl">play_arrow</span>
+</button>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 mt-4">
+<span class="px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold">#ComputerVision</span>
+<span class="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-slate-400 text-xs font-bold">#YOLOv8</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-white/5">
+<div class="flex items-center gap-6">
+<button class="flex items-center gap-2 text-primary hover:text-primary transition-colors group/btn">
+<span class="p-1.5 rounded-full bg-primary/20 transition-colors shadow-neon">
+<span class="material-icons-round text-lg text-primary">bolt</span>
+</span>
+<span class="text-sm font-bold text-white">842</span>
+</button>
+<button class="flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+<span class="material-icons-round text-lg">chat_bubble_outline</span>
+<span class="text-sm font-bold">45</span>
+</button>
+<button class="flex items-center gap-2 text-slate-400 hover:text-secondary transition-colors">
+<span class="material-icons-outlined text-lg">call_split</span>
+<span class="text-sm font-bold">Fork</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+</div>
+</main>
+<!-- RIGHT UTILITY SIDEBAR -->
+<aside class="hidden xl:flex flex-col w-80 h-full glass-panel border-l border-glass-border p-6 overflow-y-auto shrink-0 z-20 space-y-8">
+<!-- AI Matchmaker Widget -->
+<div class="relative overflow-hidden rounded-2xl border border-primary/30 group">
+<div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10 z-0"></div>
+<div class="relative z-10 p-5">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-icons-round text-primary animate-pulse">auto_awesome</span>
+<h3 class="font-bold text-white text-sm uppercase tracking-wider">AI Suggestion</h3>
+</div>
+<p class="text-sm text-slate-300 mb-4 leading-snug">
+                        Based on your Python skills, you should meet <span class="text-white font-bold">Elena R.</span> They need a backend dev for their NLP project.
+                    </p>
+<div class="flex items-center gap-3 mb-4 bg-background-dark/50 p-3 rounded-lg border border-white/5">
+<img class="w-10 h-10 rounded-full object-cover" data-alt="Elena R. avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC45ZOdWkk6MFM8YLPoaQ2Qj77YOTodI5AOMs2sqX3xjX7FlzUtFJl068WKI7bU7eqZwJqHTU_V9xEJ33O1sFfHJna8ZP-3G1gpVqB_7Bh3Dgy_S4g2YgK_h2H2joGUs53q1OwHPSPQXrM5yrC2mXhLzDXlO5NZPO-iIrexz2EBjWE3ybls29hRdH3EkkNi2FutjJoLXaBe5RkvPoAcYbFNj0eTNU05sublTe1XVi8PABYCB8m7anhX3Ig-hpFkkublZY8oEaqAO0A5"/>
+<div>
+<p class="text-sm font-bold text-white">Elena R.</p>
+<p class="text-xs text-secondary">NLP Researcher</p>
+</div>
+</div>
+<button class="w-full py-2 bg-primary/20 hover:bg-primary text-primary hover:text-background-dark font-bold rounded-lg border border-primary/50 hover:border-transparent transition-all text-sm flex items-center justify-center gap-2">
+                        Connect Now
+                    </button>
+</div>
+</div>
+<!-- Top Builders Leaderboard -->
+<div>
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-bold text-white uppercase tracking-wider text-sm">Top Builders</h3>
+<span class="text-xs text-slate-500">This Week</span>
+</div>
+<div class="space-y-3">
+<!-- #1 -->
+<div class="flex items-center gap-3 p-2 rounded-xl hover:bg-white/5 transition-colors cursor-pointer">
+<div class="text-yellow-400 font-bold text-lg w-4 text-center">1</div>
+<div class="relative">
+<img class="w-10 h-10 rounded-full object-cover ring-2 ring-yellow-400/50" data-alt="User avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYw0Vdok5ou2RmX_oAf8t-j5SBftjkK3sHen_qIzT_2_c2a2RF4QEMqlT4-b6cGrif0ybaxV2o6ZasClQQNH-kzTU0-gOth4zqnss8TWIbORmkMfea3YaoqdQa-3SI7CIfRVjNWu0FQyoV64y3nTBYEQr0Ycg3Fz5cscL98I4bw419n-PLM6MjwufP4OkY3sDfYgexaGbpgR2OV_IYgJhgmide7mSeEKfYiy3VoBvoVI6ZT54YHWOCMzhwNTjt5X1HAqZ5K8EcF8H8"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-bold text-white truncate">David Kim</p>
+<p class="text-xs text-slate-400 truncate">12.5k Rep • 4 Projects</p>
+</div>
+<span class="material-icons-round text-primary text-sm">arrow_upward</span>
+</div>
+<!-- #2 -->
+<div class="flex items-center gap-3 p-2 rounded-xl hover:bg-white/5 transition-colors cursor-pointer">
+<div class="text-slate-300 font-bold text-lg w-4 text-center">2</div>
+<div class="relative">
+<img class="w-10 h-10 rounded-full object-cover" data-alt="User avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcTNPgLA0Rz7u4g0-wHxB38je7rAsatcE5BMOJcN4LribEtgkSiuBj1hERs8vEKl6rZSnokqElSp1nU-3nc6YDKBhppnA9cpAyRXytaas_LgOibc2zhpqnjaJ-N-YDXrC4ZNaWpf95-HAThR1LMncvHebw8FYI3gKwEkL6mNsQTfIzDt7cQQQSw9nQ6j7ymsy_S6yEcvFkWpvbMIz24Q_RUl4Qj5iiO_wbD-AvB9JuXrm8ufsxdDGnxKR5F_I9DVct2eqtrjIPGtr2"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-bold text-white truncate">Priya Patel</p>
+<p class="text-xs text-slate-400 truncate">10.2k Rep • 2 Projects</p>
+</div>
+</div>
+<!-- #3 -->
+<div class="flex items-center gap-3 p-2 rounded-xl hover:bg-white/5 transition-colors cursor-pointer">
+<div class="text-slate-300 font-bold text-lg w-4 text-center">3</div>
+<div class="relative">
+<img class="w-10 h-10 rounded-full object-cover" data-alt="User avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3TOgTQU7Zw_rVKJnmJZqz6f6PURhIGAO7aR7kZP9wYRhjJkSNc0OQLTDrsqg13JsOA_hnZMJZwEH1kk8TfTpcMuDHsYx-NMZh4nBNOsviLEBRzwzFXEChCaFQbAVHxkh-v53evVKnvRJb84os5r41JLLpTStZb-dHyqz_QEjEYmMs4nCxrmmWSXZlu1-q6P-jURgleJBEOEY335_gGzVkG-ZZV0c2m41eQGiA5c9iw0CS-rXVu7EItRs4DS4a8RMPiu4_MM4PPPIh"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-bold text-white truncate">Tom Wilson</p>
+<p class="text-xs text-slate-400 truncate">9.8k Rep • 6 Projects</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Trending Tags -->
+<div>
+<h3 class="font-bold text-white uppercase tracking-wider text-sm mb-4">Trending Tech</h3>
+<div class="flex flex-wrap gap-2">
+<a class="px-3 py-1.5 rounded-lg bg-surface-dark border border-white/5 hover:border-primary/50 hover:text-primary text-slate-300 text-xs font-medium transition-all" href="#">
+                        #GenerativeAI
+                        <span class="text-xs text-slate-500 ml-1">2.4k</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg bg-surface-dark border border-white/5 hover:border-primary/50 hover:text-primary text-slate-300 text-xs font-medium transition-all" href="#">
+                        #Transformers
+                    </a>
+<a class="px-3 py-1.5 rounded-lg bg-surface-dark border border-white/5 hover:border-secondary/50 hover:text-secondary text-slate-300 text-xs font-medium transition-all" href="#">
+                        #Rust
+                        <span class="text-xs text-slate-500 ml-1">🔥</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg bg-surface-dark border border-white/5 hover:border-primary/50 hover:text-primary text-slate-300 text-xs font-medium transition-all" href="#">
+                        #DataScience
+                    </a>
+<a class="px-3 py-1.5 rounded-lg bg-surface-dark border border-white/5 hover:border-primary/50 hover:text-primary text-slate-300 text-xs font-medium transition-all" href="#">
+                        #Web3
+                    </a>
+</div>
+</div>
+<!-- Ad / Promo area -->
+<div class="mt-auto p-4 rounded-xl bg-gradient-to-r from-secondary/20 to-primary/20 border border-white/10 text-center">
+<p class="text-xs font-bold text-white mb-2">Upcoming Hackathon</p>
+<h4 class="text-lg font-bold text-gradient mb-3">AI for Good '24</h4>
+<button class="px-4 py-1.5 bg-white text-background-dark text-xs font-bold rounded-full hover:bg-slate-200 transition-colors">Register Now</button>
+</div>
+</aside>
+</div>
+</body></html>

@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Image as ImageIcon, Link as LinkIcon, Save, Type, Layout, Calendar } from 'lucide-react';
+import { X, Image as ImageIcon, Link as LinkIcon, Save, Type, Layout, Calendar, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
+import { AIImageGenerator } from '@/components/admin/ai-image-generator';
 
 interface CreateBannerModalProps {
     isOpen: boolean;
@@ -13,6 +14,7 @@ interface CreateBannerModalProps {
 }
 
 export function CreateBannerModal({ isOpen, onClose, onSuccess, bannerToEdit }: CreateBannerModalProps) {
+    const [showAIGenerator, setShowAIGenerator] = useState(false);
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -157,7 +159,17 @@ export function CreateBannerModal({ isOpen, onClose, onSuccess, bannerToEdit }: 
                             {/* Image & Link */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label className="block text-xs font-bold text-platinum-dim uppercase mb-2">URL de Imagen</label>
+                                    <div className="flex justify-between items-center mb-2">
+                                        <label className="block text-xs font-bold text-platinum-dim uppercase">URL de Imagen</label>
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowAIGenerator(!showAIGenerator)}
+                                            className="text-xs text-gold hover:text-yellow-300 flex items-center gap-1 transition"
+                                        >
+                                            <Sparkles className="w-3 h-3" />
+                                            {showAIGenerator ? 'Ocultar AI' : 'Generar con AI'}
+                                        </button>
+                                    </div>
                                     <div className="relative">
                                         <ImageIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-platinum-dim" />
                                         <input
@@ -169,8 +181,27 @@ export function CreateBannerModal({ isOpen, onClose, onSuccess, bannerToEdit }: 
                                             placeholder="https://..."
                                         />
                                     </div>
+
+                                    <AnimatePresence>
+                                        {showAIGenerator && (
+                                            <motion.div
+                                                initial={{ height: 0, opacity: 0 }}
+                                                animate={{ height: 'auto', opacity: 1 }}
+                                                exit={{ height: 0, opacity: 0 }}
+                                                className="overflow-hidden"
+                                            >
+                                                <div className="p-4 bg-white/5 rounded-xl border border-white/10 mt-2">
+                                                    <AIImageGenerator
+                                                        onImageGenerated={(url) => setFormData(prev => ({ ...prev, imageUrl: url }))}
+                                                        defaultPrompt={formData.title}
+                                                    />
+                                                </div>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+
                                     {/* Preview */}
-                                    {formData.imageUrl && (
+                                    {formData.imageUrl && !showAIGenerator && (
                                         <div className="mt-2 aspect-video rounded-lg overflow-hidden border border-white/10 relative group">
                                             <img src={formData.imageUrl} alt="Preview" className="w-full h-full object-cover" />
                                         </div>

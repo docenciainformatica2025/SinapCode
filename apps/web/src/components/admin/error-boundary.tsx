@@ -24,7 +24,7 @@ export class AdminErrorBoundary extends Component<Props, State> {
 
     componentDidCatch(error: Error, errorInfo: any) {
         // Log to error reporting service in production
-        console.error('[AdminErrorBoundary] Error caught:', {
+        console.error('[AdminErrorBoundary] Error capturado:', {
             error: error.message,
             stack: process.env.NODE_ENV === 'development' ? error.stack : undefined,
             componentStack: process.env.NODE_ENV === 'development' ? errorInfo.componentStack : undefined

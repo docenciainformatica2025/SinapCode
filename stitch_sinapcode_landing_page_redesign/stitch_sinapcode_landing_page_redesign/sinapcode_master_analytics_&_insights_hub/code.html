@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SinapCODE Master Analytics &amp; Insights Hub</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Icons -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0db9f2",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#101e22",
+                        "surface-dark": "#162a30",
+                        "surface-border": "#1e3840",
+                        "accent-purple": "#a855f7",
+                        "accent-lime": "#84cc16",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem", 
+                        "lg": "0.5rem", 
+                        "xl": "0.75rem", 
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom Scrollbar for sleek look */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #101e22; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e3840; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0db9f2; 
+        }
+
+        /* Glassmorphism utility */
+        .glass-panel {
+            background: rgba(22, 42, 48, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(13, 185, 242, 0.1);
+        }
+
+        /* Animation for pulsing dots */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.33); }
+            80%, 100% { opacity: 0; }
+        }
+        @keyframes pulse-dot {
+            0% { transform: scale(0.8); }
+            50% { transform: scale(1); }
+            100% { transform: scale(0.8); }
+        }
+        .pulse-ring {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            border-radius: 50%;
+            border: 2px solid #0db9f2;
+            animation: pulse-ring 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+        .pulse-dot {
+            position: relative;
+            background-color: #0db9f2;
+            border-radius: 50%;
+            height: 100%;
+            width: 100%;
+            animation: pulse-dot 2.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) -0.4s infinite;
+        }
+
+        /* Custom Chart Styles simulation */
+        .chart-grid {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200 font-display min-h-screen flex overflow-hidden">
+<!-- Sidebar Navigation -->
+<nav class="w-20 lg:w-64 flex-shrink-0 border-r border-surface-border bg-surface-dark/90 backdrop-blur flex flex-col justify-between h-screen z-20 transition-all duration-300">
+<div>
+<!-- Logo Area -->
+<div class="h-20 flex items-center justify-center lg:justify-start lg:px-6 border-b border-surface-border">
+<div class="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-icons-round text-2xl">analytics</span>
+</div>
+<div class="hidden lg:block ml-3">
+<h1 class="font-bold text-lg tracking-tight text-white">Sinap<span class="text-primary">CODE</span></h1>
+<p class="text-xs text-slate-400">Master Analytics</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<div class="mt-8 space-y-2 px-3">
+<a class="flex items-center p-3 text-white bg-primary/10 border border-primary/20 rounded-xl transition-all group relative" href="#">
+<span class="material-icons-round text-primary">dashboard</span>
+<span class="hidden lg:block ml-3 font-medium">Dashboard</span>
+<div class="absolute right-3 w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(13,185,242,0.8)]"></div>
+</a>
+<a class="flex items-center p-3 text-slate-400 hover:text-white hover:bg-surface-border/50 rounded-xl transition-all group" href="#">
+<span class="material-icons-round group-hover:text-primary transition-colors">layers</span>
+<span class="hidden lg:block ml-3 font-medium">Heatmaps</span>
+</a>
+<a class="flex items-center p-3 text-slate-400 hover:text-white hover:bg-surface-border/50 rounded-xl transition-all group" href="#">
+<span class="material-icons-round group-hover:text-accent-purple transition-colors">timeline</span>
+<span class="hidden lg:block ml-3 font-medium">User Journey</span>
+</a>
+<a class="flex items-center p-3 text-slate-400 hover:text-white hover:bg-surface-border/50 rounded-xl transition-all group" href="#">
+<span class="material-icons-round group-hover:text-accent-lime transition-colors">public</span>
+<span class="hidden lg:block ml-3 font-medium">Geo Traffic</span>
+</a>
+<a class="flex items-center p-3 text-slate-400 hover:text-white hover:bg-surface-border/50 rounded-xl transition-all group" href="#">
+<span class="material-icons-round group-hover:text-primary transition-colors">campaign</span>
+<span class="hidden lg:block ml-3 font-medium">Campaigns</span>
+</a>
+</div>
+</div>
+<!-- Bottom Actions -->
+<div class="p-4 border-t border-surface-border space-y-4">
+<button class="flex items-center justify-center lg:justify-start w-full p-2 text-slate-400 hover:text-white transition-colors">
+<span class="material-icons-round">settings</span>
+<span class="hidden lg:block ml-3">Settings</span>
+</button>
+<div class="flex items-center justify-center lg:justify-start gap-3">
+<img alt="User Avatar" class="w-8 h-8 rounded-full border border-surface-border" data-alt="User avatar placeholder" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcmAZaBX69Mf8dpwBnPRD_G6xTWT7O4n6qY_TTmii3oZ8A-U99ZOPien96qjwLPjOs3SdFQOLudhnLyvWJdMZ7frBlmzAYlapdoiILKlgKOjB4Fg_bOfs_vKwa3GWpKOmVMKS6hSwnajGbzN-CvHQQn0kQ7y4wYh5lxOvS9JfpYKDNzXltSfacrLFUyFQO289KcgzydVdj1vibcLkEEdL-fU0ZKFXAarkWyna6rGv3JJzYcoieFULnrnW5Bo0cHXz5VnHLYJF2_7mS"/>
+<div class="hidden lg:block">
+<p class="text-sm font-medium text-white">Admin User</p>
+<p class="text-xs text-slate-500">Super Admin</p>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+<!-- Ambient Background Glow -->
+<div class="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+<div class="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-accent-purple/5 rounded-full blur-[100px] pointer-events-none"></div>
+<!-- Top Header -->
+<header class="h-20 flex items-center justify-between px-8 border-b border-surface-border bg-background-dark/80 backdrop-blur z-10 flex-shrink-0">
+<div>
+<h2 class="text-2xl font-bold text-white">Analytics Overview</h2>
+<p class="text-sm text-slate-400 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                    System Live • Last updated: Just now
+                </p>
+</div>
+<div class="flex items-center gap-4">
+<div class="glass-panel px-4 py-2 rounded-lg flex items-center gap-3 text-sm text-slate-300">
+<span class="material-icons-round text-slate-500 text-lg">calendar_today</span>
+<span>Last 30 Days</span>
+<span class="material-icons-round text-slate-500 text-lg">expand_more</span>
+</div>
+<div class="flex gap-2">
+<button class="bg-surface-border/50 hover:bg-surface-border text-slate-300 hover:text-white p-2 rounded-lg transition-colors border border-white/5" title="Export PDF">
+<span class="material-icons-round text-lg">picture_as_pdf</span>
+</button>
+<button class="bg-surface-border/50 hover:bg-surface-border text-slate-300 hover:text-white p-2 rounded-lg transition-colors border border-white/5" title="Export CSV">
+<span class="material-icons-round text-lg">table_view</span>
+</button>
+<button class="bg-surface-border/50 hover:bg-surface-border text-slate-300 hover:text-white p-2 rounded-lg transition-colors border border-white/5" title="Export JSON">
+<span class="material-icons-round text-lg">code</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto p-6 lg:p-8 space-y-6">
+<!-- 1. Executive Summary Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Card 1: Active Users -->
+<div class="glass-panel rounded-xl p-5 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-icons-round text-6xl text-primary">people</span>
+</div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="text-sm font-medium text-slate-400">Real-time Active Users</p>
+<h3 class="text-3xl font-bold text-white mt-1">3,402</h3>
+</div>
+<span class="bg-green-500/20 text-green-400 text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1 border border-green-500/20">
+<span class="material-icons-round text-xs">trending_up</span> +12%
+                        </span>
+</div>
+<!-- Sparkline SVG -->
+<div class="h-12 w-full">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 25">
+<path d="M0 20 Q 10 15, 20 18 T 40 10 T 60 15 T 80 5 T 100 12" fill="none" stroke="#0db9f2" stroke-linecap="round" stroke-width="2"></path>
+<path d="M0 20 Q 10 15, 20 18 T 40 10 T 60 15 T 80 5 T 100 12 V 25 H 0 Z" fill="url(#grad1)" style="opacity: 0.2"></path>
+<defs>
+<lineargradient id="grad1" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:#0db9f2;stop-opacity:1"></stop>
+<stop offset="100%" style="stop-color:#0db9f2;stop-opacity:0"></stop>
+</lineargradient>
+</defs>
+</svg>
+</div>
+<p class="text-xs text-slate-500 mt-2">Across Blog, Academy &amp; Hiring Portal</p>
+</div>
+<!-- Card 2: Downloads -->
+<div class="glass-panel rounded-xl p-5 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-icons-round text-6xl text-accent-purple">cloud_download</span>
+</div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="text-sm font-medium text-slate-400">Total Downloads</p>
+<h3 class="text-3xl font-bold text-white mt-1">12.5k</h3>
+</div>
+<span class="bg-accent-purple/20 text-accent-purple text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1 border border-accent-purple/20">
+<span class="material-icons-round text-xs">trending_up</span> +5.2%
+                        </span>
+</div>
+<!-- Sparkline SVG -->
+<div class="h-12 w-full">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 25">
+<path d="M0 15 Q 20 22, 40 10 T 70 12 T 100 5" fill="none" stroke="#a855f7" stroke-linecap="round" stroke-width="2"></path>
+<path d="M0 15 Q 20 22, 40 10 T 70 12 T 100 5 V 25 H 0 Z" fill="url(#grad2)" style="opacity: 0.2"></path>
+<defs>
+<lineargradient id="grad2" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:#a855f7;stop-opacity:1"></stop>
+<stop offset="100%" style="stop-color:#a855f7;stop-opacity:0"></stop>
+</lineargradient>
+</defs>
+</svg>
+</div>
+<p class="text-xs text-slate-500 mt-2">PWA &amp; Mobile App Combined</p>
+</div>
+<!-- Card 3: Conversion Rate -->
+<div class="glass-panel rounded-xl p-5 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-icons-round text-6xl text-accent-lime">monetization_on</span>
+</div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="text-sm font-medium text-slate-400">Conversion Rate</p>
+<h3 class="text-3xl font-bold text-white mt-1">4.2%</h3>
+</div>
+<span class="bg-red-500/20 text-red-400 text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1 border border-red-500/20">
+<span class="material-icons-round text-xs">trending_down</span> -0.8%
+                        </span>
+</div>
+<!-- Sparkline SVG -->
+<div class="h-12 w-full">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 25">
+<path d="M0 5 Q 25 5, 50 15 T 100 20" fill="none" stroke="#84cc16" stroke-linecap="round" stroke-width="2"></path>
+<path d="M0 5 Q 25 5, 50 15 T 100 20 V 25 H 0 Z" fill="url(#grad3)" style="opacity: 0.2"></path>
+<defs>
+<lineargradient id="grad3" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:#84cc16;stop-opacity:1"></stop>
+<stop offset="100%" style="stop-color:#84cc16;stop-opacity:0"></stop>
+</lineargradient>
+</defs>
+</svg>
+</div>
+<p class="text-xs text-slate-500 mt-2">Target: 5.0% by Q4</p>
+</div>
+</div>
+<!-- 2. Mid Section: Heatmap & User Flow -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[500px]">
+<!-- Heatmap Hub -->
+<div class="glass-panel rounded-xl p-6 lg:col-span-1 flex flex-col">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-bold text-lg text-white flex items-center gap-2">
+<span class="material-icons-round text-accent-lime">local_fire_department</span>
+                            Heatmap Hub
+                        </h3>
+<!-- Toggle -->
+<div class="bg-surface-dark p-1 rounded-lg flex text-xs font-medium">
+<button class="bg-primary text-white px-3 py-1 rounded shadow-sm">Desktop</button>
+<button class="text-slate-400 px-3 py-1 hover:text-white">Mobile</button>
+</div>
+</div>
+<div class="flex-1 relative bg-background-dark rounded-lg border border-surface-border overflow-hidden">
+<!-- Website Preview Mockup -->
+<div class="absolute inset-0 bg-slate-900 overflow-hidden opacity-50">
+<div class="h-8 bg-slate-800 border-b border-slate-700 flex items-center px-3 gap-2">
+<div class="w-2 h-2 rounded-full bg-red-500"></div>
+<div class="w-2 h-2 rounded-full bg-yellow-500"></div>
+<div class="w-2 h-2 rounded-full bg-green-500"></div>
+</div>
+<div class="p-4 space-y-3">
+<div class="h-24 bg-slate-800 rounded w-full"></div>
+<div class="flex gap-2">
+<div class="h-32 bg-slate-800 rounded w-1/3"></div>
+<div class="h-32 bg-slate-800 rounded w-2/3"></div>
+</div>
+<div class="h-10 bg-slate-800 rounded w-full"></div>
+</div>
+</div>
+<!-- Heatmap Overlay -->
+<div class="absolute inset-0 z-10 pointer-events-none" style="background: radial-gradient(circle at 70% 30%, rgba(255, 0, 0, 0.5) 0%, transparent 20%), 
+                                                radial-gradient(circle at 30% 60%, rgba(255, 165, 0, 0.4) 0%, transparent 25%),
+                                                radial-gradient(circle at 50% 80%, rgba(13, 185, 242, 0.3) 0%, transparent 30%);">
+</div>
+<!-- Tooltip on hover simulation -->
+<div class="absolute top-[28%] right-[25%] bg-surface-dark/90 backdrop-blur px-2 py-1 rounded border border-red-500 text-xs text-white shadow-lg">
+<span class="font-bold text-red-400">1.2k Clicks</span> (CTA Button)
+                        </div>
+</div>
+<div class="mt-4 flex justify-between text-xs text-slate-400">
+<span>Page: /pricing</span>
+<div class="flex items-center gap-2">
+<span class="w-16 h-2 rounded bg-gradient-to-r from-blue-500 via-yellow-500 to-red-500"></span>
+<span>Intensity</span>
+</div>
+</div>
+</div>
+<!-- User Journey Sankey (Simulated with CSS/HTML structure) -->
+<div class="glass-panel rounded-xl p-6 lg:col-span-2 flex flex-col">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-bold text-lg text-white flex items-center gap-2">
+<span class="material-icons-round text-accent-purple">alt_route</span>
+                            User Journey Flow
+                        </h3>
+<button class="text-xs text-primary hover:text-white flex items-center">
+                            Full Report <span class="material-icons-round text-sm ml-1">arrow_forward</span>
+</button>
+</div>
+<div class="flex-1 flex items-center justify-between px-4 relative">
+<!-- Node 1: Entry -->
+<div class="z-10 flex flex-col gap-4">
+<div class="bg-surface-border p-3 rounded-lg border-l-4 border-primary w-32 shadow-lg">
+<p class="text-xs text-slate-400">Source</p>
+<p class="text-sm font-bold text-white">Blog Post</p>
+<p class="text-xs text-primary mt-1">12,500 users</p>
+</div>
+<div class="bg-surface-border p-3 rounded-lg border-l-4 border-slate-500 w-32 opacity-60">
+<p class="text-xs text-slate-400">Source</p>
+<p class="text-sm font-bold text-white">Direct</p>
+</div>
+</div>
+<!-- Connector Lines (Bezier Curves using SVG) -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 1;">
+<!-- Flow 1 -->
+<path d="M 140 100 C 250 100, 250 150, 360 150" fill="none" stroke="#0db9f2" stroke-opacity="0.2" stroke-width="12"></path>
+<path d="M 140 100 C 250 100, 250 150, 360 150" fill="none" stroke="#0db9f2" stroke-dasharray="5,5" stroke-width="2"></path>
+<!-- Flow 2 (Drop off) -->
+<path d="M 140 100 C 250 100, 250 50, 360 50" fill="none" stroke="#ef4444" stroke-opacity="0.2" stroke-width="4"></path>
+<!-- Flow 3 (Enrollment) -->
+<path d="M 500 150 C 600 150, 600 120, 700 120" fill="none" stroke="#a855f7" stroke-opacity="0.2" stroke-width="8"></path>
+</svg>
+<!-- Node 2: Mid -->
+<div class="z-10 flex flex-col gap-12 mt-12">
+<div class="bg-surface-border p-3 rounded-lg border-l-4 border-red-500 w-32 opacity-80">
+<p class="text-xs text-slate-400">Drop Off</p>
+<p class="text-sm font-bold text-white">Bounce</p>
+<p class="text-xs text-red-400 mt-1">20%</p>
+</div>
+<div class="bg-surface-border p-3 rounded-lg border-l-4 border-accent-lime w-32 shadow-lg scale-110">
+<p class="text-xs text-slate-400">Page</p>
+<p class="text-sm font-bold text-white">Academy</p>
+<p class="text-xs text-accent-lime mt-1">8,200 users</p>
+</div>
+</div>
+<!-- Node 3: End -->
+<div class="z-10 flex flex-col gap-4">
+<div class="bg-surface-border p-3 rounded-lg border-l-4 border-accent-purple w-32 shadow-lg">
+<p class="text-xs text-slate-400">Goal</p>
+<p class="text-sm font-bold text-white">Enrollment</p>
+<p class="text-xs text-accent-purple mt-1">1,400 users</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 3. Bottom Section: Detailed Metrics & Map -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-6">
+<!-- Interaction Metrics -->
+<div class="glass-panel rounded-xl p-6">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-bold text-lg text-white">Interaction Metrics</h3>
+<div class="flex gap-2">
+<div class="flex items-center gap-1">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="text-xs text-slate-400">Clicks</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-3 h-3 rounded-full bg-accent-purple"></span>
+<span class="text-xs text-slate-400">Duration</span>
+</div>
+</div>
+</div>
+<!-- Multi-axis Chart Simulation -->
+<div class="h-64 w-full relative chart-grid border-b border-l border-surface-border rounded-bl-lg">
+<!-- Bars -->
+<div class="absolute bottom-0 left-[10%] w-[5%] h-[40%] bg-primary/20 hover:bg-primary/40 transition-colors rounded-t-sm"></div>
+<div class="absolute bottom-0 left-[25%] w-[5%] h-[60%] bg-primary/20 hover:bg-primary/40 transition-colors rounded-t-sm"></div>
+<div class="absolute bottom-0 left-[40%] w-[5%] h-[50%] bg-primary/20 hover:bg-primary/40 transition-colors rounded-t-sm"></div>
+<div class="absolute bottom-0 left-[55%] w-[5%] h-[80%] bg-primary/20 hover:bg-primary/40 transition-colors rounded-t-sm"></div>
+<div class="absolute bottom-0 left-[70%] w-[5%] h-[70%] bg-primary/20 hover:bg-primary/40 transition-colors rounded-t-sm"></div>
+<div class="absolute bottom-0 left-[85%] w-[5%] h-[90%] bg-primary/20 hover:bg-primary/40 transition-colors rounded-t-sm"></div>
+<!-- Line Graph Overlay -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none" preserveaspectratio="none">
+<path d="M 0 200 L 50 180 L 150 100 L 250 120 L 350 40 L 450 60 L 600 20" fill="none" stroke="#a855f7" stroke-linecap="round" stroke-width="3" style="filter: drop-shadow(0px 0px 4px rgba(168, 85, 247, 0.5));"></path>
+</svg>
+<!-- Tooltip -->
+<div class="absolute top-[20%] left-[55%] bg-surface-dark px-3 py-2 rounded border border-surface-border shadow-xl z-20">
+<p class="text-xs text-slate-400">Module: Course 101</p>
+<p class="text-sm font-bold text-white">45s Avg. Session</p>
+<p class="text-xs text-primary">High Engagement</p>
+</div>
+</div>
+<div class="flex justify-between mt-2 text-xs text-slate-500 px-2">
+<span>Intro</span>
+<span>Ch. 1</span>
+<span>Ch. 2</span>
+<span>Quiz</span>
+<span>Ch. 3</span>
+<span>Final</span>
+</div>
+</div>
+<!-- Geographical Map -->
+<div class="glass-panel rounded-xl p-6 relative overflow-hidden">
+<div class="flex justify-between items-center mb-4 relative z-10">
+<h3 class="font-bold text-lg text-white">Global Distribution</h3>
+<span class="bg-primary/10 text-primary px-2 py-1 rounded text-xs font-medium border border-primary/20">Live Pulse</span>
+</div>
+<!-- Map Background -->
+<div class="absolute inset-0 top-14 opacity-40">
+<img class="w-full h-full object-cover filter invert brightness-50 contrast-125 sepia hue-rotate-180 saturate-200" data-alt="Abstract dark world map" data-location="Global" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1LbppQzQ2V397seJzUtbbbSgFapOlQbQNaXqILOuSK1oiAkNCjfXWdIZThQjEwUhWW5FWsPt2_0xi6wXYlF2uWVQTXNCEMNCryURGUteiZB40cATqVwcvpI2YQDdWAVbwfiZ2VNNLRmXTo95pZk3n5Vknsdjk9MORMgt8F-gWarZ_Xf2YqS2jZxagRcGGvBvN1G5JmC9qdClI0FoJ2GOIPILpFtNWqwk6xTLYV3FLXY0kScGugIMZm1T-ut8ubtbwH9i5QyLP1oGo" style="mix-blend-mode: screen;"/>
+</div>
+<!-- Interactive Points -->
+<div class="relative w-full h-64 mt-4 z-10">
+<!-- Point: USA -->
+<div class="absolute top-[25%] left-[20%] w-3 h-3">
+<div class="pulse-ring"></div>
+<div class="pulse-dot"></div>
+<div class="absolute left-4 -top-1 bg-surface-dark/80 px-2 py-1 rounded text-[10px] text-white whitespace-nowrap border border-white/10">
+                                USA: 45%
+                            </div>
+</div>
+<!-- Point: Europe -->
+<div class="absolute top-[22%] left-[48%] w-3 h-3">
+<div class="pulse-ring"></div>
+<div class="pulse-dot bg-accent-purple border-accent-purple"></div>
+</div>
+<!-- Point: India -->
+<div class="absolute top-[40%] left-[68%] w-3 h-3">
+<div class="pulse-ring border-accent-lime"></div>
+<div class="pulse-dot bg-accent-lime"></div>
+<div class="absolute left-4 -top-1 bg-surface-dark/80 px-2 py-1 rounded text-[10px] text-white whitespace-nowrap border border-white/10">
+                                India: 22%
+                            </div>
+</div>
+<!-- Legend -->
+<div class="absolute bottom-0 right-0 bg-surface-dark/90 p-3 rounded-lg border border-surface-border">
+<div class="flex items-center gap-2 text-xs text-slate-300 mb-1">
+<span class="w-2 h-2 rounded-full bg-primary"></span> High Traffic
+                            </div>
+<div class="flex items-center gap-2 text-xs text-slate-300">
+<span class="w-2 h-2 rounded-full bg-accent-lime"></span> Emerging
+                            </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

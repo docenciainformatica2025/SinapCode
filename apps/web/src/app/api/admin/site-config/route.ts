@@ -16,7 +16,7 @@ export async function GET(request: Request) {
     try {
         const session = await getServerSession(authOptions);
         if (!await isAuthorized(session)) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+            return NextResponse.json({ error: 'No autorizado' }, { status: 403 });
         }
 
         let config = await prisma.siteConfig.findUnique({
@@ -37,8 +37,8 @@ export async function GET(request: Request) {
 
         return NextResponse.json(config);
     } catch (error) {
-        console.error('Site Config API Error:', error);
-        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+        console.error('Error en la API de configuración del sitio:', error);
+        return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 });
     }
 }
 
@@ -46,7 +46,7 @@ export async function PATCH(request: Request) {
     try {
         const session = await getServerSession(authOptions);
         if (!await isAuthorized(session)) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+            return NextResponse.json({ error: 'No autorizado' }, { status: 403 });
         }
 
         const body = await request.json();
@@ -64,7 +64,7 @@ export async function PATCH(request: Request) {
 
         return NextResponse.json(updatedConfig);
     } catch (error) {
-        console.error('Update Config Error:', error);
-        return NextResponse.json({ error: 'Failed to update config' }, { status: 500 });
+        console.error('Error al actualizar la configuración:', error);
+        return NextResponse.json({ error: 'Error al actualizar la configuración' }, { status: 500 });
     }
 }

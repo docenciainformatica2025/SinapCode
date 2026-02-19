@@ -29,7 +29,7 @@ export async function GET(request: Request) {
 
         return NextResponse.json({ menus: formattedMenus });
     } catch (error) {
-        console.error('Navigation API Error:', error);
+        console.error('Error en la API de Navegación:', error);
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
 }
@@ -55,7 +55,7 @@ export async function POST(request: Request) {
 
         return NextResponse.json(updatedMenu);
     } catch (error) {
-        console.error('Update Navigation Error:', error);
+        console.error('Error al actualizar la Navegación:', error);
         return NextResponse.json({ error: 'Failed to update menu' }, { status: 500 });
     }
 }

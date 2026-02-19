@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react';
 import { X, Save, Image as ImageIcon, Github, ExternalLink, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+import { AIImageGenerator } from '@/components/admin/ai-image-generator';
+import { Sparkles } from 'lucide-react';
+
 interface ProjectModalProps {
     isOpen: boolean;
     onClose: () => void;
@@ -13,6 +16,7 @@ interface ProjectModalProps {
 
 export function ProjectModal({ isOpen, onClose, project, onSave }: ProjectModalProps) {
     const [isLoading, setIsLoading] = useState(false);
+    const [showAIGenerator, setShowAIGenerator] = useState(false);
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -140,10 +144,21 @@ export function ProjectModal({ isOpen, onClose, project, onSave }: ProjectModalP
 
                         {/* Thumbnail URL */}
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-platinum flex items-center gap-2">
-                                <ImageIcon className="w-4 h-4 text-neural-blue" />
-                                URL Imagen (Thumbnail)
-                            </label>
+                            <div className="flex justify-between items-center">
+                                <label className="text-sm font-medium text-platinum flex items-center gap-2">
+                                    <ImageIcon className="w-4 h-4 text-neural-blue" />
+                                    URL Imagen (Thumbnail)
+                                </label>
+                                <button
+                                    type="button"
+                                    onClick={() => setShowAIGenerator(!showAIGenerator)}
+                                    className="text-xs text-gold hover:text-yellow-300 flex items-center gap-1 transition"
+                                >
+                                    <Sparkles className="w-3 h-3" />
+                                    {showAIGenerator ? 'Ocultar AI' : 'Generar con AI'}
+                                </button>
+                            </div>
+
                             <input
                                 type="url"
                                 value={formData.thumbnail}
@@ -151,6 +166,24 @@ export function ProjectModal({ isOpen, onClose, project, onSave }: ProjectModalP
                                 className="w-full bg-black/50 border border-white/20 rounded-lg px-4 py-2.5 text-white focus:border-neural-blue outline-none transition"
                                 placeholder="https://..."
                             />
+
+                            <AnimatePresence>
+                                {showAIGenerator && (
+                                    <motion.div
+                                        initial={{ height: 0, opacity: 0 }}
+                                        animate={{ height: 'auto', opacity: 1 }}
+                                        exit={{ height: 0, opacity: 0 }}
+                                        className="overflow-hidden"
+                                    >
+                                        <div className="p-4 bg-white/5 rounded-xl border border-white/10 mt-2">
+                                            <AIImageGenerator
+                                                onImageGenerated={(url) => setFormData(prev => ({ ...prev, thumbnail: url }))}
+                                                defaultPrompt={formData.title}
+                                            />
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
                         </div>
 
                         {/* Links Row */}

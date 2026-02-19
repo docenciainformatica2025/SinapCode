@@ -71,7 +71,7 @@ export async function POST(request: Request) {
         });
 
     } catch (error: any) {
-        console.error('Error creating super admin:', error);
+        console.error('Error al crear el súper administrador:', error);
         return NextResponse.json(
             { error: error.message },
             { status: 500 }

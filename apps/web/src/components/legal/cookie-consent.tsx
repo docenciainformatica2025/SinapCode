@@ -7,12 +7,24 @@ export function CookieConsent() {
     const [isVisible, setIsVisible] = useState(false);
     const [showPreferences, setShowPreferences] = useState(false);
 
+    // State for preferences
+    const [preferences, setPreferences] = useState({
+        essential: true, // Always true and locked
+        analytics: false,
+        marketing: false,
+    });
+
     useEffect(() => {
         const consent = localStorage.getItem('sinap_cookie_consent');
-        if (!consent) setIsVisible(true);
+        if (!consent) {
+            setIsVisible(true);
+        } else {
+            // Load saved preferences if they exist to populate standard state (optional, logic depends on if we want to show banner again)
+            // For this component, we only show if *no* consent is found.
+        }
     }, []);
 
-    const saveConsentToApi = async (method: 'button_click' | 'scroll_complete', type: 'full' | 'essential') => {
+    const saveConsentToApi = async (method: 'button_click' | 'scroll_complete', type: 'full' | 'essential' | 'custom', prefs: typeof preferences) => {
         try {
             await fetch('/api/legal/consent', {
                 method: 'POST',
@@ -22,24 +34,48 @@ export function CookieConsent() {
                     documentVersion: '1.0', // Este debería venir de config
                     consentMethod: method,
                     timestamp: new Date().toISOString(),
+                    metadata: {
+                        preferences: prefs,
+                        type: type
+                    }
                     // ipAddress & userAgent are handled by server
                 })
             });
         } catch (error) {
-            console.error('Failed to save consent trace:', error);
+            console.error('Error al guardar el rastro del consentimiento:', error);
         }
     };
 
     const handleAcceptAll = () => {
+        const allPrefs = { essential: true, analytics: true, marketing: true };
+        setPreferences(allPrefs);
         localStorage.setItem('sinap_cookie_consent', 'full');
-        saveConsentToApi('button_click', 'full');
+        saveConsentToApi('button_click', 'full', allPrefs);
         setIsVisible(false);
     };
 
     const handleRejectNonEssential = () => {
+        const essentialPrefs = { essential: true, analytics: false, marketing: false };
+        setPreferences(essentialPrefs);
         localStorage.setItem('sinap_cookie_consent', 'essential');
-        saveConsentToApi('button_click', 'essential');
+        saveConsentToApi('button_click', 'essential', essentialPrefs);
         setIsVisible(false);
+    };
+
+    const handleSavePreferences = () => {
+        // Determine type based on selection
+        const type = (preferences.analytics && preferences.marketing) ? 'full' :
+            (!preferences.analytics && !preferences.marketing) ? 'essential' : 'custom';
+
+        localStorage.setItem('sinap_cookie_consent', type);
+        saveConsentToApi('button_click', type, preferences);
+        setIsVisible(false);
+        setShowPreferences(false);
+    };
+
+    const togglePreference = (key: keyof typeof preferences) => {
+        if (key === 'essential') return; // Cannot toggle essential
+        setPreferences(prev => ({ ...prev, [key]: !prev[key] }));
     };
 
     if (!isVisible) return null;
@@ -55,7 +91,7 @@ export function CookieConsent() {
                 >
                     <div className="flex-1">
                         <h3 className="text-white font-bold text-lg mb-2 flex items-center gap-2">
-                            Traazabilidad & Privacidad <span className="text-[10px] bg-white/10 px-2 py-0.5 rounded text-platinum">GDPR</span>
+                            Trazabilidad & Privacidad <span className="text-[10px] bg-white/10 px-2 py-0.5 rounded text-platinum">GDPR</span>
                         </h3>
                         <p className="text-platinum-dim text-xs leading-relaxed">
                             Utilizamos cookies y tecnologías de análisis cognitivo para optimizar el rendimiento de la plataforma y adaptar la Inteligencia Artificial a tu ritmo de aprendizaje. Respetamos tu soberanía de datos bajo estándares internacionales.
@@ -107,17 +143,20 @@ export function CookieConsent() {
                                     title="Estrictamente Necesarias"
                                     desc="Esenciales para el login seguro, la prevención de fraudes y la ejecución de código en tiempo real."
                                     locked={true}
-                                    active={true}
+                                    isOn={preferences.essential}
+                                    onToggle={() => togglePreference('essential')}
                                 />
                                 <ToggleItem
                                     title="Aprendizaje Adaptativo (Analíticas)"
                                     desc="Permite que la IA recuerde tus errores pasados para personalizar las futuras lecciones. Sin esto, el tutor será genérico."
-                                    active={false} // Default OFF for EU
+                                    isOn={preferences.analytics}
+                                    onToggle={() => togglePreference('analytics')}
                                 />
                                 <ToggleItem
                                     title="Marketing y Comunicación"
                                     desc="Nos permite mostrarte oportunidades de becas o nuevos cursos basados en tus intereses."
-                                    active={false}
+                                    isOn={preferences.marketing}
+                                    onToggle={() => togglePreference('marketing')}
                                 />
                             </div>
 
@@ -129,7 +168,7 @@ export function CookieConsent() {
                                     Cancelar
                                 </button>
                                 <button
-                                    onClick={handleAcceptAll} // In real app would save specific prefs
+                                    onClick={handleSavePreferences}
                                     className="px-6 py-2 bg-white text-black font-bold text-sm rounded-lg hover:bg-platinum transition"
                                 >
                                     Guardar Preferencias
@@ -143,9 +182,15 @@ export function CookieConsent() {
     );
 }
 
-function ToggleItem({ title, desc, locked, active }: any) {
-    const [isOn, setIsOn] = useState(active);
+interface ToggleItemProps {
+    title: string;
+    desc: string;
+    locked?: boolean;
+    isOn: boolean;
+    onToggle: () => void;
+}
 
+function ToggleItem({ title, desc, locked, isOn, onToggle }: ToggleItemProps) {
     return (
         <div className="flex justify-between items-start gap-4">
             <div className="flex-1">
@@ -153,7 +198,7 @@ function ToggleItem({ title, desc, locked, active }: any) {
                 <p className="text-platinum-dim text-xs leading-relaxed">{desc}</p>
             </div>
             <div
-                onClick={() => !locked && setIsOn(!isOn)}
+                onClick={() => !locked && onToggle()}
                 className={`w-12 h-6 rounded-full p-1 flex items-center cursor-pointer transition-colors ${isOn ? 'bg-neural-blue' : 'bg-white/10'} ${locked ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
                 <motion.div

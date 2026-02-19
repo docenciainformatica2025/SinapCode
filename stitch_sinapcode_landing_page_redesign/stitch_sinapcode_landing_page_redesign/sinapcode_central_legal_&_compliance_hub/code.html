@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SinapCODE Central Legal &amp; Compliance Hub</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                        "slate-850": "#161e2e",
+                        "slate-900": "#0f172a",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for high-security tech feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #101622;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2d3748;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4a5568;
+        }
+        .editor-content {
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-300 font-display min-h-screen flex flex-col overflow-hidden">
+<!-- Top Navigation & Header -->
+<header class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-850 flex items-center justify-between px-6 shrink-0 z-20">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-icons-outlined text-2xl">shield</span>
+<span class="font-bold text-lg tracking-tight text-slate-900 dark:text-white">SinapCODE <span class="font-light opacity-70">Legal Hub</span></span>
+</div>
+<div class="h-6 w-px bg-slate-300 dark:bg-slate-700 mx-2"></div>
+<nav class="flex items-center gap-2 text-sm">
+<a class="text-slate-500 hover:text-primary transition-colors" href="#">Documents</a>
+<span class="text-slate-600">/</span>
+<button class="flex items-center gap-1 text-slate-900 dark:text-white font-medium hover:bg-slate-100 dark:hover:bg-slate-800 px-2 py-1 rounded transition-colors">
+                    Privacy Policy
+                    <span class="material-icons-outlined text-sm">expand_more</span>
+</button>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<!-- Compliance Health Score Widget -->
+<div class="flex items-center gap-3 bg-slate-100 dark:bg-slate-800/50 pr-4 pl-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700">
+<div class="relative w-8 h-8 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 36 36">
+<path class="text-slate-700" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
+<path class="text-emerald-500" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="94, 100" stroke-width="3"></path>
+</svg>
+<span class="material-icons-outlined text-emerald-500 text-sm absolute">check_circle</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] uppercase tracking-wider font-bold text-slate-500">Global Health</span>
+<span class="text-xs font-bold text-slate-900 dark:text-white">94% Compliant</span>
+</div>
+</div>
+<div class="h-6 w-px bg-slate-300 dark:bg-slate-700"></div>
+<div class="flex items-center gap-3">
+<span class="relative">
+<span class="material-icons-outlined text-slate-400 hover:text-white cursor-pointer">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-primary rounded-full border-2 border-slate-850"></span>
+</span>
+<img class="w-8 h-8 rounded-full object-cover border border-slate-600" data-alt="User profile avatar of a man in professional attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqJrrGUzP0WmIKgN0YN4Rvc7B8fZ1OjOky39K-rinoA108wssbVyvvpm9EKKMJm5ZJgU8jOROrgixDTjedbIYd_C6wFKqfipaNnfVpeDJiKyBNf334EkakXyyvmB9e8bsn_pscFW2RE0yIWcZJnKK9Huz8R-ZEKfZN-QZCq7wHOqqunbJE45O-76nZYNHpdxFZfI9ZVIwOY-bb9TZ7aa2RNXZ2UfvOx0YR446EWBBc-LPH5DSY-_j3UFjbsJKzO2e7uxwuSk1GRPX5"/>
+</div>
+</div>
+</header>
+<main class="flex-1 flex overflow-hidden">
+<!-- Left Sidebar: Context & Sandbox -->
+<aside class="w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-850 flex flex-col shrink-0">
+<div class="p-4 border-b border-slate-200 dark:border-slate-800">
+<h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">Document Structure</h3>
+<ul class="space-y-1">
+<li><a class="flex items-center gap-2 px-3 py-2 text-sm text-primary bg-primary/10 rounded font-medium border-l-2 border-primary" href="#"><span class="material-icons-outlined text-base">article</span>Introduction</a></li>
+<li><a class="flex items-center gap-2 px-3 py-2 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded transition-colors border-l-2 border-transparent" href="#"><span class="material-icons-outlined text-base">info</span>Data Collection</a></li>
+<li><a class="flex items-center gap-2 px-3 py-2 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded transition-colors border-l-2 border-transparent" href="#"><span class="material-icons-outlined text-base">cookie</span>Cookies &amp; Tracking</a></li>
+<li><a class="flex items-center gap-2 px-3 py-2 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded transition-colors border-l-2 border-transparent" href="#"><span class="material-icons-outlined text-base">gavel</span>User Rights</a></li>
+<li><a class="flex items-center gap-2 px-3 py-2 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded transition-colors border-l-2 border-transparent" href="#"><span class="material-icons-outlined text-base">security</span>Data Security</a></li>
+</ul>
+</div>
+<div class="flex-1 overflow-y-auto p-4">
+<h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 flex justify-between items-center">
+                    Legal Sandbox
+                    <span class="text-[10px] bg-primary/20 text-primary px-1.5 py-0.5 rounded">BETA</span>
+</h3>
+<div class="space-y-4">
+<div class="group relative aspect-video bg-slate-900 rounded-lg overflow-hidden border border-slate-700 hover:border-primary transition-colors cursor-pointer">
+<img class="w-full h-full object-cover opacity-50 group-hover:opacity-70 transition-opacity" data-alt="Laptop displaying a code editor interface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDT7tcxb_0VQODofa1jo4BaSeCIwlloQG2t3UD1rw0fECe3coB48Aw1M5W1F2aFS1U1J7W862Ycc-8qWLm9iCFZ0AhoT2TcC_-KcHeHf93J_RBSgsbdoYwusW68bOAs3wjEkvNC0_Ui91lpGU7fcVh0MOsmiztBfhe2DmpGcQIpshO0zuMwomLDljgPle64AYiUIiMR2KPhMYhEL149YCwQO_qcMX_a153ZXzqD9lwdYElf2qv8SBOqs6BQHPUiYnNmd6hcd7weAwrx"/>
+<div class="absolute inset-0 flex flex-col items-center justify-center p-2 text-center">
+<span class="material-icons-outlined text-white mb-1">laptop_mac</span>
+<span class="text-xs font-medium text-white">Course Platform</span>
+</div>
+<div class="absolute bottom-0 inset-x-0 bg-slate-900/90 p-2 border-t border-slate-700">
+<div class="flex justify-between items-center">
+<span class="text-[10px] text-slate-300">Banner Mode</span>
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+</div>
+</div>
+</div>
+<div class="group relative aspect-video bg-slate-900 rounded-lg overflow-hidden border border-slate-700 hover:border-primary transition-colors cursor-pointer">
+<img class="w-full h-full object-cover opacity-50 group-hover:opacity-70 transition-opacity" data-alt="Dashboard interface with charts and graphs" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVsvRbr4PwiT0pyfWTc51suGi-h0iZ8y0t0vVWVp5I4MYdVefc5pbfbIDLtcq7DMCjqW5oMF2UNMN3j2JibF-foyAUEM0ATPEowOqOFFAx_BbXQVWrFNs_shcurbkXyTpjRRUFlK9-gHDw7RK7IN92GABiY5k1X9F6SfoxWM-3bIeuMwLNNedhcplW8YWFK8ouBO2hsjFUXy-6IWKOBtFVK9AQ7CEXdiVS9OixJyhBMAEgVM9zkcAYQXI7SN5VMLK3mDpBFFFJnvho"/>
+<div class="absolute inset-0 flex flex-col items-center justify-center p-2 text-center">
+<span class="material-icons-outlined text-white mb-1">people_alt</span>
+<span class="text-xs font-medium text-white">Hiring Portal</span>
+</div>
+<div class="absolute bottom-0 inset-x-0 bg-slate-900/90 p-2 border-t border-slate-700">
+<div class="flex justify-between items-center">
+<span class="text-[10px] text-slate-300">Full Page Modal</span>
+<span class="w-2 h-2 rounded-full bg-amber-500"></span>
+</div>
+</div>
+</div>
+</div>
+<button class="w-full mt-4 py-2 border border-dashed border-slate-600 text-slate-500 hover:text-primary hover:border-primary rounded text-xs uppercase tracking-wide transition-colors">
+                    + Add Environment
+                </button>
+</div>
+</aside>
+<!-- Center: Editor -->
+<section class="flex-1 flex flex-col min-w-0 bg-background-light dark:bg-background-dark relative">
+<!-- Editor Toolbar -->
+<div class="h-12 border-b border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm flex items-center justify-between px-4 sticky top-0 z-10">
+<div class="flex items-center gap-1">
+<button class="p-1.5 text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 rounded transition-colors"><span class="material-icons-outlined text-xl">undo</span></button>
+<button class="p-1.5 text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 rounded transition-colors"><span class="material-icons-outlined text-xl">redo</span></button>
+<div class="w-px h-4 bg-slate-300 dark:bg-slate-700 mx-1"></div>
+<button class="p-1.5 text-slate-900 dark:text-white bg-slate-200 dark:bg-slate-700 rounded"><span class="material-icons-outlined text-xl">format_bold</span></button>
+<button class="p-1.5 text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 rounded transition-colors"><span class="material-icons-outlined text-xl">format_italic</span></button>
+<button class="p-1.5 text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 rounded transition-colors"><span class="material-icons-outlined text-xl">format_underlined</span></button>
+<div class="w-px h-4 bg-slate-300 dark:bg-slate-700 mx-1"></div>
+<button class="p-1.5 text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 rounded transition-colors"><span class="material-icons-outlined text-xl">format_list_bulleted</span></button>
+<button class="p-1.5 text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 rounded transition-colors"><span class="material-icons-outlined text-xl">link</span></button>
+<button class="p-1.5 text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 rounded transition-colors"><span class="material-icons-outlined text-xl">code</span></button>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-xs text-slate-500 flex items-center gap-1">
+<span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                        Auto-saved 2m ago
+                    </span>
+<button class="bg-primary hover:bg-blue-600 text-white text-sm font-medium px-4 py-1.5 rounded shadow-lg shadow-blue-500/20 flex items-center gap-2 transition-colors">
+<span class="material-icons-outlined text-sm">rocket_launch</span>
+                        Push Changes
+                    </button>
+</div>
+</div>
+<!-- Editor Content Area -->
+<div class="flex-1 overflow-y-auto p-8 lg:px-16">
+<div class="max-w-3xl mx-auto bg-white dark:bg-slate-850 min-h-[800px] shadow-sm rounded-lg p-10 lg:p-14 border border-slate-200 dark:border-slate-800">
+<h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-6">Privacy Policy</h1>
+<p class="text-sm text-slate-500 mb-8 uppercase tracking-wide">Last Updated: October 24, 2023</p>
+<div class="prose prose-slate dark:prose-invert max-w-none editor-content text-slate-600 dark:text-slate-300">
+<h2 class="text-xl font-semibold text-slate-800 dark:text-slate-100 mb-4 mt-8">1. Introduction</h2>
+<p class="mb-4">
+                            Welcome to SinapCODE. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website (regardless of where you visit it from) and tell you about your privacy rights and how the law protects you.
+                        </p>
+<p class="mb-4 bg-blue-50 dark:bg-blue-900/20 p-4 border-l-4 border-primary rounded-r">
+<span class="font-bold text-primary block mb-1 text-sm uppercase">Editor Note</span>
+                            This section was recently updated to align with CCPA requirements. Please review the highlighted clauses below.
+                        </p>
+<h2 class="text-xl font-semibold text-slate-800 dark:text-slate-100 mb-4 mt-8">2. The Data We Collect</h2>
+<p class="mb-4">
+                            Personal data, or personal information, means any information about an individual from which that person can be identified. It does not include data where the identity has been removed (anonymous data).
+                        </p>
+<ul class="list-disc pl-5 space-y-2 mb-4">
+<li><strong class="text-slate-800 dark:text-slate-200">Identity Data</strong> includes first name, maiden name, last name, username or similar identifier.</li>
+<li><strong class="text-slate-800 dark:text-slate-200">Contact Data</strong> includes billing address, delivery address, email address and telephone numbers.</li>
+<li><strong class="text-slate-800 dark:text-slate-200">Technical Data</strong> includes internet protocol (IP) address, your login data, browser type and version.</li>
+</ul>
+<h2 class="text-xl font-semibold text-slate-800 dark:text-slate-100 mb-4 mt-8">3. How We Use Your Personal Data</h2>
+<p class="mb-4">
+                            We will only use your personal data when the law allows us to. Most commonly, we will use your personal data in the following circumstances:
+                        </p>
+<p class="mb-4">
+                            Where we need to perform the contract we are about to enter into or have entered into with you.
+                            Where it is necessary for our legitimate interests (or those of a third party) and your interests and fundamental rights do not override those interests.
+                            Where we need to comply with a legal or regulatory obligation.
+                        </p>
+</div>
+</div>
+</div>
+<!-- Deployment Drawer (Bottom, partially visible hint) -->
+<div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 w-full max-w-2xl">
+<!-- This simulates the UI state before clicking 'Push Changes' - normally hidden or a toast, here shown as a floating contextual control for design completeness -->
+<div class="bg-slate-900 dark:bg-slate-800 border border-slate-700 rounded-lg shadow-2xl p-4 flex items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<div class="bg-primary/20 p-2 rounded-full">
+<span class="material-icons-outlined text-primary">cloud_sync</span>
+</div>
+<div>
+<p class="text-sm font-medium text-white">Ready to deploy v2.1.0?</p>
+<p class="text-xs text-slate-400">3 applications connected</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex -space-x-2 mr-3">
+<div class="w-8 h-8 rounded-full bg-slate-700 border-2 border-slate-800 flex items-center justify-center text-[10px] text-white" title="Blog">BL</div>
+<div class="w-8 h-8 rounded-full bg-slate-700 border-2 border-slate-800 flex items-center justify-center text-[10px] text-white" title="App">AP</div>
+<div class="w-8 h-8 rounded-full bg-slate-700 border-2 border-slate-800 flex items-center justify-center text-[10px] text-white" title="Store">ST</div>
+</div>
+<button class="text-xs font-medium text-slate-300 hover:text-white px-3 py-1.5">Settings</button>
+<button class="bg-white text-primary hover:bg-slate-100 text-xs font-bold px-3 py-1.5 rounded shadow">Deploy Now</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Sidebar: Version History & Activity -->
+<aside class="w-80 border-l border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-850 flex flex-col shrink-0">
+<div class="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+<h3 class="text-sm font-bold text-slate-900 dark:text-white">Version History</h3>
+<button class="text-primary hover:bg-primary/10 p-1 rounded transition-colors"><span class="material-icons-outlined text-lg">filter_list</span></button>
+</div>
+<div class="flex-1 overflow-y-auto p-0">
+<!-- Timeline List -->
+<div class="relative pl-4 pr-0 py-4">
+<!-- Vertical Line -->
+<div class="absolute left-8 top-0 bottom-0 w-px bg-slate-200 dark:bg-slate-700 z-0"></div>
+<!-- Item 1 (Current) -->
+<div class="relative z-10 pl-10 pr-4 mb-6 group cursor-pointer">
+<div class="absolute left-6 top-1 w-4 h-4 rounded-full bg-primary border-4 border-white dark:border-slate-850"></div>
+<div class="bg-slate-50 dark:bg-slate-800/50 p-3 rounded border border-primary/30 group-hover:border-primary transition-colors">
+<div class="flex justify-between items-start mb-1">
+<span class="text-sm font-bold text-primary">v2.1.0 (Draft)</span>
+<span class="text-[10px] text-slate-500 font-mono bg-slate-200 dark:bg-slate-700 px-1 rounded">#a83f1</span>
+</div>
+<p class="text-xs text-slate-600 dark:text-slate-400 mb-2">Updated CCPA clauses for compliance.</p>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<img class="w-5 h-5 rounded-full" data-alt="Small avatar of user" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDqs7C5PYWafbCsoDg4eRluzfzdbjewVF-2UaGhD0EJvJU6Pv8iGvyePHL9wy_E6t4lYcJWP7bU7uf0HIUMWerugJa716LSJGoJ4JfHHLwCfzGPJn2XCzpJhRE2-hW5VtgJ-hYla6Uwy-UtsgHv1Qxx9-w9IAJKYLeHvHD4PkHemLfC7MWDGILE8JTbsxTe7xwBtIkWirJHRKWBmF32WMczJSoAKL9antajI74tuzclxH4Ony6iFqyU8BUI9K1VWAYTkMMOb2pUaCY"/>
+<span class="text-[10px] text-slate-500">Just now</span>
+</div>
+<span class="text-[10px] font-bold text-amber-500 bg-amber-500/10 px-1.5 py-0.5 rounded">Editing</span>
+</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="relative z-10 pl-10 pr-4 mb-6 group cursor-pointer opacity-70 hover:opacity-100 transition-opacity">
+<div class="absolute left-6 top-1 w-4 h-4 rounded-full bg-slate-300 dark:bg-slate-600 border-4 border-white dark:border-slate-850"></div>
+<div class="bg-transparent p-3 rounded border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-colors">
+<div class="flex justify-between items-start mb-1">
+<span class="text-sm font-bold text-slate-700 dark:text-slate-300">v2.0.4</span>
+<span class="text-[10px] text-slate-500 font-mono bg-slate-100 dark:bg-slate-800 px-1 rounded">#9b2c0</span>
+</div>
+<p class="text-xs text-slate-500 mb-2">Minor typo corrections in section 3.2.</p>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-5 h-5 rounded-full bg-indigo-500 flex items-center justify-center text-[8px] text-white font-bold">JD</div>
+<span class="text-[10px] text-slate-500">2 days ago</span>
+</div>
+<span class="text-[10px] font-bold text-emerald-500 bg-emerald-500/10 px-1.5 py-0.5 rounded">Published</span>
+</div>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="relative z-10 pl-10 pr-4 mb-6 group cursor-pointer opacity-60 hover:opacity-100 transition-opacity">
+<div class="absolute left-6 top-1 w-4 h-4 rounded-full bg-slate-300 dark:bg-slate-600 border-4 border-white dark:border-slate-850"></div>
+<div class="bg-transparent p-3 rounded border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-colors">
+<div class="flex justify-between items-start mb-1">
+<span class="text-sm font-bold text-slate-700 dark:text-slate-300">v2.0.0</span>
+<span class="text-[10px] text-slate-500 font-mono bg-slate-100 dark:bg-slate-800 px-1 rounded">#1f8a2</span>
+</div>
+<p class="text-xs text-slate-500 mb-2">Complete rewrite for GDPR 2023 update.</p>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<img class="w-5 h-5 rounded-full" data-alt="Small avatar of female user" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzces3Qg8Ql40lr0_uoSMB52oMvGhuPStTUSICQAfsqUH2ol6u8xXIfdMFaDtWy6XNuWaghYzAfOm-88-fwufHsxScCTj3ifEqQJdjL4ZLnW4ko3cfStuB2aT6EDyMR4m64ZKjqEKGRYoGgom0hB9GLrhO8oGuZGngf2AJMvLfk5KqFvO2auSIqS16JZvmBY0f77xeJAYG1YWWAgjzc8v46_s5m_NyWiqbhLGl7ima8Trbc_DabiaAHfnfb3fEJQYN3kyOKwEdqT-F"/>
+<span class="text-[10px] text-slate-500">Oct 12</span>
+</div>
+<span class="text-[10px] font-bold text-slate-500 bg-slate-500/10 px-1.5 py-0.5 rounded">Archived</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+<h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">Compare Versions</h4>
+<div class="flex gap-2 mb-3">
+<select class="w-1/2 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs rounded p-1.5 text-slate-700 dark:text-slate-300 focus:ring-primary focus:border-primary">
+<option>v2.1.0 (Draft)</option>
+</select>
+<span class="text-slate-400 self-center">vs</span>
+<select class="w-1/2 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs rounded p-1.5 text-slate-700 dark:text-slate-300 focus:ring-primary focus:border-primary">
+<option>v2.0.4</option>
+</select>
+</div>
+<button class="w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-primary hover:border-primary text-xs font-medium py-2 rounded transition-colors flex items-center justify-center gap-2">
+<span class="material-icons-outlined text-sm">difference</span>
+                    Show Differences
+                 </button>
+</div>
+</aside>
+</main>
+</body></html>

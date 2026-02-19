@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { getLegalDocument } from '@/lib/markdown';
 
+import { siteConfig } from '@/lib/site-config';
 import { LegalDocumentSchema } from '@/components/seo/legal-document-schema';
 
 export default function PrivacyPage() {
@@ -14,7 +15,7 @@ export default function PrivacyPage() {
                 title={frontmatter.title || "Política de Privacidad"}
                 version={frontmatter.version || "1.0.0"}
                 datePublished={frontmatter.date || "2026-01-01"}
-                url="https://sinapcode.com/privacy"
+                url={`${siteConfig.url}/privacy`}
             />
             {/* Background Effects */}
             <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16">

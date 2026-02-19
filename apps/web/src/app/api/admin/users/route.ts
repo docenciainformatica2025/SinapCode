@@ -49,7 +49,7 @@ export async function GET() {
         });
 
         // Formatear datos para el frontend con validación estricta
-        const formattedUsers = users.map(user => {
+        const formattedUsers = users.map((user: any) => {
             // Validate and sanitize each field
             const id = String(user.id || '');
             const name = String(user.name || 'Sin nombre').trim();
@@ -81,7 +81,7 @@ export async function GET() {
     } catch (error: any) {
         // Log error securely (never expose stack traces in production)
         console.error('[API /admin/users] Error:', {
-            message: error.message,
+            mensaje: error.message,
             stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
         });
 
@@ -97,10 +97,10 @@ function formatRelativeTime(date: Date): string {
     const now = new Date();
     const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-    if (seconds < 60) return 'Just now';
-    if (seconds < 3600) return `${Math.floor(seconds / 60)} min ago`;
-    if (seconds < 86400) return `${Math.floor(seconds / 3600)} hours ago`;
-    if (seconds < 604800) return `${Math.floor(seconds / 86400)} days ago`;
+    if (seconds < 60) return 'Hace un momento';
+    if (seconds < 3600) return `Hace ${Math.floor(seconds / 60)} min`;
+    if (seconds < 86400) return `Hace ${Math.floor(seconds / 3600)} horas`;
+    if (seconds < 604800) return `Hace ${Math.floor(seconds / 86400)} días`;
 
     return date.toISOString().split('T')[0];
 }

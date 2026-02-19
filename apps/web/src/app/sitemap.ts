@@ -1,7 +1,9 @@
 import { MetadataRoute } from 'next';
 
+import { siteConfig } from '@/lib/site-config';
+
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = 'https://sinapcode.com';
+    const baseUrl = siteConfig.url;
     const currentDate = new Date().toISOString();
 
     return [

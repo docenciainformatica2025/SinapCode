@@ -30,7 +30,7 @@ export async function GET(request: Request) {
 
         return NextResponse.json({ posts });
     } catch (error) {
-        console.error('Content API Error:', error);
+        console.error('Error en la API de Contenido:', error);
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
 }
@@ -65,7 +65,62 @@ export async function POST(request: Request) {
 
         return NextResponse.json(newPost);
     } catch (error) {
-        console.error('Create Post Error:', error);
+        console.error('Error al crear Publicación:', error);
         return NextResponse.json({ error: 'Failed to create post' }, { status: 500 });
+    }
+}
+
+export async function PATCH(request: Request) {
+    try {
+        const session = await getServerSession(authOptions);
+        if (!await isAuthorized(session)) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+        }
+
+        const body = await request.json();
+        const { id, title, excerpt, content, category, tags, status, coverImage } = body;
+
+        if (!id) return NextResponse.json({ error: 'ID is required' }, { status: 400 });
+
+        const updatedPost = await prisma.cmsPost.update({
+            where: { id },
+            data: {
+                title,
+                excerpt,
+                content,
+                category,
+                tags,
+                status,
+                coverImage,
+            }
+        });
+
+        return NextResponse.json(updatedPost);
+    } catch (error) {
+        console.error('Error al actualizar Publicación:', error);
+        return NextResponse.json({ error: 'Failed to update post' }, { status: 500 });
+    }
+}
+
+export async function DELETE(request: Request) {
+    try {
+        const session = await getServerSession(authOptions);
+        if (!await isAuthorized(session)) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+        }
+
+        const { searchParams } = new URL(request.url);
+        const id = searchParams.get('id');
+
+        if (!id) return NextResponse.json({ error: 'ID is required' }, { status: 400 });
+
+        await prisma.cmsPost.delete({
+            where: { id }
+        });
+
+        return NextResponse.json({ success: true });
+    } catch (error) {
+        console.error('Error al eliminar Publicación:', error);
+        return NextResponse.json({ error: 'Failed to delete post' }, { status: 500 });
     }
 }

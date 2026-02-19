@@ -2,6 +2,28 @@ const withMDX = require('@next/mdx')()
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'images.unsplash.com',
+                port: '',
+                pathname: '/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'picsum.photos',
+                port: '',
+                pathname: '/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'fastly.picsum.photos',
+                port: '',
+                pathname: '/**',
+            },
+        ],
+    },
     // Configure `pageExtensions` to include MDX files
     pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
     async rewrites() {
@@ -11,16 +33,6 @@ const nextConfig = {
                 destination: `${process.env.BACKEND_API_URL || 'http://localhost:3005'}/api/:path*`, // Proxy to Backend
             },
         ];
-    },
-    images: {
-        remotePatterns: [
-            {
-                protocol: 'https',
-                hostname: 'images.unsplash.com',
-                port: '',
-                pathname: '/**',
-            },
-        ],
     },
     async redirects() {
         return [

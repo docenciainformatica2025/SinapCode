@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SinapCODE Traffic Attribution &amp; Origin Report</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#258cf4",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101922", // Deep charcoal almost black
+                        "card-dark": "#182430", // Slightly lighter for cards
+                        "accent-cyan": "#06b6d4",
+                        "accent-purple": "#8b5cf6",
+                        "accent-gold": "#f59e0b",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for dark mode tables */
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #182430; 
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #258cf4; 
+            border-radius: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: #1d72c4; 
+        }
+        
+        /* Gradient text utility */
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Chart bar animation simulation */
+        .bar-fill {
+            width: 0;
+            animation: fillBar 1.2s ease-out forwards;
+        }
+        @keyframes fillBar {
+            to { width: var(--width); }
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200 font-display min-h-screen flex flex-col">
+<!-- Top Navigation / Header -->
+<header class="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#15202b] sticky top-0 z-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-20">
+<!-- Logo & Context -->
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded bg-gradient-to-br from-primary to-accent-cyan flex items-center justify-center text-white font-bold text-xl">S</div>
+<span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">SinapCODE</span>
+</div>
+<div class="hidden md:block h-6 w-px bg-slate-300 dark:bg-slate-700"></div>
+<span class="hidden md:block text-sm font-medium text-slate-500 dark:text-slate-400">Traffic Attribution &amp; Lead Origin</span>
+</div>
+<!-- Controls -->
+<div class="flex items-center gap-3">
+<!-- Date Picker Mockup -->
+<div class="hidden sm:flex items-center bg-slate-100 dark:bg-card-dark rounded px-3 py-2 border border-slate-200 dark:border-slate-700">
+<span class="material-symbols-outlined text-slate-400 text-sm mr-2">calendar_month</span>
+<span class="text-sm font-medium">Oct 1, 2023 - Oct 31, 2023</span>
+<span class="material-symbols-outlined text-slate-400 text-sm ml-2 cursor-pointer">expand_more</span>
+</div>
+<button class="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded text-sm font-medium transition-colors shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-sm">download</span>
+<span>Export Report</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center cursor-pointer ml-2">
+<img alt="User Profile" class="w-8 h-8 rounded-full" data-alt="User avatar placeholder" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjFAzx-1F00WzelI2qvHjVPtpt8CVZWKHlIFO4SeV60DK3HmJMWqV7M96aRTQUgRUEmiikeetkhtyClZmunrjwaoL1v5893yC-XcKSLihgwpLwjEa6ZZl2wUn1PcJ0Lp17W9WFGxYhrjgZQHM3Z_g6m3jXiLBFE7kOqRgla0sqdd2pFNVRS4nyKbssSiwf97JZWGeazgen88NY_ADRQMGRG3EJH9-c-bMh1lK75Mm55isYEYVMh9YrEsmjy3kiV9jDdYs5Q7eTbXkU"/>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Dashboard -->
+<main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+<!-- KPI Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- KPI 1 -->
+<div class="bg-white dark:bg-card-dark rounded-lg p-5 border border-slate-200 dark:border-slate-800 shadow-sm relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Total Traffic</p>
+<h3 class="text-3xl font-bold mt-1 text-slate-900 dark:text-white">128.4k</h3>
+</div>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+<span class="material-symbols-outlined text-[14px] mr-0.5">trending_up</span>
+                        +12.5%
+                    </span>
+</div>
+<div class="h-1 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-3/4 rounded-full"></div>
+</div>
+</div>
+<!-- KPI 2 -->
+<div class="bg-white dark:bg-card-dark rounded-lg p-5 border border-slate-200 dark:border-slate-800 shadow-sm relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-24 h-24 bg-accent-purple/5 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Blended CAC</p>
+<h3 class="text-3xl font-bold mt-1 text-slate-900 dark:text-white">$45.20</h3>
+</div>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">
+<span class="material-symbols-outlined text-[14px] mr-0.5">trending_up</span>
+                        +2.1%
+                    </span>
+</div>
+<div class="h-1 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+<div class="h-full bg-accent-purple w-1/2 rounded-full"></div>
+</div>
+</div>
+<!-- KPI 3 -->
+<div class="bg-white dark:bg-card-dark rounded-lg p-5 border border-slate-200 dark:border-slate-800 shadow-sm relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-24 h-24 bg-accent-cyan/5 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Total Enrolled</p>
+<h3 class="text-3xl font-bold mt-1 text-slate-900 dark:text-white">3,842</h3>
+</div>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+<span class="material-symbols-outlined text-[14px] mr-0.5">trending_up</span>
+                        +8.4%
+                    </span>
+</div>
+<div class="h-1 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+<div class="h-full bg-accent-cyan w-2/3 rounded-full"></div>
+</div>
+</div>
+<!-- KPI 4 -->
+<div class="bg-white dark:bg-card-dark rounded-lg p-5 border border-slate-200 dark:border-slate-800 shadow-sm relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-24 h-24 bg-accent-gold/5 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Marketing ROI</p>
+<h3 class="text-3xl font-bold mt-1 text-slate-900 dark:text-white">420%</h3>
+</div>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+<span class="material-symbols-outlined text-[14px] mr-0.5">trending_up</span>
+                        +15.2%
+                    </span>
+</div>
+<div class="h-1 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+<div class="h-full bg-accent-gold w-full rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Row 2: Attribution & ROI (Split View) -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Left: Channel Attribution Breakdown -->
+<div class="bg-white dark:bg-card-dark rounded-lg border border-slate-200 dark:border-slate-800 p-6 shadow-sm col-span-1 flex flex-col">
+<h4 class="text-lg font-bold text-slate-900 dark:text-white mb-6">Traffic Source Distribution</h4>
+<div class="flex items-center justify-center py-4 relative">
+<!-- Donut Chart Representation using CSS Conic Gradient -->
+<div class="w-48 h-48 rounded-full relative" style="background: conic-gradient(
+                            #258cf4 0% 35%, 
+                            #8b5cf6 35% 60%, 
+                            #06b6d4 60% 80%, 
+                            #f59e0b 80% 92%, 
+                            #64748b 92% 100%
+                         );">
+<div class="absolute inset-4 bg-white dark:bg-card-dark rounded-full flex flex-col items-center justify-center z-10">
+<span class="text-sm text-slate-500">Top Channel</span>
+<span class="text-xl font-bold text-primary">LinkedIn</span>
+<span class="text-xs text-slate-400">35%</span>
+</div>
+</div>
+</div>
+<!-- Legend -->
+<div class="mt-6 space-y-3">
+<div class="flex items-center justify-between text-sm">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span>LinkedIn Ads</span>
+</div>
+<span class="font-bold">35%</span>
+</div>
+<div class="flex items-center justify-between text-sm">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-accent-purple"></span>
+<span>Google Search</span>
+</div>
+<span class="font-bold">25%</span>
+</div>
+<div class="flex items-center justify-between text-sm">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-accent-cyan"></span>
+<span>Direct / Email</span>
+</div>
+<span class="font-bold">20%</span>
+</div>
+<div class="flex items-center justify-between text-sm">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-accent-gold"></span>
+<span>WhatsApp</span>
+</div>
+<span class="font-bold">12%</span>
+</div>
+</div>
+</div>
+<!-- Right: Channel ROI & CAC Efficiency -->
+<div class="bg-white dark:bg-card-dark rounded-lg border border-slate-200 dark:border-slate-800 p-6 shadow-sm col-span-1 lg:col-span-2">
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
+<h4 class="text-lg font-bold text-slate-900 dark:text-white">ROI &amp; Acquisition Cost by Channel</h4>
+<div class="flex gap-2 mt-2 sm:mt-0">
+<button class="px-3 py-1 text-xs font-medium rounded bg-primary/10 text-primary border border-primary/20">ROI View</button>
+<button class="px-3 py-1 text-xs font-medium rounded bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">CAC View</button>
+</div>
+</div>
+<div class="space-y-6">
+<!-- Channel Row 1 -->
+<div class="group">
+<div class="flex justify-between text-sm mb-1">
+<span class="font-medium flex items-center gap-2"><i class="devicon-linkedin-plain text-primary"></i> LinkedIn (AI Post)</span>
+<div class="flex gap-4 text-xs">
+<span class="text-slate-500">CAC: <span class="text-slate-900 dark:text-white font-bold">$32</span></span>
+<span class="text-accent-gold font-bold">ROI: 520%</span>
+</div>
+</div>
+<div class="h-3 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden relative">
+<div class="h-full bg-primary absolute top-0 left-0 rounded-full bar-fill" style="--width: 85%"></div>
+</div>
+</div>
+<!-- Channel Row 2 -->
+<div class="group">
+<div class="flex justify-between text-sm mb-1">
+<span class="font-medium flex items-center gap-2">Google Ads (Retargeting)</span>
+<div class="flex gap-4 text-xs">
+<span class="text-slate-500">CAC: <span class="text-slate-900 dark:text-white font-bold">$58</span></span>
+<span class="text-accent-gold font-bold">ROI: 310%</span>
+</div>
+</div>
+<div class="h-3 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden relative">
+<div class="h-full bg-accent-purple absolute top-0 left-0 rounded-full bar-fill" style="--width: 65%"></div>
+</div>
+</div>
+<!-- Channel Row 3 -->
+<div class="group">
+<div class="flex justify-between text-sm mb-1">
+<span class="font-medium flex items-center gap-2">WhatsApp (Community)</span>
+<div class="flex gap-4 text-xs">
+<span class="text-slate-500">CAC: <span class="text-slate-900 dark:text-white font-bold">$12</span></span>
+<span class="text-accent-gold font-bold">ROI: 850%</span>
+</div>
+</div>
+<div class="h-3 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden relative">
+<div class="h-full bg-accent-cyan absolute top-0 left-0 rounded-full bar-fill" style="--width: 95%"></div>
+</div>
+</div>
+<!-- Channel Row 4 -->
+<div class="group">
+<div class="flex justify-between text-sm mb-1">
+<span class="font-medium flex items-center gap-2">Referrals</span>
+<div class="flex gap-4 text-xs">
+<span class="text-slate-500">CAC: <span class="text-slate-900 dark:text-white font-bold">$5</span></span>
+<span class="text-accent-gold font-bold">ROI: 1200%</span>
+</div>
+</div>
+<div class="h-3 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden relative">
+<div class="h-full bg-accent-gold absolute top-0 left-0 rounded-full bar-fill" style="--width: 100%"></div>
+</div>
+</div>
+</div>
+<!-- Insight Alert -->
+<div class="mt-8 bg-primary/5 border border-primary/10 rounded p-4 flex gap-3 items-start">
+<span class="material-symbols-outlined text-primary mt-0.5">insights</span>
+<div>
+<h5 class="text-sm font-bold text-slate-900 dark:text-white">AI Insight: High-Value LinkedIn Performance</h5>
+<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Campaigns originating from "AI Trends" posts on LinkedIn are showing a 25% lower CAC compared to generic tech posts.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Row 3: Journey Map -->
+<div class="bg-white dark:bg-card-dark rounded-lg border border-slate-200 dark:border-slate-800 p-6 shadow-sm overflow-hidden">
+<h4 class="text-lg font-bold text-slate-900 dark:text-white mb-6">User Journey Flow</h4>
+<div class="relative w-full h-48 sm:h-64 flex items-center justify-between px-4 sm:px-10">
+<!-- Background Connection Lines (CSS Curved Lines Simulation) -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none text-slate-300 dark:text-slate-700" style="z-index: 0;">
+<path d="M100,120 C300,120 300,60 500,60" fill="none" stroke="currentColor" stroke-dasharray="5,5" stroke-width="2"></path>
+<path d="M100,120 C300,120 300,180 500,180" fill="none" stroke="currentColor" stroke-dasharray="5,5" stroke-width="2"></path>
+<path d="M500,60 C700,60 700,120 900,120" fill="none" stroke="currentColor" stroke-dasharray="5,5" stroke-width="2"></path>
+<path d="M500,180 C700,180 700,120 900,120" fill="none" stroke="currentColor" stroke-dasharray="5,5" stroke-width="2"></path>
+</svg>
+<!-- Step 1: Source -->
+<div class="relative z-10 flex flex-col items-center gap-3 w-32">
+<div class="w-14 h-14 rounded-xl bg-primary/10 border border-primary/30 flex items-center justify-center text-primary shadow-lg shadow-primary/10">
+<span class="material-symbols-outlined text-2xl">campaign</span>
+</div>
+<div class="text-center">
+<p class="font-bold text-sm text-slate-900 dark:text-white">First Touch</p>
+<p class="text-xs text-slate-500">LinkedIn AI Post</p>
+<span class="inline-block mt-1 px-2 py-0.5 bg-slate-100 dark:bg-slate-800 rounded-full text-[10px] font-bold">12k Users</span>
+</div>
+</div>
+<!-- Step 2: Nurture (Split) -->
+<div class="relative z-10 flex flex-col justify-between h-48 w-32 py-2">
+<!-- Top Path -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-accent-purple/10 border border-accent-purple/30 flex items-center justify-center text-accent-purple">
+<span class="material-symbols-outlined text-lg">web</span>
+</div>
+<div class="text-center">
+<p class="font-bold text-xs text-slate-900 dark:text-white">Landing Page</p>
+<p class="text-[10px] text-slate-500">Direct Visit</p>
+</div>
+</div>
+<!-- Bottom Path -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-accent-cyan/10 border border-accent-cyan/30 flex items-center justify-center text-accent-cyan">
+<span class="material-symbols-outlined text-lg">videocam</span>
+</div>
+<div class="text-center">
+<p class="font-bold text-xs text-slate-900 dark:text-white">Webinar</p>
+<p class="text-[10px] text-slate-500">Live Demo</p>
+</div>
+</div>
+</div>
+<!-- Step 3: Conversion -->
+<div class="relative z-10 flex flex-col items-center gap-3 w-32">
+<div class="w-14 h-14 rounded-xl bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center text-white shadow-lg shadow-green-500/20">
+<span class="material-symbols-outlined text-2xl">verified</span>
+</div>
+<div class="text-center">
+<p class="font-bold text-sm text-slate-900 dark:text-white">Conversion</p>
+<p class="text-xs text-slate-500">Course Purchase</p>
+<span class="inline-block mt-1 px-2 py-0.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full text-[10px] font-bold">850 Enrolled</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Row 4: Geo & Campaigns -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Geo Map & App Download Source -->
+<div class="lg:col-span-1 space-y-6">
+<!-- App Origin -->
+<div class="bg-white dark:bg-card-dark rounded-lg border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+<h4 class="text-lg font-bold text-slate-900 dark:text-white mb-4">App Download Origin</h4>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between text-sm mb-1">
+<span class="text-slate-500 dark:text-slate-400">Direct Web Link (PWA)</span>
+<span class="font-bold text-slate-900 dark:text-white">68%</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
+<div class="bg-primary h-2 rounded-full" style="width: 68%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-sm mb-1">
+<span class="text-slate-500 dark:text-slate-400">App Store / Play Store</span>
+<span class="font-bold text-slate-900 dark:text-white">32%</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
+<div class="bg-accent-purple h-2 rounded-full" style="width: 32%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Geo Map Preview -->
+<div class="bg-white dark:bg-card-dark rounded-lg border border-slate-200 dark:border-slate-800 p-6 shadow-sm flex flex-col h-80">
+<div class="flex justify-between items-center mb-4">
+<h4 class="text-lg font-bold text-slate-900 dark:text-white">High-Impact Regions</h4>
+<button class="text-xs text-primary hover:underline">View Full Map</button>
+</div>
+<div class="flex-1 relative rounded bg-slate-100 dark:bg-slate-800 overflow-hidden group">
+<!-- Abstract Map Representation -->
+<div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&amp;w=1000&amp;auto=format&amp;fit=crop')] bg-cover bg-center opacity-40 dark:opacity-30 mix-blend-multiply dark:mix-blend-luminosity grayscale group-hover:grayscale-0 transition duration-700" data-alt="Stylized world map showing network connections" data-location="Global" style=""></div>
+<!-- Pulse Markers -->
+<div class="absolute top-[30%] left-[25%] flex items-center justify-center">
+<span class="animate-ping absolute inline-flex h-6 w-6 rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
+<div class="absolute top-4 left-4 bg-black/80 text-white text-[10px] px-2 py-1 rounded hidden group-hover:block whitespace-nowrap">North America: 45%</div>
+</div>
+<div class="absolute top-[40%] right-[30%] flex items-center justify-center">
+<span class="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-accent-purple opacity-75 animation-delay-500"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-accent-purple"></span>
+<div class="absolute top-4 right-4 bg-black/80 text-white text-[10px] px-2 py-1 rounded hidden group-hover:block whitespace-nowrap">Asia Pacific: 30%</div>
+</div>
+<div class="absolute top-[35%] right-[45%] flex items-center justify-center">
+<span class="animate-ping absolute inline-flex h-5 w-5 rounded-full bg-accent-cyan opacity-75 animation-delay-1000"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent-cyan"></span>
+<div class="absolute top-4 left-4 bg-black/80 text-white text-[10px] px-2 py-1 rounded hidden group-hover:block whitespace-nowrap">Europe: 25%</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Campaign Performance Table -->
+<div class="lg:col-span-2 bg-white dark:bg-card-dark rounded-lg border border-slate-200 dark:border-slate-800 p-6 shadow-sm flex flex-col">
+<div class="flex justify-between items-center mb-6">
+<h4 class="text-lg font-bold text-slate-900 dark:text-white">UTM Campaign Performance</h4>
+<div class="relative">
+<input class="bg-slate-100 dark:bg-slate-800 border-none rounded text-sm py-1.5 pl-8 pr-4 text-slate-900 dark:text-white placeholder-slate-500 focus:ring-1 focus:ring-primary w-48" placeholder="Search campaign..." type="text"/>
+<span class="material-symbols-outlined absolute left-2 top-1.5 text-slate-400 text-sm">search</span>
+</div>
+</div>
+<div class="overflow-x-auto custom-scroll -mx-6 px-6 pb-2">
+<table class="w-full text-left text-sm whitespace-nowrap">
+<thead class="text-xs uppercase text-slate-500 dark:text-slate-400 font-bold border-b border-slate-200 dark:border-slate-700">
+<tr>
+<th class="pb-3 pl-2">Campaign Name</th>
+<th class="pb-3">Source / Medium</th>
+<th class="pb-3 text-right">Clicks</th>
+<th class="pb-3 text-right">Conv.</th>
+<th class="pb-3 text-right">Cost</th>
+<th class="pb-3 text-right">CPA</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+<!-- Row 1 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="py-3 pl-2 font-medium text-slate-900 dark:text-white">winter_dev_bootcamp</td>
+<td class="py-3 text-slate-500">linkedin / cpc</td>
+<td class="py-3 text-right text-slate-700 dark:text-slate-300">4,250</td>
+<td class="py-3 text-right text-slate-900 dark:text-white font-bold">320</td>
+<td class="py-3 text-right text-slate-700 dark:text-slate-300">$12,400</td>
+<td class="py-3 text-right"><span class="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-2 py-0.5 rounded text-xs font-bold">$38.75</span></td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="py-3 pl-2 font-medium text-slate-900 dark:text-white">google_search_python</td>
+<td class="py-3 text-slate-500">google / cpc</td>
+<td class="py-3 text-right text-slate-700 dark:text-slate-300">8,100</td>
+<td class="py-3 text-right text-slate-900 dark:text-white font-bold">215</td>
+<td class="py-3 text-right text-slate-700 dark:text-slate-300">$15,200</td>
+<td class="py-3 text-right"><span class="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 px-2 py-0.5 rounded text-xs font-bold">$70.69</span></td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="py-3 pl-2 font-medium text-slate-900 dark:text-white">email_newsletter_oct</td>
+<td class="py-3 text-slate-500">activecampaign / email</td>
+<td class="py-3 text-right text-slate-700 dark:text-slate-300">12,400</td>
+<td class="py-3 text-right text-slate-900 dark:text-white font-bold">540</td>
+<td class="py-3 text-right text-slate-700 dark:text-slate-300">$250</td>
+<td class="py-3 text-right"><span class="bg-primary/20 text-primary px-2 py-0.5 rounded text-xs font-bold">$0.46</span></td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="py-3 pl-2 font-medium text-slate-900 dark:text-white">whatsapp_community_blast</td>
+<td class="py-3 text-slate-500">whatsapp / social</td>
+<td class="py-3 text-right text-slate-700 dark:text-slate-300">2,100</td>
+<td class="py-3 text-right text-slate-900 dark:text-white font-bold">180</td>
+<td class="py-3 text-right text-slate-700 dark:text-slate-300">$0</td>
+<td class="py-3 text-right"><span class="bg-primary/20 text-primary px-2 py-0.5 rounded text-xs font-bold">$0.00</span></td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="py-3 pl-2 font-medium text-slate-900 dark:text-white">retargeting_fb_q4</td>
+<td class="py-3 text-slate-500">facebook / cpm</td>
+<td class="py-3 text-right text-slate-700 dark:text-slate-300">25,000</td>
+<td class="py-3 text-right text-slate-900 dark:text-white font-bold">95</td>
+<td class="py-3 text-right text-slate-700 dark:text-slate-300">$4,500</td>
+<td class="py-3 text-right"><span class="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 px-2 py-0.5 rounded text-xs font-bold">$47.36</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="mt-4 flex justify-between items-center text-xs text-slate-500">
+<span>Showing 5 of 24 campaigns</span>
+<div class="flex gap-1">
+<button class="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700">Prev</button>
+<button class="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700">Next</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

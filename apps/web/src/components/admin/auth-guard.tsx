@@ -26,7 +26,7 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
         const allowedRoles = ['SUPER_ADMIN', 'ADMIN', 'MODERATOR', 'SUPPORT'];
 
         if (!allowedRoles.includes(userRole)) {
-            console.warn('[ADMIN] Unauthorized access attempt by:', session.user?.email);
+            console.warn('[ADMIN] Intento de acceso no autorizado por:', session.user?.email);
             router.push('/dashboard');
         }
     }, [session, status, router]);

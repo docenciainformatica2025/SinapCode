@@ -61,20 +61,20 @@ export function Modal({ isOpen, onClose, title, description, children, maxWidth 
                         initial={{ opacity: 0, scale: 0.95, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                        transition={{ type: 'spring', duration: 0.3 }}
-                        className={`relative w-full ${maxWidth} bg-deep-space border border-white/10 rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]`}
+                        transition={{ duration: 0.3 }}
+                        className={`relative w-full ${maxWidth} bg-white border border-gray-200 rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]`}
                     >
                         {/* Header */}
-                        <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-white/5">
+                        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-gray-50/50">
                             <div>
-                                <h2 className="text-xl font-bold text-white">{title}</h2>
+                                <h2 className="text-xl font-bold text-gray-900">{title}</h2>
                                 {description && (
-                                    <p className="text-sm text-platinum-dim mt-1">{description}</p>
+                                    <p className="text-sm text-gray-500 mt-1">{description}</p>
                                 )}
                             </div>
                             <button
                                 onClick={onClose}
-                                className="p-2 text-platinum-dim hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+                                className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
                             >
                                 <X className="h-5 w-5" />
                             </button>

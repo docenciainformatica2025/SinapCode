@@ -5,7 +5,10 @@ import './globals.css';
 import { CookieConsent } from '@/components/legal/cookie-consent';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { ToastProvider } from '@/components/ui/toast-provider';
+import { GlobalHeader } from '@/components/layout/global-header';
 import { GlobalOrganizationSchema, WebSiteSchema } from '@/components/seo/json-ld';
+import { SimulationIndicator } from '@/components/admin/simulation-indicator';
+import AIConcierge from '@/components/ai/ai-concierge';
 
 import { siteConfig } from '@/lib/site-config';
 
@@ -54,7 +57,7 @@ export const metadata: Metadata = {
         shortcut: '/favicon-16x16.png',
         apple: '/apple-touch-icon.png',
     },
-    manifest: `${siteConfig.url}/site.webmanifest`,
+    manifest: '/site.webmanifest',
     robots: {
         index: true,
         follow: true,
@@ -94,10 +97,13 @@ export default function RootLayout({
                     <RecaptchaProvider>
                         <ErrorBoundary>
                             <ToastProvider />
+                            <GlobalHeader />
                             <GlobalOrganizationSchema />
                             <WebSiteSchema />
                             <CookieConsent />
+                            <SimulationIndicator />
                             {children}
+                            <AIConcierge />
                         </ErrorBoundary>
                     </RecaptchaProvider>
                 </Providers>

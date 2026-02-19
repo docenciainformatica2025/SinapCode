@@ -1,4 +1,5 @@
 import { JsonLd } from './json-ld';
+import { siteConfig } from '@/lib/site-config';
 
 interface LegalDocumentSchemaProps {
     title: string;
@@ -27,11 +28,11 @@ export function LegalDocumentSchema({
                 "publisher": {
                     "@type": "Organization",
                     "name": "SinapCode",
-                    "url": "https://sinapcode.com"
+                    "url": siteConfig.url
                 },
                 "fileFormat": "application/markdown",
                 "url": url,
-                "license": "https://sinapcode.com/legal/terms",
+                "license": `${siteConfig.url}/legal/terms`,
                 "audience": {
                     "@type": "Audience",
                     "audienceType": "Users"

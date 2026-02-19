@@ -37,7 +37,7 @@ export function LoginForm() {
             }
         } catch (error) {
             toast.error('Ocurrió un error inesperado');
-            console.error('Login error:', error);
+            console.error('Error de inicio de sesión:', error);
             setLoading(false);
         }
     }
