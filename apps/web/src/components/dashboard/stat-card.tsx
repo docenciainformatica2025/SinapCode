@@ -18,7 +18,7 @@ export function StatCard({ icon, value, label, trend, color = 'neural-blue' }: S
     return (
         <motion.div
             whileHover={{ scale: 1.02, translateY: -2 }}
-            className="group relative bg-deep-space/80 backdrop-blur-xl p-6 rounded-2xl border border-white/10 overflow-hidden shadow-2xl hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] transition-all duration-300"
+            className="group relative bg-[#0B0B0F]/60 backdrop-blur-3xl p-6 rounded-[2rem] border border-white/5 overflow-hidden shadow-2xl hover:shadow-[#C9A78A]/5 transition-all duration-500"
         >
             {/* Gradient Glow */}
             <div className={`absolute -top-10 -right-10 w-32 h-32 bg-${color}/20 rounded-full blur-[50px] group-hover:bg-${color}/30 transition-all duration-500`} />

@@ -3,6 +3,7 @@
 import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { SinapcodeLogo } from '@/components/brand/sinapcode-logo';
 
 function VerificationContent() {
     const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
@@ -43,68 +44,76 @@ function VerificationContent() {
     }, [token, router]);
 
     return (
-        <div className="w-full max-w-md glass-panel p-8 rounded-2xl border border-white/10 shadow-2xl relative z-10">
-            <div className="text-center">
-                <Link href="/" className="text-3xl font-bold bg-brain-spark bg-clip-text text-transparent inline-block mb-8">
-                    SinapCode
-                </Link>
+        <div className="w-full max-w-md bg-white p-10 rounded-[2.5rem] border border-black/5 shadow-xl shadow-black/5 relative z-10 overflow-hidden group">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-[#C9A78A]/5 rounded-full blur-3xl pointer-events-none group-hover:bg-[#C9A78A]/10 transition-colors" />
+
+            <div className="text-center relative z-10">
+                <SinapcodeLogo theme="dark" className="mb-12 flex justify-center h-10" />
 
                 {status === 'loading' && (
-                    <div className="space-y-4">
-                        <div className="w-16 h-16 mx-auto border-4 border-neural-blue border-t-transparent rounded-full animate-spin" />
-                        <h1 className="text-2xl font-bold text-white">
-                            Verificando tu email...
+                    <div className="space-y-6 animate-pulse-slow">
+                        <div className="w-20 h-20 mx-auto relative">
+                            <div className="absolute inset-0 border-4 border-[#C9A78A]/20 rounded-full" />
+                            <div className="absolute inset-0 border-4 border-[#C9A78A] border-t-transparent rounded-full animate-spin" />
+                        </div>
+                        <h1 className="text-3xl font-black text-[#1E1E1E] italic uppercase font-outfit tracking-tighter">
+                            Verificando
                         </h1>
-                        <p className="text-platinum-dim">
-                            Por favor espera un momento
+                        <p className="text-[#1E1E1E]/40 text-sm font-bold italic tracking-tight">
+                            Sincronizando tus credenciales con el núcleo...
                         </p>
                     </div>
                 )}
 
                 {status === 'success' && (
-                    <div className="space-y-4">
-                        <div className="w-16 h-16 mx-auto bg-green-500/20 rounded-full flex items-center justify-center">
-                            <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    <div className="space-y-6 animate-in fade-in zoom-in duration-700">
+                        <div className="w-20 h-20 mx-auto bg-emerald-500/10 rounded-3xl flex items-center justify-center shadow-lg shadow-emerald-500/5">
+                            <svg className="w-10 h-10 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                             </svg>
                         </div>
-                        <h1 className="text-2xl font-bold text-white">
-                            ¡Email Verificado!
+                        <h1 className="text-3xl font-black text-[#1E1E1E] italic uppercase font-outfit tracking-tighter">
+                            ¡Activado!
                         </h1>
-                        <p className="text-platinum-dim">
+                        <p className="text-emerald-600/80 text-sm font-bold italic tracking-tight">
                             {message}
                         </p>
-                        <p className="text-sm text-platinum-dim">
-                            Redirigiendo al login...
+                        <div className="flex justify-center gap-1 pt-4">
+                            <div className="w-1 h-1 rounded-full bg-[#C9A78A] animate-bounce" />
+                            <div className="w-1 h-1 rounded-full bg-[#C9A78A] animate-bounce delay-100" />
+                            <div className="w-1 h-1 rounded-full bg-[#C9A78A] animate-bounce delay-200" />
+                        </div>
+                        <p className="text-[10px] text-[#1E1E1E]/20 font-black uppercase tracking-[0.3em]">
+                            CONFIGURANDO TU ESPACIO...
                         </p>
                     </div>
                 )}
 
                 {status === 'error' && (
-                    <div className="space-y-4">
-                        <div className="w-16 h-16 mx-auto bg-red-500/20 rounded-full flex items-center justify-center">
-                            <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                        <div className="w-20 h-20 mx-auto bg-red-500/10 rounded-3xl flex items-center justify-center shadow-lg shadow-red-500/5">
+                            <svg className="w-10 h-10 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </div>
-                        <h1 className="text-2xl font-bold text-white">
-                            Error de Verificación
+                        <h1 className="text-3xl font-black text-[#1E1E1E] italic uppercase font-outfit tracking-tighter">
+                            Error
                         </h1>
-                        <p className="text-platinum-dim">
+                        <p className="text-red-600/80 text-sm font-bold italic tracking-tight">
                             {message}
                         </p>
-                        <div className="pt-4 space-y-2">
+                        <div className="pt-8 space-y-4">
                             <Link
                                 href="/auth/login"
-                                className="block w-full px-4 py-2 bg-neural-blue hover:bg-neural-blue/80 text-white rounded-lg transition-colors"
+                                className="block w-full px-6 py-4 bg-[#1E1E1E] text-[#F1F0E8] font-black rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] text-xs uppercase tracking-widest italic"
                             >
-                                Ir al Login
+                                IR AL LOGIN
                             </Link>
                             <Link
                                 href="/auth/register"
-                                className="block w-full px-4 py-2 border border-white/10 hover:border-white/20 text-platinum rounded-lg transition-colors"
+                                className="block w-full px-6 py-4 bg-white border border-[#1E1E1E]/10 text-[#1E1E1E]/60 font-black rounded-2xl transition-all hover:bg-[#1E1E1E] hover:text-[#F1F0E8] text-xs uppercase tracking-widest italic"
                             >
-                                Registrarse de Nuevo
+                                REGISTRARSE DE NUEVO
                             </Link>
                         </div>
                     </div>
@@ -116,23 +125,26 @@ function VerificationContent() {
 
 export default function NewVerificationPage() {
     return (
-        <div className="min-h-screen bg-deep-space flex items-center justify-center p-4 relative overflow-hidden">
-            {/* Ambient Background Effects */}
-            <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-neural-blue/20 rounded-full blur-[120px]" />
-            <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-synapse-purple/20 rounded-full blur-[120px]" />
+        <div className="theme-light min-h-screen bg-[#F1F0E8] flex flex-col font-inter selection:bg-[#C9A78A]/30 overflow-x-hidden">
+            <div className="flex-grow flex items-center justify-center p-4 relative">
+                {/* Ambient Background Effects */}
+                <div className="absolute top-0 left-0 w-full h-full bg-grid-black/[0.02] opacity-10" />
+                <div className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-[#C9A78A]/10 rounded-full blur-[120px] animate-pulse-slow" />
+                <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-white/5 rounded-full blur-[120px] animate-pulse-slow delay-1000" />
 
-            <Suspense fallback={
-                <div className="w-full max-w-md glass-panel p-8 rounded-2xl border border-white/10 shadow-2xl relative z-10">
-                    <div className="text-center space-y-4">
-                        <div className="w-16 h-16 mx-auto border-4 border-neural-blue border-t-transparent rounded-full animate-spin" />
-                        <h1 className="text-2xl font-bold text-white">
-                            Cargando...
-                        </h1>
+                <Suspense fallback={
+                    <div className="w-full max-w-md bg-white p-10 rounded-[2.5rem] border border-black/5 shadow-xl shadow-black/5 relative z-10 text-center">
+                        <div className="space-y-6">
+                            <div className="w-20 h-20 mx-auto border-4 border-[#C9A78A] border-t-transparent rounded-full animate-spin" />
+                            <h1 className="text-3xl font-black text-[#1E1E1E] italic uppercase font-outfit tracking-tighter">
+                                Cargando
+                            </h1>
+                        </div>
                     </div>
-                </div>
-            }>
-                <VerificationContent />
-            </Suspense>
+                }>
+                    <VerificationContent />
+                </Suspense>
+            </div>
         </div>
     );
 }

@@ -1,6 +1,7 @@
 const withMDX = require('@next/mdx')()
 
 /** @type {import('next').NextConfig} */
+// Force restart to apply metadata fix
 const nextConfig = {
     images: {
         remotePatterns: [
@@ -78,7 +79,23 @@ const nextConfig = {
                     },
                     {
                         key: 'Referrer-Policy',
-                        value: 'origin-when-cross-origin'
+                        value: 'strict-origin-when-cross-origin'
+                    },
+                    {
+                        key: 'X-Frame-Options',
+                        value: 'DENY'
+                    },
+                    {
+                        key: 'X-XSS-Protection',
+                        value: '1; mode=block'
+                    },
+                    {
+                        key: 'Permissions-Policy',
+                        value: 'camera=(), microphone=(), geolocation=(), browsing-topics=()'
+                    },
+                    {
+                        key: 'Content-Security-Policy',
+                        value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' blob: data: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https:; frame-src 'self' https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;"
                     }
                 ]
             }

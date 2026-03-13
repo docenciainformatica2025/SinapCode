@@ -36,7 +36,7 @@ export function CookieConsent() {
 
         await ConsentTracker.recordConsent({
             documentType: 'cookies',
-            documentVersion: 'v2.0.0',
+            documentVersion: 'v2.1.1',
             consentMethod: 'button_click'
         });
 
@@ -51,7 +51,7 @@ export function CookieConsent() {
 
         await ConsentTracker.recordConsent({
             documentType: 'cookies',
-            documentVersion: 'v2.0.0',
+            documentVersion: 'v2.1.1',
             consentMethod: 'button_click'
         });
 

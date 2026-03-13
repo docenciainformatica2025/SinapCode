@@ -23,9 +23,6 @@ export default async function ProgramasPage() {
                 <PricingSection />
             </main>
 
-            <div className="bg-white">
-                <LandingFooter />
-            </div>
 
             <HeatmapTracker />
         </div>

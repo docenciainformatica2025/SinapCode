@@ -40,6 +40,11 @@ export default withAuth(
             return NextResponse.redirect(new URL('/dashboard', req.url));
         }
 
+        // 4. Bloqueo de seguridad preventivo para rutas de desarrollo en producción
+        if (pathname.startsWith('/dev/')) {
+            return NextResponse.redirect(new URL('/404', req.url));
+        }
+
         return NextResponse.next();
     },
     {
@@ -57,5 +62,18 @@ export default withAuth(
 );
 
 export const config = {
-    matcher: ["/admin/:path*", "/dashboard/:path*", "/profile/:path*", "/teacher/:path*", "/auth/:path*", "/courses/:path*", "/evolution/:path*", "/library/:path*", "/mentor/:path*"],
+    matcher: [
+        "/admin/:path*",
+        "/dashboard/:path*",
+        "/profile/:path*",
+        "/teacher/:path*",
+        "/auth/:path*",
+        "/courses/:path*",
+        "/evolution/:path*",
+        "/library/:path*",
+        "/mentor/:path*",
+        "/api/protected/:path*",
+        "/api/admin/:path*",
+        "/dev/:path*"
+    ],
 };

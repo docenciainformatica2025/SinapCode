@@ -5,37 +5,38 @@
 
 export const legalTokens = {
     colors: {
-        background: "bg-[#F1F0E8]",
-        textPrimary: "text-[#1E1E1E]",
-        textSecondary: "text-[#1E1E1E]/60",
+        background: "theme-light bg-[#F1F0E8] text-[#1E1E1E]",
+        textPrimary: "text-[#1E1E1E] font-sans",
+        textSecondary: "text-[#1E1E1E]/70 font-medium",
         textMuted: "text-[#1E1E1E]/40",
-        border: "border-[#1E1E1E]/5",
+        border: "border-[#1E1E1E]/10",
         accent: "text-[#C9A78A]",
-        hover: "hover:text-[#C9A78A]",
+        hover: "hover:text-[#1E1E1E]",
+        card: "bg-white/50 backdrop-blur-md rounded-2xl border border-black/5",
     },
 
     spacing: {
-        container: "max-w-7xl mx-auto px-6",
-        footerPadding: "py-10 md:py-16",
-        sectionGap: "gap-8 md:gap-12",
+        container: "max-w-7xl mx-auto px-6 md:px-12",
+        footerPadding: "py-16 md:py-24",
+        sectionGap: "gap-12 md:gap-20",
     },
 
     typography: {
-        small: "text-sm",
-        base: "text-base",
-        heading: "text-3xl md:text-4xl font-semibold tracking-tight",
-        subheading: "text-lg md:text-xl font-medium",
-        brand: "font-semibold tracking-wide",
+        small: "text-sm tracking-tight",
+        base: "text-base leading-relaxed",
+        heading: "text-4xl md:text-6xl font-black tracking-tighter italic uppercase font-outfit",
+        subheading: "text-xl md:text-2xl font-bold tracking-tight text-[#1E1E1E]/90 font-outfit",
+        brand: "font-black tracking-widest uppercase text-neural-blue",
     },
 
     shadows: {
         sm: "shadow-sm",
-        md: "shadow-md",
-        lg: "shadow-lg",
+        md: "shadow-md shadow-black/20",
+        lg: "shadow-2xl shadow-neural-blue/10",
     },
 
     transitions: {
-        fast: "transition-all duration-200",
-        base: "transition-all duration-300",
+        fast: "transition-all duration-300 ease-out",
+        base: "transition-all duration-500 cubic-bezier(0.4, 0, 0.2, 1)",
     }
 };

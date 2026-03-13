@@ -14,6 +14,9 @@ const envSchema = z.object({
 
     // Node Environment
     NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
+
+    // Security
+    ENCRYPTION_KEY: z.string().length(64, "ENCRYPTION_KEY debe ser un string hex de 64 caracteres (32 bytes)").regex(/^[0-9a-fA-F]+$/, "ENCRYPTION_KEY debe ser un string hexadecimal válido"),
 });
 
 export const validateEnv = () => {

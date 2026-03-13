@@ -107,7 +107,7 @@ export default function TermsAcceptance({
                                 </h3>
                                 <p>
                                     Sus datos personales están protegidos según nuestra{' '}
-                                    <a href="/privacy" target="_blank" className="text-blue-600 hover:underline">
+                                    <a href="/legal/privacy" target="_blank" className="text-blue-600 hover:underline">
                                         Política de Privacidad
                                     </a>
                                     . Tiene derecho a acceder, rectificar y eliminar sus datos en cualquier momento.
@@ -181,7 +181,7 @@ export default function TermsAcceptance({
                                 Términos de Servicio
                             </a>
                             {' '}y la{' '}
-                            <a href="/privacy" target="_blank" className="text-blue-600 hover:underline">
+                            <a href="/legal/privacy" target="_blank" className="text-blue-600 hover:underline">
                                 Política de Privacidad
                             </a>
                             {' '}de SinapCode.

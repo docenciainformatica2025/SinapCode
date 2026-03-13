@@ -2,7 +2,11 @@
 
 import { useEffect } from 'react';
 import Link from 'next/link';
-import { WebGLHeroBg } from '@/components/landing/webgl-hero-bg';
+import dynamic from 'next/dynamic';
+
+const WebGLHeroBg = dynamic(() => import('@/components/landing/webgl-hero-bg').then(mod => mod.WebGLHeroBg), {
+    ssr: false,
+});
 
 export function NewHeroSection() {
     useEffect(() => {

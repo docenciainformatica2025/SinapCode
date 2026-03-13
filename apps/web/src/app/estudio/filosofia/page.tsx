@@ -64,8 +64,6 @@ export default function FilosofiaPage() {
                     </section>
                 </div>
             </main>
-
-            <LandingFooter />
         </div>
     );
 }

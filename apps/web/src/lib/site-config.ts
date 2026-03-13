@@ -4,6 +4,7 @@ export const siteConfig = {
     location: 'Tallinn, Estonia',
     description: 'La plataforma global para el desarrollo SaaS escalable y educación optimizada con IA. Impulsa Saber Pro, UTP Control y F5 Sport. Cumplimiento con GDPR, con sede en la UE.',
     url: process.env.NEXT_PUBLIC_APP_URL || 'https://sinapcode.com',
+    supportEmail: 'hola@sinapcode.com',
     ogImage: '/og-image.jpg',
     links: {
         twitter: 'https://twitter.com/sinapcode',

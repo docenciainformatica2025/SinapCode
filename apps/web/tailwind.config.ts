@@ -49,7 +49,7 @@ const config: Config = {
             },
             fontFamily: {
                 sans: [
-                    "Outfit",
+                    "var(--font-outfit)",
                     "-apple-system",
                     "BlinkMacSystemFont",
                     "SF Pro Text",

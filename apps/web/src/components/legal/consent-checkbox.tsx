@@ -50,7 +50,7 @@ export function ConsentCheckbox({
 
     const links = {
         terms: '/legal/terms',
-        privacy: '/privacy',
+        privacy: '/legal/privacy',
         cookies: '/legal/cookies',
     };
 
@@ -83,7 +83,7 @@ export function ConsentCheckbox({
                 {required && <span className="text-red-500 ml-1 font-black">*</span>}
                 {isRecording && (
                     <span className="text-[10px] text-[#C9A78A] ml-2 font-black">
-                        📝 Validando_
+                        📝 Validando
                     </span>
                 )}
             </label>

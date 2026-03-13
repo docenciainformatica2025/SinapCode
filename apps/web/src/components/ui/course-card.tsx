@@ -50,7 +50,7 @@ export function CourseCard({ title, description, level, duration, image, tags, s
                     {title}
                 </h3>
 
-                <p className="text-xs text-platinum-dim mb-6 line-clamp-2 leading-relaxed text-pretty opacity-60">
+                <p className="text-xs text-platinum-dim mb-6 line-clamp-2 leading-relaxed text-pretty">
                     {description}
                 </p>
 
@@ -68,7 +68,7 @@ export function CourseCard({ title, description, level, duration, image, tags, s
                     {progress !== undefined && progress > 0 ? (
                         <div className="space-y-3">
                             <div className="flex justify-between text-[11px] font-bold uppercase tracking-wider">
-                                <span className="text-platinum-dim opacity-60">Progreso</span>
+                                <span className="text-platinum-dim">Progreso</span>
                                 <span className="text-primary">{progress}%</span>
                             </div>
                             <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
@@ -80,7 +80,7 @@ export function CourseCard({ title, description, level, duration, image, tags, s
                         </div>
                     ) : (
                         <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2 text-platinum-dim/60 group-hover:text-white transition-colors duration-500">
+                            <div className="flex items-center gap-2 text-platinum-dim group-hover:text-white transition-colors duration-500">
                                 <span className="text-[10px] font-bold uppercase tracking-widest">{duration}</span>
                             </div>
                             <span className="text-apple-blue text-xs font-bold tracking-tight group-hover:translate-x-1 transition-transform duration-500 flex items-center gap-1.5">

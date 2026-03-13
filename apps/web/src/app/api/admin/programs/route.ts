@@ -19,16 +19,36 @@ export async function GET(request: Request) {
             return NextResponse.json({ error: 'No autorizado' }, { status: 403 });
         }
 
+        const { searchParams } = new URL(request.url);
+        const page = Math.max(1, parseInt(searchParams.get('page') || '1'));
+        const limit = Math.max(1, Math.min(100, parseInt(searchParams.get('limit') || '50')));
+        const skip = (page - 1) * limit;
+
+        const total = await prisma.course.count({
+            where: { deletedAt: null }
+        });
+
         const programs = await prisma.course.findMany({
+            where: { deletedAt: null },
             orderBy: { createdAt: 'desc' },
             include: {
                 _count: {
                     select: { modules: true }
                 }
-            }
+            },
+            skip,
+            take: limit
         });
 
-        return NextResponse.json({ programs });
+        return NextResponse.json({
+            programs,
+            pagination: {
+                total,
+                page,
+                pageSize: limit,
+                totalPages: Math.ceil(total / limit)
+            }
+        });
     } catch (error) {
         console.error('Error en la API de programas (GET):', error);
         return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 });

@@ -8,7 +8,14 @@ import { ToastProvider } from '@/components/ui/toast-provider';
 import { GlobalHeader } from '@/components/layout/global-header';
 import { GlobalOrganizationSchema, WebSiteSchema } from '@/components/seo/json-ld';
 import { SimulationIndicator } from '@/components/admin/simulation-indicator';
-import AIConcierge from '@/components/ai/ai-concierge';
+import { FooterWrapper } from '@/components/layout/footer-wrapper';
+import dynamic from 'next/dynamic';
+
+const AIConcierge = dynamic(() => import('@/components/ai/ai-concierge'), {
+    ssr: false,
+});
+
+import ServiceWorkerRegister from "@/components/pwa/sw-register";
 
 import { siteConfig } from '@/lib/site-config';
 
@@ -58,6 +65,14 @@ export const metadata: Metadata = {
         apple: '/apple-touch-icon.png',
     },
     manifest: '/site.webmanifest',
+    appleWebApp: {
+        capable: true,
+        statusBarStyle: 'default',
+        title: 'SinapCode',
+    },
+    formatDetection: {
+        telephone: false,
+    },
     robots: {
         index: true,
         follow: true,
@@ -71,11 +86,25 @@ export const metadata: Metadata = {
     },
 };
 
-import { Inter, JetBrains_Mono } from 'next/font/google';
+export const viewport = {
+    themeColor: '#F1F0E8',
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
+    userScalable: true,
+};
+
+import { Inter, JetBrains_Mono, Outfit } from 'next/font/google';
 
 const inter = Inter({
     subsets: ['latin'],
     variable: '--font-inter',
+    display: 'swap',
+});
+
+const outfit = Outfit({
+    subsets: ['latin'],
+    variable: '--font-outfit',
     display: 'swap',
 });
 
@@ -91,8 +120,9 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="es" className={`${inter.variable} ${jetbrainsMono.variable}`}>
+        <html lang="es" className={`${inter.variable} ${outfit.variable} ${jetbrainsMono.variable}`}>
             <body className="bg-bg text-text antialiased font-sans" suppressHydrationWarning>
+                <ServiceWorkerRegister />
                 <Providers>
                     <RecaptchaProvider>
                         <ErrorBoundary>
@@ -104,6 +134,7 @@ export default function RootLayout({
                             <SimulationIndicator />
                             {children}
                             <AIConcierge />
+                            <FooterWrapper />
                         </ErrorBoundary>
                     </RecaptchaProvider>
                 </Providers>
@@ -111,3 +142,4 @@ export default function RootLayout({
         </html>
     );
 }
+

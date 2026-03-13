@@ -143,8 +143,6 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                     </aside>
                 </div>
             </main>
-
-            <LandingFooter />
         </div>
     );
 }

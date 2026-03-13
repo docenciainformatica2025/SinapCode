@@ -1,17 +1,10 @@
-import { prisma } from './prisma';
-// import { EventCategory } from '@prisma/client';
-type EventCategory = 'LEGAL' | 'SECURITY' | 'DATA' | 'TRANSACTION';
-const EventCategory = {
-    LEGAL: 'LEGAL' as const,
-    SECURITY: 'SECURITY' as const,
-    DATA: 'DATA' as const,
-    TRANSACTION: 'TRANSACTION' as const,
-};
+import { LoggingService } from '@/services/logging-service';
+import { LogLevel } from '@/domain/logging/types';
 
 interface AuditLogParams {
     userId?: string;
     eventType: string;
-    eventCategory: EventCategory;
+    eventCategory: 'LEGAL' | 'SECURITY' | 'DATA' | 'TRANSACTION';
     eventData: any;
     ipAddress?: string;
     userAgent?: string;
@@ -22,32 +15,23 @@ interface AuditLogParams {
  * Crea un registro de auditoría en la base de datos
  * Cumplimiento: GDPR Art. 30 y estándares globales de privacidad de datos.
  */
-export async function createAuditLog({
-    userId,
-    eventType,
-    eventCategory,
-    eventData,
-    ipAddress,
-    userAgent,
-    sessionId,
-}: AuditLogParams): Promise<void> {
-    try {
-        await prisma.auditLog.create({
-            data: {
-                userId,
-                eventType,
-                eventCategory,
-                eventData,
-                ipAddress,
-                userAgent,
-                sessionId,
-                createdAt: new Date(),
-            },
-        });
-    } catch (error) {
-        console.error('❌ Error al crear el registro de auditoría:', error);
-        // No lanzar error - los audit logs no deben bloquear operaciones
-    }
+export async function createAuditLog(params: AuditLogParams): Promise<void> {
+    const { userId, eventType, eventCategory, eventData, ipAddress, userAgent, sessionId } = params;
+
+    await LoggingService.saveToDatabase(
+        'info',
+        `AUDIT_LOG: ${eventType}`,
+        {
+            userId,
+            action: eventType,
+            event: eventType,
+            eventCategory,
+            ...eventData,
+            ip: ipAddress,
+            userAgent,
+            sessionId
+        }
+    );
 }
 
 /**
@@ -78,7 +62,6 @@ export async function logUserChange({
             targetUserId,
             changes,
             reason,
-            timestamp: new Date().toISOString(),
         },
         ipAddress,
         userAgent,

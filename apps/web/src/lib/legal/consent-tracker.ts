@@ -9,7 +9,7 @@
 
 export interface ConsentData {
     documentType: 'terms' | 'privacy' | 'cookies' | 'coppa';
-    documentVersion: string;
+    documentVersion: string; // Versión oficial del documento legal (ej. v2.1.1)
     consentMethod: 'checkbox' | 'button_click' | 'scroll_complete';
 }
 
@@ -61,13 +61,12 @@ export class ConsentTracker {
 
 
         } catch (error) {
-            console.error('❌ Error al registrar consentimiento:', error);
-            // No lanzar error para no bloquear el flujo del usuario
-            // Pero guardar en localStorage como fallback
+            console.error('❌ Error crítico al registrar evidencia de consentimiento:', error);
+            // IMPORTANTE: No bloqueamos al usuario si falla la red, pero aseguramos persistencia local.
             this.saveLocalConsent({
                 ...data,
                 timestamp: new Date().toISOString(),
-                error: 'Failed to send to backend',
+                error: 'Fallo al enviar al servidor (Modo Fallback activado)',
             });
         }
     }

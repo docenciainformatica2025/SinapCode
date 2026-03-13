@@ -1,0 +1,24 @@
+import { NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
+
+export async function GET() {
+    try {
+        // Quick DB check
+        await prisma.$queryRaw`SELECT 1`;
+
+        return NextResponse.json({
+            status: 'healthy',
+            timestamp: new Date().toISOString(),
+            service: 'sinapcode-web-app',
+            version: '2.4.0',
+            database: 'connected'
+        }, { status: 200 });
+    } catch (error) {
+        console.error('Health check failed:', error);
+        return NextResponse.json({
+            status: 'unhealthy',
+            timestamp: new Date().toISOString(),
+            error: 'database-connection-failed'
+        }, { status: 503 });
+    }
+}

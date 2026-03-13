@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { legalTokens as tokens } from "@/lib/constants/legal-tokens";
 import { LegalFooter } from "@/components/legal/legal-footer";
+import { LegalNavbar } from "@/components/legal/legal-navbar";
 
 const legalSections = [
     {
@@ -43,21 +44,21 @@ const legalSections = [
 
 export default function LegalCenterPage() {
     return (
-        <div className="flex flex-col min-h-screen bg-[#F1F0E8] text-[#1E1E1E] selection:bg-[#C9A78A]/30">
+        <div className="theme-light flex flex-col min-h-screen bg-[#F1F0E8] text-[#1E1E1E] selection:bg-[#C9A78A]/30 font-inter pt-20">
             <main className="flex-grow">
                 {/* Hero Section */}
-                <section className="py-24 md:py-36 border-b border-[#1E1E1E]/5 relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#C9A78A]/5 rounded-full blur-[120px] pointer-events-none" />
+                <section className="py-24 md:py-40 border-b border-black/5 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#C9A78A]/5 rounded-full blur-[140px] pointer-events-none" />
                     <div className={tokens.spacing.container + " relative z-10"}>
                         <div className="max-w-4xl">
-                            <span className="text-[#C9A78A] font-black text-xs tracking-[0.3em] uppercase mb-8 block italic leading-none">
-                                CONFIANZA Y TRANSPARENCIA_
+                            <span className="text-[#C9A78A] font-black text-[10px] tracking-[0.5em] uppercase mb-8 block italic leading-none opacity-80 font-outfit">
+                                CONFIANZA Y TRANSPARENCIA
                             </span>
-                            <h1 className="text-5xl md:text-8xl font-black text-[#1E1E1E] mb-10 tracking-tighter leading-none italic uppercase">
+                            <h1 className="text-5xl md:text-9xl font-black text-[#1E1E1E] mb-10 tracking-tighter leading-none italic uppercase font-outfit">
                                 Centro Legal<br />
-                                SINAPCODE<span className="text-[#C9A78A]">_</span>
+                                SINAPCODE
                             </h1>
-                            <p className="text-[#1E1E1E]/60 text-xl md:text-2xl font-medium max-w-2xl italic leading-relaxed">
+                            <p className="text-[#1E1E1E]/60 text-xl md:text-2xl font-bold max-w-2xl italic leading-relaxed tracking-tight">
                                 Creemos en la claridad radical. Nuestro ecosistema digital se fundamenta en la transparencia,
                                 la seguridad de alta gama y el cumplimiento normativo global.
                             </p>
@@ -66,30 +67,30 @@ export default function LegalCenterPage() {
                 </section>
 
                 {/* Legal Grid */}
-                <section className="py-20">
+                <section className="py-24">
                     <div className={tokens.spacing.container}>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                             {legalSections.map((section) => (
                                 <Link
                                     key={section.title}
                                     href={section.href}
-                                    className="group flex flex-col p-10 rounded-[3rem] border border-[#1E1E1E]/5 bg-white hover:border-[#C9A78A]/30 hover:bg-white shadow-sm hover:shadow-2xl hover:shadow-[#1E1E1E]/5 transition-all duration-700 relative overflow-hidden"
+                                    className="group flex flex-col p-12 rounded-[4rem] border border-black/5 bg-white hover:bg-[#1E1E1E] hover:border-[#1E1E1E] shadow-2xl shadow-black/[0.02] transition-all duration-700 relative overflow-hidden"
                                 >
-                                    <div className="absolute top-0 right-0 w-32 h-32 bg-[#C9A78A]/5 rounded-full blur-2xl group-hover:bg-[#C9A78A]/10 transition-all duration-700" />
+                                    <div className="absolute top-0 right-0 w-40 h-40 bg-[#C9A78A]/5 rounded-full blur-3xl group-hover:bg-[#C9A78A]/10 transition-all duration-700" />
 
-                                    <div className="text-4xl mb-8 bg-[#F1F0E8] w-16 h-16 flex items-center justify-center rounded-[1.5rem] group-hover:scale-110 group-hover:bg-[#C9A78A]/10 transition-all duration-500 relative z-10">
+                                    <div className="text-4xl mb-10 bg-[#F1F0E8] w-20 h-20 flex items-center justify-center rounded-[2rem] group-hover:scale-110 group-hover:bg-[#C9A78A] transition-all duration-500 relative z-10 border border-black/5">
                                         {section.icon}
                                     </div>
-                                    <h2 className="text-2xl font-black mb-4 group-hover:text-[#C9A78A] transition-colors italic tracking-tighter uppercase relative z-10">
-                                        {section.title}_
+                                    <h2 className="text-2xl font-black mb-4 group-hover:text-[#F1F0E8] transition-colors italic tracking-tighter uppercase font-outfit relative z-10">
+                                        {section.title}
                                     </h2>
-                                    <p className="text-[#1E1E1E]/50 text-base leading-relaxed mb-8 font-medium italic relative z-10">
+                                    <p className="text-[#1E1E1E]/50 text-base leading-relaxed mb-10 font-bold italic relative z-10 tracking-tight group-hover:text-[#F1F0E8]/60">
                                         {section.description}
                                     </p>
-                                    <div className="mt-auto flex items-center text-[10px] font-black text-[#1E1E1E] uppercase tracking-[0.2em] relative z-10">
-                                        EXPLORAR PROTOCOLO_
+                                    <div className="mt-auto flex items-center text-[10px] font-black text-[#1E1E1E]/40 uppercase tracking-[0.3em] group-hover:text-[#C9A78A] transition-all">
+                                        EXPLORAR PROTOCOLO
                                         <svg className="ml-3 w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M9 5l7 7-7 7" />
                                         </svg>
                                     </div>
                                 </Link>
@@ -98,43 +99,44 @@ export default function LegalCenterPage() {
                     </div>
                 </section>
 
+                {/* Institutional Info */}
                 <section className="py-32">
                     <div className={tokens.spacing.container}>
-                        <div className="bg-white rounded-[4rem] p-12 md:p-20 border border-[#1E1E1E]/5 shadow-2xl shadow-[#1E1E1E]/5 relative overflow-hidden group">
+                        <div className="bg-white border border-black/5 rounded-[5rem] p-12 md:p-24 relative overflow-hidden group">
                             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-[#C9A78A]/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
 
-                            <div className="grid lg:grid-cols-2 gap-20 items-center relative z-10">
+                            <div className="grid lg:grid-cols-2 gap-24 items-center relative z-10">
                                 <div>
-                                    <h2 className="text-3xl font-black mb-12 tracking-tighter italic uppercase text-[#1E1E1E]">Entidad Corporativa_</h2>
-                                    <div className="space-y-10">
+                                    <h2 className="text-4xl font-black mb-16 tracking-tighter italic uppercase text-[#1E1E1E] font-outfit">Entidad Corporativa</h2>
+                                    <div className="space-y-12">
                                         <div className="group/item">
-                                            <h3 className="text-[10px] font-black text-[#1E1E1E]/40 uppercase tracking-[0.3em] mb-3 group-hover/item:text-[#C9A78A] transition-colors">REGISTRO OFICIAL_</h3>
-                                            <p className="text-xl font-black text-[#1E1E1E] italic">SINAPCODE OÜ</p>
+                                            <h3 className="text-[10px] font-black text-[#1E1E1E]/40 uppercase tracking-[0.4em] mb-4 group-hover/item:text-[#C9A78A] transition-colors">REGISTRO OFICIAL</h3>
+                                            <p className="text-2xl font-black text-[#1E1E1E] italic font-outfit uppercase">SINAPCODE OÜ</p>
                                         </div>
                                         <div className="group/item">
-                                            <h3 className="text-[10px] font-black text-[#1E1E1E]/40 uppercase tracking-[0.3em] mb-3 group-hover/item:text-[#C9A78A] transition-colors">HEADQUARTERS (EU)_</h3>
-                                            <p className="text-xl font-black text-[#1E1E1E] italic leading-tight">
+                                            <h3 className="text-[10px] font-black text-[#1E1E1E]/40 uppercase tracking-[0.4em] mb-4 group-hover/item:text-[#C9A78A] transition-colors">HEADQUARTERS (EU)</h3>
+                                            <p className="text-2xl font-black text-[#1E1E1E] italic leading-none font-outfit">
                                                 TALLINN, HARJU MAAKOND,<br />
                                                 KESKLINNA LINNAOSA, ESTONIA 🇪🇪
                                             </p>
                                         </div>
                                         <div className="group/item">
-                                            <h3 className="text-[10px] font-black text-[#1E1E1E]/40 uppercase tracking-[0.3em] mb-3 group-hover/item:text-[#C9A78A] transition-colors">JURISDICCIÓN_</h3>
-                                            <p className="text-xl font-black text-[#1E1E1E] italic">REPÚBLICA DE ESTONIA | UNIÓN EUROPEA</p>
+                                            <h3 className="text-[10px] font-black text-[#1E1E1E]/40 uppercase tracking-[0.4em] mb-4 group-hover/item:text-[#C9A78A] transition-colors">JURISDICCIÓN</h3>
+                                            <p className="text-2xl font-black text-[#1E1E1E] italic uppercase font-outfit">REPÚBLICA DE ESTONIA | UNIÓN EUROPEA</p>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="p-12 bg-[#1E1E1E] rounded-[3rem] border border-[#1E1E1E]/5 shadow-2xl relative overflow-hidden group/box hover:-translate-y-2 transition-transform duration-700">
-                                    <div className="absolute top-0 right-0 w-48 h-48 bg-[#C9A78A]/20 rounded-full blur-[80px]" />
-                                    <h3 className="text-2xl font-black mb-6 text-[#F1F0E8] tracking-tighter italic uppercase relative z-10">Asuntos Legales_</h3>
-                                    <p className="text-[#F1F0E8]/60 text-base mb-10 leading-relaxed font-medium italic relative z-10">
+                                <div className="p-14 bg-[#F1F0E8] rounded-[4rem] border border-black/5 shadow-2xl relative overflow-hidden group/box hover:-translate-y-2 transition-all duration-700 text-[#1E1E1E]">
+                                    <div className="absolute top-0 right-0 w-64 h-64 bg-[#C9A78A]/5 rounded-full blur-[100px]" />
+                                    <h3 className="text-3xl font-black mb-8 text-[#1E1E1E] tracking-tighter italic uppercase font-outfit relative z-10">Asuntos Legales</h3>
+                                    <p className="text-[#1E1E1E]/60 text-lg mb-12 leading-relaxed font-bold italic relative z-10 tracking-tight text-justify">
                                         Si requiere clarificación técnica sobre nuestros protocolos de cumplimiento o procesamiento de datos,
                                         nuestro departamento jurídico está a su disposición total.
                                     </p>
                                     <a
                                         href="mailto:legal@sinapcode.com"
-                                        className="inline-flex items-center px-10 py-5 bg-[#C9A78A] text-[#1E1E1E] font-black text-xs uppercase tracking-[0.2em] rounded-2xl hover:bg-[#F1F0E8] transition-all relative z-10 italic shadow-xl shadow-[#C9A78A]/20"
+                                        className="inline-flex items-center px-12 py-6 bg-[#1E1E1E] text-[#F1F0E8] font-black text-[11px] uppercase tracking-[0.3em] rounded-[2rem] hover:bg-[#C9A78A] hover:text-[#1E1E1E] transition-all relative z-10 italic shadow-2xl shadow-black/5"
                                     >
                                         CONTACTAR COMPLIANCE →
                                     </a>
@@ -144,7 +146,6 @@ export default function LegalCenterPage() {
                     </div>
                 </section>
             </main>
-            <LegalFooter />
         </div>
     );
 }

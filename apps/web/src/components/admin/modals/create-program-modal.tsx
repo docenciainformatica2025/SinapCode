@@ -74,13 +74,13 @@ export function CreateProgramModal({ isOpen, onClose, onSuccess, programToEdit }
 
     const onSubmit = async (data: ProgramFormValues) => {
         setIsLoading(true);
+        const url = programToEdit
+            ? `/api/admin/programs/${programToEdit.id}`
+            : '/api/admin/programs';
+
+        const method = programToEdit ? 'PUT' : 'POST';
+
         try {
-            const url = programToEdit
-                ? `/api/admin/programs/${programToEdit.id}`
-                : '/api/admin/programs';
-
-            const method = programToEdit ? 'PUT' : 'POST';
-
             const response = await fetch(url, {
                 method: method,
                 headers: { 'Content-Type': 'application/json' },
@@ -95,9 +95,24 @@ export function CreateProgramModal({ isOpen, onClose, onSuccess, programToEdit }
             onSuccess();
             onClose();
             router.refresh();
-        } catch (error) {
+        } catch (error: any) {
             console.error(error);
-            toast.error('No se pudo guardar el programa');
+
+            // Si es un error de conexiÃ³n (TypeError: Failed to fetch)
+            if (!navigator.onLine || error.name === 'TypeError') {
+                try {
+                    const { resilienceService } = await import('@/lib/resilience-service');
+                    await resilienceService.enqueue(url, method, data);
+                    toast.info('Sin conexiÃ³n. El programa se guardarÃ¡ automÃ¡ticamente cuando recuperes la seÃ±al.', {
+                        duration: 5000,
+                    });
+                    onClose();
+                } catch (syncError) {
+                    toast.error('No se pudo guardar ni siquiera localmente.');
+                }
+            } else {
+                toast.error('No se pudo guardar el programa');
+            }
         } finally {
             setIsLoading(false);
         }

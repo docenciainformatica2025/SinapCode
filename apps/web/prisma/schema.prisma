@@ -102,6 +102,7 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId])
   @@map("accounts")
 }
 
@@ -112,6 +113,7 @@ model Session {
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@index([userId])
   @@map("sessions")
 }
 
@@ -300,6 +302,7 @@ model AuditLog {
   @@index([eventType])
   @@index([action])
   @@index([createdAt])
+  @@index([eventType, createdAt])
   @@map("audit_logs")
 }
 
@@ -335,10 +338,13 @@ model CmsProject {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   publishedAt DateTime?
+  deletedAt   DateTime?
 
   @@index([status])
   @@index([featured])
   @@index([slug])
+  @@index([authorId])
+  @@index([deletedAt])
   @@map("cms_projects")
 }
 
@@ -369,10 +375,13 @@ model CmsPost {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   publishedAt DateTime?
+  deletedAt   DateTime?
 
   @@index([status])
   @@index([category])
   @@index([slug])
+  @@index([authorId])
+  @@index([deletedAt])
   @@map("cms_posts")
 }
 
@@ -425,9 +434,12 @@ model Course {
   
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
+  deletedAt   DateTime? @map("deleted_at")
   
   @@index([isPublished])
   @@index([slug])
+  @@index([authorId])
+  @@index([deletedAt])
   @@map("programs")
 }
 

@@ -68,8 +68,6 @@ export default function SobreNosotrosPage() {
                     ))}
                 </div>
             </main>
-
-            <LandingFooter />
         </div>
     );
 }

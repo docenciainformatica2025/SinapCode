@@ -6,6 +6,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from "@/lib/auth-options";
 import { prisma } from "@/lib/prisma";
 import PDFDocument from 'pdfkit';
+import { Security } from '@/lib/security';
 
 export async function GET(
     request: Request,
@@ -44,9 +45,10 @@ export async function GET(
 
         // 3. Generate Certificate Record (Audit Trail)
         const currentYear = new Date().getFullYear();
-        // Generate a secure random suffix (5 chars hex)
-        const randomSuffix = Math.floor(Math.random() * 0xFFFFF).toString(16).toUpperCase().padStart(5, '0');
-        const certCode = `SC-${currentYear}-LEG-${randomSuffix}`;
+        // Generate a secure fingerprint based on user data and timestamp
+        const certContext = `${targetUser.id}-${targetUser.email}-${new Date().getTime()}`;
+        const secureHash = Security.hash(certContext).substring(0, 10).toUpperCase();
+        const certCode = `SC-${currentYear}-LEG-${secureHash}`;
 
         // Create Persistent Record
         await prisma.certificate.create({
@@ -223,9 +225,11 @@ export async function GET(
             MARGIN, disY, { align: 'justify', width: textWidth }
         );
 
-        const fingerprint = certCode.split('').reverse().join('') + 'E3B0C44298FC1C149AFBF4C8996FB92';
+        // Generate dynamic fingerprint of the PDF content context for integrity
+        const fingerprintData = `${certCode}-${targetUser.id}-${new Date().toISOString()}`;
+        const fingerprint = Security.hash(fingerprintData).toUpperCase();
         doc.moveDown(0.5);
-        doc.fillColor(COLOR_GOLD).text(`Digital Fingerprint (SHA256): ${fingerprint.substring(0, 64)}...`, MARGIN, doc.y, { align: 'left', width: textWidth });
+        doc.fillColor(COLOR_GOLD).text(`Digital Fingerprint (SHA256): ${fingerprint.substring(0, 64)}`, MARGIN, doc.y, { align: 'left', width: textWidth });
 
         const sealX = CONTENT_X_END - 30;
         const sealY = disY + 15;

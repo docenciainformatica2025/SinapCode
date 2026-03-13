@@ -1,14 +1,15 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from "@/lib/auth-options";
-import fs from 'fs';
-import path from 'path';
-import { siteConfig } from '@/lib/site-config';
+import { prisma } from "@/lib/prisma";
 
 const isAuthorized = async (session: any) => {
     if (!session?.user?.email) return false;
-    // Simple check for demo purposes, assume token has role if possible
-    return session.user.role === 'ADMIN' || session.user.role === 'SUPER_ADMIN';
+    const user = await prisma.user.findUnique({
+        where: { email: session.user.email },
+        select: { role: true }
+    });
+    return user && ['SUPER_ADMIN', 'ADMIN'].includes(user.role);
 };
 
 export async function GET(request: Request) {
@@ -18,20 +19,30 @@ export async function GET(request: Request) {
             return NextResponse.json({ error: 'No autorizado' }, { status: 403 });
         }
 
+        const config = await prisma.siteConfig.findUnique({
+            where: { id: 'global' }
+        });
+
+        // Initialize defaults if not exists
+        if (!config) {
+            return NextResponse.json({
+                platformName: 'SinapCode',
+                company: 'SinapCode',
+                location: 'Unknown',
+                maintenanceMode: false,
+                systemInfo: {
+                    nodeEnv: process.env.NODE_ENV || 'development',
+                }
+            });
+        }
+
         return NextResponse.json({
-            platformName: siteConfig.name,
-            company: siteConfig.company,
-            location: siteConfig.location,
-            supportUrl: siteConfig.url,
-            maintenanceMessage: '',
-            maintenanceMode: false,
-            emailAlerts: true,
-            pushNotifications: false,
-            twoFactorRequired: false,
-            publicRegistration: true,
+            platformName: config.siteName,
+            company: config.companyName,
+            location: config.location,
+            supportUrl: config.supportEmail,
+            maintenanceMode: false, // Placeholder
             systemInfo: {
-                appVersion: '1.0.0',
-                nextVersion: '14.2.0',
                 nodeEnv: process.env.NODE_ENV || 'development',
                 dbType: 'PostgreSQL (Supabase)'
             }
@@ -51,29 +62,29 @@ export async function PUT(request: Request) {
 
         const body = await request.json();
 
-        // Define path to site-config.ts
-        const configPath = path.join(process.cwd(), 'src', 'lib', 'site-config.ts');
+        // SECURITY: Refactored to use DB instead of modifying source code (neutralizes injection)
+        const updatedConfig = await prisma.siteConfig.upsert({
+            where: { id: 'global' },
+            create: {
+                id: 'global',
+                siteName: body.platformName || 'SinapCode',
+                companyName: body.company,
+                location: body.location,
+                supportEmail: body.supportUrl,
+            },
+            update: {
+                siteName: body.platformName,
+                companyName: body.company,
+                location: body.location,
+                supportEmail: body.supportUrl,
+            }
+        });
 
-        let fileContent = fs.readFileSync(configPath, 'utf-8');
-
-        // Update variables in string using regex
-        if (body.platformName) {
-            fileContent = fileContent.replace(/name:\s*['"][^'"]*['"]/, `name: '${body.platformName}'`);
-        }
-        if (body.company) {
-            fileContent = fileContent.replace(/company:\s*['"][^'"]*['"]/, `company: '${body.company}'`);
-        }
-        if (body.location) {
-            fileContent = fileContent.replace(/location:\s*['"][^'"]*['"]/, `location: '${body.location}'`);
-        }
-        if (body.supportUrl) {
-            fileContent = fileContent.replace(/url:\s*(?:process\.env\.NEXT_PUBLIC_APP_URL\s*\|\|\s*)?['"][^'"]*['"]/, `url: process.env.NEXT_PUBLIC_APP_URL || '${body.supportUrl}'`);
-        }
-
-        // write changes back
-        fs.writeFileSync(configPath, fileContent, 'utf-8');
-
-        return NextResponse.json({ success: true, message: 'Settings updated successfully' });
+        return NextResponse.json({
+            success: true,
+            message: 'Configuración actualizada en la base de datos',
+            config: updatedConfig
+        });
     } catch (error) {
         console.error('Error updating settings:', error);
         return NextResponse.json({ error: 'Error al actualizar la configuración' }, { status: 500 });

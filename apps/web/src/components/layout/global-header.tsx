@@ -41,8 +41,8 @@ export function GlobalHeader() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Hide header on auth pages and dashboard/admin
-    if (pathname?.startsWith('/auth') || pathname?.startsWith('/dashboard') || pathname?.startsWith('/admin')) {
+    // Hide header on dashboard and admin only. Auth now shows global header for consistency.
+    if (pathname?.startsWith('/dashboard') || pathname?.startsWith('/admin')) {
         return null;
     }
 

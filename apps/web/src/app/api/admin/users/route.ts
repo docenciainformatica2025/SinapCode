@@ -5,9 +5,15 @@ import { prisma } from "@/lib/prisma";
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+export async function GET(request: Request) {
     try {
         const session = await getServerSession(authOptions);
+        const { searchParams } = new URL(request.url);
+
+        // Pagination params
+        const page = Math.max(1, parseInt(searchParams.get('page') || '1'));
+        const limit = Math.max(1, Math.min(100, parseInt(searchParams.get('limit') || '50')));
+        const skip = (page - 1) * limit;
 
         if (!session?.user?.email) {
             return NextResponse.json(
@@ -30,7 +36,12 @@ export async function GET() {
             );
         }
 
-        // Obtener todos los usuarios (excluyendo eliminados)
+        // Obtener total para metadatos de paginación
+        const total = await prisma.user.count({
+            where: { deletedAt: null }
+        });
+
+        // Obtener usuarios paginados
         const users = await prisma.user.findMany({
             where: { deletedAt: null },
             select: {
@@ -45,7 +56,9 @@ export async function GET() {
             },
             orderBy: {
                 createdAt: 'desc'
-            }
+            },
+            skip,
+            take: limit
         });
 
         // Formatear datos para el frontend con validación estricta
@@ -75,7 +88,12 @@ export async function GET() {
 
         return NextResponse.json({
             users: formattedUsers,
-            total: users.length
+            pagination: {
+                total,
+                page,
+                pageSize: limit,
+                totalPages: Math.ceil(total / limit)
+            }
         });
 
     } catch (error: any) {

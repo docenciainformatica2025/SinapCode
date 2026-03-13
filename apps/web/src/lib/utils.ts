@@ -56,3 +56,8 @@ export function getRelativeTime(date: Date | string): string {
 
     return formatDate(date);
 }
+
+export function truncateText(text: string, length: number): string {
+    if (text.length <= length) return text;
+    return text.slice(0, length) + '...';
+}

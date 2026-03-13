@@ -99,7 +99,7 @@ export default function CookieBanner() {
                                             Política de Cookies
                                         </a>
                                         {' '}y{' '}
-                                        <a href="/privacy" className="underline hover:text-blue-600">
+                                        <a href="/legal/privacy" className="underline hover:text-blue-600">
                                             Política de Privacidad
                                         </a>
                                         .

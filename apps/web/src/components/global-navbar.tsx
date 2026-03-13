@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import { UserGamificatonStats } from '@/components/gamification/user-stats';
@@ -61,7 +62,7 @@ export function GlobalNavbar() {
                 <div className="flex items-center gap-8">
                     <Link href="/" className="flex items-center gap-2 group">
                         {siteConfig?.logoUrl ? (
-                            <img src={siteConfig.logoUrl} alt={siteDisplayName} className="h-6 w-auto object-contain" />
+                            <Image src={siteConfig.logoUrl} alt={siteDisplayName} width={120} height={24} className="h-6 w-auto object-contain" />
                         ) : (
                             <span className="text-xl font-bold tracking-tight text-white group-hover:text-primary transition-colors">
                                 {siteDisplayName.split('Code')[0]}<span className="text-primary">{siteDisplayName.includes('Code') ? 'CODE' : ''}</span>

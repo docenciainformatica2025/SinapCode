@@ -18,6 +18,11 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+interface CommandPaletteProps {
+    isOpen?: boolean;
+    onClose?: () => void;
+}
+
 interface CommandItem {
     id: string;
     label: string;
@@ -26,8 +31,15 @@ interface CommandItem {
     keywords?: string[];
 }
 
-export function CommandPalette() {
-    const [open, setOpen] = useState(false);
+export function CommandPalette({ isOpen: externalOpen, onClose }: CommandPaletteProps) {
+    const [internalOpen, setInternalOpen] = useState(false);
+    const open = externalOpen !== undefined ? externalOpen : internalOpen;
+    const setOpen = onClose ? (val: boolean | ((prev: boolean) => boolean)) => {
+        if (typeof val === 'function') {
+            if (!val(open)) onClose();
+        } else if (!val) onClose();
+    } : setInternalOpen;
+
     const [search, setSearch] = useState('');
     const router = useRouter();
 
@@ -36,7 +48,7 @@ export function CommandPalette() {
         const down = (e: KeyboardEvent) => {
             if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
                 e.preventDefault();
-                setOpen((open) => !open);
+                setOpen((prev) => !prev);
             }
         };
 

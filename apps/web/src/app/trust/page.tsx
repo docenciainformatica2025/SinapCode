@@ -130,7 +130,6 @@ export default function TrustCenterPage() {
                     </div>
                 </section>
             </main>
-            <LegalFooter />
         </div>
     );
 }

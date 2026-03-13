@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Brain, Zap, Cpu, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface Banner {
     id: string;
@@ -138,9 +139,10 @@ export function NewsHeroBanner() {
                             transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
                             className="relative aspect-[4/3] rounded-[3rem] overflow-hidden shadow-2xl border-[12px] border-white group"
                         >
-                            <img
+                            <Image
                                 src={activeNews.imageUrl}
                                 alt={activeNews.title}
+                                fill
                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2000ms]"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-[#1E1E1E]/40 to-transparent opacity-60" />

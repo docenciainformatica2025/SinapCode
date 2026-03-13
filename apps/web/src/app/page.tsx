@@ -33,9 +33,6 @@ export default async function HomePage() {
                 </div>
             </main>
 
-            <div className="bg-white">
-                <LandingFooter />
-            </div>
 
             <HeatmapTracker />
         </div>

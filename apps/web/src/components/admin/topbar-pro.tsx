@@ -6,30 +6,49 @@ import { useSession } from 'next-auth/react';
 
 interface TopbarProps {
     onCommandPaletteOpen?: () => void;
+    onMobileMenuOpen?: () => void;
 }
 
-export function AdminTopbar({ onCommandPaletteOpen }: TopbarProps) {
+export function AdminTopbar({ onCommandPaletteOpen, onMobileMenuOpen }: TopbarProps) {
     const { data: session } = useSession();
     const [notificationCount] = useState(3);
 
     return (
-        <div className="h-16 glass-panel border-b border-white/10 px-6 flex items-center justify-between">
-            {/* Search */}
-            <div className="flex-1 max-w-xl">
+        <header
+            className="h-16 glass-panel border-b border-white/10 px-4 md:px-6 flex items-center justify-between sticky top-0 z-30"
+            role="banner"
+        >
+            <div className="flex items-center gap-4">
+                {/* Mobile Menu Toggle */}
                 <button
-                    onClick={onCommandPaletteOpen}
-                    className="w-full flex items-center gap-3 px-4 py-2 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-colors group"
+                    onClick={onMobileMenuOpen}
+                    className="p-2 lg:hidden hover:bg-white/10 rounded-lg transition-colors text-platinum-dim"
+                    aria-label="Abrir menú lateral"
                 >
-                    <Search className="h-4 w-4 text-platinum-dim group-hover:text-neural-blue transition-colors" />
-                    <span className="text-sm text-platinum-dim flex-1 text-left">
-                        Buscar o ejecutar comando...
-                    </span>
-                    <div className="flex items-center gap-1">
-                        <kbd className="px-2 py-1 text-xs font-mono bg-white/10 text-platinum-dim rounded border border-white/20">
-                            ⌘K
-                        </kbd>
-                    </div>
+                    <Command className="h-5 w-5" />
                 </button>
+
+                {/* Search */}
+                <div className="flex-1 min-w-[200px] md:min-w-[400px]">
+                    <button
+                        onClick={onCommandPaletteOpen}
+                        className="w-full flex items-center gap-3 px-4 py-2 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-colors group"
+                        aria-label="Buscar o ejecutar comandos"
+                    >
+                        <Search className="h-4 w-4 text-platinum-dim group-hover:text-neural-blue transition-colors" />
+                        <span className="text-sm text-platinum-dim flex-1 text-left hidden sm:inline">
+                            Buscar o ejecutar comando...
+                        </span>
+                        <span className="text-sm text-platinum-dim flex-1 text-left sm:hidden">
+                            Buscar...
+                        </span>
+                        <div className="hidden md:flex items-center gap-1">
+                            <kbd className="px-2 py-1 text-xs font-mono bg-white/10 text-platinum-dim rounded border border-white/20">
+                                ⌘K
+                            </kbd>
+                        </div>
+                    </button>
+                </div>
             </div>
 
             {/* Right Section */}
@@ -59,6 +78,6 @@ export function AdminTopbar({ onCommandPaletteOpen }: TopbarProps) {
                     </div>
                 </div>
             </div>
-        </div>
+        </header>
     );
 }

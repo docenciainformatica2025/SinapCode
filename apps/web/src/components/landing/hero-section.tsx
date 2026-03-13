@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { HeroData } from '@/lib/landing-data';
@@ -9,13 +10,12 @@ export function HeroSection({ data }: { data: HeroData }) {
         <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-black py-20">
             {/* Official Banner Background */}
             <div className="absolute inset-0 z-0">
-                <img
+                <Image
                     src="/branding/hero-banner.png"
-                    alt=""
+                    alt="SinapCode Hero Banner"
+                    fill
+                    priority
                     className="w-full h-full object-cover brightness-[0.4] contrast-[1.1] scale-105"
-                    onError={(e) => {
-                        (e.target as any).style.display = 'none';
-                    }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black z-10" />
                 <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.05] pointer-events-none z-20" />

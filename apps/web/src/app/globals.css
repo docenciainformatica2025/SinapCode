@@ -4,29 +4,38 @@
 
 @layer base {
     :root {
-        /* Standard Palette: Premium Light */
-        --bg-ivory: #F1F0E8;
+        /* SinapCode Metallic RGB: Premium Dark (Default) */
+        --bg: #0B0B0F;
+        --bg-surface: #16161A;
+        --bg-hover: #1C1C20;
+        --text-primary: #FFFFFF;
+        --text-secondary: rgba(255, 255, 255, 0.7);
+        --text-tertiary: rgba(255, 255, 255, 0.4);
+
+        /* Accents */
+        --neural-blue: #0A84FF;
+        --accent-gold: #C9A78A;
+        --platinum: #FFFFFF;
+        --platinum-dim: #EBEBF599;
+
+        /* Borders */
+        --border-soft: rgba(255, 255, 255, 0.05);
+        --border-glow: rgba(10, 132, 255, 0.15);
+    }
+
+    /* Support for Light Theme if explicitly needed */
+    .theme-light {
+        --bg: #F1F0E8;
         --bg-surface: #FFFFFF;
         --text-primary: #1E1E1E;
         --text-secondary: rgba(30, 30, 30, 0.6);
         --text-tertiary: rgba(30, 30, 30, 0.4);
-        --accent-gold: #C9A78A;
-        --accent-aqua: #A7C1C0;
-        --accent-yellow: #F9E795;
-        --border-light: rgba(30, 30, 30, 0.05);
-
-        /* Legacy/Dark Support if needed */
-        --bg-apple: #000000;
-        --accent-apple: #0A84FF;
+        --border-soft: rgba(30, 30, 30, 0.05);
     }
 
     body {
-        @apply bg-[#F1F0E8] text-[#1E1E1E] font-sans selection:bg-[#C9A78A]/30 selection:text-[#1E1E1E];
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
+        @apply bg-bg text-text font-sans antialiased selection:bg-neural-blue/30 selection:text-white;
         text-rendering: optimizeLegibility;
-        background-color: var(--bg-ivory);
-        color: var(--text-primary);
         letter-spacing: -0.01em;
     }
 
@@ -47,16 +56,21 @@
     }
 
     .btn-primary {
-        @apply inline-flex items-center justify-center gap-2 rounded-xl text-black font-black px-6 py-3 transition-all focus:ring-4 focus:ring-apple-blue/20 hover:scale-[1.05] active:scale-95 duration-500 uppercase text-[11px] tracking-widest whitespace-nowrap relative overflow-hidden;
-        background: #C8E8FF;
-        /* Apple Blue Pastel */
-        box-shadow: 0 4px 20px rgba(10, 132, 255, 0.2);
-        border: 2px solid rgba(255, 255, 255, 0.4);
+        @apply inline-flex items-center justify-center gap-2 rounded-xl font-black px-6 py-3 transition-all duration-500 uppercase text-[11px] tracking-widest whitespace-nowrap relative overflow-hidden;
+        background: var(--neural-blue);
+        color: white;
+        box-shadow: 0 4px 20px rgba(10, 132, 255, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-primary:hover {
+        @apply scale-[1.05] shadow-glow;
+        background: #0070F3;
     }
 
     .btn-primary::after {
         content: '';
-        @apply absolute inset-0 bg-white/40 opacity-0 transition-opacity duration-500 pointer-events-none;
+        @apply absolute inset-0 bg-white/10 opacity-0 transition-opacity duration-500 pointer-events-none;
     }
 
     .btn-primary:hover::after {
@@ -64,68 +78,47 @@
     }
 
     .btn-secondary {
-        @apply inline-flex items-center justify-center gap-2 rounded-xl border-2 border-white/20 bg-white/90 backdrop-blur-xl text-[#1A1A1A] font-black px-6 py-3 transition-all hover:bg-white hover:scale-[1.05] active:scale-95 duration-500 uppercase text-[11px] tracking-widest whitespace-nowrap relative overflow-hidden;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .btn-secondary::before {
-        content: '';
-        @apply absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent opacity-100;
+        @apply inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 backdrop-blur-xl text-white font-black px-6 py-3 transition-all hover:bg-white hover:text-black hover:scale-[1.05] active:scale-95 duration-500 uppercase text-[11px] tracking-widest whitespace-nowrap relative overflow-hidden;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
 }
 
 @layer utilities {
+    .glass-panel {
+        @apply backdrop-blur-[16px] border border-white/10 rounded-2xl;
+        background: rgba(22, 22, 26, 0.6);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+
+    .glass-panel-sinap {
+        @apply backdrop-blur-[24px] border border-white/5 rounded-3xl;
+        background: rgba(11, 11, 15, 0.8);
+        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+    }
+
     .glass-4k {
         background: rgba(22, 22, 26, 0.85);
         @apply backdrop-blur-[16px] border border-white/10;
         box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.4);
     }
 
-    .glass-panel-sinap {
-        @apply backdrop-blur-[16px] border border-white/5 rounded-2xl;
-        background: rgba(22, 22, 26, 0.7);
-        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
-    }
-
     .text-glow {
-        text-shadow: 0 0 30px rgba(10, 132, 255, 0.5), 0 0 60px rgba(10, 132, 255, 0.2);
+        text-shadow: 0 0 20px rgba(10, 132, 255, 0.5);
     }
 
-    .border-glow-apple {
-        @apply border border-white/10 relative overflow-hidden;
-        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+    .shadow-neon-blue {
+        box-shadow: 0 0 15px rgba(10, 132, 255, 0.3);
     }
 
-    .border-glow-apple::before {
-        content: '';
-        @apply absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-50;
+    /* Accessibility: High Contrast Focus Rings */
+    *:focus-visible {
+        outline: 2px solid #0A84FF;
+        outline-offset: 4px;
+        box-shadow: 0 0 0 4px rgba(10, 132, 255, 0.2);
     }
-
-    .mesh-gradient-blue {
-        background: radial-gradient(at 50% 0%, rgba(10, 132, 255, 0.1) 0%, transparent 70%);
-    }
-
-    .mesh-gradient-purple {
-        background: radial-gradient(at 50% 0%, rgba(191, 90, 242, 0.1) 0%, transparent 70%);
-    }
-
-    .mesh-gradient-green {
-        background: radial-gradient(at 50% 0%, rgba(48, 209, 88, 0.1) 0%, transparent 70%);
-    }
-
 }
 
-/* Optimize 4K visuals */
-.sharp-vignette {
-    background: radial-gradient(circle, transparent 20%, black 150%);
-    pointer-events: none;
-}
-
-.subpixel-text {
-    -webkit-font-smoothing: subpixel-antialiased;
-    -moz-osx-font-smoothing: auto;
-}
-
+/* Typography Enhancements */
 .premium-tracking {
     letter-spacing: 0.15em;
 }

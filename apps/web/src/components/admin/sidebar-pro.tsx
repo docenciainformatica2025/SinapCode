@@ -23,6 +23,7 @@ import { signOut } from 'next-auth/react';
 interface SidebarProps {
     collapsed?: boolean;
     onToggle?: () => void;
+    onClose?: () => void;
 }
 
 const menuItems = [
@@ -70,7 +71,7 @@ const menuItems = [
     },
 ];
 
-export function AdminSidebarPro({ collapsed = false, onToggle }: SidebarProps) {
+export function AdminSidebarPro({ collapsed = false, onToggle, onClose }: SidebarProps) {
     const pathname = usePathname();
     const [isCollapsed, setIsCollapsed] = useState(collapsed);
 
@@ -85,6 +86,8 @@ export function AdminSidebarPro({ collapsed = false, onToggle }: SidebarProps) {
             animate={{ width: isCollapsed ? 80 : 280 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="relative h-screen glass-panel border-r border-white/10 flex flex-col"
+            role="complementary"
+            aria-label="Barra lateral de administración"
         >
             {/* Header */}
             <div className="p-6 border-b border-white/10">
@@ -106,6 +109,7 @@ export function AdminSidebarPro({ collapsed = false, onToggle }: SidebarProps) {
                     <button
                         onClick={handleToggle}
                         className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                        aria-label={isCollapsed ? "Expandir sidebar" : "Contraer sidebar"}
                     >
                         {isCollapsed ? (
                             <ChevronRight className="h-4 w-4 text-platinum-dim" />
@@ -117,7 +121,7 @@ export function AdminSidebarPro({ collapsed = false, onToggle }: SidebarProps) {
             </div>
 
             {/* Navigation */}
-            <nav className="flex-1 p-4 overflow-y-auto">
+            <nav className="flex-1 p-4 overflow-y-auto" aria-label="Navegación principal de administración">
                 <div className="space-y-1">
                     {menuItems.map((item) => {
                         const isActive = pathname === item.href;
@@ -127,10 +131,12 @@ export function AdminSidebarPro({ collapsed = false, onToggle }: SidebarProps) {
                             <Link
                                 key={item.href}
                                 href={item.href}
+                                aria-current={isActive ? 'page' : undefined}
+                                onClick={onClose}
                                 className={`
                                     flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all
                                     ${isActive
-                                        ? 'bg-neural-blue/20 text-neural-blue shadow-neon-blue'
+                                        ? 'bg-neural-blue/20 text-neural-blue shadow-neon-blue font-bold italic'
                                         : 'text-platinum-dim hover:bg-white/5 hover:text-white'
                                     }
                                 `}

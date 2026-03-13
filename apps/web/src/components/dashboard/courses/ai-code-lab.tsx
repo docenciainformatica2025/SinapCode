@@ -289,9 +289,16 @@ print("relu(x) = " + str(relu(x)))`);
                         </div>
                     </div>
                     <div className="flex-1 p-6 font-mono text-[11px] overflow-y-auto custom-scrollbar">
-                        {terminalOutput.map((line, i) => (
-                            <div key={i} className="mb-0.5" dangerouslySetInnerHTML={{ __html: line }} />
-                        ))}
+                        {terminalOutput.map((line, i) => {
+                            // Simple security-first rendering for "ANSI" style colors
+                            if (line.includes('\u001b[31m')) {
+                                return <div key={i} className="mb-0.5 text-rose-500">{line.replace(/\u001b\[[0-9;]*m/g, '')}</div>;
+                            }
+                            if (line.includes('\u001b[32m')) {
+                                return <div key={i} className="mb-0.5 text-emerald-500">{line.replace(/\u001b\[[0-9;]*m/g, '')}</div>;
+                            }
+                            return <div key={i} className="mb-0.5 text-platinum-dim">{line}</div>;
+                        })}
                         <div className="w-1.5 h-4 bg-primary/40 animate-pulse inline-block align-middle ml-1" />
                     </div>
                 </div>
