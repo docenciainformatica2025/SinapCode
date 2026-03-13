@@ -20,10 +20,10 @@ export function PasswordStrengthMeter({ password }: PasswordStrengthMeterProps) 
     const strengthPercentage = (strength / 4) * 100;
 
     const getStrengthColor = () => {
-        if (strength === 0) return 'bg-white/10';
-        if (strength <= 2) return 'bg-red-500';
-        if (strength === 3) return 'bg-yellow-500';
-        return 'bg-emerald-500';
+        if (strength === 0) return 'bg-[#1E1E1E]/5';
+        if (strength <= 2) return 'bg-[#FF6B6B]';
+        if (strength === 3) return 'bg-[#FFD93D]';
+        return 'bg-[#6BCB77]';
     };
 
     const getStrengthText = () => {
@@ -36,7 +36,7 @@ export function PasswordStrengthMeter({ password }: PasswordStrengthMeterProps) 
     return (
         <div className="space-y-3 mt-3 animate-in fade-in slide-in-from-top-2 duration-300">
             {/* Strength Bar */}
-            <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+            <div className="h-1.5 w-full bg-[#1E1E1E]/5 rounded-full overflow-hidden border border-[#1E1E1E]/5">
                 <div
                     className={cn("h-full transition-all duration-500 ease-out", getStrengthColor())}
                     style={{ width: `${strengthPercentage}%` }}
@@ -49,15 +49,15 @@ export function PasswordStrengthMeter({ password }: PasswordStrengthMeterProps) 
                     <div
                         key={index}
                         className={cn(
-                            "flex items-center gap-2 text-xs transition-colors duration-300",
-                            item.met ? "text-emerald-400 font-medium" : "text-[#B8BFC9]/60"
+                            "flex items-center gap-2 text-[10px] uppercase tracking-widest transition-colors duration-300 font-black",
+                            item.met ? "text-[#6BCB77]" : "text-[#1E1E1E]/30"
                         )}
                     >
                         <div className={cn(
                             "w-4 h-4 rounded-full flex items-center justify-center border transition-all duration-300",
                             item.met
-                                ? "bg-emerald-500/20 border-emerald-500"
-                                : "bg-transparent border-white/20"
+                                ? "bg-[#6BCB77]/10 border-[#6BCB77]"
+                                : "bg-transparent border-[#1E1E1E]/10"
                         )}>
                             {item.met && <Check className="w-2.5 h-2.5" />}
                         </div>
@@ -69,7 +69,8 @@ export function PasswordStrengthMeter({ password }: PasswordStrengthMeterProps) 
             {/* Dynamic Status Text */}
             <div className="text-right text-xs font-mono tracking-wider transition-colors duration-300">
                 <span className={cn(
-                    strength === 4 ? "text-emerald-400" : "text-[#B8BFC9]"
+                    "font-black tracking-[0.2em] uppercase",
+                    strength === 4 ? "text-[#6BCB77]" : "text-[#1E1E1E]/40"
                 )}>
                     {getStrengthText()}
                 </span>

@@ -8,7 +8,7 @@ export function HeatmapHub() {
     const [device, setDevice] = useState<'desktop' | 'mobile'>('desktop');
 
     return (
-        <div className="glass-panel-nexus rounded-3xl p-6 flex flex-col h-full border border-white/5 bg-white/5 backdrop-blur-xl shadow-2xl">
+        <div className="glass-panel-sinap rounded-3xl p-6 flex flex-col h-full border border-white/5 bg-white/5 backdrop-blur-xl shadow-2xl">
             <div className="flex justify-between items-center mb-6">
                 <h3 className="font-black text-xl text-white flex items-center gap-3 tracking-tighter">
                     <Flame className="text-emerald-400 w-6 h-6" />

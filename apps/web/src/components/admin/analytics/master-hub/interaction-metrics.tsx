@@ -5,7 +5,7 @@ import { BarChart2, Clock, MousePointer2 } from 'lucide-react';
 
 export function InteractionMetrics() {
     return (
-        <div className="glass-panel-nexus rounded-3xl p-8 flex flex-col h-full border border-white/5 bg-white/5 backdrop-blur-xl shadow-2xl overflow-hidden group">
+        <div className="glass-panel-sinap rounded-3xl p-8 flex flex-col h-full border border-white/5 bg-white/5 backdrop-blur-xl shadow-2xl overflow-hidden group">
             <div className="flex justify-between items-center mb-10">
                 <h3 className="font-black text-xl text-white flex items-center gap-3 tracking-tighter">
                     <BarChart2 className="text-amber-400 w-6 h-6" />

@@ -53,7 +53,7 @@ print("relu(x) = " + str(relu(x)))`);
         ANALYZING: [
             "Analizando la estructura de tu red...",
             "Verificando dimensiones del tensor...",
-            "NEXUS sincronizando con tu lógica...",
+            "SinapCode sincronizando con tu lógica...",
             "Escaneando flujo de gradientes..."
         ],
         HINTS: [
@@ -189,7 +189,7 @@ print("relu(x) = " + str(relu(x)))`);
                         </pre>
                     </div>
 
-                    {/* NEXUS AI Tutor Overlay - Reformulated */}
+                    {/* SinapCode AI Tutor Overlay - Reformulated */}
                     <AnimatePresence>
                         {(isExecuting || pedagogicalState !== 'INIT') && pedagogicalState !== 'SUCCESS' && (
                             <motion.div

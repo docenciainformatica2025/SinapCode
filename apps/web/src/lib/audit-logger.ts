@@ -20,7 +20,7 @@ interface AuditLogParams {
 
 /**
  * Crea un registro de auditoría en la base de datos
- * Cumplimiento: GDPR Art. 30, Ley 1581 Art. 17 (Colombia)
+ * Cumplimiento: GDPR Art. 30 y estándares globales de privacidad de datos.
  */
 export async function createAuditLog({
     userId,

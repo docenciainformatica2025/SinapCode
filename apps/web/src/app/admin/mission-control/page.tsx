@@ -33,7 +33,7 @@ export default function MissionControlPage() {
 
             {/* Launch Sequence Audit */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <div className="lg:col-span-8 glass-panel-nexus p-10 rounded-[2.5rem] border border-white/5 bg-white/5 backdrop-blur-3xl relative overflow-hidden group">
+                <div className="lg:col-span-8 glass-panel-sinap p-10 rounded-[2.5rem] border border-white/5 bg-white/5 backdrop-blur-3xl relative overflow-hidden group">
                     <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div>
 
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
@@ -59,7 +59,7 @@ export default function MissionControlPage() {
                 </div>
 
                 {/* Integrity Sidebar */}
-                <div className="lg:col-span-4 glass-panel-nexus p-10 rounded-[2.5rem] border border-white/5 bg-white/5 backdrop-blur-3xl flex flex-col justify-between">
+                <div className="lg:col-span-4 glass-panel-sinap p-10 rounded-[2.5rem] border border-white/5 bg-white/5 backdrop-blur-3xl flex flex-col justify-between">
                     <div>
                         <h3 className="text-xs font-black text-white uppercase tracking-[0.2em] mb-8">Integridad Lighthouse</h3>
                         <div className="space-y-8">

@@ -19,7 +19,7 @@ const MetricCard = ({ title, value, trend, trendType, icon: Icon, subtitle, colo
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="glass-panel-nexus rounded-3xl p-6 relative overflow-hidden group hover:border-white/20 transition-all border border-white/5 bg-white/5 backdrop-blur-xl shadow-2xl"
+            className="glass-panel-sinap rounded-3xl p-6 relative overflow-hidden group hover:border-white/20 transition-all border border-white/5 bg-white/5 backdrop-blur-xl shadow-2xl"
         >
             <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
                 <Icon className={`w-16 h-16 ${color}`} />

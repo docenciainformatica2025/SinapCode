@@ -70,111 +70,98 @@ export function NewsHeroBanner() {
     const activeNews = banners[currentIndex] || FALLBACK_NEWS[0];
 
     if (isLoading) {
-        return <div className="h-[60vh] md:h-[75vh] bg-black animate-pulse" />;
+        return <div className="h-[40vh] bg-[#F1F0E8] animate-pulse flex items-center justify-center font-serif text-[#C9A78A]">Sincronizando SinapCode...</div>;
     }
 
     return (
-        <section className="relative w-full h-[60vh] md:h-[75vh] flex items-center overflow-hidden bg-black group/banner subpixel-text">
-            <Link href={activeNews.linkUrl} className="absolute inset-0 z-0 cursor-pointer block">
-                <motion.div
-                    key={activeNews.id}
-                    initial={{ opacity: 0, scale: 1.1 }}
-                    animate={{ opacity: 0.85, scale: 1 }}
-                    exit={{ opacity: 0, scale: 1.05 }}
-                    transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-                    className="absolute inset-0"
-                >
-                    <img
-                        src={activeNews.imageUrl}
-                        alt={activeNews.title}
-                        className="absolute inset-0 w-full h-full object-cover brightness-[1.1]"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent z-10" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10" />
-                    <div className="absolute inset-0 sharp-vignette opacity-40" />
-                </motion.div>
-            </Link>
-
-            <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden">
-                <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[150px] animate-pulse will-change-transform" />
-                <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-secondary/10 rounded-full blur-[120px] animate-pulse delay-1000 will-change-transform" />
-            </div>
-
+        <section className="relative w-full py-24 bg-[#F1F0E8] overflow-hidden">
             <div className="container-page relative z-20 px-6 sm:px-12">
-                <div className="max-w-4xl space-y-8">
-                    <motion.div
-                        key={`meta-${activeNews.id}`}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4, delay: 0.2 }}
-                        className="inline-flex items-center gap-2 px-4 py-1.5 rounded-lg bg-white/5 border border-white/10"
-                    >
-                        <span className="text-[#0A84FF]">{CATEGORY_ICONS[activeNews.category || 'Default']}</span>
-                        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">
-                            {activeNews.category || 'MOMENTUM'}
-                        </span>
-                    </motion.div>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
-                    <Link href={activeNews.linkUrl} className="block transition-transform hover:scale-[1.01] active:scale-100 cursor-pointer">
-                        <motion.h2
-                            key={`title-${activeNews.id}`}
-                            initial={{ opacity: 0, x: -30 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-                            className="text-[clamp(2rem,6vw,4rem)] font-bold text-white leading-[1.1] tracking-tight text-glow text-balance mb-8"
+                    {/* Texto e Impacto */}
+                    <div className="space-y-8 order-2 lg:order-1">
+                        <motion.div
+                            key={`meta-${activeNews.id}`}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-[#C9A78A]/20 shadow-sm"
                         >
-                            {activeNews.title}
-                        </motion.h2>
-
-                        <motion.p
-                            key={`desc-${activeNews.id}`}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 1, delay: 0.5 }}
-                            className="text-lg md:text-xl text-white/90 max-w-2xl leading-relaxed font-medium text-pretty"
-                        >
-                            {activeNews.description}
-                        </motion.p>
-                    </Link>
-
-                    <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4, delay: 0.7 }}
-                        className="flex items-center gap-8 pt-6"
-                    >
-                        <Link
-                            href={activeNews.linkUrl}
-                            className="group relative px-10 py-4 bg-[#0A84FF] text-white rounded-xl font-bold text-sm transition-all hover:bg-[#0060DF] active:scale-95 shadow-lg"
-                        >
-                            <span className="relative z-10 flex items-center gap-2">
-                                Leer más <ArrowRight className="w-4 h-4" />
+                            <span className="text-[#C9A78A]">{CATEGORY_ICONS[activeNews.category || 'Default']}</span>
+                            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#1E1E1E]/60">
+                                {activeNews.category || 'IA IMPACT'}
                             </span>
-                        </Link>
+                        </motion.div>
 
-                        <div className="flex items-center gap-2 text-white/30 font-bold text-[10px] uppercase tracking-widest">
-                            <span className="w-1 h-1 rounded-full bg-[#0A84FF]" />
-                            <span>Sintetizado por SinapCode AI</span>
+                        <div className="space-y-6">
+                            <motion.h2
+                                key={`title-${activeNews.id}`}
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                className="text-4xl md:text-6xl font-serif font-medium text-[#1E1E1E] leading-[1.1] tracking-tight"
+                            >
+                                {activeNews.title}
+                            </motion.h2>
+
+                            <motion.p
+                                key={`desc-${activeNews.id}`}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                className="text-lg md:text-xl text-[#1E1E1E]/70 max-w-xl leading-relaxed font-light italic"
+                            >
+                                {activeNews.description}
+                            </motion.p>
                         </div>
-                    </motion.div>
-                </div>
-            </div>
 
-            {banners.length > 1 && (
-                <div className="absolute bottom-12 right-12 flex items-center gap-10 z-30">
-                    <div className="flex gap-3">
+                        <div className="flex flex-col sm:flex-row items-center gap-8 pt-4">
+                            <Link
+                                href={activeNews.linkUrl}
+                                className="group px-10 py-4 bg-[#1E1E1E] text-white rounded-full font-medium text-sm transition-all hover:bg-[#C9A78A] active:scale-95 shadow-lg"
+                            >
+                                <span className="flex items-center gap-2">
+                                    Explorar Análisis <ArrowRight className="w-4 h-4" />
+                                </span>
+                            </Link>
+
+                            <div className="flex items-center gap-2 text-[#C9A78A] font-bold text-[9px] uppercase tracking-widest">
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#C9A78A] animate-pulse" />
+                                <span>SinapCode Alpha v2.4</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Visual con Estética Apple Studio */}
+                    <div className="order-1 lg:order-2">
+                        <motion.div
+                            key={`image-${activeNews.id}`}
+                            initial={{ opacity: 0, scale: 0.95, rotate: 2 }}
+                            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                            className="relative aspect-[4/3] rounded-[3rem] overflow-hidden shadow-2xl border-[12px] border-white group"
+                        >
+                            <img
+                                src={activeNews.imageUrl}
+                                alt={activeNews.title}
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2000ms]"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#1E1E1E]/40 to-transparent opacity-60" />
+                        </motion.div>
+                    </div>
+
+                </div>
+
+                {/* Progress Indicators */}
+                {banners.length > 1 && (
+                    <div className="mt-16 flex justify-center gap-3">
                         {banners.map((_, i) => (
                             <button
                                 key={i}
                                 onClick={() => setCurrentIndex(i)}
-                                className={`h-1.5 transition-all duration-700 rounded-full ${i === currentIndex ? 'w-16 bg-primary shadow-[0_0_25px_rgba(25,127,230,0.8)]' : 'w-4 bg-white/10 hover:bg-white/30'}`}
+                                className={`h-1 transition-all duration-700 rounded-full ${i === currentIndex ? 'w-20 bg-[#C9A78A]' : 'w-6 bg-[#C9A78A]/20 hover:bg-[#C9A78A]/40'}`}
                             />
                         ))}
                     </div>
-                </div>
-            )}
-
-            <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent shadow-[0_0_20px_rgba(25,127,230,0.4)] opacity-50" />
+                )}
+            </div>
         </section>
     );
 }

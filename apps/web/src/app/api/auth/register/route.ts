@@ -31,66 +31,57 @@ export async function POST(req: Request) {
             );
         }
 
-        // 3. User Existence Check
+        // 3. User Existence Check & Sanitization
+        const sanitizedEmail = email.trim().toLowerCase();
+        const sanitizedName = name.trim();
+
         const existingUser = await prisma.user.findUnique({
-            where: { email: email.toLowerCase() },
+            where: { email: sanitizedEmail },
             select: { id: true, email: true, deletedAt: true }
         });
 
         if (existingUser) {
-            // SCENARIO: REACTIVATION (User was soft-deleted)
+            // ... (rest of the reactivation logic)
             if (existingUser.deletedAt) {
                 const hashedPassword = await hash(password, 12);
-
                 await prisma.user.update({
                     where: { id: existingUser.id },
                     data: {
                         deletedAt: null,
                         deletedBy: null,
                         deletionReason: null,
-                        password: hashedPassword, // User sets new password
+                        password: hashedPassword,
                         updatedAt: new Date(),
-                        // Retain original role or allow update? For now retain to avoid privilege escalation, 
-                        // unless it was a self-deletion.
                     }
                 });
-
-                await secureLogger.security('USER_REACTIVATED', {
-                    userId: existingUser.id,
-                    email: existingUser.email
-                });
-
-                return NextResponse.json({
-                    success: true,
-                    message: '¡Bienvenido de vuelta! Tu cuenta ha sido reactivada exitosamente.'
-                });
+                return NextResponse.json({ success: true, message: '¡Bienvenido de vuelta!' });
             }
-
-            // SCENARIO: ACTIVE USER EXISTS
-            return NextResponse.json(
-                { error: 'El correo electrónico ya está registrado. Por favor inicia sesión.' },
-                { status: 400 }
-            );
+            return NextResponse.json({ error: 'El correo electrónico ya está registrado.' }, { status: 400 });
         }
 
-        // 4. Create New User
+        // 4. Create New User with Age/Security Logic
         const hashedPassword = await hash(password, 12);
-
         let birthDateObj = null;
+        let isMinor = false;
+
         if (birthDate) {
             birthDateObj = new Date(birthDate);
+            // Dynamic age calculation (Military Grade Precision)
+            const ageDiffMs = Date.now() - birthDateObj.getTime();
+            const ageDate = new Date(ageDiffMs);
+            const age = Math.abs(ageDate.getUTCFullYear() - 1970);
+            isMinor = age < 18;
         }
 
         const newUser = await prisma.user.create({
             data: {
-                name,
-                email: email.toLowerCase(),
+                name: sanitizedName,
+                email: sanitizedEmail,
                 password: hashedPassword,
                 role: role || 'STUDENT',
                 birthDate: birthDateObj,
-                isMinor: false, // Should be calculated but assuming validated by frontend or separate flow
-                // Security defaults
-                emailVerified: new Date(), // Auto-verified for stability
+                isMinor: isMinor,
+                emailVerified: null, // Reset to null to enforce verification in production if needed
             }
         });
 

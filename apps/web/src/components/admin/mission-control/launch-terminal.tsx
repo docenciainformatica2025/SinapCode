@@ -8,7 +8,7 @@ export function LaunchTerminal() {
     const [isHovered, setIsHovered] = useState(false);
 
     return (
-        <div className="glass-panel-nexus p-1 rounded-3xl bg-gradient-to-r from-primary/20 via-white/5 to-[#f2e20d]/20">
+        <div className="glass-panel-sinap p-1 rounded-3xl bg-gradient-to-r from-primary/20 via-white/5 to-[#f2e20d]/20">
             <div className="bg-[#0a0f0f] rounded-[calc(1.5rem-1px)] p-10 flex flex-col items-center text-center">
                 <motion.div
                     animate={isHovered ? { rotate: [0, -10, 10, 0], scale: 1.1 } : {}}

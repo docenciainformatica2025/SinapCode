@@ -12,7 +12,7 @@ export function UTMCampaignTable() {
     ];
 
     return (
-        <div className="glass-panel-nexus rounded-[2.5rem] border border-white/5 bg-white/5 p-8 backdrop-blur-xl flex flex-col h-full overflow-hidden">
+        <div className="glass-panel-sinap rounded-[2.5rem] border border-white/5 bg-white/5 p-8 backdrop-blur-xl flex flex-col h-full overflow-hidden">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
                 <h4 className="text-xl font-bold text-white tracking-tight">Rendimiento UTM de Campañas</h4>
                 <div className="relative group">
@@ -58,8 +58,8 @@ export function UTMCampaignTable() {
                                 <td className="py-5 px-4 text-right font-mono text-sm text-slate-300">{camp.cost}</td>
                                 <td className="py-5 px-4 text-right">
                                     <span className={`px-3 py-1 rounded-lg text-xs font-black font-mono shadow-lg ${camp.status === 'optimal' ? 'bg-green-500/10 text-green-400 border border-green-500/20' :
-                                            camp.status === 'warning' ? 'bg-yellow-500/10 text-yellow-500 border border-yellow-500/20' :
-                                                'bg-red-500/10 text-red-500 border border-red-500/20'
+                                        camp.status === 'warning' ? 'bg-yellow-500/10 text-yellow-500 border border-yellow-500/20' :
+                                            'bg-red-500/10 text-red-500 border border-red-500/20'
                                         }`}>
                                         {camp.cpa}
                                     </span>

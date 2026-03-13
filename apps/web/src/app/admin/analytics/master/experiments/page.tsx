@@ -51,7 +51,7 @@ export default function ABExperimentsPage() {
 
             <div className="grid grid-cols-12 gap-6">
                 {/* 1. Live A/B Experiment Card */}
-                <div className="col-span-12 xl:col-span-8 glass-panel-nexus rounded-[2.5rem] p-8 relative overflow-hidden group border border-white/5 bg-white/5 backdrop-blur-xl shadow-2xl">
+                <div className="col-span-12 xl:col-span-8 glass-panel-sinap rounded-[2.5rem] p-8 relative overflow-hidden group border border-white/5 bg-white/5 backdrop-blur-xl shadow-2xl">
                     <div className="absolute top-0 right-0 w-96 h-96 bg-neural-blue/5 rounded-full blur-[120px] -z-10" />
 
                     <div className="flex flex-col lg:flex-row justify-between items-start mb-10 gap-6">
@@ -148,7 +148,7 @@ export default function ABExperimentsPage() {
 
                 {/* 2. Key Metrics Summary Widgets */}
                 <div className="col-span-12 md:col-span-6 xl:col-span-4 flex flex-col gap-4">
-                    <div className="glass-panel-nexus rounded-[2rem] p-8 flex items-center justify-between border border-white/5 bg-white/5 backdrop-blur-xl shadow-2xl group hover:border-white/20 transition-all">
+                    <div className="glass-panel-sinap rounded-[2rem] p-8 flex items-center justify-between border border-white/5 bg-white/5 backdrop-blur-xl shadow-2xl group hover:border-white/20 transition-all">
                         <div>
                             <p className="text-[10px] font-black text-platinum-dim uppercase tracking-widest mb-2 opacity-60">Usuarios Activos Totales</p>
                             <h3 className="text-4xl font-black text-white tracking-tighter">24.5k</h3>
@@ -161,7 +161,7 @@ export default function ABExperimentsPage() {
                         </div>
                     </div>
 
-                    <div className="glass-panel-nexus rounded-[2rem] p-8 flex items-center justify-between border border-white/5 bg-white/5 backdrop-blur-xl shadow-2xl group hover:border-white/20 transition-all">
+                    <div className="glass-panel-sinap rounded-[2rem] p-8 flex items-center justify-between border border-white/5 bg-white/5 backdrop-blur-xl shadow-2xl group hover:border-white/20 transition-all">
                         <div>
                             <p className="text-[10px] font-black text-platinum-dim uppercase tracking-widest mb-2 opacity-60">Conversión Global</p>
                             <h3 className="text-4xl font-black text-white tracking-tighter">4.2%</h3>
@@ -174,7 +174,7 @@ export default function ABExperimentsPage() {
                         </div>
                     </div>
 
-                    <div className="glass-panel-nexus rounded-[2rem] p-8 flex items-center justify-between border border-white/5 bg-white/5 backdrop-blur-xl shadow-2xl group hover:border-white/20 transition-all">
+                    <div className="glass-panel-sinap rounded-[2rem] p-8 flex items-center justify-between border border-white/5 bg-white/5 backdrop-blur-xl shadow-2xl group hover:border-white/20 transition-all">
                         <div>
                             <p className="text-[10px] font-black text-platinum-dim uppercase tracking-widest mb-2 opacity-60">Tiempo Medio Sesión</p>
                             <h3 className="text-4xl font-black text-white tracking-tighter">4m 12s</h3>
@@ -189,7 +189,7 @@ export default function ABExperimentsPage() {
                 </div>
 
                 {/* 3. Product Traceability Matrix */}
-                <div className="col-span-12 lg:col-span-7 glass-panel-nexus rounded-[2.5rem] p-10 border border-white/5 bg-white/5 backdrop-blur-xl shadow-2xl">
+                <div className="col-span-12 lg:col-span-7 glass-panel-sinap rounded-[2.5rem] p-10 border border-white/5 bg-white/5 backdrop-blur-xl shadow-2xl">
                     <div className="flex justify-between items-center mb-10">
                         <h3 className="text-2xl font-black text-white tracking-tighter">Matriz de Trazabilidad_</h3>
                         <button className="text-[10px] font-black text-neural-blue hover:text-white transition-all uppercase tracking-widest flex items-center gap-2 group">
@@ -285,7 +285,7 @@ export default function ABExperimentsPage() {
                 {/* 4. Origin & Sources Side Column */}
                 <div className="col-span-12 lg:col-span-5 flex flex-col gap-6">
                     {/* Acquisition Sources */}
-                    <div className="glass-panel-nexus rounded-[2.5rem] p-10 border border-white/5 bg-white/5 backdrop-blur-xl shadow-2xl">
+                    <div className="glass-panel-sinap rounded-[2.5rem] p-10 border border-white/5 bg-white/5 backdrop-blur-xl shadow-2xl">
                         <h3 className="text-xl font-black text-white tracking-tighter mb-10">Fuentes de Adquisición_</h3>
                         <div className="space-y-8">
                             {[
@@ -316,7 +316,7 @@ export default function ABExperimentsPage() {
                     </div>
 
                     {/* Geo visualization map mini */}
-                    <div className="glass-panel-nexus rounded-[2.5rem] p-0 overflow-hidden flex-1 relative border border-white/5 bg-white/5 backdrop-blur-xl shadow-2xl min-h-[300px]">
+                    <div className="glass-panel-sinap rounded-[2.5rem] p-0 overflow-hidden flex-1 relative border border-white/5 bg-white/5 backdrop-blur-xl shadow-2xl min-h-[300px]">
                         <div className="absolute top-8 left-8 z-10">
                             <h3 className="text-xl font-black text-white tracking-tighter mb-1">Origen de Usuarios_</h3>
                             <p className="text-[10px] font-black text-platinum-dim opacity-60 uppercase tracking-widest">Descargas en tiempo real</p>

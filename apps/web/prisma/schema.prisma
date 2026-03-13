@@ -459,6 +459,10 @@ model SiteConfig {
   siteName    String   @default("SinapCode")
   description String?  @db.Text
   
+  // Extended fields
+  companyName String?  @default("SINAPCODE OÜ")
+  location    String?  @default("Tallinn, Estonia")
+  
   // Branding
   logoUrl     String?
   faviconUrl  String?

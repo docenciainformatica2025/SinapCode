@@ -53,7 +53,7 @@ export function HeroSection({ data }: { data: HeroData }) {
 
                     <div className="flex flex-col sm:flex-row gap-6 justify-center md:justify-start">
                         <Link
-                            href={data.primaryCtaLink}
+                            href={data.primaryCtaText?.toLowerCase().includes('explorar') ? '/blog' : data.primaryCtaLink}
                             className="btn-primary"
                         >
                             {data.primaryCtaText}
@@ -87,7 +87,7 @@ export function HeroSection({ data }: { data: HeroData }) {
                                 <div className="w-3 h-3 rounded-full bg-green-500/40 group-hover:bg-green-500/90 transition-colors" />
                             </div>
                             <div className="ml-6 px-4 py-1 rounded-lg bg-black/60 text-[10px] text-gray-400 font-mono tracking-widest uppercase">
-                                node::nexus_protocol.ts
+                                node::SinapCode protocol.ts
                             </div>
                         </div>
 

@@ -63,27 +63,27 @@ export function ConsentCheckbox({
                 onChange={handleChange}
                 required={required}
                 disabled={isRecording}
-                className="mt-1 w-4 h-4 rounded border-white/20 bg-deep-space/50 text-neural-blue focus:ring-2 focus:ring-neural-blue focus:ring-offset-2 focus:ring-offset-deep-space transition disabled:opacity-50"
+                className="mt-1 w-4 h-4 rounded border-[#C9A78A]/50 bg-white text-[#C9A78A] focus:ring-2 focus:ring-[#C9A78A] focus:ring-offset-2 focus:ring-offset-white transition disabled:opacity-50"
             />
             <label
                 htmlFor={`consent-${documentType}`}
-                className="text-sm text-[#B8BFC9] flex-1"
+                className="text-sm text-[#1E1E1E] flex-1"
             >
                 Acepto los{' '}
                 <Link
                     href={links[documentType]}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-neural-blue hover:text-white transition underline"
+                    className="text-[#C9A78A] hover:text-[#1E1E1E] transition underline font-black"
                 >
                     {labels[documentType]}
                 </Link>
                 {' '}
-                <span className="text-xs text-[#B8BFC9]/60">(v{documentVersion})</span>
-                {required && <span className="text-red-500 ml-1">*</span>}
+                <span className="text-[10px] text-[#1E1E1E]/60 font-medium">(v{documentVersion})</span>
+                {required && <span className="text-red-500 ml-1 font-black">*</span>}
                 {isRecording && (
-                    <span className="text-xs text-neural-blue ml-2">
-                        📝 Guardando evidencia...
+                    <span className="text-[10px] text-[#C9A78A] ml-2 font-black">
+                        📝 Validando_
                     </span>
                 )}
             </label>

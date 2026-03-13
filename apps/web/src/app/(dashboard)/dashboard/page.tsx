@@ -44,14 +44,14 @@ export default function DashboardPage() {
 
     if (!user || loading) {
         return (
-            <div className="min-h-screen bg-deep-space flex items-center justify-center">
+            <div className="min-h-screen bg-[#F1F0E8] flex items-center justify-center">
                 <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     className="flex flex-col items-center gap-6"
                 >
-                    <div className="w-16 h-16 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin shadow-[0_0_20px_rgba(16,185,129,0.2)]" />
-                    <p className="text-platinum-dim font-black text-xs uppercase tracking-[0.3em] animate-pulse">Iniciando Protocolos_</p>
+                    <div className="w-16 h-16 border-4 border-[#C9A78A]/20 border-t-[#C9A78A] rounded-full animate-spin shadow-[0_0_20px_rgba(201,167,138,0.2)]" />
+                    <p className="text-[#1E1E1E]/40 font-black text-xs uppercase tracking-[0.3em] animate-pulse">Iniciando Protocolos_</p>
                 </motion.div>
             </div>
         );
@@ -70,9 +70,9 @@ export default function DashboardPage() {
     };
 
     return (
-        <div className="min-h-screen bg-deep-space text-white p-6 lg:p-12 pb-24 md:pb-12 max-w-[1600px] mx-auto overflow-x-hidden relative">
+        <div className="min-h-screen bg-[#F1F0E8] text-[#1E1E1E] p-6 lg:p-12 pb-24 md:pb-12 max-w-[1600px] mx-auto overflow-x-hidden relative selection:bg-[#C9A78A]/30">
             {/* Ambient Background */}
-            <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-emerald-500/5 rounded-full blur-[150px] -z-10" />
+            <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#C9A78A]/5 rounded-full blur-[150px] -z-10" />
 
             {/* Header */}
             <motion.header
@@ -80,14 +80,14 @@ export default function DashboardPage() {
                 animate={{ opacity: 1, y: 0 }}
                 className="mb-12 relative z-10"
             >
-                <div className="flex items-center gap-2 mb-3">
-                    <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
-                    <span className="text-[10px] font-black text-emerald-400 uppercase tracking-[0.3em]">Protocolo de Usuario: Online_</span>
+                <div className="flex items-center gap-2 mb-4">
+                    <div className="w-2 h-2 bg-[#C9A78A] rounded-full animate-pulse shadow-[0_0_10px_rgba(201,167,138,0.5)]" />
+                    <span className="text-[10px] font-black text-[#1E1E1E] uppercase tracking-[0.3em] opacity-40">CENTRO DE OPERACIONES TÁCTICAS_</span>
                 </div>
-                <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tight leading-none mb-2 italic">
-                    ¡Bienvenido, <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">{userName}!</span>
+                <h1 className="text-5xl sm:text-6xl font-black text-[#1E1E1E] tracking-tighter leading-none mb-3 italic">
+                    ¡Bienvenido, <span className="text-[#C9A78A]">{userName}!</span>
                 </h1>
-                <p className="text-platinum-dim font-bold text-lg opacity-60">Centro de Operaciones Tácticas</p>
+                <p className="text-[#1E1E1E]/40 font-black text-xs uppercase tracking-[0.3em]">Protocolo de Usuario: <span className="text-[#C9A78A]">Online_</span></p>
             </motion.header>
 
             {/* Row 1: Hero & Stats */}

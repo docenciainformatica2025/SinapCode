@@ -43,7 +43,7 @@ export default function AIVoiceMentorPage() {
                         <span>Sesión: 24:12</span>
                     </div>
                     <div className="text-[10px] uppercase font-black tracking-widest text-[#0d0df2] opacity-70">
-                        Protocolo: NEXUS_VOICE_v2.1_
+                        Protocolo: SinapCode VOICE_v2.1_
                     </div>
                 </div>
                 <div className="flex items-center gap-2">
@@ -104,7 +104,7 @@ export default function AIVoiceMentorPage() {
                         </motion.div>
 
                         <div className="mt-8 text-center">
-                            <h3 className="text-white font-black text-xl italic tracking-tighter uppercase">NEXUS está escuchando...</h3>
+                            <h3 className="text-white font-black text-xl italic tracking-tighter uppercase">SinapCode está escuchando...</h3>
                             <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mt-2 bg-white/5 py-1 px-3 rounded-full border border-white/5">Arquitectura de Transformers_</p>
                         </div>
                     </div>
@@ -211,7 +211,7 @@ export default function AIVoiceMentorPage() {
                                 ) : (
                                     <div className="w-full h-full flex flex-col items-center justify-center space-y-4">
                                         <div className="w-full h-px bg-white/5"></div>
-                                        <div className="text-slate-500 font-sans text-xs italic tracking-widest text-center">NEXUS está dibujando la arquitectura de la proyección...</div>
+                                        <div className="text-slate-500 font-sans text-xs italic tracking-widest text-center">SinapCode está dibujando la arquitectura de la proyección...</div>
                                         <div className="grid grid-cols-3 gap-8 w-full max-w-md opacity-40">
                                             <div className="aspect-square border-2 border-dashed border-white/20 rounded-2xl flex items-center justify-center text-[10px] font-black uppercase tracking-widest italic">Matriz Q_</div>
                                             <div className="aspect-square border-2 border-dashed border-white/20 rounded-2xl flex items-center justify-center text-[10px] font-black uppercase tracking-widest italic">Matriz K_</div>

@@ -21,7 +21,7 @@ export function AttributionEfficiencyBars() {
     ];
 
     return (
-        <div className="glass-panel-nexus rounded-[2.5rem] border border-white/5 bg-white/5 p-8 backdrop-blur-xl h-full flex flex-col">
+        <div className="glass-panel-sinap rounded-[2.5rem] border border-white/5 bg-white/5 p-8 backdrop-blur-xl h-full flex flex-col">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
                 <div>
                     <h4 className="text-xl font-bold text-white tracking-tight">Eficiencia: ROI vs CAC</h4>

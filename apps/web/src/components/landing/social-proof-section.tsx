@@ -19,20 +19,20 @@ export function SocialProofSection({ data }: SocialProofSectionProps) {
     ];
 
     return (
-        <section id="historias" className="py-20 md:py-28 bg-black border-y border-white/5 relative overflow-hidden section-spacing subpixel-text">
-            <div className="absolute top-0 inset-0 pointer-events-none opacity-50">
-                <div className="absolute -top-24 -left-20 w-96 h-96 bg-primary/10 rounded-full blur-[100px]" />
-                <div className="absolute -bottom-24 -right-20 w-80 h-80 bg-secondary/10 rounded-full blur-[100px]" />
+        <section id="historias" className="py-20 md:py-28 bg-cloud-dancer border-y border-clubroom-black/5 relative overflow-hidden section-spacing">
+            <div className="absolute top-0 inset-0 pointer-events-none opacity-30">
+                <div className="absolute -top-24 -left-20 w-96 h-96 bg-terracotta/20 rounded-full blur-[100px]" />
+                <div className="absolute -bottom-24 -right-20 w-80 h-80 bg-bio-graphing/20 rounded-full blur-[100px]" />
             </div>
             <div className="max-w-7xl mx-auto px-6">
                 {/* Stats */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-24 relative z-10">
                     {stats.map((stat, i) => (
-                        <div key={i} className="text-center group p-8 rounded-[2rem] bg-white/[0.03] border border-white/[0.05] hover:border-primary/10 transition-all duration-700">
-                            <h3 className="text-5xl font-bold text-white mb-2 tracking-tight">
+                        <div key={i} className="text-center group p-8 rounded-[2.5rem] bg-white border border-clubroom-black/5 hover:border-terracotta/30 transition-all duration-700 shadow-sm">
+                            <h3 className="text-5xl font-serif font-medium text-clubroom-black mb-2 tracking-tight">
                                 {stat.value}
                             </h3>
-                            <p className="text-[11px] font-bold text-platinum-dim uppercase tracking-widest flex items-center justify-center gap-2 opacity-40 group-hover:opacity-80 transition-opacity">
+                            <p className="text-[11px] font-bold text-clubroom-black/60 uppercase tracking-widest flex items-center justify-center gap-2 group-hover:text-terracotta transition-colors">
                                 {stat.label}
                             </p>
                         </div>
@@ -41,14 +41,14 @@ export function SocialProofSection({ data }: SocialProofSectionProps) {
 
                 {/* Companies Infinite Scroll */}
                 <div className="text-center relative">
-                    <p className="text-[11px] font-bold text-apple-blue uppercase tracking-[0.2em] mb-12 opacity-80">
+                    <p className="text-[11px] font-bold text-clubroom-black/60 uppercase tracking-[0.2em] mb-12">
                         Nuestra red de ingenieros colabora con empresas de primer nivel
                     </p>
 
                     <div className="relative flex overflow-hidden mask-linear-fade py-4">
-                        <div className="flex animate-marquee whitespace-nowrap gap-16 md:gap-32 opacity-40 grayscale-[0.5] hover:opacity-100 hover:grayscale-0 transition-all duration-1000">
+                        <div className="flex animate-marquee whitespace-nowrap gap-16 md:gap-32 opacity-60 grayscale hover:grayscale-0 transition-all duration-1000">
                             {[...companies, ...companies, ...companies].map((company, i) => (
-                                <span key={`${company}-${i}`} className="text-xl md:text-2xl font-bold text-white tracking-tight opacity-50 hover:opacity-100 hover:text-primary transition-all">
+                                <span key={`${company}-${i}`} className="text-xl md:text-2xl font-serif italic text-clubroom-black hover:text-terracotta transition-all">
                                     {company}
                                 </span>
                             ))}

@@ -22,7 +22,7 @@ export async function generateImage(params: GenerateImageParams): Promise<Genera
     // 1. Real Google Imagen 3 Implementation
     if (googleApiKey && googleApiKey !== 'your_google_gemini_key_here') {
         try {
-            console.log('Nexus Visual Engine - Solicitando Imagen 3...');
+            console.log('SinapCode Visual Engine - Solicitando Imagen 3...');
             // Using the v1beta endpoint for Imagen 3 as suggested by Google AI Studio
             const url = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3:predict?key=${googleApiKey}`;
 

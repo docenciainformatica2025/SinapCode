@@ -9,7 +9,7 @@ const NOTICIAS_GRID = [
         id: '1',
         category: 'Innovación',
         author: 'Alex Dev',
-        title: 'Nanobanana AI: El Futuro de la Computación Cuántica',
+        title: 'SinapCode: El Futuro de la Computación Cuántica',
         excerpt: 'Explora los últimos avances en inteligencia artificial y tecnologías cuánticas que están redefiniendo el mañana.',
         image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=1000',
         date: '24 Oct, 2024',

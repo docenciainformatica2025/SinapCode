@@ -73,23 +73,23 @@ export function CoursesPreviewSection({ data }: CoursesPreviewSectionProps) {
     ];
 
     return (
-        <section id="courses" className="py-20 md:py-28 bg-black relative overflow-hidden section-spacing subpixel-text">
-            <div className="absolute inset-0 mesh-gradient-green opacity-30 pointer-events-none" />
+        <section id="courses" className="py-20 md:py-28 bg-[#F1F0E8] relative overflow-hidden section-spacing">
+            <div className="absolute inset-0 bg-gradient-to-t from-[#A7C1C0]/10 to-transparent opacity-50 pointer-events-none" />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-10">
                     <div className="max-w-3xl">
                         <motion.span
                             initial={{ opacity: 0, y: 10 }}
-                            whileInView={{ opacity: 0.6, y: 0 }}
-                            className="text-[11px] font-bold uppercase tracking-[0.3em] text-primary mb-6 block"
+                            whileInView={{ opacity: 1, y: 0 }}
+                            className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#C9A78A] mb-6 block"
                         >
                             Propulsión de Carrera
                         </motion.span>
-                        <h2 className="text-[clamp(1.8rem,5vw,2.8rem)] font-bold text-white mb-6 tracking-tight text-balance leading-[1.1]">
-                            Trayectorias de <span className="text-apple-blue font-extrabold">Alto Impacto</span>
+                        <h2 className="text-[clamp(1.8rem,5vw,2.8rem)] font-serif font-bold text-[#1E1E1E] mb-6 tracking-tight text-balance leading-[1.1]">
+                            Trayectorias de <span className="text-[#A7C1C0] italic">Alto Impacto</span>
                         </h2>
-                        <p className="text-base md:text-lg text-platinum-dim font-medium leading-relaxed max-w-xl opacity-70 text-pretty">
-                            No solo aprendes, <span className="text-white/90">evolucionas</span>. Protocolos diseñados por ingenieros de élite para la frontera tecnológica.
+                        <p className="text-base md:text-lg text-[#1E1E1E]/70 font-light leading-relaxed max-w-xl text-pretty">
+                            No solo aprendes, <span className="text-[#1E1E1E] font-medium">evolucionas</span>. Protocolos diseñados por ingenieros de élite para la frontera tecnológica.
                         </p>
                     </div>
                 </div>
@@ -118,7 +118,7 @@ export function CoursesPreviewSection({ data }: CoursesPreviewSectionProps) {
                 <div className="text-center mt-20">
                     <Link
                         href={isAuthenticated ? "/courses" : "/auth/login"}
-                        className="btn-primary group"
+                        className="bg-[#1E1E1E] text-white px-8 py-3 rounded-full text-sm font-medium hover:scale-105 transition-transform group inline-flex"
                     >
                         <span className="relative z-10 flex items-center gap-3">
                             Ver todos los protocolos

@@ -1,5 +1,5 @@
 # Manual de Marca: SinapCode Enterprise
-**Versión:** 1.1 (Febrero 2026)
+**Versión:** 2.0 (Marzo 2026)
 **Concepto:** Neuro-tecnología Educativa de Alto Valor
 **Filosofía:** "Metallic RGB Psychology"
 
@@ -11,42 +11,46 @@
 ## 2. Identidad Visual (Logotipo)
 *   **Isotipo:** Neurona abstracta conectada a circuito digital (Hexágono sutil).
 *   **Tipografía Logotipo:**
-    *   *Sinap*: **Satoshi** (Sans-Serif, Medium) - Lo humano.
+    *   *Sinap*: **Outfit** (Sans-Serif, Medium) - Lo humano.
     *   *Code*: **JetBrains Mono** (Monospaced, Bold) - Lo técnico.
 
-## 3. Universo Cromático ("Metallic RGB")
-Nos alejamos de lo "plano". Usamos luz y materiales.
+## 3. Universo Cromático Digital (Tokens de Ingeniería)
+Los colores deben referenciarse siempre por sus nombres de token en Tailwind.
 
-### 3.1 Paleta Principal
-| Token | Color | Hex | Psicología | Uso |
-| :--- | :--- | :--- | :--- | :--- |
-| `bg-deep-space` | Deep Space Black | `#0A0B10` | Profundidad infinita, reduce fatiga visual. | Fondo Principal |
-| `text-platinum` | Cyber-Platinum | `#E0E0E0` | Calidad premium, solidez. | Texto Principal, Bordes |
-| `primary-neural` | Neural Blue | `#2E5CFF` | Estimula córtex prefrontal (Lógica). | Acento Primario, Glow |
-| `secondary-synapse` | Synapse Purple | `#9D4EDD` | Fomenta creatividad (Conexión). | Acciones de "Crear" |
+### 3.1 Paleta de Fondo (Deep Systems)
+*   `bg`: `#0B0B0F` (Fondo principal ultra-oscuro)
+*   `bg-surface`: `#16161A` (Superficies de UI, tarjetas)
+*   `bg-hover`: `#1C1C20` (Interacciones táctiles/mouse)
 
-### 3.2 Gradientes "High Value"
-*   **Brain Spark:** `linear-gradient(135deg, #2E5CFF 0%, #9D4EDD 100%)`
-    *   *Uso:* Botones CTA, Encabezados destacados.
+### 3.2 Paleta de Identidad (Neural Accents)
+*   `neural-blue` (`primary`): `#0A84FF` (Efecto Apple Blue - Lógica y Claridad)
+*   `terracotta`: `#C9A78A` (Premium Gold-Beige - Elegancia y Valor)
+*   `banana-yellow`: `#F9E795` (Alerta positiva, atención)
 
-## 4. Sistema de Diseño UI (Glassmorphism Metálico)
-*   **Material:** Vidrio oscuro con bordes metálicos.
-*   **CSS Token:**
-    ```css
-    .glass-panel {
-        background: rgba(10, 11, 16, 0.7);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(224, 224, 224, 0.1); /* Platinum 10% */
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    }
-    ```
-*   **Interacciones:** "Alive UI". Los elementos emiten resplandor (box-shadow) al hover.
+### 3.3 Colores de Soporte (Pastel Palette 2026)
+Usar para badges o elementos de baja jerarquía:
+- `apple-pink`: `#FFCCE7`
+- `apple-mint`: `#CCF6E3`
+- `apple-blue`: `#C8E8FF`
 
-## 5. Tipografía
-*   **Headings:** `Satoshi` o `Inter Tight` (Variable, Geometric).
-*   **Code/Mono:** `JetBrains Mono` (Ligatures enabled).
+## 4. Tipografía y Jerarquía
+*   **Encabezados (Headings):** `Outfit` variable. Espaciado tracking-tight.
+*   **Cuerpo (Body):** `Outfit` light/regular.
+*   **Código/Metadatos:** `JetBrains Mono`.
 
-## 6. Seguridad & Integridad (Cyber-Standard)
-*   **Protección de Rutas:** Todas las rutas académicas (`/dashboard`, `/courses`, etc.) deben estar bajo el middleware de autenticación (AuthGated).
-*   **Asistentes AI:** El componente `AIConcierge` y similares deben renderizarse condicionalmente solo para usuarios autenticados para evitar fugas de información interna en la landing o login.
-*   **Integridad de Iconos:** Uso estandarizado de `lucide-react`. No se permiten iconos rotos o importaciones faltantes en producción.
+## 5. El Sistema Glassmorphism
+Efecto obligatorio para paneles y modales.
+```tsx
+const GlassPanel = "bg-white/5 border border-white/10 backdrop-blur-2xl rounded-3xl";
+```
+Todo elemento flotante debe tener `shadow-soft` y, si es interactivo, un ligero resplandor de `shadow-glow`.
+
+## 6. Política de Validación Obligatoria
+**NO SE IMPLEMENTA NADA SIN PRUEBA.** Toda modificación debe:
+1.  **Heredar el Estilo:** Validar contra este manual y el Global Brand Skill.
+2.  **Prueba de Construcción:** Ejecutar `npm run build` local antes de subir.
+3.  **Cero Regresiones:** El código no debe afectar flujos críticos (Auth, Blog, DB).
+4.  **Reversión:** Si la implementación tiene errores visuales o lógicos, se devuelve al estado estable anterior automáticamente.
+
+---
+*Este manual es el único lineamiento oficial. Cualquier desviación debe ser consultada con el lead de arquitectura.*

@@ -26,6 +26,12 @@ const config: Config = {
                 "apple-blue": "#C8E8FF",
                 "apple-lemon": "#FFF8C8",
                 "apple-lavender": "#E7DAF9",
+                // New Landing Palette
+                'cloud-dancer': '#F1F0E8',
+                'clubroom-black': '#1E1E1E',
+                'terracotta': '#C9A78A',
+                'bio-graphing': '#A7C1C0',
+                'banana-yellow': '#F9E795',
                 text: "#FFFFFF",
                 muted: "#EBEBF599",
                 borderSoft: "rgba(10, 132, 255, 0.15)", // Apple blue transparent
@@ -43,6 +49,7 @@ const config: Config = {
             },
             fontFamily: {
                 sans: [
+                    "Outfit",
                     "-apple-system",
                     "BlinkMacSystemFont",
                     "SF Pro Text",
@@ -50,6 +57,7 @@ const config: Config = {
                     "system-ui",
                     "sans-serif"
                 ],
+                serif: ["Playfair Display", "serif"],
                 mono: ["var(--font-jetbrains)", "monospace"]
             },
             boxShadow: {

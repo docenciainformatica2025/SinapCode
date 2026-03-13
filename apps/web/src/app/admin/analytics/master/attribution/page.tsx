@@ -53,7 +53,7 @@ export default function TrafficAttributionPage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: i * 0.1 }}
-                        className="glass-panel-nexus rounded-[2rem] p-6 border border-white/5 bg-white/5 backdrop-blur-xl relative overflow-hidden group"
+                        className="glass-panel-sinap rounded-[2rem] p-6 border border-white/5 bg-white/5 backdrop-blur-xl relative overflow-hidden group"
                     >
                         <div className="flex justify-between items-start mb-4">
                             <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{kpi.label}</span>
@@ -88,7 +88,7 @@ export default function TrafficAttributionPage() {
                 </div>
                 <div className="col-span-12 lg:col-span-4 space-y-6">
                     {/* App Download Origin Widget */}
-                    <div className="glass-panel-nexus rounded-[2.5rem] p-8 border border-white/5 bg-white/5 backdrop-blur-xl">
+                    <div className="glass-panel-sinap rounded-[2.5rem] p-8 border border-white/5 bg-white/5 backdrop-blur-xl">
                         <h4 className="text-xl font-bold text-white mb-6 tracking-tight">Origen de Descargas App</h4>
                         <div className="space-y-6">
                             <div>
@@ -120,7 +120,7 @@ export default function TrafficAttributionPage() {
                     </div>
 
                     {/* Regions Snapshot */}
-                    <div className="glass-panel-nexus rounded-[2.5rem] p-8 border border-white/5 bg-white/5 backdrop-blur-xl h-[300px] relative overflow-hidden group">
+                    <div className="glass-panel-sinap rounded-[2.5rem] p-8 border border-white/5 bg-white/5 backdrop-blur-xl h-[300px] relative overflow-hidden group">
                         <h4 className="text-xl font-bold text-white mb-4 tracking-tight">Regiones Top</h4>
                         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1000&auto=format&fit=crop')] bg-cover bg-center opacity-10 grayscale group-hover:grayscale-0 transition-all duration-1000"></div>
                         <div className="relative z-10 flex flex-col justify-end h-full">

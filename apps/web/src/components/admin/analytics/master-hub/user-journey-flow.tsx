@@ -5,7 +5,7 @@ import { GitBranch, ArrowRight } from 'lucide-react';
 
 export function UserJourneyFlow() {
     return (
-        <div className="glass-panel-nexus rounded-3xl p-8 flex flex-col h-full border border-white/5 bg-white/5 backdrop-blur-xl shadow-2xl relative overflow-hidden">
+        <div className="glass-panel-sinap rounded-3xl p-8 flex flex-col h-full border border-white/5 bg-white/5 backdrop-blur-xl shadow-2xl relative overflow-hidden">
             <div className="flex justify-between items-center mb-10 relative z-10">
                 <h3 className="font-black text-xl text-white flex items-center gap-3 tracking-tighter">
                     <GitBranch className="text-purple-400 w-6 h-6" />

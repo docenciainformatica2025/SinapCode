@@ -2,20 +2,20 @@
 title: "Política de Privacidad y Protección de Datos (Data Privacy Charter)"
 version: "2.1.1"
 date: "2026-01-18"
-entity: "SinapCode / Ing. Antonio Rodriguez"
-scope: "Global (Colombia + Internacional)"
-compliance: "GDPR, COPPA, Ley 1581/2012"
+entity: "SinapCode"
+scope: "Global"
+compliance: "GDPR, COPPA, GAPP"
 ---
 
-**Entidad Responsable:** SinapCode / Ing. Antonio Rodriguez  
-**Alcance:** Global (Colombia + Internacional)
+**Entidad Responsable:** SinapCode  
+**Alcance:** Global
 
 ## 1. Manifiesto de Privacidad
 En SinapCode, entendemos que los datos de aprendizaje son una extensión de la mente del estudiante. Tratamos la información con el mismo rigor técnico y ético con el que enseñamos a programar. **No vendemos datos a terceros.**
 
 ## 2. Responsable del Tratamiento
-- **Identidad:** Ing. Antonio Rodriguez (actuando como SinapCode).
-- **Domicilio:** Pasto, Nariño, Colombia.
+- **Identidad:** SinapCode.
+- **Domicilio:** EU
 - **Canal de Privacidad:** sinapcodeia@gmail.com
 
 ## 3. Tipología de Datos Recolectados
@@ -44,7 +44,7 @@ Para que nuestra IA educativa funcione, clasificamos los datos en tres niveles d
 - **Comunicación:** Enviar reportes de progreso al estudiante (y a sus padres, si aplica).
 
 ## 5. Tratamiento de Datos de Menores de Edad
-*Cumplimiento estricto del Artículo 7 de la Ley 1581 y Art. 8 del RGPD.*
+*Cumplimiento estricto de estándares internacionales de privacidad (COPPA/RGPD).*
 
 El tratamiento de datos de menores asegura el respeto a sus derechos fundamentales.
 - Se requiere autorización previa, expresa e informada del Representante Legal (Padre/Madre).

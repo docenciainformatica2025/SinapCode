@@ -4,23 +4,40 @@
 
 @layer base {
     :root {
+        /* Standard Palette: Premium Light */
+        --bg-ivory: #F1F0E8;
+        --bg-surface: #FFFFFF;
+        --text-primary: #1E1E1E;
+        --text-secondary: rgba(30, 30, 30, 0.6);
+        --text-tertiary: rgba(30, 30, 30, 0.4);
+        --accent-gold: #C9A78A;
+        --accent-aqua: #A7C1C0;
+        --accent-yellow: #F9E795;
+        --border-light: rgba(30, 30, 30, 0.05);
+
+        /* Legacy/Dark Support if needed */
         --bg-apple: #000000;
-        /* Deep Black OLED */
-        --bg-surface: #0A0A0B;
-        --separator: #1C1C1E;
         --accent-apple: #0A84FF;
-        --text-primary: #FFFFFF;
-        --text-secondary: #EBEBF5;
-        --text-tertiary: rgba(235, 235, 245, 0.6);
-        --border-apple: rgba(255, 255, 255, 0.05);
     }
 
     body {
-        @apply bg-black text-white font-sans antialiased selection:bg-primary/30 selection:text-white;
+        @apply bg-[#F1F0E8] text-[#1E1E1E] font-sans selection:bg-[#C9A78A]/30 selection:text-[#1E1E1E];
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        background-color: var(--bg-apple);
+        text-rendering: optimizeLegibility;
+        background-color: var(--bg-ivory);
         color: var(--text-primary);
+        letter-spacing: -0.01em;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        @apply tracking-tighter;
+        letter-spacing: -0.04em;
     }
 }
 
@@ -64,7 +81,7 @@
         box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.4);
     }
 
-    .glass-panel-nexus {
+    .glass-panel-sinap {
         @apply backdrop-blur-[16px] border border-white/5 rounded-2xl;
         background: rgba(22, 22, 26, 0.7);
         box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
@@ -102,6 +119,19 @@
 .sharp-vignette {
     background: radial-gradient(circle, transparent 20%, black 150%);
     pointer-events: none;
+}
+
+.subpixel-text {
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: auto;
+}
+
+.premium-tracking {
+    letter-spacing: 0.15em;
+}
+
+.tech-tracking {
+    letter-spacing: 0.3em;
 }
 
 .grecaptcha-badge {

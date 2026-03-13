@@ -20,6 +20,8 @@ export default function SettingsPage() {
     // State for settings
     const [settings, setSettings] = useState({
         platformName: 'SinapCode',
+        company: 'SinapCode OÜ',
+        location: 'Tallinn, Estonia',
         supportUrl: 'https://support.sinapcode.com',
         maintenanceMessage: '',
         maintenanceMode: false,
@@ -180,6 +182,24 @@ export default function SettingsPage() {
                                         type="text"
                                         value={settings.supportUrl}
                                         onChange={(e) => updateSetting('supportUrl', e.target.value)}
+                                        className="w-full px-4 py-2 bg-black/50 border border-white/20 rounded-lg text-white focus:border-neural-blue outline-none transition"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium text-platinum">Empresa Responsable (Representación Legal)</label>
+                                    <input
+                                        type="text"
+                                        value={settings.company}
+                                        onChange={(e) => updateSetting('company', e.target.value)}
+                                        className="w-full px-4 py-2 bg-black/50 border border-white/20 rounded-lg text-white focus:border-neural-blue outline-none transition"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium text-platinum">Ubicación (Sede Central)</label>
+                                    <input
+                                        type="text"
+                                        value={settings.location}
+                                        onChange={(e) => updateSetting('location', e.target.value)}
                                         className="w-full px-4 py-2 bg-black/50 border border-white/20 rounded-lg text-white focus:border-neural-blue outline-none transition"
                                     />
                                 </div>

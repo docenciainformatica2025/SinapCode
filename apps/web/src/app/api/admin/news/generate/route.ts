@@ -15,11 +15,11 @@ export async function POST(req: Request) {
         }
 
         const { topic } = await req.json();
-        console.log('Nexus News Gen - Iniciando para tema:', topic);
+        console.log('SinapCode News Gen - Iniciando para tema:', topic);
 
         // 1. Generar Contenido con la Utilidad
         const newsData = await generateAINews(topic, apiKey || '');
-        console.log('Nexus News Gen - Contenido generado:', newsData.title);
+        console.log('SinapCode News Gen - Contenido generado:', newsData.title);
 
         if (!newsData.title || !newsData.content) {
             throw new Error('Contenido incompleto generado por la IA');
@@ -29,23 +29,23 @@ export async function POST(req: Request) {
         let coverImage = 'https://picsum.photos/seed/sinap/1280/720';
 
         try {
-            console.log('Nexus News Gen - Proyectando imagen...');
+            console.log('SinapCode News Gen - Proyectando imagen...');
             const genImage = await generateImage({
-                prompt: newsData.nanobanana_visual_prompt || topic,
+                prompt: newsData.visual_prompt || topic,
                 aspectRatio: '16:9',
                 style: 'cyberpunk'
             });
             coverImage = genImage.url;
-            console.log('Nexus News Gen - Imagen proyectada exitosamente');
+            console.log('SinapCode News Gen - Imagen proyectada exitosamente');
         } catch (imgError) {
-            console.error('Nexus News Gen - Error proyectando imagen:', imgError);
+            console.error('SinapCode News Gen - Error proyectando imagen:', imgError);
         }
 
         // 3. Persistencia en Base de Datos Real
         const baseSlug = newsData.title.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
         const slug = `${baseSlug}-${Math.random().toString(36).substring(2, 7)}`;
 
-        console.log('Nexus News Gen - Persistiendo en Base de Datos:', slug);
+        console.log('SinapCode News Gen - Persistiendo en Base de Datos:', slug);
 
         const post = await prisma.cmsPost.create({
             data: {
@@ -76,7 +76,7 @@ export async function POST(req: Request) {
             }
         });
 
-        console.log('Nexus News Gen - Transmisión finalizada con éxito');
+        console.log('SinapCode News Gen - Transmisión finalizada con éxito');
         return NextResponse.json({ success: true, post });
 
     } catch (error: any) {

@@ -38,7 +38,7 @@ const PulsePoint = ({ x, y, label, percentage, color }: PulsePointProps) => (
 
 export function GeoDistributionMap() {
     return (
-        <div className="glass-panel-nexus rounded-3xl p-8 relative overflow-hidden h-full border border-white/5 bg-white/5 backdrop-blur-xl shadow-2xl">
+        <div className="glass-panel-sinap rounded-3xl p-8 relative overflow-hidden h-full border border-white/5 bg-white/5 backdrop-blur-xl shadow-2xl">
             <div className="flex justify-between items-center mb-6 relative z-10">
                 <h3 className="font-black text-xl text-white flex items-center gap-3 tracking-tighter">
                     <Globe className="text-neural-blue w-6 h-6" />

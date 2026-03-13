@@ -106,7 +106,7 @@ const getVerificationEmailHTML = (confirmLink: string, email: string) => {
                             </p>
                             <p style="color: #666; font-size: 12px; line-height: 18px; margin: 16px 0 0;">
                                 © 2026 SinapCode Platform.<br>
-                                Desarrollado por Antonio Rodriguez para el ecosistema SinapCode.<br>
+                                Desarrollado para el ecosistema SinapCode.<br>
                                 Todos los derechos reservados.
                             </p>
                             <p style="margin: 10px 0 0;">

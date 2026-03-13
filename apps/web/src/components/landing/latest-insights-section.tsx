@@ -3,32 +3,7 @@
 import Link from 'next/link';
 
 export function LatestInsightsSection() {
-    const articles = [
-        {
-            link: "/blog/futuro-ia",
-            category: "NUEVO",
-            date: "16 Ene, 2026",
-            title: "El Futuro del Desarrollo de Software con IA",
-            icon: "🚀",
-            excerpt: "La IA no reemplaza devs, les da superpoderes. Descubre cómo GitHub Copilot y SinapCode cambian el juego."
-        },
-        {
-            link: "/blog",
-            category: "GUÍA",
-            date: "12 Ene, 2026",
-            title: "Pattern Matching en Python 3.12",
-            icon: "🐍",
-            excerpt: "Domina las nuevas estructuras de control en Python y escribe código más limpio."
-        },
-        {
-            link: "/blog",
-            category: "REACT",
-            date: "08 Ene, 2026",
-            title: "React Server Components explicado",
-            icon: "⚛️",
-            excerpt: "Entiende por fin qué renderiza en el servidor y qué en el cliente."
-        }
-    ];
+    const articles: any[] = [];
 
     return (
         <section id="insights" className="py-24 bg-bg/50 border-y border-white/5">

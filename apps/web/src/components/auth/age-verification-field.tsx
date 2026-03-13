@@ -62,11 +62,11 @@ export function AgeVerificationField({ onAgeVerified }: AgeVerificationFieldProp
                         aria-label="Día de nacimiento"
                         value={day}
                         onChange={(e) => handleDateUpdate(e.target.value, month, year)}
-                        className="bg-deep-space/50 border border-white/10 rounded-lg px-2 py-3 text-white focus:outline-none focus:border-neural-blue focus:ring-1 focus:ring-neural-blue transition appearance-none text-center cursor-pointer hover:bg-white/5"
+                        className="bg-white border border-[#1E1E1E]/10 rounded-xl px-2 py-3 text-[#1E1E1E] focus:outline-none focus:border-[#C9A78A] focus:ring-4 focus:ring-[#C9A78A]/10 transition appearance-none text-center cursor-pointer hover:border-[#1E1E1E]/20 font-medium"
                     >
                         <option value="" disabled>Día</option>
                         {days.map(d => (
-                            <option key={d} value={d} className="bg-slate-900">{d}</option>
+                            <option key={d} value={d} className="bg-white">{d}</option>
                         ))}
                     </select>
 
@@ -74,11 +74,11 @@ export function AgeVerificationField({ onAgeVerified }: AgeVerificationFieldProp
                         aria-label="Mes de nacimiento"
                         value={month}
                         onChange={(e) => handleDateUpdate(day, e.target.value, year)}
-                        className="bg-deep-space/50 border border-white/10 rounded-lg px-2 py-3 text-white focus:outline-none focus:border-neural-blue focus:ring-1 focus:ring-neural-blue transition appearance-none text-center cursor-pointer hover:bg-white/5"
+                        className="bg-white border border-[#1E1E1E]/10 rounded-xl px-2 py-3 text-[#1E1E1E] focus:outline-none focus:border-[#C9A78A] focus:ring-4 focus:ring-[#C9A78A]/10 transition appearance-none text-center cursor-pointer hover:border-[#1E1E1E]/20 font-medium"
                     >
                         <option value="" disabled>Mes</option>
                         {months.map((m, i) => (
-                            <option key={m} value={i + 1} className="bg-slate-900">{m}</option>
+                            <option key={m} value={i + 1} className="bg-white">{m}</option>
                         ))}
                     </select>
 
@@ -86,11 +86,11 @@ export function AgeVerificationField({ onAgeVerified }: AgeVerificationFieldProp
                         aria-label="Año de nacimiento"
                         value={year}
                         onChange={(e) => handleDateUpdate(day, month, e.target.value)}
-                        className="bg-deep-space/50 border border-white/10 rounded-lg px-2 py-3 text-white focus:outline-none focus:border-neural-blue focus:ring-1 focus:ring-neural-blue transition appearance-none text-center cursor-pointer hover:bg-white/5"
+                        className="bg-white border border-[#1E1E1E]/10 rounded-xl px-2 py-3 text-[#1E1E1E] focus:outline-none focus:border-[#C9A78A] focus:ring-4 focus:ring-[#C9A78A]/10 transition appearance-none text-center cursor-pointer hover:border-[#1E1E1E]/20 font-medium"
                     >
                         <option value="" disabled>Año</option>
                         {years.map(y => (
-                            <option key={y} value={y} className="bg-slate-900">{y}</option>
+                            <option key={y} value={y} className="bg-white">{y}</option>
                         ))}
                     </select>
                 </div>
@@ -101,21 +101,21 @@ export function AgeVerificationField({ onAgeVerified }: AgeVerificationFieldProp
 
             {/* Guardian Email (if minor) */}
             {showGuardianField && (
-                <div className="bg-amber-500/10 border border-amber-500/30 p-4 rounded-xl">
+                <div className="bg-[#C9A78A]/5 border border-[#C9A78A]/20 p-4 rounded-2xl">
                     <div className="flex items-start gap-3 mb-3">
-                        <span className="text-2xl">⚠️</span>
+                        <span className="text-xl">⚠️</span>
                         <div>
-                            <h4 className="text-amber-400 font-bold text-sm mb-1">
-                                Consentimiento Parental Requerido
+                            <h4 className="text-[#C9A78A] font-black text-xs uppercase tracking-widest mb-1">
+                                Consentimiento Parental Requerido_
                             </h4>
-                            <p className="text-xs text-amber-200">
-                                Detectamos que eres menor de 16 años. Necesitamos el consentimiento de tu tutor legal.
+                            <p className="text-[10px] text-[#1E1E1E]/60 font-medium">
+                                Detectamos que eres menor de 16 años. Por seguridad, requerimos la autorización del tutor legal registrado.
                             </p>
                         </div>
                     </div>
 
-                    <label className="block text-[10px] font-black text-amber-500 uppercase tracking-widest mb-2">
-                        Correo del Tutor Legal
+                    <label className="block text-[10px] font-black text-[#C9A78A] uppercase tracking-[0.2em] mb-2">
+                        CORREO DEL TUTOR LEGAL
                     </label>
                     <input
                         type="email"
@@ -123,10 +123,10 @@ export function AgeVerificationField({ onAgeVerified }: AgeVerificationFieldProp
                         onChange={(e) => setGuardianEmail(e.target.value)}
                         placeholder="tutor@email.com"
                         required
-                        className="w-full bg-white/5 border border-amber-500/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-amber-400 transition font-bold"
+                        className="w-full bg-white border border-[#C9A78A]/20 rounded-xl px-4 py-3 text-[#1E1E1E] focus:outline-none focus:border-[#C9A78A] transition font-bold text-sm"
                     />
-                    <p className="text-xs text-amber-200 mt-2">
-                        Enviaremos un enlace de autorización a este correo
+                    <p className="text-[10px] text-[#C9A78A]/60 mt-2 font-medium italic">
+                        * Emitiremos una clave de autorización a este terminal.
                     </p>
                 </div>
             )}

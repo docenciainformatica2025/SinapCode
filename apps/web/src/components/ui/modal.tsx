@@ -62,7 +62,7 @@ export function Modal({ isOpen, onClose, title, description, children, maxWidth 
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.9, y: 40 }}
                         transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-                        className={`relative w-full ${maxWidth} glass-panel-nexus overflow-hidden flex flex-col max-h-[90vh] z-10 shadow-[0_0_50px_rgba(0,0,0,0.5)]`}
+                        className={`relative w-full ${maxWidth} glass-panel-sinap overflow-hidden flex flex-col max-h-[90vh] z-10 shadow-[0_0_50px_rgba(0,0,0,0.5)]`}
                     >
                         {/* Header */}
                         <div className="flex items-center justify-between px-8 py-6 border-b border-white/5 bg-white/[0.02]">

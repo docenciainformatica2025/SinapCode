@@ -32,13 +32,13 @@ export default function AgenticMasterclassPage() {
 
     const lessons = [
         { title: "Introduction to Autonomous Systems", duration: "12:45", completed: true },
-        { title: "The NEXUS Multi-Agent Protocol", duration: "18:20", completed: true },
+        { title: "The SinapCode Multi-Agent Protocol", duration: "18:20", completed: true },
         { title: "Building your First Agentic Workflow", duration: "25:10", completed: false },
         { title: "Optimization & Logic Gates", duration: "15:05", completed: false },
         { title: "Deployment & Scaling Protocols", duration: "22:30", completed: false }
     ];
 
-    const codePreview = `import { Agent } from "@nexus/ai";
+    const codePreview = `import { Agent } from "@sinapcode/ai";
 
 const masterAgent = new Agent({
   role: "Lead Architect",
@@ -264,7 +264,7 @@ startWorkflow();`;
                                                     <Bot className="w-6 h-6" />
                                                 </div>
                                                 <div>
-                                                    <h4 className="text-sm font-black text-white italic tracking-tighter">NEXUS_ <span className="text-purple-400">FLOW_</span></h4>
+                                                    <h4 className="text-sm font-black text-white italic tracking-tighter">SinapCode  <span className="text-purple-400">FLOW_</span></h4>
                                                     <p className="text-[8px] font-bold text-emerald-400 uppercase tracking-widest">En línea • Mentor Senior</p>
                                                 </div>
                                             </div>
@@ -307,7 +307,7 @@ startWorkflow();`;
                                                 <input
                                                     value={inputMessage}
                                                     onChange={(e) => setInputMessage(e.target.value)}
-                                                    placeholder="Haz una consulta a NEXUS..."
+                                                    placeholder="Haz una consulta a SinapCode..."
                                                     className="w-full bg-black/50 border border-white/10 rounded-2xl py-4 pl-6 pr-14 text-xs text-white outline-none focus:border-primary/50 transition-all font-medium"
                                                 />
                                                 <button

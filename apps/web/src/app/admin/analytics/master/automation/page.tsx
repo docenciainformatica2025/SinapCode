@@ -100,7 +100,7 @@ export default function AIAutomationPage() {
 
             <div className="grid grid-cols-12 gap-8">
                 {/* 1. Live Logic Terminal */}
-                <div className="col-span-12 xl:col-span-8 glass-panel-nexus rounded-[2.5rem] p-1 border border-white/5 bg-deep-space/40 overflow-hidden shadow-2xl flex flex-col h-[600px]">
+                <div className="col-span-12 xl:col-span-8 glass-panel-sinap rounded-[2.5rem] p-1 border border-white/5 bg-deep-space/40 overflow-hidden shadow-2xl flex flex-col h-[600px]">
                     <div className="h-14 bg-white/5 border-b border-white/10 flex items-center justify-between px-8 backdrop-blur-xl">
                         <div className="flex items-center gap-3">
                             <Terminal className="text-neural-blue w-4 h-4" />
@@ -153,7 +153,7 @@ export default function AIAutomationPage() {
 
                 {/* 2. Active Agents Sidebar */}
                 <div className="col-span-12 xl:col-span-4 flex flex-col gap-8">
-                    <div className="glass-panel-nexus rounded-[2.5rem] p-8 border border-white/5 bg-white/5 backdrop-blur-xl shadow-2xl flex-1">
+                    <div className="glass-panel-sinap rounded-[2.5rem] p-8 border border-white/5 bg-white/5 backdrop-blur-xl shadow-2xl flex-1">
                         <div className="flex justify-between items-center mb-8">
                             <h3 className="text-xl font-black text-white tracking-tighter">Agentes en Desfase_</h3>
                             <button className="p-2 bg-white/5 rounded-xl border border-white/10 text-platinum-dim hover:text-white transition-all">
@@ -194,7 +194,7 @@ export default function AIAutomationPage() {
                     </div>
 
                     {/* Task Queue Card */}
-                    <div className="glass-panel-nexus rounded-[2.5rem] p-8 border border-white/5 bg-gradient-to-br from-purple-600/10 to-neural-blue/10 backdrop-blur-xl shadow-2xl overflow-hidden relative group">
+                    <div className="glass-panel-sinap rounded-[2.5rem] p-8 border border-white/5 bg-gradient-to-br from-purple-600/10 to-neural-blue/10 backdrop-blur-xl shadow-2xl overflow-hidden relative group">
                         <div className="flex items-center gap-4 mb-8">
                             <div className="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center text-purple-400">
                                 <Network className="w-5 h-5" />
@@ -219,7 +219,7 @@ export default function AIAutomationPage() {
             </div>
 
             {/* AI Reasoning Section */}
-            <div className="glass-panel-nexus rounded-[3rem] p-10 border border-white/5 bg-white/5 backdrop-blur-xl shadow-2xl relative">
+            <div className="glass-panel-sinap rounded-[3rem] p-10 border border-white/5 bg-white/5 backdrop-blur-xl shadow-2xl relative">
                 <div className="flex items-center gap-4 mb-10">
                     <Sparkles className="text-neural-blue w-6 h-6" />
                     <h3 className="text-2xl font-black text-white tracking-tighter">Razonamiento de la IA_</h3>

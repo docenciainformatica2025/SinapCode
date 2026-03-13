@@ -22,7 +22,7 @@ const MOCK_CONTENT = [
         id: '1',
         title: 'Introducción a React 19: Lo Nuevo',
         excerpt: 'Descubre las nuevas características del framework más popular.',
-        author: 'Antonio Burgos',
+        author: 'Admin Team',
         status: 'published',
         category: 'Tecnología',
         views: 1250,

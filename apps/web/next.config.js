@@ -24,6 +24,10 @@ const nextConfig = {
             },
         ],
     },
+    experimental: {
+        optimizePackageImports: ['lucide-react'],
+    },
+    transpilePackages: ['react-markdown', 'remark-gfm'],
     // Configure `pageExtensions` to include MDX files
     pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
     async rewrites() {

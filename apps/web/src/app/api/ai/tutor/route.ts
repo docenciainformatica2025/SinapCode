@@ -13,16 +13,16 @@ export async function POST(request: Request) {
         const { message, history, context } = await request.json();
         const apiKey = process.env.GOOGLE_API_KEY;
 
-        // --- PERSONALIDAD NEXUS FLOW: MENTORÍA DINÁMICA ---
+        // --- PERSONALIDAD SinapCode FLOW: MENTORÍA DINÁMICA ---
         const systemPrompt = `
-        Eres NEXUS, el mentor experto de 'SinapCode'. Tu objetivo es guiar al estudiante de forma fluida y empática.
+        Eres SinapCode, el mentor experto. Tu objetivo es guiar al estudiante de forma fluida y empática.
         
         CONTEXTO ACTUAL:
         ${context ? `- Estás en el curso: ${context.course || 'Desconocido'}
         - Lección actual: ${context.lesson || 'General'}
         - Progreso del estudiante: ${context.progress || 'Iniciando'}` : '- Contexto General de SinapCode'}
         
-        REGLAS DE INTERACCIÓN (NEXUS FLOW):
+        REGLAS DE INTERACCIÓN (SinapCode FLOW):
         1. RECONOCIMIENTO: Siempre valida lo que el usuario dice. No respondas con preguntas genéricas si el usuario te dio una respuesta específica.
         2. FLUIDEZ: Si el usuario responde correctamente, felicítalo y propón el siguiente paso. No lo bloquees con más preguntas sobre lo mismo.
         3. GUÍA, NO INTERROGATORIO: Usa un tono de mentor senior. Eres un colega que acompaña, no un sistema que examina.
@@ -59,9 +59,9 @@ export async function POST(request: Request) {
             }
         }
 
-        // 2. Motor de Fallback NEXUS FLOW (Mejorado)
+        // 2. Motor de Fallback SinapCode FLOW (Mejorado)
         const lowerMsg = message.toLowerCase();
-        let nexusResponse = "";
+        let SinapCodeResponse = "";
 
         // Lógica de detección de frustración simple en fallback
         const isStuck = history && history.length > 4 && history.slice(-2).every((m: any) => m.role === 'user' && m.content.length < 15);
@@ -69,7 +69,7 @@ export async function POST(request: Request) {
         const responses = {
             greetings: [
                 `Sincronización establecida. Veo que estás avanzando en ${context?.course || 'tu formación'}. ¿Qué desafío técnico vamos a resolver hoy?`,
-                `Es un gusto verte de nuevo en NEXUS. Analizando tu progreso en ${context?.lesson || 'la sesión'}... ¿En qué punto necesitas mi perspectiva hoy?`
+                `Es un gusto verte de nuevo. Analizando tu progreso en ${context?.lesson || 'la sesión'}... ¿En qué punto necesitas mi perspectiva hoy?`
             ],
             stuck: [
                 "Entiendo que este punto es complejo. Vamos a simplificar: la clave está en cómo fluyen los datos en esta sección. ¿Quieres que veamos un ejemplo conceptual?",
@@ -92,22 +92,22 @@ export async function POST(request: Request) {
         const getRandom = (arr: string[]) => arr[Math.floor(Math.random() * arr.length)];
 
         if (isStuck) {
-            nexusResponse = getRandom(responses.stuck);
+            SinapCodeResponse = getRandom(responses.stuck);
         } else if (lowerMsg.match(/^(hola|buenos|hi|hello)/)) {
-            nexusResponse = getRandom(responses.greetings);
+            SinapCodeResponse = getRandom(responses.greetings);
         } else if (lowerMsg.includes('gracias') || lowerMsg.includes('entendido') || lowerMsg.includes('bien') || lowerMsg.includes('vale')) {
-            nexusResponse = getRandom(responses.positive);
+            SinapCodeResponse = getRandom(responses.positive);
         } else if (lowerMsg.includes('como') || lowerMsg.includes('hago') || lowerMsg.includes('ayuda') || lowerMsg.includes('implementar')) {
-            nexusResponse = getRandom(responses.howTo);
+            SinapCodeResponse = getRandom(responses.howTo);
         } else {
-            nexusResponse = getRandom(responses.default);
+            SinapCodeResponse = getRandom(responses.default);
         }
 
         await new Promise(resolve => setTimeout(resolve, 1000));
-        return NextResponse.json({ text: nexusResponse });
+        return NextResponse.json({ text: SinapCodeResponse });
 
     } catch (error) {
-        console.error("Nexus API Error:", error);
+        console.error("SinapCode API Error:", error);
         return NextResponse.json({
             text: "Interrupción de enlace. Mis sistemas de razonamiento están recalibrando. Intenta una consulta más atómica."
         }, { status: 500 });

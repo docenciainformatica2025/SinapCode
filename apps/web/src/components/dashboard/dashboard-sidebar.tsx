@@ -41,11 +41,11 @@ export function DashboardSidebar() {
     }, [pathname]);
 
     return (
-        <>
+        <div className="flex min-h-screen bg-[#F1F0E8] overflow-hidden">
             {/* Mobile Toggle Button */}
             <button
                 onClick={() => setMobileOpen(true)}
-                className="lg:hidden fixed top-4 left-4 z-[60] p-2 bg-surface/80 backdrop-blur-md border border-white/10 rounded-xl text-white shadow-xl shadow-black/20"
+                className="lg:hidden fixed top-6 left-6 z-[60] p-3 bg-white border border-[#1E1E1E]/5 rounded-2xl text-[#1E1E1E] shadow-xl"
             >
                 <Menu className="w-6 h-6" />
             </button>
@@ -58,7 +58,7 @@ export function DashboardSidebar() {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={() => setMobileOpen(false)}
-                        className="lg:hidden fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm"
+                        className="lg:hidden fixed inset-0 z-[60] bg-[#1E1E1E]/20 backdrop-blur-sm"
                     />
                 )}
             </AnimatePresence>
@@ -66,24 +66,24 @@ export function DashboardSidebar() {
             {/* Sidebar Container */}
             <aside
                 className={cn(
-                    "fixed lg:sticky top-0 left-0 h-screen bg-deep-space border-r border-white/5 transition-all duration-300 z-[70] flex flex-col overflow-hidden",
-                    collapsed ? "w-20" : "w-64",
+                    "fixed lg:sticky top-0 left-0 h-screen bg-white/90 border-r border-[#1E1E1E]/5 transition-all duration-500 z-[70] flex flex-col overflow-hidden backdrop-blur-xl",
+                    collapsed ? "w-24" : "w-72",
                     mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
                 )}
             >
                 {/* Logo Area */}
-                <div className="h-24 flex items-center justify-between px-6 shrink-0 relative">
+                <div className="h-24 flex items-center justify-between px-8 shrink-0">
                     <Link href="/" className="flex items-center gap-3 group">
-                        <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-cyan-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-emerald-500/20">
-                            <span className="text-deep-space font-black text-xl italic">S</span>
+                        <div className="w-12 h-12 bg-[#C9A78A] rounded-[18px] flex items-center justify-center group-hover:rotate-6 transition-transform shadow-lg shadow-[#C9A78A]/20">
+                            <span className="text-white font-black text-xl italic tracking-tighter">S</span>
                         </div>
                         {!collapsed && (
                             <motion.span
                                 initial={{ opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
-                                className="text-xl font-black text-white tracking-tighter"
+                                className="text-xl font-bold text-[#1E1E1E] tracking-tighter uppercase italic"
                             >
-                                Sinap<span className="text-emerald-400">CODE</span>
+                                Sinap<span className="text-[#C9A78A]">CODE</span>
                             </motion.span>
                         )}
                     </Link>
@@ -91,14 +91,14 @@ export function DashboardSidebar() {
                     {/* Mobile Close Button */}
                     <button
                         onClick={() => setMobileOpen(false)}
-                        className="lg:hidden p-2 text-platinum-dim hover:text-white transition-colors"
+                        className="lg:hidden p-2 text-[#1E1E1E]/40 hover:text-[#1E1E1E] transition-colors"
                     >
                         <X className="w-6 h-6" />
                     </button>
                 </div>
 
                 {/* Navigation Links */}
-                <nav className="flex-1 px-4 space-y-1 overflow-y-auto scrollbar-hide py-4">
+                <nav className="flex-1 px-6 space-y-2 overflow-y-auto scrollbar-hide py-8">
                     {sidebarLinks.map((link) => {
                         const isActive = pathname === link.href || (link.href !== '/dashboard' && pathname?.startsWith(link.href));
                         return (
@@ -106,18 +106,18 @@ export function DashboardSidebar() {
                                 key={link.href}
                                 href={link.href}
                                 className={cn(
-                                    "flex items-center gap-3 px-4 py-3 rounded-xl transition-all group relative",
+                                    "flex items-center gap-4 px-5 py-4 rounded-[22px] transition-all group relative duration-300",
                                     isActive
-                                        ? "bg-emerald-500/10 text-emerald-400"
-                                        : "text-platinum-dim hover:text-white hover:bg-white/5"
+                                        ? "bg-[#1E1E1E] text-white shadow-xl shadow-[#1E1E1E]/10"
+                                        : "text-[#1E1E1E]/50 hover:text-[#C9A78A] hover:bg-[#C9A78A]/5"
                                 )}
                             >
-                                <link.icon className={cn("w-5 h-5 shrink-0", isActive ? "text-emerald-400" : "group-hover:scale-110 transition-transform")} />
-                                {!collapsed && <span className="font-bold text-sm whitespace-nowrap">{link.name}</span>}
-                                {isActive && (
+                                <link.icon className={cn("w-5 h-5 shrink-0 transition-transform group-hover:scale-110", isActive ? "text-[#C9A78A]" : "")} />
+                                {!collapsed && <span className="font-bold text-sm tracking-tight whitespace-nowrap">{link.name}</span>}
+                                {isActive && !collapsed && (
                                     <motion.div
                                         layoutId="sidebar-active"
-                                        className="absolute left-0 w-1 h-6 bg-emerald-500 rounded-r-full shadow-[0_0_10px_rgba(16,185,129,0.5)]"
+                                        className="ml-auto w-1.5 h-1.5 bg-[#C9A78A] rounded-full shadow-[0_0_8px_rgba(201,167,138,0.5)]"
                                     />
                                 )}
                             </Link>
@@ -126,26 +126,26 @@ export function DashboardSidebar() {
                 </nav>
 
                 {/* Footer Operations */}
-                <div className="p-4 border-t border-white/5 space-y-2 bg-deep-space/50 backdrop-blur-md shrink-0">
+                <div className="p-6 border-t border-[#1E1E1E]/5 bg-[#F1F0E8]/10 space-y-3 shrink-0">
                     <button
                         onClick={() => logout?.()}
-                        className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-platinum-dim hover:text-red-400 hover:bg-red-400/10 transition-all group overflow-hidden"
+                        className="w-full flex items-center gap-4 px-5 py-4 rounded-[20px] text-[#1E1E1E]/40 hover:text-red-600 hover:bg-red-500/5 transition-all group font-bold text-sm"
                     >
                         <LogOut className="w-5 h-5 shrink-0 group-hover:-translate-x-1 transition-transform" />
-                        {!collapsed && <span className="font-bold text-sm whitespace-nowrap">Cerrar Sesión</span>}
+                        {!collapsed && <span className="whitespace-nowrap">Cerrar Sesión</span>}
                     </button>
 
                     {/* Collapse Toggle (Desktop only) */}
                     <button
                         onClick={() => setCollapsed(!collapsed)}
-                        className="hidden lg:flex w-full items-center gap-3 px-4 py-2 hover:bg-white/5 rounded-xl text-platinum-dim hover:text-white transition-all group"
+                        className="hidden lg:flex w-full items-center gap-4 px-5 py-3 hover:bg-[#1E1E1E]/5 rounded-[18px] text-[#1E1E1E]/30 hover:text-[#1E1E1E] transition-all group"
                         title={collapsed ? "Expandir" : "Contraer"}
                     >
                         {collapsed ? <ChevronRight className="w-5 h-5 shrink-0" /> : <ChevronLeft className="w-5 h-5 shrink-0" />}
-                        {!collapsed && <span className="text-xs font-bold uppercase tracking-widest opacity-50">Contraer Menú</span>}
+                        {!collapsed && <span className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-50 italic">Contraer</span>}
                     </button>
                 </div>
             </aside>
-        </>
+        </div>
     );
 }

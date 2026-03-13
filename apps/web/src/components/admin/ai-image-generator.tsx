@@ -52,7 +52,7 @@ export function AIImageGenerator({ onImageGenerated, defaultPrompt = '', classNa
     if (!mounted) return null;
 
     return (
-        <div className={`glass-panel-nexus p-8 rounded-[2rem] border border-white/5 space-y-8 ${className}`}>
+        <div className={`glass-panel-sinap p-8 rounded-[2rem] border border-white/5 space-y-8 ${className}`}>
             <div className="flex items-center justify-between gap-2 mb-2">
                 <div className="flex items-center gap-4">
                     <div className="w-12 h-12 rounded-[1.2rem] bg-[#0df2f2]/5 flex items-center justify-center border border-[#0df2f2]/20 shadow-[0_0_20px_rgba(13,242,242,0.1)]">
@@ -108,7 +108,7 @@ export function AIImageGenerator({ onImageGenerated, defaultPrompt = '', classNa
                         onChange={(e) => setStyle(e.target.value as any)}
                         className="w-full bg-black/40 border border-white/10 rounded-xl p-3.5 text-xs text-white focus:border-primary/50 outline-none transition-all cursor-pointer hover:bg-black/60"
                     >
-                        <option value="cyberpunk">Nexus / High-Contrast</option>
+                        <option value="cyberpunk">SinapCode / High-Contrast</option>
                         <option value="photorealistic">Apple Studio Realism</option>
                         <option value="3d-render">Unreal Cinematic 5</option>
                         <option value="minimalist">Industrial Minimalist</option>
@@ -121,7 +121,7 @@ export function AIImageGenerator({ onImageGenerated, defaultPrompt = '', classNa
             <button
                 onClick={handleGenerate}
                 disabled={isGenerating}
-                className="btn-nexus-main w-full"
+                className="btn-sinap-main w-full"
             >
                 {isGenerating ? (
                     <>

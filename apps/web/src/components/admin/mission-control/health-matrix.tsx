@@ -27,7 +27,7 @@ export function MissionHealthMatrix() {
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: i * 0.1 }}
-                    className="glass-panel-nexus p-5 rounded-2xl border-l-4 border-l-primary bg-white/5 backdrop-blur-xl group hover:bg-primary/5 transition-all cursor-default"
+                    className="glass-panel-sinap p-5 rounded-2xl border-l-4 border-l-primary bg-white/5 backdrop-blur-xl group hover:bg-primary/5 transition-all cursor-default"
                 >
                     <div className="flex justify-between items-start mb-4">
                         <mod.icon className="w-5 h-5 text-primary" />

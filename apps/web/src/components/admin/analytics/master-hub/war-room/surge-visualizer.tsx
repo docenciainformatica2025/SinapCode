@@ -36,7 +36,7 @@ export function WarRoomSurgeVisualizer() {
                 {/* SVG Graph */}
                 <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 1000 300">
                     <defs>
-                        <linearGradient id="nexusSurge" x1="0" x2="0" y1="0" y2="1">
+                        <linearGradient id="sinapSurge" x1="0" x2="0" y1="0" y2="1">
                             <stop offset="0%" stopColor="#0df2f2" stopOpacity="0.2" />
                             <stop offset="100%" stopColor="#0df2f2" stopOpacity="0" />
                         </linearGradient>
@@ -46,7 +46,7 @@ export function WarRoomSurgeVisualizer() {
                         initial={{ d: "M0,250 L100,245 L200,248 L300,240 L400,245 L500,235 L600,230 L700,250 L800,250 L900,250 L1000,250 V300 H0 Z" }}
                         animate={{ d: "M0,250 L100,240 L200,245 L300,230 L400,240 L500,220 L600,210 L700,50 L800,45 L900,40 L1000,38 V300 H0 Z" }}
                         transition={{ duration: 3, ease: [0.22, 1, 0.36, 1] }}
-                        fill="url(#nexusSurge)"
+                        fill="url(#sinapSurge)"
                     />
                     {/* Line */}
                     <motion.path

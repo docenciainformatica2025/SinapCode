@@ -48,7 +48,7 @@ export function TestimonialsSection() {
         {
             name: 'Miguel Ángel',
             role: 'Backend Java',
-            company: 'Bancolombia',
+            company: 'HSBC',
             image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80',
             quote: "Lo mejor es la comunidad. Siempre hay alguien dispuesto a ayudar, y los mentores son top.",
             badge: 'Verified'
@@ -141,7 +141,8 @@ export function TestimonialsSection() {
                 </div>
             </div>
 
-            {/* CSS for Marquee - Inline for simplicity in this file scope, or add to globals.css */}\r\n            <style jsx global>{`
+            {/* CSS for Marquee - Inline for simplicity in this file scope, or add to globals.css */}
+            <style jsx global>{`
                 @keyframes marquee {
                     0% { transform: translateX(0); }
                     100% { transform: translateX(-50%); }

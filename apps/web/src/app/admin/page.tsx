@@ -174,22 +174,22 @@ export default function AdminDashboard() {
     };
 
     return (
-        <div className="space-y-10 pb-20 max-w-[1600px] mx-auto overflow-hidden">
+        <div className="space-y-10 pb-20 max-w-[1600px] mx-auto overflow-hidden animate-in fade-in duration-700">
             {/* Header: Executive Context */}
             <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-8">
                 <div className="space-y-3">
-                    <div className="flex items-center gap-2 text-neural-blue">
-                        <Shield className="w-5 h-5 fill-neural-blue/10" />
-                        <span className="text-[10px] font-black uppercase tracking-[0.3em]">Suite Ejecutiva SinapCode_</span>
+                    <div className="flex items-center gap-2 text-[#C9A78A]">
+                        <Shield className="w-5 h-5 fill-[#C9A78A]/10" />
+                        <span className="text-[10px] font-black uppercase tracking-[0.3em]">Suite Ejecutiva SinapCode</span>
                     </div>
-                    <h1 className="text-4xl sm:text-5xl font-black text-white italic tracking-tighter leading-none uppercase">
-                        {activeView === 'OPS' && <>Centro de <span className="text-neural-blue italic">Operaciones_</span></>}
-                        {activeView === 'FINANCE' && <>Dashboard <span className="text-neural-blue italic">Financiero_</span></>}
-                        {activeView === 'CONTENT' && <>Fábrica de <span className="text-neural-blue italic">Contenidos_</span></>}
+                    <h1 className="text-4xl sm:text-5xl font-black text-[#1E1E1E] italic tracking-tighter leading-none uppercase">
+                        {activeView === 'OPS' && <>Centro de <span className="text-[#C9A78A] italic">Operaciones</span></>}
+                        {activeView === 'FINANCE' && <>Dashboard <span className="text-[#C9A78A] italic">Financiero</span></>}
+                        {activeView === 'CONTENT' && <>Fábrica de <span className="text-[#C9A78A] italic">Contenidos</span></>}
                     </h1>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-4 bg-white/5 backdrop-blur-2xl p-2 rounded-[2rem] border border-white/5 shadow-2xl">
+                <div className="flex flex-wrap items-center gap-4 bg-[#1E1E1E]/5 backdrop-blur-2xl p-2 rounded-[2rem] border border-[#1E1E1E]/5 shadow-sm">
                     {[
                         { id: 'OPS', label: 'Operaciones', icon: LayoutDashboard },
                         { id: 'FINANCE', label: 'Finanzas', icon: DollarSign },
@@ -199,15 +199,15 @@ export default function AdminDashboard() {
                             key={view.id}
                             onClick={() => setActiveView(view.id as View)}
                             className={`flex items-center gap-3 px-6 py-3 rounded-xl font-black uppercase text-[10px] tracking-widest transition-all ${activeView === view.id
-                                ? 'bg-neural-blue text-white shadow-lg shadow-neural-blue/20'
-                                : 'text-platinum-dim hover:bg-white/5 hover:text-white'
+                                ? 'bg-[#1E1E1E] text-white shadow-lg'
+                                : 'text-[#1E1E1E]/40 hover:bg-[#1E1E1E]/5 hover:text-[#1E1E1E]'
                                 }`}
                         >
                             <view.icon className="w-4 h-4" />
                             {view.label}
                         </button>
                     ))}
-                    <div className="w-[1px] h-8 bg-white/10 mx-2 hidden sm:block" />
+                    <div className="w-[1px] h-8 bg-[#1E1E1E]/10 mx-2 hidden sm:block" />
                     <RoleSwitcherWidget />
                 </div>
             </div>
@@ -229,23 +229,21 @@ export default function AdminDashboard() {
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: i * 0.1, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                                    className="group bg-white/5 backdrop-blur-3xl p-8 rounded-[2.5rem] border border-white/5 hover:border-white/10 transition-all shadow-2xl relative overflow-hidden"
+                                    className="group bg-white p-8 rounded-[2.5rem] border border-[#1E1E1E]/5 hover:border-[#C9A78A]/20 transition-all shadow-sm relative overflow-hidden active:scale-98"
                                 >
-                                    <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-br ${kpi.color} opacity-0 group-hover:opacity-10 blur-2xl transition-opacity`} />
-
                                     <div className="flex justify-between items-start mb-6">
-                                        <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${kpi.color} flex items-center justify-center shadow-lg ${kpi.glow}`}>
+                                        <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${kpi.color} flex items-center justify-center shadow-lg`}>
                                             <kpi.icon className="w-6 h-6 text-white" />
                                         </div>
-                                        <div className={`flex items-center gap-1 text-[10px] font-black uppercase tracking-widest ${kpi.isUp ? 'text-emerald-400' : 'text-rose-400'}`}>
+                                        <div className={`flex items-center gap-1 text-[10px] font-black uppercase tracking-widest ${kpi.isUp ? 'text-emerald-600' : 'text-rose-600'}`}>
                                             {kpi.isUp ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
                                             {kpi.trend}
                                         </div>
                                     </div>
 
                                     <div className="space-y-1">
-                                        <p className="text-[10px] text-platinum-dim font-black uppercase tracking-[0.2em]">{kpi.label}</p>
-                                        <h3 className="text-3xl font-black text-white italic tracking-tighter">{kpi.value}</h3>
+                                        <p className="text-[10px] text-[#1E1E1E]/40 font-black uppercase tracking-[0.2em]">{kpi.label}</p>
+                                        <h3 className="text-3xl font-black text-[#1E1E1E] italic tracking-tighter">{kpi.value}</h3>
                                     </div>
                                 </motion.div>
                             ))}
@@ -254,17 +252,17 @@ export default function AdminDashboard() {
                         {/* Main Content Area */}
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                             {/* Visual Projection Tool */}
-                            <div className="lg:col-span-8 bg-white/5 backdrop-blur-3xl p-10 rounded-[3rem] border border-white/5 shadow-2xl flex flex-col min-h-[500px]">
+                            <div className="lg:col-span-8 bg-white p-10 rounded-[3rem] border border-[#1E1E1E]/5 shadow-sm flex flex-col min-h-[500px]">
                                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-10">
                                     <div className="space-y-1">
-                                        <h3 className="text-2xl font-black text-white italic tracking-tighter uppercase">Proyección de Crecimiento_</h3>
-                                        <p className="text-xs text-platinum-dim font-bold tracking-widest uppercase opacity-60">Análisis de Usuarios Activos Semestral</p>
+                                        <h3 className="text-2xl font-black text-[#1E1E1E] italic tracking-tighter uppercase">Proyección de Crecimiento</h3>
+                                        <p className="text-xs text-[#1E1E1E]/40 font-bold tracking-widest uppercase opacity-60">Análisis de Usuarios Activos Semestral</p>
                                     </div>
-                                    <div className="flex items-center gap-3 bg-black/40 p-2 rounded-2xl border border-white/5">
+                                    <div className="flex items-center gap-3 bg-[#F1F0E8] p-2 rounded-2xl border border-[#1E1E1E]/5">
                                         {['Día', 'Sem', 'Mes', 'Año'].map(filter => (
                                             <button
                                                 key={filter}
-                                                className={`px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all ${filter === 'Mes' ? 'bg-neural-blue text-white shadow-lg' : 'text-platinum-dim hover:bg-white/5'}`}
+                                                className={`px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all ${filter === 'Mes' ? 'bg-[#1E1E1E] text-white shadow-lg' : 'text-[#1E1E1E]/40 hover:bg-white/50'}`}
                                             >
                                                 {filter}
                                             </button>
@@ -281,27 +279,27 @@ export default function AdminDashboard() {
                             {/* Sidebar: System Health */}
                             <div className="lg:col-span-4 flex flex-col gap-8">
                                 {/* Live Activity */}
-                                <div className="bg-white/5 backdrop-blur-3xl p-10 rounded-[3rem] border border-white/5 shadow-2xl flex-1 relative overflow-hidden">
-                                    <div className="flex items-center gap-3 mb-8 text-secondary">
-                                        <Bot className="w-5 h-5" />
-                                        <h3 className="text-xl font-black text-white italic tracking-tighter uppercase">Bitácora Kernel_</h3>
+                                <div className="bg-white p-10 rounded-[3rem] border border-[#1E1E1E]/5 shadow-sm flex-1 relative overflow-hidden">
+                                    <div className="flex items-center gap-3 mb-8 text-[#1E1E1E]/60">
+                                        <Bot className="w-5 h-5 text-[#C9A78A]" />
+                                        <h3 className="text-xl font-black text-[#1E1E1E] italic tracking-tighter uppercase">Bitácora Kernel</h3>
                                     </div>
 
                                     <div className="space-y-6">
                                         {LOG_ENTRIES.map((log, i) => (
                                             <div key={i} className="flex gap-4 group/log cursor-pointer">
-                                                <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center shrink-0 group-hover/log:border-neural-blue/30 transition-all">
-                                                    <div className="w-1.5 h-1.5 rounded-full bg-neural-blue animate-pulse" />
+                                                <div className="w-10 h-10 rounded-xl bg-[#F1F0E8] border border-[#1E1E1E]/5 flex items-center justify-center shrink-0 group-hover/log:border-[#C9A78A]/30 transition-all">
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-[#C9A78A] animate-pulse" />
                                                 </div>
                                                 <div className="flex flex-col justify-center">
                                                     <div className="flex items-baseline gap-2">
-                                                        <span className="text-xs font-black text-white">{log.user}</span>
-                                                        <span className="text-[9px] text-platinum-dim font-bold uppercase tracking-widest">{log.time}</span>
+                                                        <span className="text-xs font-black text-[#1E1E1E]">{log.user}</span>
+                                                        <span className="text-[9px] text-[#1E1E1E]/30 font-bold uppercase tracking-widest">{log.time}</span>
                                                     </div>
-                                                    <p className="text-[10px] text-platinum-dim opacity-60 font-medium group-hover/log:text-white transition-colors">{log.action}</p>
+                                                    <p className="text-[10px] text-[#1E1E1E]/40 font-medium group-hover/log:text-[#1E1E1E] transition-colors">{log.action}</p>
                                                 </div>
                                                 <div className="ml-auto">
-                                                    <span className={`text-[8px] font-black uppercase px-2 py-1 rounded bg-white/5 border border-white/5 ${log.status === 'Exitoso' ? 'text-emerald-400' : 'text-amber-400'}`}>
+                                                    <span className={`text-[8px] font-black uppercase px-2 py-1 rounded bg-[#F1F0E8] border border-[#1E1E1E]/5 ${log.status === 'Exitoso' ? 'text-emerald-600' : 'text-amber-600'}`}>
                                                         {log.status}
                                                     </span>
                                                 </div>
@@ -309,17 +307,17 @@ export default function AdminDashboard() {
                                         ))}
                                     </div>
 
-                                    <button className="mt-10 w-full py-4 bg-white/5 border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] text-platinum-dim hover:bg-white/10 hover:text-white transition-all">
-                                        Ver Logs Completos_
+                                    <button className="mt-10 w-full py-4 bg-[#F1F0E8] border border-[#1E1E1E]/5 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] text-[#1E1E1E]/40 hover:bg-[#1E1E1E] hover:text-white transition-all">
+                                        Ver Logs Completos
                                     </button>
                                 </div>
 
                                 {/* Quick Stats Card */}
-                                <div className="bg-gradient-to-br from-neural-blue to-purple-600 p-8 rounded-[2.5rem] shadow-2xl shadow-neural-blue/20 flex items-center justify-between relative overflow-hidden group">
+                                <div className="bg-gradient-to-br from-[#1E1E1E] to-[#4A4A4A] p-8 rounded-[2.5rem] shadow-xl flex items-center justify-between relative overflow-hidden group">
                                     <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl -mr-10 -mt-10 group-hover:scale-150 transition-transform duration-700" />
                                     <div className="relative z-10">
                                         <p className="text-[10px] font-black uppercase tracking-widest text-white/60 mb-1">Carga del Servidor</p>
-                                        <h4 className="text-2xl font-black text-white italic">ÓPTIMA_ 22%</h4>
+                                        <h4 className="text-2xl font-black text-white italic">ÓPTIMA 22%</h4>
                                     </div>
                                     <div className="relative z-10 w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center">
                                         <Server className="text-white w-6 h-6" />

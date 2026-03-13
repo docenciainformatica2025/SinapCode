@@ -157,7 +157,7 @@ export default function BlockchainCertificatePage() {
                                         <span className="text-slate-500 text-[9px] uppercase tracking-[0.3em] font-black italic">Fecha de Emisión_</span>
                                     </div>
                                     <div className="flex flex-col justify-end items-end">
-                                        <div className="text-4xl text-white font-black italic tracking-tighter mb-2" style={{ fontFamily: 'var(--font-display)' }}>Dr. NEXUS</div>
+                                        <div className="text-4xl text-white font-black italic tracking-tighter mb-2" style={{ fontFamily: 'var(--font-display)' }}>Dr. SinapCode</div>
                                         <div className="h-0.5 w-40 bg-gradient-to-r from-transparent to-[#0dccf2]/40 mt-2 mb-2"></div>
                                         <span className="text-slate-500 text-[9px] uppercase tracking-[0.3em] font-black italic">Decano de IA, SinapCode_</span>
                                     </div>

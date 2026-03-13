@@ -75,15 +75,15 @@ export function PricingSection() {
     ];
 
     return (
-        <section id="membresia" className="py-32 bg-black relative overflow-hidden">
-            <div className="absolute inset-0 mesh-gradient-blue opacity-30 pointer-events-none" />
+        <section id="membresia" className="py-32 bg-[#F1F0E8] relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-t from-[#C9A78A]/10 to-[#F9E795]/10 opacity-50 pointer-events-none" />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="text-center mb-24">
-                    <h2 className="text-5xl md:text-7xl font-black text-white mb-8 tracking-tighter drop-shadow-2xl">
-                        Membresía <span className="bg-gradient-to-r from-apple-blue to-emerald-300 bg-clip-text text-transparent">SinapCode Pro</span>
+                    <h2 className="text-5xl md:text-7xl font-serif font-medium text-[#1E1E1E] mb-8 tracking-tighter drop-shadow-sm">
+                        Membresía <span className="text-[#C9A78A] italic">Sinapcode Pro</span>
                     </h2>
-                    <p className="max-w-2xl mx-auto text-xl text-platinum-dim font-medium">
-                        Sin contratos ocultos. Cancela cuando quieras. Acelera tu carrera hoy bajo el estándar Apple de ingeniería.
+                    <p className="max-w-2xl mx-auto text-xl text-[#1E1E1E]/70 font-light">
+                        Sin contratos ocultos. Cancela cuando quieras. Acelera tu carrera hoy bajo el estándar de ingeniería.
                     </p>
                 </div>
 
@@ -91,33 +91,33 @@ export function PricingSection() {
                     {plans.map((plan, i) => (
                         <div
                             key={i}
-                            className={`relative rounded-[2.5rem] p-6 md:p-10 border transition-all duration-500 group ${plan.color} ${plan.borderColor} ${plan.popular
-                                ? 'shadow-2xl shadow-apple-blue/10 scale-105 z-10'
+                            className={`relative rounded-[2.5rem] p-6 md:p-10 border border-black/5 transition-all duration-500 group shadow-sm bg-white hover:border-[#A7C1C0]/30 ${plan.popular
+                                ? 'shadow-md shadow-[#C9A78A]/10 scale-105 z-10'
                                 : 'hover:scale-[1.02]'
                                 }`}
                         >
                             {plan.popular && (
-                                <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-apple-blue text-black text-[10px] font-black px-6 py-2.5 rounded-full shadow-2xl shadow-apple-blue/40 whitespace-nowrap tracking-widest border-2 border-white z-20">
+                                <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-[#C9A78A] text-white text-[10px] font-bold px-6 py-2.5 rounded-full shadow-lg whitespace-nowrap tracking-widest z-20">
                                     MÁS VENDIDO
                                 </div>
                             )}
 
                             <div className="mb-8">
-                                <h3 className={`text-xl font-black mb-2 ${plan.textColor}`}>{plan.name}</h3>
+                                <h3 className={`text-xl font-serif font-bold mb-2 text-[#1E1E1E]`}>{plan.name}</h3>
                                 <div className="flex items-baseline gap-1">
-                                    <span className={`text-4xl font-black ${plan.textColor}`}>
+                                    <span className={`text-4xl font-serif font-bold text-[#1E1E1E]`}>
                                         {plan.price}
                                     </span>
-                                    {plan.period && <span className={`${plan.mutedColor} text-sm font-bold uppercase tracking-widest`}>{plan.period}</span>}
+                                    {plan.period && <span className={`text-[#1E1E1E]/50 text-sm font-bold uppercase tracking-widest`}>{plan.period}</span>}
                                 </div>
-                                <p className={`${plan.mutedColor} text-sm mt-4 min-h-[40px] font-semibold leading-relaxed`}>{plan.description}</p>
+                                <p className={`text-[#1E1E1E]/70 text-sm mt-4 min-h-[40px] font-light leading-relaxed`}>{plan.description}</p>
                             </div>
 
                             <ul className="space-y-4 mb-10">
                                 {plan.features.map((feature, j) => (
-                                    <li key={j} className={`flex items-start gap-3 text-sm font-bold ${plan.textColor}`}>
-                                        <svg className="w-5 h-5 flex-shrink-0 text-black/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                    <li key={j} className={`flex items-start gap-3 text-sm font-light text-[#1E1E1E]`}>
+                                        <svg className="w-5 h-5 flex-shrink-0 text-[#C9A78A]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                         </svg>
                                         <span>{feature}</span>
                                     </li>
@@ -126,7 +126,7 @@ export function PricingSection() {
 
                             <Link
                                 href={plan.href}
-                                className={`inline-flex items-center justify-center w-full rounded-2xl py-4 text-xs font-black uppercase tracking-widest transition-all duration-300 ${plan.btnClass}`}
+                                className={`inline-flex items-center justify-center w-full rounded-2xl py-4 text-sm font-medium transition-all duration-300 ${plan.popular ? 'bg-[#1E1E1E] text-white hover:bg-black/80' : 'bg-black/5 text-[#1E1E1E] hover:bg-black/10'}`}
                             >
                                 {plan.cta}
                             </Link>

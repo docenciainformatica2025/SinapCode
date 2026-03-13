@@ -20,7 +20,7 @@ export function AttributionChannelChart() {
     }).join(', ');
 
     return (
-        <div className="glass-panel-nexus rounded-[2.5rem] border border-white/5 bg-white/5 p-8 backdrop-blur-xl flex flex-col h-full">
+        <div className="glass-panel-sinap rounded-[2.5rem] border border-white/5 bg-white/5 p-8 backdrop-blur-xl flex flex-col h-full">
             <h4 className="text-xl font-bold text-white mb-8 tracking-tight">Distribución de Canales</h4>
 
             <div className="flex-1 flex flex-col items-center justify-center py-6">

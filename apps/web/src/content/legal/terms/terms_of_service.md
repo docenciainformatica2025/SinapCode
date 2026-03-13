@@ -2,12 +2,12 @@
 title: "TÉRMINOS Y CONDICIONES GLOBALES DE USO - SINAPCODE"
 version: "2.1.1"
 date: "2026-01-18"
-entity: "SinapCode / Ing. Antonio Rodriguez"
+entity: "SinapCode"
 jurisdiction: "Mundial (con adhesión a estándares UE/EEE)"
 ---
 
-**Entidad Legal Responsable:** Ing. Antonio Rodriguez / [Nombre Legal de la Empresa]  
-**Domicilio Social:** Pasto, Nariño, Colombia.  
+**Entidad Legal Responsable:** SinapCode  
+**Domicilio Social:** EU  
 **Ámbito de Aplicación:** Mundial (con adhesión a estándares UE/EEE).
 
 ## 1. Aceptación y Ámbito del Acuerdo
@@ -16,7 +16,7 @@ Al acceder a la plataforma SinapCode, el Usuario acepta quedar vinculado por est
 ## 2. Definiciones Clave
 - **"La Plataforma":** El ecosistema de software SinapCode, incluyendo su interfaz web y algoritmos.
 - **"IA Generativa":** Los modelos de inteligencia artificial integrados que asisten en la enseñanza.
-- **"Usuario Menor":** Cualquier usuario por debajo de la edad de consentimiento digital en su país de residencia (13 años en EE.UU./Colombia, 13-16 años en Europa).
+- **"Usuario Menor":** Cualquier usuario por debajo de la edad de consentimiento digital en su país de residencia (13 años en EE.UU./Global, 13-16 años en Europa).
 
 ## 3. Uso por Menores de Edad (Protección Reforzada)
 En cumplimiento con la Children's Online Privacy Protection Act (COPPA) y el RGPD:
@@ -33,7 +33,7 @@ De acuerdo con las normativas de transparencia algorítmica:
 
 ## 5. Propiedad Intelectual y Licencias
 ### 5.1 Propiedad de la Plataforma
-Todos los derechos sobre el código fuente de la interfaz, los algoritmos de adaptación ("Sinap"), la marca, el diseño visual ("Look & Feel" metálico) y los materiales curriculares son propiedad exclusiva de Ing. Antonio Rodriguez.
+Todos los derechos sobre el código fuente de la interfaz, los algoritmos de adaptación ("Sinap"), la marca, el diseño visual ("Look & Feel" metálico) y los materiales curriculares son propiedad exclusiva de SinapCode.
 
 ### 5.2 Propiedad del Contenido del Usuario
 El Usuario conserva los derechos de autor sobre el código y los proyectos que escriba en la plataforma. Sin embargo, al usar SinapCode, el Usuario otorga una licencia mundial, no exclusiva y libre de regalías para que SinapCode pueda alojar, ejecutar y mostrar dicho código con fines estrictamente educativos y de funcionamiento del servicio.

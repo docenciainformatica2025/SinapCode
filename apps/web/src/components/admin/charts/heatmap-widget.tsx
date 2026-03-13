@@ -23,13 +23,13 @@ export function HeatmapWidget() {
                 </svg>
             </div>
 
-            {/* Heatmap Points - Latam Focus */}
+            {/* Heatmap Points - Global Nodes */}
             <div className="absolute inset-0">
-                <HeatPoint x={22} y={55} intensity="high" /> {/* Colombia/Mexico */}
-                <HeatPoint x={25} y={65} intensity="medium" /> {/* Peru */}
-                <HeatPoint x={28} y={75} intensity="high" /> {/* Argentina/Chile */}
-                <HeatPoint x={55} y={45} intensity="medium" /> {/* Spain */}
-                <HeatPoint x={18} y={35} intensity="low" /> {/* US */}
+                <HeatPoint x={22} y={55} intensity="high" /> {/* Node A */}
+                <HeatPoint x={45} y={65} intensity="medium" /> {/* Node B */}
+                <HeatPoint x={28} y={75} intensity="high" /> {/* Node C */}
+                <HeatPoint x={55} y={45} intensity="medium" /> {/* Node D */}
+                <HeatPoint x={18} y={35} intensity="low" /> {/* Node E */}
             </div>
 
             <div className="absolute bottom-6 right-6 z-10 bg-black/50 backdrop-blur px-3 py-1 rounded text-xs text-platinum-dim border border-white/10">
